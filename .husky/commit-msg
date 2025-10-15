@@ -1,0 +1,38 @@
+# 커밋 메시지 파일 읽기
+commit_msg=$(cat "$1")
+
+# 커밋 메시지 컨벤션 검증 (이슈 번호 포함 가능)
+commit_regex="^(feat|fix|docs|style|refactor|test|chore|comment|design|remove|rename)(?:!)?: [^ ].{0,49}( \(#\d+\))?$"
+
+if ! echo "$commit_msg" | grep -qE "$commit_regex"; then
+  echo "❌ 커밋 메시지 형식이 올바르지 않습니다!"
+  echo ""
+  echo "📝 올바른 형식:"
+  echo "  <type>: <description>"
+  echo "  <type>: <description> (#<issue_number>)"
+  echo ""
+  echo "🏷️  사용 가능한 타입:"
+  echo "  feat:     새로운 기능"
+  echo "  fix:      버그 수정"
+  echo "  docs:     문서 변경"
+  echo "  style:    코드 포맷팅 및 비기능적 변경"
+  echo "  refactor: 코드 리팩토링"
+  echo "  test:     테스트 코드 추가/리팩토링"
+  echo "  chore:    빌드 또는 패키지 매니저 변경"
+  echo "  comment:  필요한 주석 추가"
+  echo "  design:   CSS/디자인 변경 또는 이미지"
+  echo "  remove:   파일 삭제"
+  echo "  rename:   파일 경로 또는 이름 변경"
+  echo ""
+  echo "💡 예시:"
+  echo "  feat: 사용자 로그인 기능 추가"
+  echo "  fix: 로그인 버그 수정"
+  echo "  docs: README 업데이트"
+  echo "  feat: 사용자 프로필 페이지 추가 (#123)"
+  echo "  fix: 데이터 로딩 오류 수정 (#456)"
+  echo "  refactor: 버튼 컴포넌트 리팩토링 (#789)"
+  echo ""
+  exit 1
+fi
+
+echo "✅ 커밋 메시지 검증 통과!" 
