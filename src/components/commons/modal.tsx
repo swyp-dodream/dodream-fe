@@ -30,22 +30,18 @@ export default function Modal({ children, isOpen, onClose }: ModalProps) {
         if (!open) onClose();
       }}
     >
-      <Dialog.DialogPortal>{children}</Dialog.DialogPortal>
+      <Dialog.Portal>{children}</Dialog.Portal>
     </Dialog.Root>
   );
 }
 
 Modal.Title = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Dialog.DialogTitle className="sr-only">{children}</Dialog.DialogTitle>
-  );
+  return <Dialog.Title className="sr-only">{children}</Dialog.Title>;
 };
 
 Modal.Description = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Dialog.DialogDescription className="sr-only">
-      {children}
-    </Dialog.DialogDescription>
+    <Dialog.Description className="sr-only">{children}</Dialog.Description>
   );
 };
 
@@ -57,7 +53,7 @@ Modal.Overlay = ({
   className?: string;
 }) => {
   return (
-    <Dialog.DialogOverlay
+    <Dialog.Overlay
       onClick={() => onClick?.()}
       className={`fixed inset-0 z-50 ${className}`}
     />
@@ -72,11 +68,11 @@ Modal.Content = ({
   className?: string;
 }) => {
   return (
-    <Dialog.DialogContent
+    <Dialog.Content
       className={`fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white ${className}`}
     >
       {children}
-    </Dialog.DialogContent>
+    </Dialog.Content>
   );
 };
 
@@ -90,7 +86,7 @@ Modal.Close = ({
   className?: string;
 }) => {
   return (
-    <Dialog.Close onClick={() => onClick?.()} className={`${className}`}>
+    <Dialog.Close onClick={() => onClick?.()} className={className}>
       {children ?? 'x'}
     </Dialog.Close>
   );
