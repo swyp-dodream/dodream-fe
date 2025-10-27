@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "biome check",
+    "lint": "biome check --write",
     "format": "biome format --write",
     "prepare": "husky"
   },
@@ -17,14 +17,15 @@
     "next": "15.5.5",
     "overlay-kit": "^1.8.6",
     "postcss": "^8.5.6",
-    "radix": "^0.0.0",
+    "radix-ui": "^1.4.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwindcss": "^4.1.16",
     "ui": "^0.2.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.0",
+    "@biomejs/biome": "2.3.0",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
