@@ -196,7 +196,8 @@ a {
   background-color: var(--color-scrollbar-thumb-hover);
 }
 
-::-webkit-scrollbar-track .scrollbar-thin::-webkit-scrollbar-track {
+::-webkit-scrollbar-track,
+.scrollbar-thin::-webkit-scrollbar-track {
   background-color: var(--color-scrollbar-track);
 }
 
