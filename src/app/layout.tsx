@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="ko-KR" className={pretendard.variable}>
       <body>
-        <Theme className={pretendard.className}>
+        <Theme className={pretendard.className} radius="full">
           <OverlayProvider>{children}</OverlayProvider>
         </Theme>
       </body>
