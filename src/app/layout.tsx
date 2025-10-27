@@ -1,5 +1,3 @@
-import { Theme } from '@radix-ui/themes';
-import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { OverlayProvider } from 'overlay-kit';
@@ -25,9 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ko-KR" className={pretendard.variable}>
       <body>
-        <Theme className={pretendard.className} radius="full">
-          <OverlayProvider>{children}</OverlayProvider>
-        </Theme>
+        <OverlayProvider>{children}</OverlayProvider>
       </body>
     </html>
   );
