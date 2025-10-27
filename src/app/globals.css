@@ -96,7 +96,16 @@
 
   --color-bg-surface: var(--color-white);
   --color-bg-primary: var(--color-gray-100);
-  --color-bg-hover: var(--color-gray-100);
+  --color-bg-container-primary: var(--color-gray-100);
+  --color-bg-container-primary-hover: var(--color-gray-200);
+  --color-bg-container-primary-pressed: var(--color-gray-300);
+  --color-bg-container-primary-selected: var(--color-gray-200);
+  --color-bg-container-secondary: var(--color-white);
+  --color-bg-container-secondary-hover: var(--color-gray-100);
+  --color-bg-container-secondary-pressed: var(--color-gray-200);
+  --color-bg-container-secondary-selected: var(--color-gray-100);
+  --color-bg-chip-default: var(--color-gray-100);
+  --color-bg-chip-selected: var(--color-gray-800);
   --color-bg-icon: var(--color-gray-200);
   --color-bg-secondary: var(--color-gray-300);
   --color-bg-disabled: var(--color-gray-500);
@@ -115,6 +124,7 @@
   --color-icon-medium: var(--color-gray-700);
   --color-icon-dark: var(--color-gray-900);
   --color-icon-avatar: var(--color-gray-400);
+  --color-icon-white: var(--color-white);
 
   --color-text-primary: var(--color-gray-900);
   --color-text-secondary: var(--color-gray-700);
@@ -321,8 +331,44 @@ a {
   background-color: var(--color-bg-secondary);
 }
 
-@utility bg-hover {
-  background-color: var(--color-bg-hover);
+@utility bg-container-primary {
+  background-color: var(--color-bg-container-primary);
+}
+
+@utility bg-container-primary-hover {
+  background-color: var(--color-bg-container-primary-hover);
+}
+
+@utility bg-container-primary-pressed {
+  background-color: var(--color-bg-container-primary-pressed);
+}
+
+@utility bg-container-primary-selected {
+  background-color: var(--color-bg-container-primary-selected);
+}
+
+@utility bg-container-secondary {
+  background-color: var(--color-bg-container-secondary);
+}
+
+@utility bg-container-secondary-hover {
+  background-color: var(--color-bg-container-secondary-hover);
+}
+
+@utility bg-container-secondary-pressed {
+  background-color: var(--color-bg-container-secondary-pressed);
+}
+
+@utility bg-container-secondary-selected {
+  background-color: var(--color-bg-container-secondary-selected);
+}
+
+@utility bg-chip {
+  background-color: var(--color-bg-chip-default);
+}
+
+@utility bg-chip-selected {
+  background-color: var(--color-bg-chip-selected);
 }
 
 @utility bg-icon {
