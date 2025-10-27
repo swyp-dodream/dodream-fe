@@ -8,7 +8,7 @@ export default function Header() {
       <div className="content-layout flex justify-between">
         <h1>
           <Link href="/">
-            <Logo aria-hidden="true" />
+            <Logo aria-hidden="true" className="text-brand" />
             <span className="sr-only">두드림</span>
           </Link>
         </h1>
