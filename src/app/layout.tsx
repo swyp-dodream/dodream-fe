@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { OverlayProvider } from 'overlay-kit';
 import './globals.css';
+import Footer from '@/components/features/layout/footer';
 import Header from '@/components/features/layout/header';
 
 const pretendard = localFont({
@@ -27,6 +28,7 @@ export default function RootLayout({
         <OverlayProvider>
           <Header />
           <main>{children}</main>
+          <Footer />
         </OverlayProvider>
       </body>
     </html>
