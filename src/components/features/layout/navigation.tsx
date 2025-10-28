@@ -35,9 +35,14 @@ export default function Navigation() {
           </Link>
         </li>
 
-        <li className="ml-2 h-8 w-8 relative">
-          <Link href="/" aria-label="프로필">
-            <Image src="/avatar/default-avatar.png" alt="프로필" fill />
+        <li className="ml-2">
+          <Link href="/" aria-label="프로필" className="flex h-8 w-8 relative">
+            <Image
+              src="/avatar/default-avatar.png"
+              alt="프로필 이미지"
+              fill
+              sizes="32px"
+            />
           </Link>
         </li>
       </ul>
