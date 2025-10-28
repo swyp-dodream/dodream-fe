@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Logo from '@/assets/logo/logo.svg';
-import Navigation from '@/components/features/layout/navigation';
+import Navigation from '@/components/layout/navigation';
 
 export default function Header() {
   return (
