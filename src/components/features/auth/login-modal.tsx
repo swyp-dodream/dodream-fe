@@ -27,7 +27,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModal) {
         <Modal.Title>소셜 로그인</Modal.Title>
         <Modal.Description>구글 또는 네이버로 로그인하세요</Modal.Description>
         <Modal.Close />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 items-center">
           <h3 className="heading-lg">나만의 AI 매칭 서비스 두드림</h3>
           <p className="body-lg-regular text-center">
             나에게 꼭맞는 AI 추천을 위해
