@@ -2,9 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { overlay } from 'overlay-kit';
 import BellIcon from '@/assets/icons/bell/20.svg';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
+import LoginModal from '../features/auth/login-modal';
 
 /**
  * 헤더의 네비게이션
@@ -49,6 +51,15 @@ export default function Navigation() {
     </nav>
   ) : (
     // TODO: 버튼 스타일 변경
-    <button type="button">회원가입/로그인</button>
+    <button
+      type="button"
+      onClick={() => {
+        overlay.open(({ isOpen, close }) => (
+          <LoginModal isOpen={isOpen} onClose={close} />
+        ));
+      }}
+    >
+      회원가입/로그인
+    </button>
   );
 }
