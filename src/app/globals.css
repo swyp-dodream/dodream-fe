@@ -16,6 +16,10 @@
   --spacing-9: 40px;
   --spacing-10: 48px;
 
+  --modal-width-md: 480px;
+  --modal-width-lg: 600px;
+  --modal-width-xl: 800px;
+
   /* Radius scale */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -436,4 +440,16 @@ a {
 @utility spinner {
   color: var(--color-icon-dark);
   animation: spin-1s 1s linear infinite;
+}
+
+@utility w-modal-md {
+  width: var(--modal-width-md);
+}
+
+@utility w-modal-lg {
+  width: var(--modal-width-lg);
+}
+
+@utility w-modal-xl {
+  width: var(--modal-width-xl);
 }
