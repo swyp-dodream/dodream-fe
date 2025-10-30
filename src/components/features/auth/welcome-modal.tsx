@@ -10,7 +10,7 @@ export default function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Overlay />
-      <Modal.Content className="flex flex-col items-center gap-8">
+      <Modal.Content className="flex flex-col items-center gap-8" size="md">
         <Modal.Title>로그인 완료</Modal.Title>
         <Modal.Close />
         <div className="flex flex-col gap-3 items-center">
@@ -21,11 +21,7 @@ export default function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
             함께 할 스터디와 사이드 프로젝트를 두드려보세요
           </p>
         </div>
-        <Button
-          variant="brand"
-          className="p-4 w-full rounded-sm"
-          onClick={onClose}
-        >
+        <Button variant="brand" className="p-4" size="xl" onClick={onClose}>
           둘러보기
         </Button>
       </Modal.Content>
