@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { OverlayProvider } from 'overlay-kit';
-import './globals.css';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import './globals.css';
 
 const pretendard = localFont({
   src: './fonts/pretendard/PretendardVariable.woff2',
