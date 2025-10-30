@@ -33,7 +33,7 @@ export default function CloseButton({
     <button
       type={type}
       className={clsx(
-        'rounded-full flex items-center justify-center cursor-pointer',
+        'rounded-full flex items-center justify-center',
         {
           'w-6 h-6': size === 'sm',
           'w-7 h-7': size === 'md',

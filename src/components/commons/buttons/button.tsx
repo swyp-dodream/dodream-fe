@@ -23,7 +23,7 @@ export default function Button({
     <button
       type={type}
       className={clsx(
-        'body-md-medium cursor-pointer rounded-md',
+        'body-md-medium rounded-md',
         BUTTON_VARIANTS[variant],
         className,
       )}
