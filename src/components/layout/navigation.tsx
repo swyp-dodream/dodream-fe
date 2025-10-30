@@ -6,6 +6,7 @@ import { overlay } from 'overlay-kit';
 import BellIcon from '@/assets/icons/bell/20.svg';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
+import Button from '../commons/buttons/button';
 import LoginModal from '../features/auth/login-modal';
 
 /**
@@ -13,7 +14,7 @@ import LoginModal from '../features/auth/login-modal';
  */
 export default function Navigation() {
   // TODO: 로그인 여부 로직 변경
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   return isAuthenticated ? (
     // TODO: 네비게이션 링크 URL 변경
@@ -51,8 +52,7 @@ export default function Navigation() {
     </nav>
   ) : (
     // TODO: 버튼 스타일 변경
-    <button
-      type="button"
+    <Button
       onClick={() => {
         overlay.open(({ isOpen, close }) => (
           <LoginModal isOpen={isOpen} onClose={close} />
@@ -60,6 +60,6 @@ export default function Navigation() {
       }}
     >
       회원가입/로그인
-    </button>
+    </Button>
   );
 }
