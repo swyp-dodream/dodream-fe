@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { OverlayProvider } from 'overlay-kit';
-import './globals.css';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import './globals.css';
 
 const pretendard = localFont({
   src: './fonts/pretendard/PretendardVariable.woff2',
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR" className={pretendard.variable}>
-      <body>
+      <body className="flex flex-col gap-12">
         <OverlayProvider>
           <Header />
           <main>{children}</main>
