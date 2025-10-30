@@ -1,4 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
+import clsx from 'clsx';
+import CloseIcon from '@/assets/icons/x/14.svg';
 
 interface ModalProps {
   children: React.ReactNode;
@@ -55,21 +57,33 @@ Modal.Overlay = ({
   return (
     <Dialog.Overlay
       onClick={() => onClick?.()}
-      className={`fixed inset-0 z-50 ${className}`}
+      className={`fixed inset-0 z-50 bg-overlay ${className}`}
     />
   );
 };
 
+interface ModalContentProps {
+  children: React.ReactNode;
+  size?: 'md' | 'lg' | 'xl';
+  className?: string;
+}
+
 Modal.Content = ({
   children,
+  size = 'md',
   className = '',
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
+}: ModalContentProps) => {
   return (
     <Dialog.Content
-      className={`fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white ${className}`}
+      className={clsx(
+        'fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white py-7 px-6 shadow-card rounded-md',
+        {
+          'w-modal-md': size === 'md',
+          'w-modal-lg': size === 'lg',
+          'w-modal-xl': size === 'xl',
+        },
+        className,
+      )}
     >
       {children}
     </Dialog.Content>
@@ -86,8 +100,11 @@ Modal.Close = ({
   className?: string;
 }) => {
   return (
-    <Dialog.Close onClick={() => onClick?.()} className={className}>
-      {children ?? 'x'}
+    <Dialog.Close
+      onClick={() => onClick?.()}
+      className={`absolute top-5 right-7 w-7 h-7 cursor-pointer  bg-container-primary rounded-full flex items-center justify-center ${className}`}
+    >
+      {children ?? <CloseIcon className="text-icon-dark" />}
     </Dialog.Close>
   );
 };
