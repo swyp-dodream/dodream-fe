@@ -1,6 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
-import CloseIcon from '@/assets/icons/x/14.svg';
+import CloseButton from './buttons/close-button';
 
 interface ModalProps {
   children: React.ReactNode;
@@ -90,21 +90,18 @@ Modal.Content = ({
   );
 };
 
-Modal.Close = ({
-  children,
-  onClick,
-  className = '',
-}: {
+interface ModalCloseProps {
   children?: React.ReactNode;
   onClick?: () => void;
   className?: string;
-}) => {
+}
+
+Modal.Close = ({ children, onClick, className }: ModalCloseProps) => {
   return (
-    <Dialog.Close
-      onClick={() => onClick?.()}
-      className={`absolute top-5 right-7 w-7 h-7 cursor-pointer  bg-container-primary rounded-full flex items-center justify-center ${className}`}
-    >
-      {children ?? <CloseIcon className="text-icon-dark" />}
-    </Dialog.Close>
+    <div className={clsx('absolute top-5 right-7', className)}>
+      <Dialog.Close asChild onClick={onClick}>
+        {children ?? <CloseButton size="md" />}
+      </Dialog.Close>
+    </div>
   );
 };
