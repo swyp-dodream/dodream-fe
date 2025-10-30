@@ -17,14 +17,19 @@ export default function Button({
   variant = 'default',
   className,
   type = 'button',
+  disabled,
   ...props
 }: ButtonProps) {
   return (
     <button
       type={type}
+      disabled={disabled}
       className={clsx(
         'body-md-medium rounded-md',
         BUTTON_VARIANTS[variant],
+        {
+          'bg-disabled': disabled,
+        },
         className,
       )}
       {...props}
