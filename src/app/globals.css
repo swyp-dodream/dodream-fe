@@ -163,6 +163,7 @@ body {
   max-width: 100vw;
   min-width: 1200px;
   min-height: 100vh;
+  height: 100%;
 }
 
 body {
@@ -177,6 +178,7 @@ body {
   color: var(--color-text-primary);
   display: flex;
   flex-direction: column;
+  gap: 60px;
 }
 
 main {

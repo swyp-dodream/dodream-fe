@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR" className={pretendard.variable}>
-      <body className="flex flex-col gap-12">
+      <body>
         <OverlayProvider>
           <Header />
           <main>{children}</main>
