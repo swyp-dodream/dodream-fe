@@ -1,3 +1,4 @@
+import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 
 interface WelcomeModalProps {
@@ -20,13 +21,13 @@ export default function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
             함께 할 스터디와 사이드 프로젝트를 두드려보세요
           </p>
         </div>
-        <button
-          type="button"
-          className="bg-brand text-text-on-brand body-md-medium p-4 w-full rounded-1 rounded-sm cursor-pointer"
+        <Button
+          variant="brand"
+          className="p-4 w-full rounded-sm"
           onClick={onClose}
         >
           둘러보기
-        </button>
+        </Button>
       </Modal.Content>
     </Modal>
   );

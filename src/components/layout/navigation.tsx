@@ -18,6 +18,7 @@ export default function Navigation() {
 
   return isAuthenticated ? (
     // TODO: 네비게이션 링크 URL 변경
+    // 로그인 상태: 네비게이션 바 노출
     <nav className="flex" aria-label="사용자 메뉴">
       <ul className="flex items-center gap-7">
         <li>
@@ -51,7 +52,7 @@ export default function Navigation() {
       </ul>
     </nav>
   ) : (
-    // TODO: 버튼 스타일 변경
+    // 미로그인 상태: 로그인 버튼 노출
     <Button
       onClick={() => {
         overlay.open(({ isOpen, close }) => (

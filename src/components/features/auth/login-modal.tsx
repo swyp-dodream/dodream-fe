@@ -60,7 +60,7 @@ function SocialLoginButton({ provider, onClick }: SocialLoginButtonProps) {
     <button
       type="button"
       onClick={onClick}
-      className="flex gap-2 bg-container-primary body-md-medium py-4 w-full items-center justify-center rounded-sm cursor-pointer"
+      className="flex gap-2 bg-container-primary hover:bg-container-primary-hover body-md-medium py-4 w-full items-center justify-center rounded-sm"
     >
       <Image
         src={config.logo}
