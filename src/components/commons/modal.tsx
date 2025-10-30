@@ -1,5 +1,5 @@
-import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
+import { Dialog } from 'radix-ui';
 import CloseButton from './buttons/close-button';
 
 interface ModalProps {
