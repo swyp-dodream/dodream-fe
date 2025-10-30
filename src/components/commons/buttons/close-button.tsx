@@ -2,6 +2,12 @@ import clsx from 'clsx';
 import SmallCloseIcon from '@/assets/icons/x/12.svg';
 import MediumCloseIcon from '@/assets/icons/x/14.svg';
 
+interface CloseButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  size?: 'sm' | 'md';
+  variant?: 'primary' | 'secondary';
+}
+
 // 버튼 스타일
 const BUTTON_STYLES = {
   primary:
@@ -15,12 +21,6 @@ const ICON_COLORS = {
   primary: 'text-icon-dark',
   secondary: 'text-icon-light',
 } as const;
-
-interface CloseButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: 'sm' | 'md';
-  variant?: 'primary' | 'secondary';
-}
 
 export default function CloseButton({
   size = 'sm',
