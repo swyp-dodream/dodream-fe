@@ -1,13 +1,12 @@
 'use client';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { OverlayProvider } from 'overlay-kit';
 import type React from 'react';
+import { queryClient } from '@/lib/query-client';
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient();
-
   return (
     <QueryClientProvider client={queryClient}>
       <GoogleOAuthProvider
