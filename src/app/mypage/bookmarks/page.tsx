@@ -81,7 +81,7 @@ export default function BookmarkPage() {
               value={tabValue}
               className="row-start-2 col-span-8 grid grid-cols-2 grid-rows-5 gap-7"
             >
-              {posts.length < 0 ? (
+              {posts.length > 0 ? (
                 posts.map((post) => (
                   <PostCard key={post.id}>
                     <PostCard.Header
