@@ -1,6 +1,12 @@
 import SocialLoginButton from './social-login-button';
 
-export default function NaverLoginButton() {
+interface NaverLoginButtonProps {
+  onModalClose: () => void;
+}
+
+export default function NaverLoginButton({
+  onModalClose,
+}: NaverLoginButtonProps) {
   // onClick 수정
   return <SocialLoginButton provider="naver" onClick={() => {}} />;
 }

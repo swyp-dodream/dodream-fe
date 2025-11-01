@@ -24,8 +24,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModal) {
           </p>
         </div>
         <div className="flex flex-col gap-5 w-full">
-          <GoogleLoginButton />
-          <NaverLoginButton />
+          <GoogleLoginButton onModalClose={onClose} />
+          <NaverLoginButton onModalClose={onClose} />
         </div>
       </Modal.Content>
     </Modal>
