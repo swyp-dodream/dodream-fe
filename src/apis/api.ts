@@ -46,6 +46,13 @@ const api = {
       body: JSON.stringify(data),
     }),
 
+  patch: <T>(endpoint: string, data?: unknown, options?: RequestInit) =>
+    fetcher<T>(endpoint, {
+      ...options,
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+
   delete: <T>(endpoint: string, options?: RequestInit) =>
     fetcher<T>(endpoint, { ...options, method: 'DELETE' }),
 };
