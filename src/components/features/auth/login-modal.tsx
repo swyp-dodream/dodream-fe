@@ -1,18 +1,6 @@
-import Image from 'next/image';
 import Modal from '@/components/commons/modal';
-
-const PROVIDER_CONFIG = {
-  google: {
-    logo: '/auth/google-logo.png',
-    label: '구글 계정으로 계속하기',
-    alt: '구글 로고',
-  },
-  naver: {
-    logo: '/auth/naver-logo.png',
-    label: '네이버 계정으로 계속하기',
-    alt: '네이버 로고',
-  },
-} as const;
+import GoogleLoginButton from './buttons/google-login-button';
+import NaverLoginButton from './buttons/naver-login-button';
 
 interface LoginModal {
   isOpen: boolean;
@@ -35,41 +23,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModal) {
             간편하게 가입하고 로그인하세요
           </p>
         </div>
-        {/* TODO: onClick 함수 수정 */}
         <div className="flex flex-col gap-5 w-full">
-          <SocialLoginButton provider="google" onClick={() => {}} />
-          <SocialLoginButton provider="naver" onClick={() => {}} />
+          <GoogleLoginButton onModalClose={onClose} />
+          <NaverLoginButton onModalClose={onClose} />
         </div>
       </Modal.Content>
     </Modal>
-  );
-}
-
-interface SocialLoginButtonProps {
-  provider: 'google' | 'naver';
-  onClick?: () => void;
-}
-
-/**
- * 소셜 로그인 버튼 컴포넌트
- */
-function SocialLoginButton({ provider, onClick }: SocialLoginButtonProps) {
-  const config = PROVIDER_CONFIG[provider];
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex gap-2 bg-container-primary hover:bg-container-primary-hover body-md-medium py-4 w-full items-center justify-center rounded-sm"
-    >
-      <Image
-        src={config.logo}
-        alt={config.alt}
-        width={14}
-        height={14}
-        aria-hidden="true"
-      />
-      {config.label}
-    </button>
   );
 }

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { OverlayProvider } from 'overlay-kit';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import './globals.css';
+import { Providers } from './providers';
 
 const pretendard = localFont({
   src: './fonts/pretendard/PretendardVariable.woff2',
@@ -25,11 +25,11 @@ export default function RootLayout({
   return (
     <html lang="ko-KR" className={pretendard.variable}>
       <body>
-        <OverlayProvider>
+        <Providers>
           <Header />
           <main>{children}</main>
           <Footer />
-        </OverlayProvider>
+        </Providers>
       </body>
     </html>
   );
