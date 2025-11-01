@@ -4,7 +4,13 @@ import { type TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import authApi from '@/apis/auth.api';
 import SocialLoginButton from './social-login-button';
 
-export default function GoogleLoginButton() {
+interface GoogleLoginButtonProps {
+  onModalClose: () => void;
+}
+
+export default function GoogleLoginButton({
+  onModalClose,
+}: GoogleLoginButtonProps) {
   // TODO: 임시 로그인 성공 콜백 함수 삭제
   const tempHandleSuccess = async (
     tokenResponse: Omit<
@@ -15,6 +21,8 @@ export default function GoogleLoginButton() {
     // 구글 Access Token 추출
     const accessToken = tokenResponse.access_token;
     localStorage.setItem('accessToken', accessToken);
+
+    onModalClose(); // 모달 닫기
   };
 
   /**
@@ -27,7 +35,9 @@ export default function GoogleLoginButton() {
       // TODO: 로컬 스토리지 처리 함수 분리
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('refreshToken', data.refreshToken);
+
       // TODO: 로그인 성공 메시지 있을 경우 추가
+      onModalClose(); // 모달 닫기
     } catch (error) {
       console.error(error);
     }
