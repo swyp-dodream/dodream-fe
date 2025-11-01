@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { PROVIDER_CONFIG } from '@/constants/auth.constants';
+import { PROVIDER_CONFIG } from '@/constants/auth.constant';
 
 interface SocialLoginButtonProps {
   provider: 'google' | 'naver';
