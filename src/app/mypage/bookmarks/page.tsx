@@ -1,6 +1,7 @@
-import { Separator, Tabs } from 'radix-ui';
+import { Tabs } from 'radix-ui';
 import BookmarkEmptyState from '@/components/features/mypage/bookmark/bookmark-empty-state';
 import BookmarkTabTrigger from '@/components/features/mypage/bookmark/bookmark-tab-trigger';
+import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import { MOCK_POSTS, type MockPost, type ProjectType } from '@/mocks/posts';
 
@@ -19,9 +20,7 @@ const bookmarkedPostsByType = MOCK_POSTS.filter(
 export default function BookmarkPage() {
   return (
     <>
-      <h2 className="heading-xl">북마크</h2>
-
-      <Separator.Root className="w-full h-px bg-border-primary" />
+      <MyPageHeader title="북마크" />
 
       <Tabs.Root defaultValue="project" className="grid grid-cols-8 gap-7">
         <Tabs.List className="col-span-2 flex p-3 gap-3 bg-primary rounded-lg">
