@@ -1,26 +1,10 @@
 import { Separator, Tabs } from 'radix-ui';
+import BookmarkEmptyState from '@/components/features/mypage/bookmark/bookmark-empty-state';
 import BookmarkTabTrigger from '@/components/features/mypage/bookmark/bookmark-tab-trigger';
-import { PostCard } from '@/components/features/post/post-card';
-import {
-  MOCK_POSTS,
-  type MockPost,
-  type ProjectType,
-  type Role,
-} from '@/mocks/posts';
-import { formatDeadlineAt } from '@/utils/date.util';
+import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
+import { MOCK_POSTS, type MockPost, type ProjectType } from '@/mocks/posts';
 
 const PROJECT_TAB_VALUES: ProjectType[] = ['project', 'study'];
-
-const ROLE_LABEL_MAP: Record<Role, string> = {
-  FE: '프론트엔드',
-  BE: '백엔드',
-  iOS: 'iOS',
-  AOS: '안드로이드',
-  Designer: '디자이너',
-  PM: 'PM',
-  Planner: '기획자',
-  Marketer: '마케터',
-};
 
 const bookmarkedPostsByType = MOCK_POSTS.filter(
   (post) => post.isBookmarked,
@@ -31,10 +15,6 @@ const bookmarkedPostsByType = MOCK_POSTS.filter(
   },
   { project: [], study: [] },
 );
-
-function getRoles(roles: Role[]) {
-  return roles.map((role) => ROLE_LABEL_MAP[role]);
-}
 
 export default function BookmarkPage() {
   return (
@@ -63,38 +43,10 @@ export default function BookmarkPage() {
             >
               {posts.length > 0 ? (
                 posts.map((post) => (
-                  <PostCard key={post.id}>
-                    <PostCard.Header
-                      nickname={post.ownerUserId}
-                      elapsedTime={formatDeadlineAt(post.deadlineAt)}
-                      projectType={post.projectType}
-                      isBookmarked={post.isBookmarked}
-                    />
-
-                    <PostCard.Main>
-                      <PostCard.Title>{post.title}</PostCard.Title>
-
-                      <div className="flex flex-col gap-4">
-                        <PostCard.TechCategories
-                          techCategories={post.techCategories}
-                        />
-                        <PostCard.Roles roles={getRoles(post.roles)} />
-                      </div>
-                    </PostCard.Main>
-
-                    <PostCard.Footer views={post.views} status={post.status} />
-                  </PostCard>
+                  <DefaultPostCard key={post.id} post={post} />
                 ))
               ) : (
-                <div className="flex flex-col gap-2">
-                  <span className="body-lg-medium text-primary">
-                    북마크한 글이 없습니다
-                  </span>
-                  <span className="body-lg-medium text-subtle">
-                    관심 있는 {tabValue === 'project' ? '프로젝트' : '스터디'}를
-                    북마크해 보세요.
-                  </span>
-                </div>
+                <BookmarkEmptyState tabValue={tabValue} />
               )}
             </Tabs.Content>
           );
