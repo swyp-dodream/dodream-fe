@@ -7,6 +7,7 @@ import {
   type ProjectType,
   type Role,
 } from '@/mocks/posts';
+import { formatDeadlineAt } from '@/utils/date.util';
 
 const PROJECT_TAB_VALUES: ProjectType[] = ['project', 'study'];
 
@@ -30,27 +31,6 @@ const bookmarkedPostsByType = MOCK_POSTS.filter(
   },
   { project: [], study: [] },
 );
-
-function formatDeadline(deadline: Date) {
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-
-  const deadlineDate = new Date(deadline);
-  deadlineDate.setHours(0, 0, 0, 0);
-
-  const diffTime = deadlineDate.getTime() - now.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  if (diffDays > 0) {
-    return `D-${diffDays}`;
-  }
-
-  if (diffDays === 0) {
-    return 'D-Day';
-  }
-
-  return `D+${Math.abs(diffDays)}`;
-}
 
 function getRoles(roles: Role[]) {
   return roles.map((role) => ROLE_LABEL_MAP[role]);
@@ -86,7 +66,7 @@ export default function BookmarkPage() {
                   <PostCard key={post.id}>
                     <PostCard.Header
                       nickname={post.ownerUserId}
-                      elapsedTime={formatDeadline(post.deadlineAt)}
+                      elapsedTime={formatDeadlineAt(post.deadlineAt)}
                       projectType={post.projectType}
                       isBookmarked={post.isBookmarked}
                     />
