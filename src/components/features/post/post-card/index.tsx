@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import BookmarkIcon from '@/assets/icons/bookmark/20.svg';
 import PostCardProjectType from '@/components/features/post/post-card/post-card-project-type';
 import PostCardRoles from '@/components/features/post/post-card/post-card-roles';
@@ -17,23 +18,26 @@ function Root({
   avatarUrl?: string;
 }) {
   return (
-    <article className="rounded-lg border-1 border-border-primary p-7 bg-surface flex gap-4">
-      {/* 왼쪽 아바타 영역 */}
-      {avatarUrl ? (
-        <Image
-          src={avatarUrl}
-          alt="프로필 이미지"
-          width={36}
-          height={36}
-          className="rounded-full size-9 object-cover shrink-0"
-        />
-      ) : (
-        <div className="rounded-full bg-primary size-9 shrink-0" />
-      )}
+    // TODO: 추후에 게시물 상세페이지 링크걸기
+    <Link href="#">
+      <article className="rounded-lg border-1 border-border-primary p-7 bg-surface flex gap-4">
+        {/* 왼쪽 아바타 영역 */}
+        {avatarUrl ? (
+          <Image
+            src={avatarUrl}
+            alt="프로필 이미지"
+            width={36}
+            height={36}
+            className="rounded-full size-9 object-cover shrink-0"
+          />
+        ) : (
+          <div className="rounded-full bg-primary size-9 shrink-0" />
+        )}
 
-      {/* 오른쪽 영역 */}
-      <div className="flex flex-col w-full gap-4">{children}</div>
-    </article>
+        {/* 오른쪽 영역 */}
+        <div className="flex flex-col w-full gap-4">{children}</div>
+      </article>
+    </Link>
   );
 }
 
