@@ -7,7 +7,7 @@ export interface BookmarkTabTriggerProps {
   className?: string;
 }
 
-export function BookmarkTabTrigger({
+export default function BookmarkTabTrigger({
   value,
   children,
   className,

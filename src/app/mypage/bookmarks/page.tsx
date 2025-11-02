@@ -1,5 +1,5 @@
 import { Separator, Tabs } from 'radix-ui';
-import { BookmarkTabTrigger } from '@/components/features/mypage/bookmark/bookmark-tab-trigger';
+import BookmarkTabTrigger from '@/components/features/mypage/bookmark/bookmark-tab-trigger';
 import { PostCard } from '@/components/features/post/post-card';
 import {
   MOCK_POSTS,
