@@ -84,7 +84,7 @@ function Header({
  * 메인 영역 (본문 영역 래퍼)
  */
 function Main({ children }: { children: React.ReactNode }) {
-  return <main className="flex flex-col gap-8">{children}</main>;
+  return <section className="flex flex-col gap-8">{children}</section>;
 }
 
 /**
