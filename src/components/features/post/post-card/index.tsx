@@ -49,11 +49,13 @@ function Header({
   elapsedTime,
   projectType,
   isBookmarked,
+  showBookmarkIcon = true,
 }: {
   nickname: string;
   elapsedTime: string;
   projectType: 'project' | 'study';
   isBookmarked: boolean;
+  showBookmarkIcon?: boolean;
 }) {
   return (
     <header className="flex justify-between w-full items-center">
@@ -71,18 +73,20 @@ function Header({
 
       <div className="flex gap-3 items-center">
         <PostCardProjectType projectType={projectType} />
-        <button
-          type="button"
-          aria-label={isBookmarked ? '북마크 해제' : '북마크 추가'}
-        >
-          <BookmarkIcon
-            className={
-              isBookmarked
-                ? 'fill-bg-brand text-bg-brand'
-                : 'fill-none text-border-secondary'
-            }
-          />
-        </button>
+        {showBookmarkIcon && (
+          <button
+            type="button"
+            aria-label={isBookmarked ? '북마크 해제' : '북마크 추가'}
+          >
+            <BookmarkIcon
+              className={
+                isBookmarked
+                  ? 'fill-bg-brand text-bg-brand'
+                  : 'fill-none text-border-secondary'
+              }
+            />
+          </button>
+        )}
       </div>
     </header>
   );
@@ -121,6 +125,10 @@ function Footer({
   );
 }
 
+function Actions({ children }: { children: React.ReactNode }) {
+  return <div className="flex gap-3">{children}</div>;
+}
+
 export const PostCard = Object.assign(Root, {
   Header,
   Main,
@@ -128,4 +136,5 @@ export const PostCard = Object.assign(Root, {
   TechCategories: PostCardTechCategories,
   Roles: PostCardRoles,
   Footer,
+  Actions,
 });
