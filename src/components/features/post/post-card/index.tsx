@@ -1,9 +1,6 @@
 import Image from 'next/image';
 import BookmarkIcon from '@/assets/icons/bookmark/20.svg';
-import {
-  PostCardProjectType,
-  type PostCardProjectTypeValue,
-} from '@/components/features/post/post-card/post-card-project-type';
+import PostCardProjectType from '@/components/features/post/post-card/post-card-project-type';
 import PostCardRoles from '@/components/features/post/post-card/post-card-roles';
 import PostCardStatus from '@/components/features/post/post-card/post-card-status';
 import PostCardTechCategories from '@/components/features/post/post-card/post-card-tech-categories';
@@ -51,7 +48,7 @@ function Header({
 }: {
   nickname: string;
   elapsedTime: string;
-  projectType: PostCardProjectTypeValue;
+  projectType: 'project' | 'study';
   isBookmarked: boolean;
 }) {
   return (

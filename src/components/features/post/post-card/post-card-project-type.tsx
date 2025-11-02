@@ -5,13 +5,15 @@ const PROJECT_TYPE_CONFIG = {
   study: { text: '스터디', color: 'bg-study' },
 } as const;
 
-export type PostCardProjectTypeValue = keyof typeof PROJECT_TYPE_CONFIG;
+type PostCardProjectTypeValue = keyof typeof PROJECT_TYPE_CONFIG;
 
 interface PostCardProjectTypeProps {
   projectType: PostCardProjectTypeValue;
 }
 
-export function PostCardProjectType({ projectType }: PostCardProjectTypeProps) {
+export default function PostCardProjectType({
+  projectType,
+}: PostCardProjectTypeProps) {
   const { text, color } = PROJECT_TYPE_CONFIG[projectType];
 
   return (
