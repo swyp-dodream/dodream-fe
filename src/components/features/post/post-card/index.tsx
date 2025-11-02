@@ -54,10 +54,6 @@ function Header({
   projectType: PostCardProjectTypeValue;
   isBookmarked: boolean;
 }) {
-  const bookmarkIconColor = isBookmarked
-    ? 'fill-bg-brand text-bg-brand'
-    : 'fill-none text-border-secondary';
-
   return (
     <header className="flex justify-between w-full items-center">
       <div className="flex gap-3 items-center">
@@ -74,7 +70,18 @@ function Header({
 
       <div className="flex gap-3 items-center">
         <PostCardProjectType projectType={projectType} />
-        <BookmarkIcon className={bookmarkIconColor} />
+        <button
+          type="button"
+          aria-label={isBookmarked ? '북마크 해제' : '북마크 추가'}
+        >
+          <BookmarkIcon
+            className={
+              isBookmarked
+                ? 'fill-bg-brand text-bg-brand'
+                : 'fill-none text-border-secondary'
+            }
+          />
+        </button>
       </div>
     </header>
   );
