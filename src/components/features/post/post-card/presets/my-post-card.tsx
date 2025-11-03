@@ -1,5 +1,5 @@
-import Button from '@/components/commons/buttons/button';
 import { PostCard } from '@/components/features/post/post-card';
+import RecruitmentButton from '@/components/features/post/post-card/buttons/recruitment-button';
 import type { MockPost, Role } from '@/mocks/posts';
 import { formatDeadlineAt } from '@/utils/date.util';
 
@@ -45,9 +45,7 @@ export default function MyPostCard({ post }: MyPostCardProps) {
       <PostCard.Footer views={post.views} status={post.status} />
 
       <PostCard.Actions>
-        <Button variant="solid" size="lg">
-          모집 내역
-        </Button>
+        <RecruitmentButton postId={post.id.toString()} />
       </PostCard.Actions>
     </PostCard>
   );
