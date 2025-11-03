@@ -2,7 +2,7 @@
 commit_msg=$(cat "$1")
 
 # 커밋 메시지 컨벤션 검증 (이슈 번호 포함 가능)
-commit_regex="^(feat|fix|docs|style|refactor|test|chore|comment|design|remove|rename)(?:!)?: [^ ].{0,49}( \(#\d+\))?$"
+commit_regex="^(feat|fix|docs|style|refactor|test|chore|comment|design|remove|rename|merge)(?:!)?: [^ ].{0,49}( \(#\d+\))?$"
 
 if ! echo "$commit_msg" | grep -qE "$commit_regex"; then
   echo "❌ 커밋 메시지 형식이 올바르지 않습니다!"
@@ -23,6 +23,7 @@ if ! echo "$commit_msg" | grep -qE "$commit_regex"; then
   echo "  design:   CSS/디자인 변경 또는 이미지"
   echo "  remove:   파일 삭제"
   echo "  rename:   파일 경로 또는 이름 변경"
+  echo "  merge:    develop 브랜치 병합"
   echo ""
   echo "💡 예시:"
   echo "  feat: 사용자 로그인 기능 추가"
