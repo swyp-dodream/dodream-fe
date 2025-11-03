@@ -341,6 +341,14 @@ button:disabled {
   color: var(--color-text-on-brand);
 }
 
+@utility bg-study {
+  background-color: var(--color-bg-study);
+}
+
+@utility bg-project {
+  background-color: var(--color-bg-project);
+}
+
 @utility bg-brand {
   background-color: var(--color-bg-brand);
 }

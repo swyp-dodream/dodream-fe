@@ -6,7 +6,9 @@ export default function MyPageLayout({
   return (
     <div className="w-full h-full content-layout grid grid-cols-12 gap-7">
       <MyPageNavigation />
-      <section className="col-span-9 col-start-4">{children}</section>
+      <section className="col-span-8 col-start-4 flex flex-col gap-7">
+        {children}
+      </section>
     </div>
   );
 }

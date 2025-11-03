@@ -35,7 +35,6 @@ export default function GoogleLoginButton({
       const data = await authApi.googleLogin(codeResponse.code);
       // TODO: 로컬 스토리지 처리 함수 분리
       tokenStorage.setToken(data.accessToken);
-      tokenStorage.setRefreshToken(data.accessToken);
 
       // TODO: 로그인 성공 메시지 있을 경우 추가
       onModalClose(); // 모달 닫기
