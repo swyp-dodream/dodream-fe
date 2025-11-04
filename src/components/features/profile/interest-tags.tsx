@@ -1,3 +1,4 @@
+// TODO: props 타입 변경
 interface InterestTagsProps {
   interests: string[];
 }

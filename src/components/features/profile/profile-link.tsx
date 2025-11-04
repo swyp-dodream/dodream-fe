@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import LinkIcon from '@/assets/icons/link/14.svg';
 
+// TODO: props 타입 변경
 interface ProfileLinksProps {
   profileUrls: string[];
 }
