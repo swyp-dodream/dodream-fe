@@ -7,10 +7,7 @@ function Root({
   ...props
 }: ComponentPropsWithoutRef<typeof Tabs.Root>) {
   return (
-    <Tabs.Root
-      className={clsx('grid grid-cols-8 gap-7', className)}
-      {...props}
-    />
+    <Tabs.Root className={clsx('flex flex-col gap-7', className)} {...props} />
   );
 }
 
@@ -21,7 +18,7 @@ function List({
   return (
     <Tabs.List
       className={clsx(
-        'col-span-2 flex p-3 gap-3 bg-primary rounded-lg',
+        'self-start flex p-3 gap-3 bg-primary rounded-lg',
         className,
       )}
       {...props}
@@ -50,10 +47,7 @@ function Content({
 }: ComponentPropsWithoutRef<typeof Tabs.Content>) {
   return (
     <Tabs.Content
-      className={clsx(
-        'row-start-2 col-span-8 grid grid-cols-2 grid-rows-5 gap-7',
-        className,
-      )}
+      className={clsx('grid grid-cols-2 grid-rows-5 gap-7', className)}
       {...props}
     />
   );
