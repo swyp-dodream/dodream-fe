@@ -10,3 +10,8 @@ export const PROVIDER_CONFIG = {
     alt: '네이버 로고',
   },
 } as const;
+
+export const TOKEN_STORAGE_KEY = {
+  token: 'accessToken',
+  refresh_token: 'refreshToken',
+};

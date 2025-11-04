@@ -2,6 +2,9 @@
 
 import { type TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import authApi from '@/apis/auth.api';
+import { QUERY_KEY } from '@/constants/query-key.constant';
+import { queryClient } from '@/lib/query-client';
+import { tokenStorage } from '@/utils/auth.util';
 import SocialLoginButton from './social-login-button';
 
 interface GoogleLoginButtonProps {
@@ -20,7 +23,9 @@ export default function GoogleLoginButton({
   ) => {
     // 구글 Access Token 추출
     const accessToken = tokenResponse.access_token;
-    localStorage.setItem('accessToken', accessToken);
+    tokenStorage.setToken(accessToken);
+    // TODO: 쿼리 무효화 인증 로직에 추가
+    await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
 
     onModalClose(); // 모달 닫기
   };
@@ -33,7 +38,7 @@ export default function GoogleLoginButton({
     try {
       const data = await authApi.googleLogin(codeResponse.code);
       // TODO: 로컬 스토리지 처리 함수 분리
-      localStorage.setItem('accessToken', data.accessToken);
+      tokenStorage.setToken(data.accessToken);
 
       // TODO: 로그인 성공 메시지 있을 경우 추가
       onModalClose(); // 모달 닫기
