@@ -17,19 +17,6 @@ export const tokenStorage = {
     return null;
   },
 
-  // Refresh Token
-  setRefreshToken: (token: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(TOKEN_STORAGE_KEY.refresh_token, token);
-    }
-  },
-  getRefreshToken: (): string | null => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem(TOKEN_STORAGE_KEY.refresh_token);
-    }
-    return null;
-  },
-
   // 전체 토큰 삭제
   clearAll: () => {
     if (typeof window !== 'undefined') {
