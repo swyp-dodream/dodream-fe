@@ -47,7 +47,7 @@ export default function ProfilePage() {
                 <SuitcaseIcon className="text-icon-medium" aria-hidden="true" />
                 <div className="flex gap-1 text-secondary">
                   {/* TODO: 직무 값 사용 방법 수정 */}
-                  <div>{profile.roles[0].name}</div>
+                  <div>{profile.roles.name}</div>
                   <div aria-hidden="true">·</div>
                   <div>{profile.experience}</div>
                 </div>

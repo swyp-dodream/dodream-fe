@@ -45,7 +45,7 @@ export type Profile = {
   experience: string;
   activityMode: string;
   introText: string;
-  roles: Role[];
+  roles: Role;
   interestKeywords: InterestKeyword[];
   techSkills: TechSkill[];
   profileUrls: ProfileUrl[];
