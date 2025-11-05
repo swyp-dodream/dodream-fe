@@ -28,7 +28,7 @@ export default function ProgressBar({
       aria-label="진행률"
     >
       <Progress.Indicator
-        className="bg-border-dark w-full h-full rounded-full"
+        className="bg-border-dark w-full h-full rounded-full transition-transform duration-300 ease-out"
         style={{ transform: `translateX(-${100 - (value / max) * 100}%)` }}
       />
     </Progress.Root>
