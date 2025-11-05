@@ -16,9 +16,9 @@ export default function ProfilePage() {
   const isMyProfile = true;
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full grid grid-cols-12 gap-x-7 gap-y-5">
       {/* 프로필 이미지/수정 버튼 */}
-      <section className="flex justify-between">
+      <section className="col-span-12 flex justify-between">
         {/* TODO: 이미지 수정 */}
         <Image
           src="/"
@@ -37,58 +37,56 @@ export default function ProfilePage() {
           </Link>
         )}
       </section>
-      <div className="flex justify-between pt-5">
-        <div className="w-[589px]">
-          {/* 닉네임 및 직무 */}
-          <header>
-            <h2 className="heading-xl pb-3">{profile.nickname}</h2>
-            <ul className="flex flex-col gap-2 body-lg-medium">
-              <li className="flex gap-3 items-center">
-                <SuitcaseIcon className="text-icon-medium" aria-hidden="true" />
-                <div className="flex gap-1 text-secondary">
-                  {/* TODO: 직무 값 사용 방법 수정 */}
-                  <div>{profile.roles.name}</div>
-                  <div aria-hidden="true">·</div>
-                  <div>{profile.experience}</div>
-                </div>
-              </li>
-              <li className="flex gap-3 items-center text-secondary">
-                <UsersIcon className="text-icon-medium" aria-hidden="true" />
-                <div>{profile.activityMode} 선호</div>
-              </li>
-            </ul>
-          </header>
+      <div className="col-span-6">
+        {/* 닉네임 및 직무 */}
+        <header>
+          <h2 className="heading-xl pb-3">{profile.nickname}</h2>
+          <ul className="flex flex-col gap-2 body-lg-medium">
+            <li className="flex gap-3 items-center">
+              <SuitcaseIcon className="text-icon-medium" aria-hidden="true" />
+              <div className="flex gap-1 text-secondary">
+                {/* TODO: 직무 값 사용 방법 수정 */}
+                <div>{profile.roles.name}</div>
+                <div aria-hidden="true">·</div>
+                <div>{profile.experience}</div>
+              </div>
+            </li>
+            <li className="flex gap-3 items-center text-secondary">
+              <UsersIcon className="text-icon-medium" aria-hidden="true" />
+              <div>{profile.activityMode} 선호</div>
+            </li>
+          </ul>
+        </header>
 
-          {/* 자기소개 */}
-          <section className="flex flex-col gap-4 pt-9 pb-8">
-            <h3 className="heading-sm">자기소개</h3>
-            <p className="body-lg-regular">{profile.introText}</p>
-          </section>
+        {/* 자기소개 */}
+        <section className="flex flex-col gap-4 pt-9 pb-8">
+          <h3 className="heading-sm">자기소개</h3>
+          <p className="body-lg-regular">{profile.introText}</p>
+        </section>
 
-          {/* 링크 */}
-          <section className="flex flex-col gap-4">
-            <h3 className="heading-sm">링크</h3>
-            <nav aria-label="사용자 외부 링크">
-              <ProfileLinks profileUrls={profile.profileUrls} />
-            </nav>
-          </section>
-        </div>
-        <div className="w-[384px] flex flex-col">
-          {/* 기술 스택 */}
-          <section className="flex flex-col gap-4">
-            <h3 className="heading-sm">기술 스택</h3>
-            {/* TODO: techCategories 수정 시 map 제거 */}
-            <PostCardTechCategories
-              techCategories={profile.techSkills.map((tech) => tech.name)}
-            />
-          </section>
+        {/* 링크 */}
+        <section className="flex flex-col gap-4">
+          <h3 className="heading-sm">링크</h3>
+          <nav aria-label="사용자 외부 링크">
+            <ProfileLinks profileUrls={profile.profileUrls} />
+          </nav>
+        </section>
+      </div>
+      <div className="col-span-4 col-start-9 flex flex-col">
+        {/* 기술 스택 */}
+        <section className="flex flex-col gap-4">
+          <h3 className="heading-sm">기술 스택</h3>
+          {/* TODO: techCategories 수정 시 map 제거 */}
+          <PostCardTechCategories
+            techCategories={profile.techSkills.map((tech) => tech.name)}
+          />
+        </section>
 
-          {/* 관심 분야 */}
-          <section className="flex flex-col pt-8 pb-13 gap-4">
-            <h3 className="heading-sm">관심 분야</h3>
-            <InterestTags interests={profile.interestKeywords} />
-          </section>
-        </div>
+        {/* 관심 분야 */}
+        <section className="flex flex-col pt-8 pb-13 gap-4">
+          <h3 className="heading-sm">관심 분야</h3>
+          <InterestTags interests={profile.interestKeywords} />
+        </section>
       </div>
     </div>
   );
