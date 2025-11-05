@@ -228,6 +228,7 @@ button:disabled {
   background-color: var(--color-scrollbar-track);
 }
 
+main,
 .content-layout {
   max-width: 1200px;
   min-width: 1200px;
