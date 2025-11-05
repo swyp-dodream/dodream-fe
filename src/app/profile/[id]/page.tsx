@@ -6,10 +6,11 @@ import PostCardTechCategories from '@/components/features/post/post-card/post-ca
 import InterestTags from '@/components/features/profile/interest-tags';
 import ProfileLinks from '@/components/features/profile/profile-link';
 import { PROFILE } from '@/mocks/profiles';
+import type { Profile } from '@/types/profile.type';
 
 export default function ProfilePage() {
   // TODO: path 파라미로부터 프로필 데이터 페칭
-  const profile = PROFILE;
+  const profile: Profile = PROFILE;
 
   // TODO: 프로필 페이지 ID, 로그인 유저 ID 비교
   const isMyProfile = true;
@@ -45,7 +46,8 @@ export default function ProfilePage() {
               <li className="flex gap-3 items-center">
                 <SuitcaseIcon className="text-icon-medium" aria-hidden="true" />
                 <div className="flex gap-1 text-secondary">
-                  <div>{profile.roles}</div>
+                  {/* TODO: 직무 값 사용 방법 수정 */}
+                  <div>{profile.roles[0].name}</div>
                   <div aria-hidden="true">·</div>
                   <div>{profile.experience}</div>
                 </div>
@@ -75,7 +77,10 @@ export default function ProfilePage() {
           {/* 기술 스택 */}
           <section className="flex flex-col gap-4">
             <h3 className="heading-sm">기술 스택</h3>
-            <PostCardTechCategories techCategories={profile.techSkills} />
+            {/* TODO: techCategories 수정 시 map 제거 */}
+            <PostCardTechCategories
+              techCategories={profile.techSkills.map((tech) => tech.name)}
+            />
           </section>
 
           {/* 관심 분야 */}

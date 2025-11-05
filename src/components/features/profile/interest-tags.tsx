@@ -1,6 +1,8 @@
+import type { InterestKeyword } from '@/types/profile.type';
+
 // TODO: props 타입 변경
 interface InterestTagsProps {
-  interests: string[];
+  interests: InterestKeyword[];
 }
 
 /**
@@ -10,7 +12,7 @@ export default function InterestTags({ interests }: InterestTagsProps) {
   return (
     <ul className="flex gap-3 body-lg-regular" aria-label="관심 분야 목록">
       {interests.map((interest) => (
-        <InterestTag label={interest} key={interest} />
+        <InterestTag label={interest.name} key={interest.id} />
       ))}
     </ul>
   );
