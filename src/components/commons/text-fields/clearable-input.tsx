@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import type { ComponentProps } from 'react';
 import XIcon from '@/assets/icons/x/14.svg';
-import Input from '@/components/commons/text-fields/input';
+import { FormInput } from '@/components/commons/text-fields/input';
 
-interface ClearableInputProps extends ComponentProps<typeof Input> {
+interface ClearableInputProps extends ComponentProps<typeof FormInput> {
   onClear: () => void;
 }
 
@@ -18,7 +18,7 @@ export default function ClearableInput({
 }: ClearableInputProps) {
   return (
     <div className="relative">
-      <Input className={clsx('pr-[26px]', className)} {...props} />
+      <FormInput className={clsx('pr-[26px]', className)} {...props} />
       <button
         type="button"
         onClick={onClear}
