@@ -25,7 +25,7 @@ interface ProfileLinkProps {
 
 function ProfileLink({ url }: ProfileLinkProps) {
   return (
-    <li className="flex gap-3 items-center body-md-medium">
+    <li className="flex gap-3 items-center body-md-medium hover:bg-container-primary-hover w-fit">
       <LinkIcon aria-hidden="true" />
       <Link href={url}>{url}</Link>
     </li>
