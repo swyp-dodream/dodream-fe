@@ -8,6 +8,7 @@ interface DropdownItem {
 }
 
 interface DropdownProps {
+  label: string;
   items: DropdownItem[];
   className?: string;
 }
@@ -24,7 +25,7 @@ interface DropdownProps {
  *   ]}
  * />
  */
-export default function Dropdown({ items, className }: DropdownProps) {
+export default function Dropdown({ items, label, className }: DropdownProps) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -32,7 +33,7 @@ export default function Dropdown({ items, className }: DropdownProps) {
           type="button"
           className="py-3 px-4 body-lg-medium bg-container-primary rounded-md flex items-center justify-between w-[180px] outline-none group"
         >
-          메뉴 열기
+          {label}
           <ArrowIcon className="text-icon-light group-data-[state=open]:rotate-180" />
         </button>
       </DropdownMenu.Trigger>
