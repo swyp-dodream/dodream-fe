@@ -5,7 +5,6 @@ import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 interface DropdownItem {
   label: string;
   onSelect?: () => void;
-  disabled?: boolean;
 }
 
 interface DropdownProps {
@@ -49,7 +48,6 @@ export default function Dropdown({ items, className }: DropdownProps) {
             <DropdownMenu.Item
               key={item.label}
               onSelect={item.onSelect}
-              disabled={item.disabled}
               className="px-2 py-2 cursor-pointer hover:bg-primary rounded outline-none"
             >
               {item.label}
