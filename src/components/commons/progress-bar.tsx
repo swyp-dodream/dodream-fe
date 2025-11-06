@@ -17,6 +17,8 @@ export default function ProgressBar({
   max = 100,
   className,
 }: ProgressBarProps) {
+  const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+
   return (
     <Progress.Root
       className={clsx(
@@ -29,7 +31,7 @@ export default function ProgressBar({
     >
       <Progress.Indicator
         className="bg-border-dark w-full h-full rounded-full transition-transform duration-300 ease-out"
-        style={{ transform: `translateX(-${100 - (value / max) * 100}%)` }}
+        style={{ transform: `translateX(-${100 - percentage}%)` }}
       />
     </Progress.Root>
   );
