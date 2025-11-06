@@ -1,4 +1,4 @@
-import { differenceInCalendarDays, startOfDay } from 'date-fns';
+import { differenceInCalendarDays, format, startOfDay } from 'date-fns';
 
 export function formatDeadlineAt(deadlineAt: Date) {
   const today = startOfDay(new Date());
@@ -15,4 +15,8 @@ export function formatDeadlineAt(deadlineAt: Date) {
   }
 
   return `D+${Math.abs(diffDays)}`;
+}
+
+export function formatDate(date: Date) {
+  return format(date, 'yyyy.MM.dd');
 }
