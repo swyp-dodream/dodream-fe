@@ -35,11 +35,13 @@ export default function Input({
         className,
       )}
       {...props}
+      aria-invalid={isError}
     />
   );
 }
 
 interface FormInputProps extends ComponentProps<typeof Input> {
+  id: string;
   children?: React.ReactNode;
   errorMessage?: string;
 }
@@ -52,14 +54,22 @@ interface FormInputProps extends ComponentProps<typeof Input> {
 export function FormInput({
   children,
   errorMessage,
+  id,
   ...props
 }: FormInputProps) {
   return (
     <div className="flex flex-col gap-2">
-      <Input isError={!!errorMessage} {...props} />
+      <Input
+        id={id}
+        isError={!!errorMessage}
+        aria-describedby={errorMessage ? `${id}-error` : undefined}
+        {...props}
+      />
       {children}
       {errorMessage && (
-        <p className="body-sm-medium text-error">{errorMessage}</p>
+        <p id={`${id}-error`} className="body-sm-medium text-error">
+          {errorMessage}
+        </p>
       )}
     </div>
   );
