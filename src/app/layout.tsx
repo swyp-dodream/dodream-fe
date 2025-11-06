@@ -26,9 +26,11 @@ export default function RootLayout({
     <html lang="ko-KR" className={pretendard.variable}>
       <body>
         <Providers>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <div className="flex flex-col h-full gap-12">
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
