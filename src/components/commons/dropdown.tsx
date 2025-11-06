@@ -4,7 +4,7 @@ import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 
 interface DropdownItem {
   label: string;
-  onClick?: () => void;
+  onSelect?: () => void;
   disabled?: boolean;
 }
 
@@ -19,9 +19,9 @@ interface DropdownProps {
  * @example
  * <Dropdown
  *   items={[
- *     { label: '프로필', onClick: () => console.log('프로필') },
- *     { label: '설정', onClick: () => console.log('설정') },
- *     { label: '로그아웃', onClick: () => console.log('로그아웃') },
+ *     { label: '프로필', onSelect: () => console.log('프로필') },
+ *     { label: '설정', onSelect: () => console.log('설정') },
+ *     { label: '로그아웃', onSelect: () => console.log('로그아웃') },
  *   ]}
  * />
  */
@@ -48,7 +48,7 @@ export default function Dropdown({ items, className }: DropdownProps) {
           {items.map((item) => (
             <DropdownMenu.Item
               key={item.label}
-              onClick={item.onClick}
+              onSelect={item.onSelect}
               disabled={item.disabled}
               className="px-2 py-2 cursor-pointer hover:bg-primary rounded outline-none"
             >
