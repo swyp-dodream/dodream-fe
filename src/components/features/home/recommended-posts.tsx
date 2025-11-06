@@ -12,7 +12,10 @@ import { formatDate } from '@/utils/date.util';
 import RecommendTypes from './recommend-types';
 
 export default function RecommendedPosts() {
+  // TODO: 타입 분리할 경우 수정
   const [postType, setPostType] = useState<'study' | 'project'>('project');
+
+  // TODO: API 요청으로 수정
   const posts =
     postType === 'project'
       ? HOME_RECOMMENDED_POST_PROJECT
@@ -66,6 +69,7 @@ interface RecommendedPostProps {
 
 /**
  * 개별 게시글 컴포넌트
+ * TODO: 타입 수정 후 컴포넌트 수정
  */
 function RecommendedPost({ post }: RecommendedPostProps) {
   return (

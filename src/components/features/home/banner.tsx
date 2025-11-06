@@ -43,7 +43,7 @@ export default function Banner() {
           {/* TODO: 내용 추가 */}
         </aside>
       ) : (
-        // 미로그인 시 추천 섹션 수정
+        // TODO: 미로그인 시 추천 섹션 수정
         <aside className="w-[321px] h-[194px] bg-white border border-gray-300 rounded-lg absolute top-8 right-[200px] py-6 px-9">
           <span className="block mt-3 text-secondary">준비중</span>
         </aside>

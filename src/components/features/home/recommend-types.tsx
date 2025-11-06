@@ -2,6 +2,7 @@ interface RecommendTypesProps {
   labels: string[];
 }
 
+// TODO: 타입 다를 경우 props 수정
 export default function RecommendTypes({ labels }: RecommendTypesProps) {
   return (
     <ul className="flex gap-2">
