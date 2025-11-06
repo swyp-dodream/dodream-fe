@@ -3,6 +3,7 @@ import clsx from 'clsx';
 interface TextFieldProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   maxLength?: number;
+  resizable?: boolean;
   className?: string;
 }
 
@@ -14,6 +15,7 @@ interface TextFieldProps
 export default function TextField({
   value = '',
   maxLength,
+  resizable = true,
   className,
   ...props
 }: TextFieldProps) {
@@ -26,7 +28,9 @@ export default function TextField({
         value={value}
         maxLength={maxLength}
         className={clsx(
-          'py-3 px-4 bg-surface border rounded-md placeholder:text-gray-400 body-lg-medium outline-none border-border-primary resize-y',
+          'py-3 px-4 bg-surface border rounded-md placeholder:text-gray-400 body-lg-medium outline-none border-border-primary',
+          resizable && 'resize-y',
+          !resizable && 'resize-none',
           className,
         )}
         {...props}
