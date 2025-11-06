@@ -6,7 +6,7 @@ export default function Banner() {
 
   return (
     <section
-      className="flex flex-col justify-between relative h-[204px] shadow-card bg-white border border-gray-300 rounded-lg overflow-hidden"
+      className="col-span-12 flex flex-col justify-between relative h-[204px] shadow-card bg-white border border-gray-300 rounded-lg overflow-hidden"
       aria-labelledby="banner-heading"
     >
       <div className="mt-8 ml-9">
