@@ -103,6 +103,8 @@
   --color-border-secondary: var(--color-gray-500);
   --color-border-dropdown: var(--color-gray-700);
   --color-border-error: var(--color-feedback-error);
+  --color-border-dark: var(--color-gray-800);
+  --color-border-brand: var(--color-brand-500);
 
   --color-bg-surface: var(--color-white);
   --color-bg-primary: var(--color-gray-100);
