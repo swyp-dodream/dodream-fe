@@ -192,7 +192,6 @@ main {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
 }
 
@@ -284,6 +283,13 @@ main,
 @utility body-lg-regular {
   font-size: var(--text-body-lg);
   font-weight: var(--font-weight-regular);
+  line-height: var(--leading-loose);
+  letter-spacing: var(--tracking-tight);
+}
+
+@utility body-lg-semibold {
+  font-size: var(--text-body-lg);
+  font-weight: var(--font-weight-semibold);
   line-height: var(--leading-loose);
   letter-spacing: var(--tracking-tight);
 }
