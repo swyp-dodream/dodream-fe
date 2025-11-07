@@ -4,7 +4,7 @@ import Navigation from '@/components/layout/navigation';
 
 export default function Header() {
   return (
-    <header className="h-13 sticky top-0 flex items-center shrink-0 bg-surface border-b border-border-primary">
+    <header className="h-13 sticky top-0 flex items-center shrink-0 bg-surface border-b border-border-primary z-50">
       <div className="content-layout flex justify-between items-center">
         <h1>
           <Link href="/">
