@@ -2,7 +2,7 @@ import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import TextField from '@/components/commons/text-fields/text-field';
 
-interface RecruitmentDetailModalProps {
+interface ApplyDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   roleName: string;
@@ -11,12 +11,12 @@ interface RecruitmentDetailModalProps {
 
 const INFO_LABEL_CLASS = 'text-primary body-lg-medium';
 
-export default function RecruitmentDetailModal({
+export default function ApplyDetailModal({
   isOpen,
   onClose,
   roleName,
   message,
-}: RecruitmentDetailModalProps) {
+}: ApplyDetailModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Overlay />
