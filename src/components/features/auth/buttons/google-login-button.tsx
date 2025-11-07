@@ -1,11 +1,9 @@
 'use client';
 
-import { type TokenResponse, useGoogleLogin } from '@react-oauth/google';
-import authApi from '@/apis/auth.api';
-import { QUERY_KEY } from '@/constants/query-key.constant';
-import { queryClient } from '@/lib/query-client';
-import { tokenStorage } from '@/utils/auth.util';
+import { useRouter } from 'next/navigation';
 import SocialLoginButton from './social-login-button';
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 interface GoogleLoginButtonProps {
   onModalClose: () => void;
@@ -14,60 +12,12 @@ interface GoogleLoginButtonProps {
 export default function GoogleLoginButton({
   onModalClose,
 }: GoogleLoginButtonProps) {
-  // TODO: 임시 로그인 성공 콜백 함수 삭제
-  const tempHandleSuccess = async (
-    tokenResponse: Omit<
-      TokenResponse,
-      'error' | 'error_description' | 'error_uri'
-    >,
-  ) => {
-    // 구글 Access Token 추출
-    const accessToken = tokenResponse.access_token;
-    tokenStorage.setToken(accessToken);
-    // TODO: 쿼리 무효화 인증 로직에 추가
-    await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
+  const router = useRouter();
 
-    onModalClose(); // 모달 닫기
+  const login = () => {
+    router.push(`${BASE_URL}/oauth2/authorization/google`);
+    onModalClose();
   };
 
-  /**
-   * 로그인 성공 콜백 함수
-   * @param codeResponse.code - 서버에 전달할 구글 인증 코드
-   */
-  const handleSuccess = async (codeResponse: { code: string }) => {
-    try {
-      const data = await authApi.googleLogin(codeResponse.code);
-      // TODO: 로컬 스토리지 처리 함수 분리
-      tokenStorage.setToken(data.accessToken);
-
-      // TODO: 로그인 성공 메시지 있을 경우 추가
-      onModalClose(); // 모달 닫기
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  /**
-   * 로그인 실패 콜백함수
-   */
-  const handleError = () => {
-    console.error('Google 로그인 실패');
-  };
-
-  // TODO: 임시 로그인 함수 삭제
-  const tempLogin = useGoogleLogin({
-    onSuccess: tempHandleSuccess,
-    onError: handleError,
-  });
-
-  /**
-   * 로그인 함수
-   */
-  const _login = useGoogleLogin({
-    flow: 'auth-code',
-    onSuccess: handleSuccess,
-    onError: handleError,
-  });
-
-  return <SocialLoginButton provider="google" onClick={() => tempLogin()} />;
+  return <SocialLoginButton provider="google" onClick={login} />;
 }
