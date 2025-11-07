@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import InterestTags from '@/app/profile/_components/interest-tags';
+import ProfileLinks from '@/app/profile/_components/profile-link';
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
 import PostCardTechCategories from '@/components/features/post/post-card/post-card-tech-categories';
-import InterestTags from '@/components/features/profile/interest-tags';
-import ProfileLinks from '@/components/features/profile/profile-link';
 import { PROFILE } from '@/mocks/profiles';
 import type { Profile } from '@/types/profile.type';
 
