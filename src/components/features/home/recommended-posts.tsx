@@ -1,7 +1,7 @@
 'use client';
 
-import clsx from 'clsx';
 import Link from 'next/link';
+import { Tabs } from 'radix-ui';
 import { useState } from 'react';
 import {
   HOME_RECOMMENDED_POST_PROJECT,
@@ -11,13 +11,16 @@ import type { RecommendedPostType } from '@/types/home.type';
 import { formatDate } from '@/utils/date.util';
 import RecommendTypes from './recommend-types';
 
+// TODO: 타입 분리
+type TabValue = 'study' | 'project';
+
 export default function RecommendedPosts() {
   // TODO: 타입 분리할 경우 수정
-  const [postType, setPostType] = useState<'study' | 'project'>('project');
+  const [activePostType, setActivePostType] = useState<TabValue>('project');
 
   // TODO: API 요청으로 수정
   const posts =
-    postType === 'project'
+    activePostType === 'project'
       ? HOME_RECOMMENDED_POST_PROJECT
       : HOME_RECOMMENDED_POST_STUDY;
 
@@ -26,31 +29,12 @@ export default function RecommendedPosts() {
       <div className="flex justify-between">
         {/* 제목 */}
         <h2 className="heading-lg">관심 있어 할 만한 글을 AI가 찾아뒀어요</h2>
-        <span className="sr-only">AI 추천 게시글 종류</span>
-        <div className="flex gap-5 body-lg-medium">
-          {/* 프로젝트 필터 */}
-          <button
-            type="button"
-            onClick={() => setPostType('project')}
-            className={clsx({
-              'text-primary': postType === 'project',
-              'text-subtle': postType === 'study',
-            })}
-          >
-            프로젝트
-          </button>
-          {/* 스터디 필터 */}
-          <button
-            type="button"
-            onClick={() => setPostType('study')}
-            className={clsx({
-              'text-primary': postType === 'study',
-              'text-subtle': postType === 'project',
-            })}
-          >
-            스터디
-          </button>
-        </div>
+
+        {/* 게시글 종류 선택 탭 */}
+        <PostTypeTabs
+          value={activePostType}
+          onValueChange={setActivePostType}
+        />
       </div>
 
       {/* AI 추천 게시글 */}
@@ -85,5 +69,42 @@ function RecommendedPost({ post }: RecommendedPostProps) {
         </article>
       </Link>
     </li>
+  );
+}
+
+interface PostTypeTabsProps {
+  value: TabValue;
+  onValueChange: (value: TabValue) => void;
+}
+
+/**
+ * 추천 게시글 Tabs 컴포넌트
+ * @param value - 현재 선택된 탭
+ * @param onValueChange - 탭 set 함수
+ */
+function PostTypeTabs({ value, onValueChange }: PostTypeTabsProps) {
+  return (
+    <Tabs.Root
+      value={value}
+      onValueChange={(value) => onValueChange(value as TabValue)}
+    >
+      <Tabs.List
+        className="flex gap-5 body-lg-medium text-subtle"
+        aria-label="게시글 유형 선택"
+      >
+        <Tabs.Trigger
+          value="project"
+          className="data-[state=active]:text-primary"
+        >
+          프로젝트
+        </Tabs.Trigger>
+        <Tabs.Trigger
+          value="study"
+          className="data-[state=active]:text-primary"
+        >
+          스터디
+        </Tabs.Trigger>
+      </Tabs.List>
+    </Tabs.Root>
   );
 }
