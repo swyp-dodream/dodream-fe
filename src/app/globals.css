@@ -184,7 +184,7 @@ body {
   color: var(--color-text-primary);
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  /* gap: 60px; */
 }
 
 main {
@@ -340,6 +340,10 @@ main,
 
 @utility text-subtle {
   color: var(--color-text-subtle);
+}
+
+@utility text-on-brand {
+  color: var(--color-text-on-brand);
 }
 
 @utility text-white {
