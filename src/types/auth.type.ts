@@ -1,11 +1,10 @@
-export type GoogleLoginResponseType = {
-  accessToken: string;
-};
-
-// TODO: 실제 유저 타입으로 수정
 export type UserType = {
-  sub: string;
+  id: number;
   email: string;
   name: string;
-  picture: string;
+  profileImageUrl: string;
+  provider: ProviderType;
+  lastLoginAt: string;
 };
+
+export type ProviderType = 'GOOGLE' | 'NAVER';
