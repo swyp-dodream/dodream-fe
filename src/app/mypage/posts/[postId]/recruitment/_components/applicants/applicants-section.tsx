@@ -1,9 +1,10 @@
+import type { Role } from '@/mocks/posts';
 import ApplicantsRoleTabs from './applicants-role-tabs';
 import type { ApplicantsUser } from './types';
 
 interface ApplicantsSectionProps {
   title: string;
-  roles: string[];
+  roles: Role[];
   users: ApplicantsUser[];
   isEmpty: boolean;
   emptyMessage: string;
