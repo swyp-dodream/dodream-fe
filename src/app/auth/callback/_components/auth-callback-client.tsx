@@ -35,9 +35,11 @@ export default function AuthCallBackClient({
     const verifyLogin = async () => {
       try {
         const user = await authApi.getUser();
+        const userProfile = await authApi.getProfile();
 
         // 초기 발급받은 토큰으로 받은 유저 정보 출력 테스트
-        console.log('유저:', user);
+        console.log('유저 정보:', user);
+        console.log('유저 프로필 정보:', userProfile);
 
         // TODO: 유저 상태에 따른 리다이렉트 처리
         // router.replace(`${user ? '/' : '/create-profile'}`);
