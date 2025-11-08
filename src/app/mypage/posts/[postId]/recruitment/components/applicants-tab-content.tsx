@@ -59,7 +59,6 @@ export default function ApplicantsTabContent() {
   const appliedUsers = users.filter(({ status }) => status === 'applied');
   const appliedRoles = [...new Set(appliedUsers.map((user) => user.roleName))];
   const hasApplicants = appliedUsers.length > 0;
-  const emptyMessage = '합류를 제안한 멤버가 아직 제안에 응답하지 않았습니다';
 
   const aiRecommendHeader = (
     <div className="flex items-center gap-3 shrink-0">
@@ -81,7 +80,7 @@ export default function ApplicantsTabContent() {
         roles={appliedRoles}
         users={users}
         isEmpty={!hasApplicants}
-        emptyMessage={emptyMessage}
+        emptyMessage={'합류를 제안한 멤버가 아직 제안에 응답하지 않았습니다'}
       />
 
       <ApplicantsSection
@@ -89,7 +88,7 @@ export default function ApplicantsTabContent() {
         roles={appliedRoles}
         users={users}
         isEmpty={!hasApplicants}
-        emptyMessage={emptyMessage}
+        emptyMessage={'지원자가 없습니다'}
         headerRight={aiRecommendHeader}
       />
     </div>
