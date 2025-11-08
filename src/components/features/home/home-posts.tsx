@@ -1,10 +1,9 @@
 'use client';
 
-import { Tabs } from 'radix-ui';
 import { useState } from 'react';
+import { Tabs } from '@/components/commons/tabs';
 import { HOME_POSTS } from '@/mocks/home';
 import type { MockPost } from '@/mocks/posts';
-import BookmarkTabTrigger from '../mypage/bookmark/bookmark-tab-trigger';
 import DefaultPostCard from '../post/post-card/presets/default-post-card';
 
 // TODO: 타입 분리
@@ -35,7 +34,7 @@ export default function HomePosts() {
       <h2 id="home-posts-heading" className="sr-only">
         모집 게시글 목록
       </h2>
-      <Tabs.Root
+      <Tabs
         className="w-fit"
         value={activePostType}
         onValueChange={(value) => setActivePostType(value as ProjectType)}
@@ -45,12 +44,12 @@ export default function HomePosts() {
           aria-label="게시글 타입 필터"
         >
           {PROJECT_TAB_VALUES.map((tabValue) => (
-            <BookmarkTabTrigger key={tabValue} value={tabValue}>
+            <Tabs.Trigger key={tabValue} value={tabValue}>
               {TAB_VALUE[tabValue]}
-            </BookmarkTabTrigger>
+            </Tabs.Trigger>
           ))}
         </Tabs.List>
-      </Tabs.Root>
+      </Tabs>
       <HomePostCards posts={posts} />
     </section>
   );

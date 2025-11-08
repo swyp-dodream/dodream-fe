@@ -1,22 +1,25 @@
 import clsx from 'clsx';
-import { Tabs } from 'radix-ui';
+import { Tabs as PrimitiveTabs } from 'radix-ui';
 import type { ComponentPropsWithoutRef } from 'react';
 
 function Root({
   className,
   ...props
-}: ComponentPropsWithoutRef<typeof Tabs.Root>) {
+}: ComponentPropsWithoutRef<typeof PrimitiveTabs.Root>) {
   return (
-    <Tabs.Root className={clsx('flex flex-col gap-7', className)} {...props} />
+    <PrimitiveTabs.Root
+      className={clsx('flex flex-col gap-7', className)}
+      {...props}
+    />
   );
 }
 
 function List({
   className,
   ...props
-}: ComponentPropsWithoutRef<typeof Tabs.List>) {
+}: ComponentPropsWithoutRef<typeof PrimitiveTabs.List>) {
   return (
-    <Tabs.List
+    <PrimitiveTabs.List
       className={clsx(
         'self-start flex p-3 gap-3 bg-primary rounded-lg',
         className,
@@ -29,9 +32,9 @@ function List({
 function Trigger({
   className,
   ...props
-}: ComponentPropsWithoutRef<typeof Tabs.Trigger>) {
+}: ComponentPropsWithoutRef<typeof PrimitiveTabs.Trigger>) {
   return (
-    <Tabs.Trigger
+    <PrimitiveTabs.Trigger
       className={clsx(
         'heading-sm px-4 py-2 rounded-md text-subtle data-[state=active]:bg-surface data-[state=active]:shadow-card data-[state=active]:text-primary',
         className,
@@ -45,7 +48,9 @@ function Content({
   className,
   columns = 2,
   ...props
-}: ComponentPropsWithoutRef<typeof Tabs.Content> & { columns?: number }) {
+}: ComponentPropsWithoutRef<typeof PrimitiveTabs.Content> & {
+  columns?: number;
+}) {
   const GRID_COLUMNS: Record<number, string> = {
     1: 'grid-cols-1',
     2: 'grid-cols-2',
@@ -62,11 +67,11 @@ function Content({
   };
 
   return (
-    <Tabs.Content
+    <PrimitiveTabs.Content
       className={clsx('grid gap-7', GRID_COLUMNS[columns], className)}
       {...props}
     />
   );
 }
 
-export const MyPageTabs = Object.assign(Root, { List, Trigger, Content });
+export const Tabs = Object.assign(Root, { List, Trigger, Content });
