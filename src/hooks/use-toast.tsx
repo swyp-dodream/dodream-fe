@@ -1,3 +1,5 @@
+'use client';
+
 import { overlay } from 'overlay-kit';
 import { useCallback } from 'react';
 import Toast from '@/components/commons/toast';

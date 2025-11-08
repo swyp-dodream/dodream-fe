@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@/components/commons/buttons/button';
 import useToast from '@/hooks/use-toast';
 

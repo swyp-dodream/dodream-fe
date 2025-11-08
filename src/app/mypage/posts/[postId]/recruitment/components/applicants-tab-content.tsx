@@ -1,3 +1,5 @@
+'use client';
+
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import useToast from '@/hooks/use-toast';
 import ApplicantsSection from './applicants/applicants-section';

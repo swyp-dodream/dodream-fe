@@ -1,3 +1,5 @@
+'use client';
+
 import { overlay } from 'overlay-kit';
 import Button from '@/components/commons/buttons/button';
 import MatchingCancelModal from '@/components/features/mypage/my-posts/recruitments/modals/matching-cancel-modal';

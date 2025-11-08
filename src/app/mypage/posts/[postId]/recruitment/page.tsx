@@ -1,5 +1,3 @@
-'use client';
-
 import MembersTabContent from '@/app/mypage/posts/[postId]/recruitment/components/members-tab-content';
 import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
 import { RecruitmentTabs } from '@/components/features/mypage/my-posts/recruitments/recruitment-tabs';
