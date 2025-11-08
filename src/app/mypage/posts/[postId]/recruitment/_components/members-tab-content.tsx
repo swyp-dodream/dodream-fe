@@ -1,4 +1,3 @@
-import type { ApplicantsUser } from '@/app/mypage/posts/[postId]/recruitment/components/applicants/types';
 import ApplyDetailButton from '@/components/features/mypage/my-posts/recruitments/buttons/apply-detail-button';
 import MathcingCancelButton from '@/components/features/mypage/my-posts/recruitments/buttons/matching-cancel-button';
 import RecruitmentEmptyState from '@/components/features/mypage/my-posts/recruitments/recruitment-empty-state';
@@ -7,6 +6,7 @@ import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/rol
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
 import { ROLE_LABEL_MAP } from '@/constants/role.constant';
 import { ROLES, type Role } from '@/mocks/posts';
+import type { ApplicantsUser } from './applicants/types';
 
 const users: ApplicantsUser[] = [
   {
