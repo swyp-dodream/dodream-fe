@@ -4,11 +4,11 @@ import RecruitmentUserRow from '@/components/features/mypage/my-posts/recruitmen
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
 import RoleTabsHeader from '@/components/features/mypage/my-posts/recruitments/role-tabs-header';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
-import { ROLES } from '@/mocks/posts';
+import { ROLES, type Role } from '@/mocks/posts';
 import type { ApplicantsUser } from './types';
 
 type ApplicantsRoleTabsProps = {
-  roles: string[];
+  roles: Role[];
   users: ApplicantsUser[];
   headerRight?: React.ReactNode;
 };
