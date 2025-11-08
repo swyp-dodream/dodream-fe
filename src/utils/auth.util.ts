@@ -20,12 +20,12 @@ export const tokenStorage = {
   // Refresh Token
   setRefreshToken: (token: string) => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem(TOKEN_STORAGE_KEY.token, token);
+      localStorage.setItem(TOKEN_STORAGE_KEY.refresh_token, token);
     }
   },
   getRefreshToken: (): string | null => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(TOKEN_STORAGE_KEY.token);
+      return localStorage.getItem(TOKEN_STORAGE_KEY.refresh_token);
     }
     return null;
   },
