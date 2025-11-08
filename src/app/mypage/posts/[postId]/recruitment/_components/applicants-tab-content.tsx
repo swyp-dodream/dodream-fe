@@ -2,6 +2,7 @@
 
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import useToast from '@/hooks/use-toast';
+import type { Role } from '@/mocks/posts';
 import ApplicantsSection from './applicants/applicants-section';
 import type { ApplicantsUser } from './applicants/types';
 
@@ -59,7 +60,9 @@ const users: ApplicantsUser[] = [
 export default function ApplicantsTabContent() {
   const toast = useToast();
   const appliedUsers = users.filter(({ status }) => status === 'applied');
-  const appliedRoles = [...new Set(appliedUsers.map((user) => user.roleName))];
+  const appliedRoles = [
+    ...new Set(appliedUsers.map((user) => user.roleName)),
+  ] as Role[];
   const hasApplicants = appliedUsers.length > 0;
 
   const aiRecommendHeader = (
