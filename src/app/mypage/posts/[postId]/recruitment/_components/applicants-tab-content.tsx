@@ -58,25 +58,11 @@ const users: ApplicantsUser[] = [
 ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
 export default function ApplicantsTabContent() {
-  const toast = useToast();
   const appliedUsers = users.filter(({ status }) => status === 'applied');
   const appliedRoles = [
     ...new Set(appliedUsers.map((user) => user.roleName)),
   ] as Role[];
   const hasApplicants = appliedUsers.length > 0;
-
-  const aiRecommendHeader = (
-    <div className="flex items-center gap-3 shrink-0">
-      <DefaultTooltip content="지원자 중 모집글에 가장 잘 어울리는 프로필을 가진 지원자를 우선으로 띄워줘요." />
-      <button
-        type="button"
-        className="rounded-full border-2 px-5 py-3 border-border-brand hover:bg-button-ai"
-        onClick={() => toast({ title: '추천하는 지원자가 없습니다' })}
-      >
-        <span className="body-md-medium text-brand">AI 추천</span>
-      </button>
-    </div>
-  );
 
   return (
     <div className="col-span-full flex flex-col gap-11">
@@ -94,8 +80,25 @@ export default function ApplicantsTabContent() {
         users={users}
         isEmpty={!hasApplicants}
         emptyMessage={'지원자가 없습니다'}
-        headerRight={aiRecommendHeader}
+        headerRight={<AiRecommendHeader />}
       />
+    </div>
+  );
+}
+
+export function AiRecommendHeader() {
+  const toast = useToast();
+
+  return (
+    <div className="flex items-center gap-3 shrink-0">
+      <DefaultTooltip content="지원자 중 모집글에 가장 잘 어울리는 프로필을 가진 지원자를 우선으로 띄워줘요." />
+      <button
+        type="button"
+        className="rounded-full border-2 px-5 py-3 border-border-brand hover:bg-button-ai"
+        onClick={() => toast({ title: '추천하는 지원자가 없습니다' })}
+      >
+        <span className="body-md-medium text-brand">AI 추천</span>
+      </button>
     </div>
   );
 }
