@@ -1,6 +1,7 @@
 import { Toast as ToastPrimitive } from 'radix-ui';
 import type { ComponentPropsWithoutRef } from 'react';
-import CloseButton from '@/components/commons/buttons/close-button';
+import XIcon from '@/assets/icons/x/12.svg';
+import IconButton from '@/components/commons/buttons/icon-button';
 
 interface ToastProps
   extends ComponentPropsWithoutRef<typeof ToastPrimitive.Root> {
@@ -15,7 +16,9 @@ export default function Toast({ title, ...props }: ToastProps) {
         {...props}
       >
         <ToastPrimitive.Close asChild aria-label="Close">
-          <CloseButton />
+          <IconButton variant="secondary" size="sm" isDark aria-hidden>
+            <XIcon className="text-icon-white" />
+          </IconButton>
         </ToastPrimitive.Close>
         <ToastPrimitive.Title className="text-on-brand body-md-medium">
           {title}
