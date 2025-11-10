@@ -1,4 +1,5 @@
 import type {
+  ACTIVITY_MODE,
   AGE_RANGES,
   EXPERIENCE,
   GENDER,
@@ -22,6 +23,10 @@ export type roleLabelType = (typeof ROLE)[roleType];
 // 경력 타입
 export type experienceType = keyof typeof EXPERIENCE;
 export type experienceLabelType = (typeof EXPERIENCE)[experienceType];
+
+// 선호 방식 타입
+export type activityModeType = keyof typeof ACTIVITY_MODE;
+export type activityModeLabelType = (typeof ACTIVITY_MODE)[activityModeType];
 
 /**
  * 프로필 타입
