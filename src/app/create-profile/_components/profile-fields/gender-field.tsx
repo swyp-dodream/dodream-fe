@@ -1,11 +1,11 @@
 import type { Dispatch, SetStateAction } from 'react';
 import Dropdown from '@/components/commons/dropdown';
 import { GENDER, GENDER_LIST } from '@/constants/profile.constant';
-import type { genderType } from '@/types/profile.type';
+import type { GenderType } from '@/types/profile.type';
 
 interface GenderFieldProps {
-  gender: genderType | null;
-  setGender: Dispatch<SetStateAction<genderType | null>>;
+  gender: GenderType | null;
+  setGender: Dispatch<SetStateAction<GenderType | null>>;
 }
 
 /**
@@ -23,7 +23,7 @@ export default function GenderField({ gender, setGender }: GenderFieldProps) {
         label={displayLabel}
         items={GENDER_LIST.map((gender) => ({
           label: gender.label,
-          onSelect: () => setGender(gender.value as genderType),
+          onSelect: () => setGender(gender.value as GenderType),
         }))}
       />
     </div>

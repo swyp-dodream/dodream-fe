@@ -13,20 +13,52 @@ export type AgeRangeType = keyof typeof AGE_RANGES;
 export type AgeRangeLabelType = (typeof AGE_RANGES)[AgeRangeType];
 
 // 성별 타입
-export type genderType = keyof typeof GENDER;
-export type genderLabelType = (typeof GENDER)[genderType];
+export type GenderType = keyof typeof GENDER;
+export type GenderLabelType = (typeof GENDER)[GenderType];
 
 // 직군 타입
-export type roleType = keyof typeof ROLE;
-export type roleLabelType = (typeof ROLE)[roleType];
+export type RoleType = keyof typeof ROLE;
+export type RoleLabelType = (typeof ROLE)[RoleType];
 
 // 경력 타입
-export type experienceType = keyof typeof EXPERIENCE;
-export type experienceLabelType = (typeof EXPERIENCE)[experienceType];
+export type ExperienceType = keyof typeof EXPERIENCE;
+export type ExperienceLabelType = (typeof EXPERIENCE)[ExperienceType];
 
 // 선호 방식 타입
-export type activityModeType = keyof typeof ACTIVITY_MODE;
-export type activityModeLabelType = (typeof ACTIVITY_MODE)[activityModeType];
+export type ActivityModeType = keyof typeof ACTIVITY_MODE;
+export type ActivityModeLabelType = (typeof ACTIVITY_MODE)[ActivityModeType];
+
+// 기술 스택 타입
+export type TechStackType =
+  | 'javascript'
+  | 'typescript'
+  | 'react'
+  | 'vue'
+  | 'svelte'
+  | 'nextjs'
+  | 'java'
+  | 'spring'
+  | 'nodejs'
+  | 'nestjs'
+  | 'go'
+  | 'express'
+  | 'mysql'
+  | 'mongodb'
+  | 'ruby'
+  | 'python'
+  | 'django'
+  | 'php'
+  | 'graphql'
+  | 'firebase'
+  | 'swift'
+  | 'objective-c'
+  | 'kotlin'
+  | 'flutter'
+  | 'react-native'
+  | 'zeplin'
+  | 'adobe-xd'
+  | 'figma'
+  | 'sketch';
 
 /**
  * 프로필 타입

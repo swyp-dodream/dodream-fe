@@ -4,11 +4,11 @@ import {
   ACTIVITY_MODE,
   ACTIVITY_MODE_LIST,
 } from '@/constants/profile.constant';
-import type { activityModeType } from '@/types/profile.type';
+import type { ActivityModeType } from '@/types/profile.type';
 
 interface ActivityModeFieldProps {
-  activityMode: activityModeType | null;
-  setActivityMode: Dispatch<SetStateAction<activityModeType | null>>;
+  activityMode: ActivityModeType | null;
+  setActivityMode: Dispatch<SetStateAction<ActivityModeType | null>>;
 }
 
 /**
@@ -32,7 +32,7 @@ export default function ActivityModeField({
         items={ACTIVITY_MODE_LIST.map((activityMode) => ({
           label: activityMode.label,
           onSelect: () =>
-            setActivityMode(activityMode.value as activityModeType),
+            setActivityMode(activityMode.value as ActivityModeType),
         }))}
       />
     </div>

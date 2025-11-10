@@ -1,11 +1,11 @@
 import type { Dispatch, SetStateAction } from 'react';
 import Dropdown from '@/components/commons/dropdown';
 import { EXPERIENCE, EXPERIENCE_LIST } from '@/constants/profile.constant';
-import type { experienceType } from '@/types/profile.type';
+import type { ExperienceType } from '@/types/profile.type';
 
 interface ExperienceFieldProps {
-  experience: experienceType | null;
-  setExperience: Dispatch<SetStateAction<experienceType | null>>;
+  experience: ExperienceType | null;
+  setExperience: Dispatch<SetStateAction<ExperienceType | null>>;
 }
 
 /**
@@ -26,7 +26,7 @@ export default function ExperienceField({
         label={displayLabel}
         items={EXPERIENCE_LIST.map((experience) => ({
           label: experience.label,
-          onSelect: () => setExperience(experience.value as experienceType),
+          onSelect: () => setExperience(experience.value as ExperienceType),
         }))}
       />
     </div>

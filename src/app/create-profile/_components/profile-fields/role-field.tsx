@@ -1,11 +1,11 @@
 import type { Dispatch, SetStateAction } from 'react';
 import Dropdown from '@/components/commons/dropdown';
 import { ROLE, ROLE_LIST } from '@/constants/profile.constant';
-import type { roleType } from '@/types/profile.type';
+import type { RoleType } from '@/types/profile.type';
 
 interface RoleFieldProps {
-  role: roleType | null;
-  setRole: Dispatch<SetStateAction<roleType | null>>;
+  role: RoleType | null;
+  setRole: Dispatch<SetStateAction<RoleType | null>>;
 }
 
 /**
@@ -22,7 +22,7 @@ export default function RoleField({ role, setRole }: RoleFieldProps) {
         label={displayLabel}
         items={ROLE_LIST.map((role) => ({
           label: role.label,
-          onSelect: () => setRole(role.value as roleType),
+          onSelect: () => setRole(role.value as RoleType),
         }))}
       />
     </div>
