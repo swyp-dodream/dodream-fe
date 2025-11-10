@@ -1,0 +1,73 @@
+import { Tabs } from 'radix-ui';
+import { useState } from 'react';
+import SearchInput from '@/components/commons/text-fields/search-input';
+import {
+  TECH_STACKS_BY_ROLE,
+  TECH_STACKS_BY_ROLE_KEYS,
+} from '@/constants/profile.constant';
+import TechStackSelect from './tech-stack-select';
+
+/**
+ * 기술 스택 탭 컴포넌트 (프론트엔드/백엔드/모바일/디자인)
+ */
+export default function TechStackTabs() {
+  const [keyword, setKeyword] = useState(''); // 검색 키워드
+
+  return (
+    <Tabs.Root
+      defaultValue={TECH_STACKS_BY_ROLE_KEYS[0]}
+      className="w-full h-full flex flex-col"
+    >
+      <Tabs.List className="flex gap-4" aria-label="역할별 기술 스택 탭">
+        {TECH_STACKS_BY_ROLE_KEYS.map((role) => (
+          <Tabs.Trigger
+            key={role}
+            value={role}
+            className="px-4 py-3 bg-container-primary rounded-full body-md-medium data-[state=active]:bg-chip-selected data-[state=active]:text-text-on-brand"
+          >
+            {role}
+          </Tabs.Trigger>
+        ))}
+      </Tabs.List>
+      <div className="pt-4 pb-3">
+        <SearchInput
+          placeholder="찾고 싶은 기술 스택을 검색하세요"
+          variant="dark"
+          className="w-full"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+      </div>
+
+      {TECH_STACKS_BY_ROLE_KEYS.map((role) => {
+        // 키워드가 포함된 리스트 필터링
+        const filteredStacks = TECH_STACKS_BY_ROLE[role].filter((skill) =>
+          skill.toLowerCase().includes(keyword.toLowerCase()),
+        );
+
+        return (
+          <Tabs.Content
+            value={role}
+            key={role}
+            className="flex-1 overflow-y-auto max-h-[206px]"
+          >
+            {filteredStacks.length === 0 ? (
+              <output className="flex flex-col gap-2 items-center my-6">
+                <span className="body-md-regular">검색된 스택이 없습니다</span>
+                <p className="body-sm-regular text-subtle">
+                  검색어를 확인하거나 다른 키워드로 다시 검색하세요
+                </p>
+              </output>
+            ) : (
+              <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
+                {filteredStacks.map((skill) => (
+                  <TechStackSelect key={skill} stack={skill} />
+                ))}
+              </ul>
+            )}
+          </Tabs.Content>
+        );
+      })}
+    </Tabs.Root>
+  );
+}
