@@ -76,7 +76,7 @@ Modal.Content = ({
   return (
     <Dialog.Content
       className={clsx(
-        'fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface pt-9 pb-7 px-6 shadow-card rounded-md w-modal-md',
+        'fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface pt-9 pb-7 px-6 shadow-card rounded-md',
         {
           'w-modal-md': size === 'md',
           'w-modal-lg': size === 'lg',

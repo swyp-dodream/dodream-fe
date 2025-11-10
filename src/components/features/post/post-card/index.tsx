@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 import BookmarkIcon from '@/assets/icons/bookmark/20.svg';
 import PostCardProjectType from '@/components/features/post/post-card/post-card-project-type';
 import PostCardRoles from '@/components/features/post/post-card/post-card-roles';
@@ -13,14 +14,23 @@ import PostCardViews from '@/components/features/post/post-card/post-card-views'
 function Root({
   children,
   avatarUrl,
+  href = '#',
 }: {
   children: React.ReactNode;
   avatarUrl?: string;
+  href?: string;
 }) {
+  const childArray = React.Children.toArray(children);
+  const contents = childArray.filter(
+    (child) => React.isValidElement(child) && child.type !== Actions,
+  );
+  const actions = childArray.filter(
+    (child) => React.isValidElement(child) && child.type === Actions,
+  );
+
   return (
-    // TODO: 추후에 게시물 상세페이지 링크걸기
-    <Link href="#">
-      <article className="rounded-lg border-1 border-border-primary p-7 bg-surface flex gap-4">
+    <article className="rounded-lg border-1 border-border-primary p-7 bg-surface">
+      <Link href={href} className="flex gap-4">
         {/* 왼쪽 아바타 영역 */}
         {avatarUrl ? (
           <Image
@@ -35,9 +45,11 @@ function Root({
         )}
 
         {/* 오른쪽 영역 */}
-        <div className="flex flex-col w-full gap-4">{children}</div>
-      </article>
-    </Link>
+        <div className="flex flex-col w-full gap-4">{contents}</div>
+      </Link>
+
+      {actions.length > 0 ? actions : null}
+    </article>
   );
 }
 
@@ -49,11 +61,13 @@ function Header({
   elapsedTime,
   projectType,
   isBookmarked,
+  showBookmarkIcon = true,
 }: {
   nickname: string;
   elapsedTime: string;
   projectType: 'project' | 'study';
   isBookmarked: boolean;
+  showBookmarkIcon?: boolean;
 }) {
   return (
     <header className="flex justify-between w-full items-center">
@@ -71,18 +85,20 @@ function Header({
 
       <div className="flex gap-3 items-center">
         <PostCardProjectType projectType={projectType} />
-        <button
-          type="button"
-          aria-label={isBookmarked ? '북마크 해제' : '북마크 추가'}
-        >
-          <BookmarkIcon
-            className={
-              isBookmarked
-                ? 'fill-bg-brand text-bg-brand'
-                : 'fill-none text-border-secondary'
-            }
-          />
-        </button>
+        {showBookmarkIcon && (
+          <button
+            type="button"
+            aria-label={isBookmarked ? '북마크 해제' : '북마크 추가'}
+          >
+            <BookmarkIcon
+              className={
+                isBookmarked
+                  ? 'fill-bg-brand text-bg-brand'
+                  : 'fill-none text-border-secondary'
+              }
+            />
+          </button>
+        )}
       </div>
     </header>
   );
@@ -121,6 +137,10 @@ function Footer({
   );
 }
 
+function Actions({ children }: { children: React.ReactNode }) {
+  return <div className="ml-[52px] mt-4 flex gap-3">{children}</div>;
+}
+
 export const PostCard = Object.assign(Root, {
   Header,
   Main,
@@ -128,4 +148,5 @@ export const PostCard = Object.assign(Root, {
   TechCategories: PostCardTechCategories,
   Roles: PostCardRoles,
   Footer,
+  Actions,
 });

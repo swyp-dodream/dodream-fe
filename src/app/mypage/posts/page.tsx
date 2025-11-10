@@ -1,14 +1,12 @@
 import { Tabs } from '@/components/commons/tabs';
-import BookmarkEmptyState from '@/components/features/mypage/bookmark/bookmark-empty-state';
 import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
-import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
+import MyPostsEmptyState from '@/components/features/mypage/my-posts/my-posts-empty-state';
+import MyPostCard from '@/components/features/post/post-card/presets/my-post-card';
 import { MOCK_POSTS, type MockPost, type ProjectType } from '@/mocks/posts';
 
 const PROJECT_TAB_VALUES: ProjectType[] = ['project', 'study'];
 
-const bookmarkedPostsByType = MOCK_POSTS.filter(
-  (post) => post.isBookmarked,
-).reduce<Record<ProjectType, MockPost[]>>(
+const mockPosts = MOCK_POSTS.reduce<Record<ProjectType, MockPost[]>>(
   (acc, post) => {
     acc[post.projectType].push(post);
     return acc;
@@ -16,10 +14,10 @@ const bookmarkedPostsByType = MOCK_POSTS.filter(
   { project: [], study: [] },
 );
 
-export default function BookmarkPage() {
+export default function MyPostsPage() {
   return (
     <>
-      <MyPageHeader title="북마크" />
+      <MyPageHeader title="내가 쓴 글" />
 
       <Tabs defaultValue="project">
         <Tabs.List>
@@ -31,16 +29,14 @@ export default function BookmarkPage() {
         </Tabs.List>
 
         {PROJECT_TAB_VALUES.map((tabValue) => {
-          const posts = bookmarkedPostsByType[tabValue];
+          const posts = mockPosts[tabValue];
 
           return (
             <Tabs.Content key={tabValue} value={tabValue}>
               {posts.length > 0 ? (
-                posts.map((post) => (
-                  <DefaultPostCard key={post.id} post={post} />
-                ))
+                posts.map((post) => <MyPostCard key={post.id} post={post} />)
               ) : (
-                <BookmarkEmptyState tabValue={tabValue} />
+                <MyPostsEmptyState />
               )}
             </Tabs.Content>
           );
