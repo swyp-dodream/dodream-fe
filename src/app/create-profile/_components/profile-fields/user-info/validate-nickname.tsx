@@ -12,9 +12,12 @@ interface ValidateNicknameProps {
  */
 export default function ValidateNickname({ nickname }: ValidateNicknameProps) {
   const isNicknameEmpty = nickname.length === 0;
+
+  // 닉네임 길이 유효성 검사
   const isLengthInvalid = nickname.length > 10;
 
-  const isTypeInvalid = !NICKNAME_REGEX.test(nickname);
+  // 닉네임 형식 유효성 검사
+  const isFormatInvalid = !NICKNAME_REGEX.test(nickname);
 
   return (
     <ul className="flex gap-5">
@@ -32,8 +35,8 @@ export default function ValidateNickname({ nickname }: ValidateNicknameProps) {
         <ValidationRuleIcon
           className={clsx({
             'text-subtle': isNicknameEmpty,
-            'text-bg-error': isTypeInvalid,
-            'text-bg-success': !isTypeInvalid,
+            'text-bg-error': isFormatInvalid,
+            'text-bg-success': !isFormatInvalid,
           })}
         />
         한국어, 영어, 숫자 가능

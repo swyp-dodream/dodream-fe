@@ -7,6 +7,11 @@ interface NicknameFieldProps {
   setNickname: Dispatch<SetStateAction<string>>;
 }
 
+/**
+ * 유효성 검사가 포함된 닉네임 입력 필드 컴포넌트
+ * @param nickname - 닉네임
+ * @param setNickname - 닉네임 set 함수
+ */
 export default function NicknameField({
   nickname,
   setNickname,
