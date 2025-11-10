@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
+  variant?: 'light' | 'dark';
   className?: string;
 }
 
@@ -22,15 +23,22 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export default function Input({
   className,
   isError = false,
+  variant = 'light',
   ...props
 }: InputProps) {
   return (
     <input
       className={clsx(
-        'py-3 px-4 bg-surface border rounded-md placeholder:text-gray-400 body-lg-medium outline-none ',
+        'py-3 px-4 rounded-md outline-none',
         {
           'border-border-primary': !isError,
           'border-border-error': isError,
+        },
+        {
+          'placeholder:text-gray-400 border bg-surface body-lg-medium':
+            variant === 'light',
+          'placeholder:text-subtle bg-primary body-md-regular':
+            variant === 'dark',
         },
         className,
       )}

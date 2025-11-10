@@ -6,6 +6,7 @@ import Input from '@/components/commons/text-fields/input';
 interface SearchInputProps extends ComponentProps<typeof Input> {
   onSearch: () => void;
   buttonType?: 'button' | 'reset' | 'submit';
+  variant?: 'light' | 'dark';
   className?: string;
 }
 
@@ -18,12 +19,17 @@ interface SearchInputProps extends ComponentProps<typeof Input> {
 export default function SearchInput({
   onSearch,
   buttonType = 'button',
+  variant = 'light',
   className,
   ...props
 }: SearchInputProps) {
   return (
     <div className="relative">
-      <Input className={clsx('pl-[34px]', className)} {...props} />
+      <Input
+        variant={variant}
+        className={clsx('pl-[34px]', className)}
+        {...props}
+      />
       <button
         type={buttonType}
         onClick={onSearch}
