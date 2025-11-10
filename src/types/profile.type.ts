@@ -1,4 +1,9 @@
-import type { AGE_RANGES, GENDER, ROLE } from '@/constants/profile.constant';
+import type {
+  AGE_RANGES,
+  EXPERIENCE,
+  GENDER,
+  ROLE,
+} from '@/constants/profile.constant';
 
 // TODO: 타입 중복될 경우 삭제
 
@@ -13,6 +18,10 @@ export type genderLabelType = (typeof GENDER)[genderType];
 // 직군 타입
 export type roleType = keyof typeof ROLE;
 export type roleLabelType = (typeof ROLE)[roleType];
+
+// 경력 타입
+export type experienceType = keyof typeof EXPERIENCE;
+export type experienceLabelType = (typeof EXPERIENCE)[experienceType];
 
 /**
  * 프로필 타입

@@ -51,3 +51,20 @@ export const ROLE_LIST = Object.entries(ROLE).map(([value, label]) => ({
   value,
   label,
 }));
+
+/**
+ * 경력 값 객체
+ */
+export const EXPERIENCE = {
+  new: '없음',
+  '1to3': '1~3년',
+  '3to5': '3~5년',
+  '5plus': '5년 이상',
+};
+
+export const EXPERIENCE_LIST = Object.entries(EXPERIENCE).map(
+  ([value, label]) => ({
+    value,
+    label,
+  }),
+);
