@@ -1,3 +1,10 @@
+import type { AGE_RANGES } from '@/constants/profile.constant';
+
+// 연령대 타입
+// TODO: 타입 중복될 경우 삭제
+export type AgeRangeType = keyof typeof AGE_RANGES;
+export type AgeRangeLabelType = (typeof AGE_RANGES)[AgeRangeType];
+
 /**
  * 직무
  */
