@@ -6,7 +6,6 @@ import { overlay } from 'overlay-kit';
 import BellIcon from '@/assets/icons/bell/20.svg';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
-import useGetUser from '@/hooks/auth/use-get-user';
 import Button from '../commons/buttons/button';
 import LoginModal from '../features/auth/login-modal';
 
@@ -14,9 +13,12 @@ import LoginModal from '../features/auth/login-modal';
  * 헤더의 네비게이션
  */
 export default function Navigation() {
-  const { data: user } = useGetUser();
+  // TODO: 임시 유저 데이터 수정
+  const user = {
+    profileImageUrl: undefined,
+  };
 
-  return user ? (
+  return !user ? (
     // TODO: 네비게이션 링크 URL 변경
     // 로그인 상태: 네비게이션 바 노출
     <nav className="flex" aria-label="사용자 메뉴">
@@ -47,7 +49,8 @@ export default function Navigation() {
           >
             {/* TODO: 프로필 이미지 컴포넌트 분리 */}
             <Image
-              src={user.picture ?? '/avatar/default-avatar.png'}
+              // src={user.profileImageUrl ?? '/avatar/default-avatar.png'}
+              src={'/avatar/default-avatar.png'}
               alt="프로필 이미지"
               fill
               sizes="32px"
