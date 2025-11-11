@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import LoginModal from '@/app/auth/_components/login-modal';
@@ -9,6 +8,7 @@ import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
 import useGetUser from '@/hooks/auth/use-get-user';
 import Button from '../commons/buttons/button';
+import NavigationProfile from './navigation-profile';
 
 /**
  * 헤더의 네비게이션
@@ -41,19 +41,7 @@ export default function Navigation() {
         </li>
 
         <li className="ml-2">
-          <Link
-            href="/"
-            aria-label="프로필"
-            className="flex h-8 w-8 relative rounded-full overflow-hidden"
-          >
-            {/* TODO: 프로필 이미지 컴포넌트 분리 */}
-            <Image
-              src={user.profileImageUrl ?? '/avatar/default-avatar.png'}
-              alt="프로필 이미지"
-              fill
-              sizes="32px"
-            />
-          </Link>
+          <NavigationProfile />
         </li>
       </ul>
     </nav>
