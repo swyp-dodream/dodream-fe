@@ -17,7 +17,7 @@ async function fetcher<T>(
     });
 
     if (!res.ok) {
-      throw new Error(`요청 실패: ${res.status} ${res.statusText}`);
+      throw new Error(`${url} 요청 실패: ${res.status} ${res.statusText}`);
     }
 
     return res.status === 204 ? ({} as T) : await res.json();
