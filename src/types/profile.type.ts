@@ -29,6 +29,7 @@ export type ActivityModeType = keyof typeof ACTIVITY_MODE;
 export type ActivityModeLabelType = (typeof ACTIVITY_MODE)[ActivityModeType];
 
 // 기술 스택 타입
+// TODO: 추후 백엔드에서 받아오는 것으로 수정
 export type TechStackType =
   | 'javascript'
   | 'typescript'
@@ -59,6 +60,33 @@ export type TechStackType =
   | 'adobe-xd'
   | 'figma'
   | 'sketch';
+
+// 관심 분야 타입
+// TODO: 추후 백엔드에서 받아오는 것으로 수정
+export type InterestsType =
+  // 기술
+  | 'ai'
+  | 'mobility'
+  | 'data'
+  // 비즈니스
+  | 'ecommerce'
+  | 'o2o'
+  | 'finance'
+  // 사회
+  | 'environment'
+  | 'local'
+  | 'education'
+  // 라이프
+  | 'fnb'
+  | 'fashion-beauty'
+  | 'health'
+  | 'travel'
+  | 'sports'
+  | 'pet'
+  // 문화
+  | 'game'
+  | 'media'
+  | 'art-performance';
 
 /**
  * 프로필 타입

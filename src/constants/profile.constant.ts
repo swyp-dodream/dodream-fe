@@ -1,4 +1,4 @@
-import type { TechStackType } from '@/types/profile.type';
+import type { InterestsType, TechStackType } from '@/types/profile.type';
 
 export const NICKNAME_REGEX = /^[가-힣a-zA-Z0-9]*$/;
 
@@ -150,3 +150,50 @@ export const TECH_STACKS_BY_ROLE: Record<string, TechStackType[]> = {
 };
 
 export const TECH_STACKS_BY_ROLE_KEYS = Object.keys(TECH_STACKS_BY_ROLE);
+
+/**
+ * 관심 분야 객체
+ */
+export const INTERESTS: Record<InterestsType, string> = {
+  // 기술
+  ai: 'AI',
+  mobility: '모빌리티',
+  data: '데이터',
+  // 비즈니스
+  ecommerce: '이커머스',
+  o2o: 'O2O',
+  finance: '금융',
+  // 사회
+  environment: '환경',
+  local: '지역',
+  education: '교육',
+  // 라이프
+  fnb: 'F&B',
+  'fashion-beauty': '패션&뷰티',
+  health: '건강',
+  travel: '여행',
+  sports: '스포츠',
+  pet: '반려동물',
+  // 문화
+  game: '게임',
+  media: '미디어',
+  'art-performance': '예술&공연',
+};
+
+export const INTERESTS_BY_CATEGORY: Record<string, InterestsType[]> = {
+  기술: ['ai', 'mobility', 'data'],
+  비즈니스: ['ecommerce', 'o2o', 'finance'],
+  사회: ['environment', 'local', 'education'],
+  라이프: ['fnb', 'fashion-beauty', 'health', 'travel', 'sports', 'pet'],
+  문화: ['game', 'media', 'art-performance'],
+};
+
+export const INTERESTS_BY_CATEGORY_KEYS = Object.keys(INTERESTS_BY_CATEGORY);
+
+export const INDEX_LABEL: Record<number, string> = {
+  1: '①',
+  2: '②',
+  3: '③',
+  4: '④',
+  5: '⑤',
+};

@@ -1,29 +1,36 @@
 import { create } from 'zustand';
-import type { TechStackType } from '@/types/profile.type';
+import type { InterestsType, TechStackType } from '@/types/profile.type';
 
 type ProfileState = {
-  /** 실제 선택한 기술 스택 */
+  // 기술 스택
   techStacks: TechStackType[];
-  /** 임시 저장 기술 스택 */
   draftStacks: TechStackType[];
+
+  // 관심 분야
+  interests: InterestsType[];
+  draftInterests: InterestsType[];
 };
 
 type ProfileActions = {
-  /** 기술 스택을 임시 저장 */
-  toggleDraft: (stack: TechStackType) => void;
-  /** 임시 기술 스택을 초기 세팅 */
-  setDraft: () => void;
-  /** 선택한 기술 스택을 저장 */
+  // 기술 스택 선택 관련 함수
+  toggleDraftStacks: (stack: TechStackType) => void;
+  setDraftStacks: () => void;
   setStacks: () => void;
+
+  // 관심 분야 관련 함수
+  toggleDraftInterests: (interest: InterestsType) => void;
+  setDraftInterests: () => void;
+  setInterests: () => void;
 };
 
 /**
  * 유저 프로필 정보를 관리하는 스토어
  */
 const useProfileStore = create<ProfileState & ProfileActions>((set) => ({
+  // 기술 스택
   techStacks: [],
   draftStacks: [],
-  toggleDraft: (stack) =>
+  toggleDraftStacks: (stack) =>
     set((state) => {
       if (state.draftStacks.includes(stack)) {
         return {
@@ -35,8 +42,30 @@ const useProfileStore = create<ProfileState & ProfileActions>((set) => ({
         return { draftStacks: [...state.draftStacks, stack] };
       }
     }),
-  setDraft: () => set((state) => ({ draftStacks: [...state.techStacks] })),
+  setDraftStacks: () =>
+    set((state) => ({ draftStacks: [...state.techStacks] })),
   setStacks: () => set((state) => ({ techStacks: [...state.draftStacks] })),
-}));
 
+  // 관심 분야
+  interests: [],
+  draftInterests: [],
+  toggleDraftInterests: (interest) =>
+    set((state) => {
+      if (state.draftInterests.includes(interest)) {
+        return {
+          draftInterests: state.draftInterests.filter(
+            (element) => element !== interest,
+          ),
+        };
+      } else {
+        if (state.draftInterests.length >= 5)
+          return { draftInterests: state.draftInterests };
+        return { draftInterests: [...state.draftInterests, interest] };
+      }
+    }),
+  setDraftInterests: () =>
+    set((state) => ({ draftInterests: [...state.interests] })),
+  setInterests: () =>
+    set((state) => ({ interests: [...state.draftInterests] })),
+}));
 export default useProfileStore;
