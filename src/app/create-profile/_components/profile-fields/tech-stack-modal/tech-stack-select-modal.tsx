@@ -18,6 +18,7 @@ export default function TechStackSelectModal({
   onClose,
 }: TechStackSelectModalProps) {
   const draftStacks = useProfileStore((state) => state.draftStacks);
+  const toggleDraftStacks = useProfileStore((state) => state.toggleDraftStacks);
   const setStacks = useProfileStore((state) => state.setStacks);
   const setDraftStacks = useProfileStore((state) => state.setDraftStacks);
 
@@ -55,7 +56,10 @@ export default function TechStackSelectModal({
               선택된 태그가 없습니다.
             </span>
           ) : (
-            <TechStackTags />
+            <TechStackTags
+              stacks={draftStacks}
+              removeStacks={toggleDraftStacks}
+            />
           )}
         </div>
 

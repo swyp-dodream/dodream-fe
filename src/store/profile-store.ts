@@ -16,11 +16,13 @@ type ProfileActions = {
   toggleDraftStacks: (stack: TechStackType) => void;
   setDraftStacks: () => void;
   setStacks: () => void;
+  removeStacks: (stack: TechStackType) => void;
 
   // 관심 분야 관련 함수
   toggleDraftInterests: (interest: InterestsType) => void;
   setDraftInterests: () => void;
   setInterests: () => void;
+  removeInterests: (interest: InterestsType) => void;
 };
 
 /**
@@ -45,6 +47,10 @@ const useProfileStore = create<ProfileState & ProfileActions>((set) => ({
   setDraftStacks: () =>
     set((state) => ({ draftStacks: [...state.techStacks] })),
   setStacks: () => set((state) => ({ techStacks: [...state.draftStacks] })),
+  removeStacks: (stack) =>
+    set((state) => ({
+      techStacks: state.techStacks.filter((element) => element !== stack),
+    })),
 
   // 관심 분야
   interests: [],
@@ -67,5 +73,9 @@ const useProfileStore = create<ProfileState & ProfileActions>((set) => ({
     set((state) => ({ draftInterests: [...state.interests] })),
   setInterests: () =>
     set((state) => ({ interests: [...state.draftInterests] })),
+  removeInterests: (interest) =>
+    set((state) => ({
+      interests: state.interests.filter((element) => element !== interest),
+    })),
 }));
 export default useProfileStore;

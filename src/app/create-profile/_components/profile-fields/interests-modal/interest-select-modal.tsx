@@ -18,6 +18,9 @@ export default function InterestSelectModal({
   onClose,
 }: InterestSelectModalProps) {
   const draftInterests = useProfileStore((state) => state.draftInterests);
+  const toggleDraftInterests = useProfileStore(
+    (state) => state.toggleDraftInterests,
+  );
   const setInterests = useProfileStore((state) => state.setInterests);
   const setDraftInterests = useProfileStore((state) => state.setDraftInterests);
 
@@ -55,7 +58,10 @@ export default function InterestSelectModal({
               가장 관심 있는 분야부터 순서대로 최대 5개까지 선택해주세요.
             </span>
           ) : (
-            <InterestTags />
+            <InterestTags
+              interests={draftInterests}
+              removeInterest={toggleDraftInterests}
+            />
           )}
         </div>
 
