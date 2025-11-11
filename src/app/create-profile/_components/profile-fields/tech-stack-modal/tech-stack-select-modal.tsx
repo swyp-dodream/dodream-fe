@@ -19,12 +19,12 @@ export default function TechStackSelectModal({
 }: TechStackSelectModalProps) {
   const draftStacks = useProfileStore((state) => state.draftStacks);
   const setStacks = useProfileStore((state) => state.setStacks);
-  const setDraft = useProfileStore((state) => state.setDraft);
+  const setDraftStacks = useProfileStore((state) => state.setDraftStacks);
 
   // 컴포넌트 마운트 시 임시 기술 스택 리스트 세팅
   useEffect(() => {
-    setDraft();
-  }, [setDraft]);
+    setDraftStacks();
+  }, [setDraftStacks]);
 
   // 저장 버튼 클릭 시 실제 기술 스택 리스트 세팅
   const handleSave = () => {

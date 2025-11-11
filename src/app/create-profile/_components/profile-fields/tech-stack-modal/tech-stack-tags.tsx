@@ -8,7 +8,7 @@ import type { TechStackType } from '@/types/profile.type';
  */
 export default function TechStackTags() {
   const draftStacks = useProfileStore((state) => state.draftStacks);
-  const toggleDraft = useProfileStore((state) => state.toggleDraft);
+  const toggleDraftStacks = useProfileStore((state) => state.toggleDraftStacks);
 
   return (
     <ul className="flex gap-4">
@@ -16,7 +16,7 @@ export default function TechStackTags() {
         <TechStackTag
           key={stack}
           stack={stack}
-          onRemove={() => toggleDraft(stack)}
+          onRemove={() => toggleDraftStacks(stack)}
         />
       ))}
     </ul>

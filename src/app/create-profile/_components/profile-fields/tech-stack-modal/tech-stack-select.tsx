@@ -14,7 +14,7 @@ interface TechStackSelectProps {
  */
 export default function TechStackSelect({ stack }: TechStackSelectProps) {
   const draftStacks = useProfileStore((state) => state.draftStacks);
-  const toggleDraft = useProfileStore((state) => state.toggleDraft);
+  const toggleDraftStacks = useProfileStore((state) => state.toggleDraftStacks);
 
   return (
     <li className="flex items-center mx-3">
@@ -24,7 +24,7 @@ export default function TechStackSelect({ stack }: TechStackSelectProps) {
           name="skills"
           id={stack}
           checked={draftStacks.includes(stack)}
-          onChange={() => toggleDraft(stack)}
+          onChange={() => toggleDraftStacks(stack)}
         />
 
         {/* 기술 스택 이미지 */}
