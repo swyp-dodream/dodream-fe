@@ -1,7 +1,7 @@
+import { Checkbox } from '@/components/commons/check-box';
 import { INTERESTS } from '@/constants/profile.constant';
 import useProfileStore from '@/store/profile-store';
 import type { InterestsType } from '@/types/profile.type';
-import { Checkbox } from '../tech-stack-modal/check-box';
 
 interface InterestSelectProps {
   interest: InterestsType;

@@ -2,8 +2,8 @@ import { overlay } from 'overlay-kit';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from '@/components/commons/buttons/dropdown-button';
 import useProfileStore from '@/store/profile-store';
-import TechStackSelectModal from './tech-stack-modal/tech-stack-select-modal';
-import TechStackTags from './tech-stack-modal/tech-stack-tags';
+import TechStackSelectModal from '../tech-stack-modal/tech-stack-select-modal';
+import TechStackTags from '../tech-stack-modal/tech-stack-tags';
 
 /**
  * 기술 스택 선택 컴포넌트

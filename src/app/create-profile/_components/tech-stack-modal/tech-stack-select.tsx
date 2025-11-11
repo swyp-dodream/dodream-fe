@@ -1,8 +1,8 @@
 import Image from 'next/image';
+import { Checkbox } from '@/components/commons/check-box';
 import { TECH_STACKS } from '@/constants/profile.constant';
 import useProfileStore from '@/store/profile-store';
 import type { TechStackType } from '@/types/profile.type';
-import { Checkbox } from './check-box';
 
 interface TechStackSelectProps {
   stack: TechStackType;

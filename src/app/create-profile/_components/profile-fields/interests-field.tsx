@@ -2,8 +2,8 @@ import { overlay } from 'overlay-kit';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from '@/components/commons/buttons/dropdown-button';
 import useProfileStore from '@/store/profile-store';
-import InterestSelectModal from './interests-modal/interest-select-modal';
-import InterestTags from './interests-modal/interest-tags';
+import InterestSelectModal from '../interests-modal/interest-select-modal';
+import InterestTags from '../interests-modal/interest-tags';
 
 /**
  * 관심 분야 선택 컴포넌트

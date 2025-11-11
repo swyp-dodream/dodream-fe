@@ -1,9 +1,15 @@
 import Link from 'next/link';
 import LinkIcon from '@/assets/icons/link/14.svg';
-import type { ProfileUrl } from '@/types/profile.type';
 
 interface ProfileLinksProps {
-  profileUrls: ProfileUrl[];
+  profileUrls: {
+    id: number;
+    profileId: number;
+    label: string;
+    url: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
 }
 
 /**

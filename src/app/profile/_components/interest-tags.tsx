@@ -1,8 +1,10 @@
-import type { InterestKeyword } from '@/types/profile.type';
-
 // TODO: props 타입 변경
 interface InterestTagsProps {
-  interests: InterestKeyword[];
+  interests: {
+    id: number;
+    categoryId: number;
+    name: string;
+  }[];
 }
 
 /**
