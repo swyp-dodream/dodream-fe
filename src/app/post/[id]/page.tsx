@@ -1,12 +1,17 @@
 import Button from '@/components/commons/buttons/button';
 import { MOCK_POST_DETAIL } from '@/mocks/posts';
 import { formatDeadlineAt, getRelativeTime } from '@/utils/date.util';
+import PostBookmarkButton from '../_components/post-bookmark-button';
+import PostLinkButton from '../_components/post-link-button';
 import RecruitInfo from '../_components/recruit-info';
 import RecruitStatus from '../_components/recruit-status';
 
 export default function PostDetailPage() {
+  // TODO: 하드코딩된 데이터 삭제
   const postData = MOCK_POST_DETAIL;
   const currentUserId = 2;
+  const isBookmarked = false;
+
   const isAuthor = postData.author.id === currentUserId;
   const isClosed = new Date(postData.summary.deadline) < new Date();
 
@@ -21,6 +26,12 @@ export default function PostDetailPage() {
           <time className="text-subtle" dateTime={postData.author.postedAt}>
             {getRelativeTime(postData.author.postedAt)}
           </time>
+          <div className="flex ml-auto gap-7">
+            {/* 북마크 버튼 */}
+            <PostBookmarkButton isBookmarked={isBookmarked} />
+            {/* 링크 복사 버튼 */}
+            <PostLinkButton />
+          </div>
         </div>
 
         {/* 제목 */}
