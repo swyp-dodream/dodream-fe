@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Dialog } from 'radix-ui';
+import { twMerge } from 'tailwind-merge';
 import CloseButton from './buttons/close-button';
 
 interface ModalProps {
@@ -75,14 +76,16 @@ Modal.Content = ({
 }: ModalContentProps) => {
   return (
     <Dialog.Content
-      className={clsx(
-        'fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface pt-9 pb-7 px-6 shadow-card rounded-md',
-        {
-          'w-modal-md': size === 'md',
-          'w-modal-lg': size === 'lg',
-          'w-modal-xl': size === 'xl',
-        },
-        className,
+      className={twMerge(
+        clsx(
+          'fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface pt-9 pb-7 px-6 shadow-card rounded-md',
+          {
+            'w-modal-md': size === 'md',
+            'w-modal-lg': size === 'lg',
+            'w-modal-xl': size === 'xl',
+          },
+        ),
+        className, // ✅ twMerge 안에서 나중에 전달 = 우선순위 높음
       )}
     >
       {children}
