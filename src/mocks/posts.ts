@@ -153,3 +153,98 @@ export const MOCK_POSTS: MockPost[] = Array.from(
     };
   },
 );
+
+// 게시글 상세 페이지 목데이터
+// TODO: 실제 데이터 변경 및 타입 추가
+export const MOCK_POST_DETAIL = {
+  id: 1,
+  author: {
+    id: 1,
+    profileImage: '/images/profile-default.png',
+    nickname: '닉네임',
+    postedAt: '2025-11-11T22:24:00',
+  },
+  title: '프론트엔드 개발자 모집 "모이라(Moira)" – 학생 팀플 협업 툴',
+  content: `여행 계획할 때 어떻게 하시나요? 지금의 여행 시장은 SNS에서 발견한 콘텐츠를 찾아 계획하는 것이 점유율 1등입니다. 그런데 내가 발견한 여행지 가려면 어떻게 하죠? 비행기, 숙소, 입장권, 맛집, 카페 등 내가 여행지에 가서 어떻게 시간을 구성할 지 "너무 여러 플랫폼"을 거치지 않나요? 저희는 여행 계획을 쉽게 하도록 여행 코스를 제공합니다. 그 안에서 개별 상품도 탐색 및 예약이 가능하도록 지향합니다. 일단 대화해보시죠. 몇장의 PPT보다 서로 사고과정을 나누는 대화가 더 중요합니다. 저는 꾸준히 이걸 성공시킬 생각입니다. 현재 웹 개발 출시 전 단계까지 개발 완료되었습니다. 대충 하지 않습니다. 연락 주세요.
+
+[아메바트립 서비스 상세 소개]
+SNS에서 발견한 매력적인 여행지를 바로 예약까지 연결하는 원스톱 여행 플랫폼입니다. SNS에서 마음에 든 여행지를 발견했지만, 실제로 여행을 계획할 때 많은 서비스들을 방문하여 예약하고, 정보를 찾았던 경험이 당연히 있으실 겁니다. 막상 도착해서도 "어? 여기서 어떻게 가지?" 하며 열심히 검색해 본 적도 있을 거예요. 그래서 아메바트립 팀은 여행을 쉽게 가고, 여행지에서는 편한 휴일을 즐길 수 있는 서비스를 키워나갈 생각입니다.
+
+문제점 1: 여러 플랫폼을 거쳐야 목적지 정보, 리뷰 탐색 가능
+문제점 2: 여러 플랫폼을 통해 예약한 후 목적지 순서를 구성해야 함
+
+아메바트립의 해결책 & 차별화 포인트: 미팅하면서 자세히 설명드릴게요!
+ex) 취향별 맞춤 코스 / 숏폼 영상 기반 여행지 소개 / 현장 실용 정보 상세페이지
+
+발언 → 기록 → 결정 → 일정까지 흐름 전체를 한 화면에서 완결 복잡한 기능보다, 학생 팀플에 꼭 맞는 단순하고 직관적인 UX 회의가 곧 결과물이 되는 협업 툴 React 기반 실시간 협업 인터페이스 구현 (WebSocket / WebRTC 연동) Canvas 기반 회의 보드, 실시간 메모/투표/결정 화면 개발 상태 동기화 및 CRDT 기반 프론트 데이터 일관성 처리 Tanstack Router 기반 라우팅, 상태관리 구조 설계 Figma 디자인 시안을 바탕으로 UX 개선 및 인터랙션 구현
+
+[우대사항]
+Fabric.js, Konva, Canvas API 등 실시간 그래픽 경험 WebRTC / WebSocket 기반 실시간 시스템 경험 TanStack Router / Query / Zustand / Jotai 등 상태관리 숙련자 협업툴, 생산성툴 UX에 관심 많은 분`,
+  summary: {
+    type: '프로젝트',
+    deadline: '2025-12-11T22:24:00',
+    activityMethod: '오프라인',
+    interests: ['사회', '엔터테인먼트'],
+    duration: '1개월',
+    techStacks: ['go', 'swift', 'figma', 'django', 'javascript', 'typescript'],
+  },
+  roles: [
+    {
+      name: '프론트엔드',
+      recruitCount: 3,
+      members: [
+        { id: 1, nickname: '프론트엔드1', profileUrl: '' },
+        { id: 2, nickname: '프론트엔드2', profileUrl: '' },
+        { id: 3, nickname: '프론트엔드3', profileUrl: '' },
+      ],
+    },
+    {
+      name: '백엔드',
+      recruitCount: 3,
+      members: [
+        { id: 4, nickname: '백엔드1', profileUrl: '' },
+        { id: 5, nickname: '백엔드2', profileUrl: '' },
+      ],
+    },
+    {
+      name: 'iOS',
+      recruitCount: 3,
+      members: [{ id: 7, nickname: 'iOS1', profileUrl: '' }],
+    },
+    {
+      name: '안드로이드',
+      recruitCount: 3,
+      members: [{ id: 10, nickname: '안드로이드1', profileUrl: '' }],
+    },
+    {
+      name: '디자이너',
+      recruitCount: 3,
+      members: [
+        { id: 13, nickname: '디자이너1', profileUrl: '' },
+        { id: 14, nickname: '디자이너2', profileUrl: '' },
+        { id: 15, nickname: '디자이너3', profileUrl: '' },
+      ],
+    },
+    {
+      name: 'PM',
+      recruitCount: 3,
+      members: [{ id: 16, nickname: 'PM1', profileUrl: '' }],
+    },
+    {
+      name: '기획자',
+      recruitCount: 3,
+      members: [
+        { id: 19, nickname: '기획자1', profileUrl: '' },
+        { id: 20, nickname: '기획자2', profileUrl: '' },
+      ],
+    },
+    {
+      name: '마케터',
+      recruitCount: 3,
+      members: [
+        { id: 22, nickname: '마케터1', profileUrl: '' },
+        { id: 23, nickname: '마케터2', profileUrl: '' },
+      ],
+    },
+  ],
+};
