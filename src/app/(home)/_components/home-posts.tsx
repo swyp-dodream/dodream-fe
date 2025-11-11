@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Tabs } from '@/components/commons/tabs';
+import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import { HOME_POSTS } from '@/mocks/home';
 import type { MockPost } from '@/mocks/posts';
-import DefaultPostCard from '../post/post-card/presets/default-post-card';
 
 // TODO: 타입 분리
 export const TAB_VALUE = {

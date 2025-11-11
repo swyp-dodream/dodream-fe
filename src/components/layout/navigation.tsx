@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
+import LoginModal from '@/app/auth/_components/login-modal';
 import BellIcon from '@/assets/icons/bell/20.svg';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
 import Button from '../commons/buttons/button';
-import LoginModal from '../features/auth/login-modal';
 
 /**
  * 헤더의 네비게이션

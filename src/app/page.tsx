@@ -1,6 +1,6 @@
-import Banner from '@/components/features/home/banner';
-import HomePosts from '@/components/features/home/home-posts';
-import RecommendedPosts from '@/components/features/home/recommended-posts';
+import Banner from '@/app/(home)/_components/banner';
+import RecommendedPosts from '@/app/(home)/_components/recommended-posts';
+import HomePosts from './(home)/_components/home-posts';
 
 export default function Home() {
   return (
