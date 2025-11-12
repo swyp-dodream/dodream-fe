@@ -94,6 +94,7 @@ export const profileFormSchema = z.object({
   role: roleSchema,
   experience: experienceSchema,
   activityMode: activityModeSchema,
+  techStacks: z.any(), // 검증 X
   interests: interestsSchema,
   links: linksSchema,
   intro: introSchema,

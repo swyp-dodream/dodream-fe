@@ -34,6 +34,7 @@ export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
 
+  const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
   const interests = useProfileStore((state) => state.interests); // 관심 분야
   const [links, setLinks] = useState<LinkItemType[]>([
     { id: ulid(), value: '' },
@@ -76,10 +77,11 @@ export default function ProfileContent() {
    */
   const handleNextStep = async () => {
     // 관심 분야, 링크 폼에 설정
+    setValue('techStacks', techStacks);
     setValue('interests', interests);
     setValue('links', links);
 
-    // 모든 필드 한 번에 검증
+    // 1페이지 필드 검증
     const isValid = await trigger(
       [
         'nickname',
@@ -119,14 +121,15 @@ export default function ProfileContent() {
    * @param data - 프로필 폼 데이터
    */
   const handleProfileSubmit = async (data: ProfileFormData) => {
+    // 2페이지 필드 검증
     const isValid = await trigger(['intro'], { shouldFocus: true });
 
     if (!isValid) {
       return;
     }
 
-    console.log(data);
-    // 제출 처리
+    // TODO: userApi 완성 후 제출 처리
+    alert(JSON.stringify(data, null, 2));
   };
 
   return (
