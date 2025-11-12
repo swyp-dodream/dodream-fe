@@ -79,7 +79,7 @@ export default function LinkField({ links, onLinksChange }: LinkFieldProps) {
         {links.map((link) => (
           <ClearableInput
             key={link.id}
-            id={`url-field-${link.id}`}
+            id={link.id}
             placeholder="URL 입력"
             className="w-[282px]"
             value={link.value}

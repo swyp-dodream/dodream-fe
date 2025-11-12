@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ulid } from 'ulid';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
@@ -36,9 +35,7 @@ export default function ProfileContent() {
 
   const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
   const interests = useProfileStore((state) => state.interests); // 관심 분야
-  const [links, setLinks] = useState<LinkItemType[]>([
-    { id: ulid(), value: '' },
-  ]); // 링크
+  const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
   // React Hook Form 설정
   const {
