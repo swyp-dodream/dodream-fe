@@ -14,8 +14,8 @@ export default function TechStacksField() {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex justify-between items-center">
-        <span className="body-lg-medium flex gap-2">
+      <div className="flex justify-between">
+        <span className="body-lg-medium flex gap-2 py-3">
           기술 스택 <span className="text-subtle">(선택)</span>
         </span>
         <DropdownButton

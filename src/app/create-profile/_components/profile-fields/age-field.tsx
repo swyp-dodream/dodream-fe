@@ -23,7 +23,7 @@ const AgeField = forwardRef<HTMLButtonElement, AgeFieldProps>(
 
     return (
       <div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between">
           <span className="body-lg-medium py-3">연령대</span>
           <div className="flex flex-col">
             <Dropdown

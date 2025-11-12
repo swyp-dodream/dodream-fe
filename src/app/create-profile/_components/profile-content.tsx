@@ -1,13 +1,14 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ulid } from 'ulid';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
+import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
   AgeRangeType,
@@ -30,10 +31,10 @@ export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
 
+  const interests = useProfileStore((state) => state.interests);
   const [links, setLinks] = useState<LinkItemType[]>([
     { id: ulid(), value: '' },
   ]);
-  // const interests = useProfileStore((state) => state.interests);
 
   // React Hook Form 설정
   const {
@@ -60,6 +61,11 @@ export default function ProfileContent() {
     },
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 관심분야 변경시에 에러 제거
+  useEffect(() => {
+    clearErrors('interests');
+  }, [interests, clearErrors]);
+
   /**
    * 다음 페이지 이동 핸들러
    */
@@ -71,6 +77,13 @@ export default function ProfileContent() {
     );
 
     if (!isValid) {
+      return;
+    }
+
+    setValue('interests', interests);
+    const interestsValid = await trigger(['interests']);
+
+    if (!interestsValid) {
       return;
     }
 
@@ -180,7 +193,7 @@ export default function ProfileContent() {
             <TechStacksField />
 
             {/* 관심 분야 선택 */}
-            <InterestsField />
+            <InterestsField error={errors.interests?.message} />
 
             {/* 링크 선택 */}
             <LinkField links={links} onLinksChange={setLinks} />

@@ -20,8 +20,8 @@ const ExperienceField = forwardRef<HTMLButtonElement, ExperienceFieldProps>(
     const displayLabel = value ? EXPERIENCE[value] : '경력 선택';
 
     return (
-      <div className="flex justify-between items-center">
-        <span className="body-lg-medium">경력</span>
+      <div className="flex justify-between">
+        <span className="body-lg-medium py-3">경력</span>
         <div className="flex flex-col">
           <Dropdown
             ref={ref}

@@ -20,8 +20,8 @@ const GenderField = forwardRef<HTMLButtonElement, GenderFieldProps>(
     const displayLabel = value ? GENDER[value] : '성별 선택';
 
     return (
-      <div className="flex justify-between items-center">
-        <span className="body-lg-medium">성별</span>
+      <div className="flex justify-between">
+        <span className="body-lg-medium py-3">성별</span>
         <div className="flex flex-col">
           <Dropdown
             ref={ref}

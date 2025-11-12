@@ -23,8 +23,8 @@ const ActivityModeField = forwardRef<HTMLButtonElement, ActivityModeFieldProps>(
     const displayLabel = value ? ACTIVITY_MODE[value] : '선호 방식 선택';
 
     return (
-      <div className="flex justify-between items-center">
-        <span className="body-lg-medium">선호 방식</span>
+      <div className="flex justify-between">
+        <span className="body-lg-medium py-3">선호 방식</span>
         <div className="flex flex-col">
           <Dropdown
             ref={ref}

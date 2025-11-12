@@ -20,8 +20,8 @@ const RoleField = forwardRef<HTMLButtonElement, RoleFieldProps>(
     const displayLabel = value ? ROLE[value] : '직군 선택';
 
     return (
-      <div className="flex justify-between items-center">
-        <span className="body-lg-medium">직군</span>
+      <div className="flex justify-between">
+        <span className="body-lg-medium py-3">직군</span>
         <div className="flex flex-col">
           <Dropdown
             ref={ref}

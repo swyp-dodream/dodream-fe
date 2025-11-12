@@ -54,6 +54,11 @@ export const activityModeSchema = z
     message: '필수 선택 항목입니다',
   });
 
+/** 관심 분야 스키마 */
+export const interestsSchema = z
+  .array(z.string())
+  .min(1, '필수 선택 항목입니다');
+
 /** 전체 프로필 스키마 */
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
@@ -62,6 +67,7 @@ export const profileFormSchema = z.object({
   role: roleSchema,
   experience: experienceSchema,
   activityMode: activityModeSchema,
+  interests: interestsSchema,
 });
 
 /** 프로필 폼 데이터 타입 */
