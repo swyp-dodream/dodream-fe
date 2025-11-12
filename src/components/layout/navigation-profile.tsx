@@ -3,6 +3,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Image from 'next/image';
 import Link from 'next/link';
+import userApi from '@/apis/user.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
 import useGetUser from '@/hooks/auth/use-get-user';
 
@@ -10,6 +11,10 @@ export default function NavigationProfile() {
   const { data: user } = useGetUser();
 
   if (!user) return null;
+
+  const handleLogout = async () => {
+    await userApi.logout();
+  };
 
   return (
     <DropdownMenu.Root>
@@ -59,19 +64,30 @@ export default function NavigationProfile() {
           {/* 메뉴 네비게이션 */}
           <nav aria-label="마이페이지 메뉴">
             <ul className="flex flex-col gap-3">
-              {MYPAGE_MENU_LIST.map(({ label, href, icon }) => {
+              {MYPAGE_MENU_LIST.map(({ label, href, icon, type }) => {
                 const Icon = icon.small;
 
                 return (
-                  <li key={href}>
+                  <li key={label}>
                     <DropdownMenu.Item asChild>
-                      <Link
-                        className="flex items-center body-md-medium gap-4 p-2 outline-none"
-                        href={href}
-                      >
-                        <Icon aria-hidden className="text-white" />
-                        <span className="text-white">{label}</span>
-                      </Link>
+                      {type === 'button' ? (
+                        <button
+                          type="button"
+                          className="flex items-center body-md-medium gap-4 p-2 outline-none w-full text-left"
+                          onClick={handleLogout}
+                        >
+                          <Icon aria-hidden className="text-white" />
+                          <span className="text-white">{label}</span>
+                        </button>
+                      ) : (
+                        <Link
+                          className="flex items-center body-md-medium gap-4 p-2 outline-none"
+                          href={href}
+                        >
+                          <Icon aria-hidden className="text-white" />
+                          <span className="text-white">{label}</span>
+                        </Link>
+                      )}
                     </DropdownMenu.Item>
                   </li>
                 );

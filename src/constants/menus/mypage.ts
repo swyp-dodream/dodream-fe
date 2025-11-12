@@ -18,6 +18,8 @@ export type MyPageMenu = {
     small: ComponentType<SVGProps<SVGSVGElement>>;
     default: ComponentType<SVGProps<SVGSVGElement>>;
   };
+  type?: 'link' | 'button';
+  onClick?: () => void;
 };
 
 export const MYPAGE_MENU_LIST = [
@@ -28,6 +30,7 @@ export const MYPAGE_MENU_LIST = [
       small: BookmarkIcon16,
       default: BookmarkIcon20,
     },
+    type: 'link',
   },
   {
     label: '내가 쓴 글',
@@ -36,6 +39,7 @@ export const MYPAGE_MENU_LIST = [
       small: FileTextIcon16,
       default: FileTextIcon20,
     },
+    type: 'link',
   },
   {
     label: '참여 내역',
@@ -44,6 +48,7 @@ export const MYPAGE_MENU_LIST = [
       small: ParticipationsIcon16,
       default: ParticipationsIcon20,
     },
+    type: 'link',
   },
   {
     label: '계정 설정',
@@ -52,13 +57,15 @@ export const MYPAGE_MENU_LIST = [
       small: UserIcon16,
       default: UserIcon20,
     },
+    type: 'link',
   },
   {
     label: '로그아웃',
-    href: '/logout',
+    href: '#',
     icon: {
       small: LogOutIcon16,
       default: LogOutIcon20,
     },
+    type: 'button',
   },
 ] as const satisfies ReadonlyArray<MyPageMenu>;

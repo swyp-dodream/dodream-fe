@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import profileApi from '@/apis/auth.api';
+import userApi from '@/apis/user.api';
 import { tokenStorage } from '@/utils/auth.util';
 
 interface AuthCallBackClientProps {
@@ -34,7 +34,7 @@ export default function AuthCallBackClient({
     const verifyLogin = async () => {
       try {
         // TODO: 새로운 유저인지 조회
-        const { exists } = await profileApi.getProfileExists();
+        const { exists } = await userApi.getProfileExists();
         router.replace(`${exists ? '/' : '/create-profile'}`);
       } catch (err) {
         console.error(err);
