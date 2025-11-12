@@ -10,7 +10,7 @@ interface AgeFieldProps {
 }
 
 /**
- * 연령대 선택 컴포넌트 (React Hook Form 연동)
+ * 연령대 선택 컴포넌트
  * @param value - 현재 선택된 연령대
  * @param onChange - 연령대 변경 핸들러
  * @param error - 검증 에러 메시지

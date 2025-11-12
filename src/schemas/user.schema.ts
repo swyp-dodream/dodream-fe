@@ -16,7 +16,38 @@ export const nicknameSchema = z
 
 /** 나이 스키마 */
 export const ageSchema = z
-  // .enum(ageRangeKeys)
+  .string()
+  .nullable()
+  .refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  });
+
+/** 성별 스키마 */
+export const genderSchema = z
+  .string()
+  .nullable()
+  .refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  });
+
+/** 직군 스키마 */
+export const roleSchema = z
+  .string()
+  .nullable()
+  .refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  });
+
+/** 경력 스키마 */
+export const experienceSchema = z
+  .string()
+  .nullable()
+  .refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  });
+
+/** 선호 방식 스키마 */
+export const activityModeSchema = z
   .string()
   .nullable()
   .refine((val) => val !== null, {
@@ -27,6 +58,10 @@ export const ageSchema = z
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
   age: ageSchema,
+  gender: genderSchema,
+  role: roleSchema,
+  experience: experienceSchema,
+  activityMode: activityModeSchema,
 });
 
 /** 프로필 폼 데이터 타입 */

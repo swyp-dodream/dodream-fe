@@ -30,13 +30,6 @@ export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
 
-  // 필드 상태
-  const [gender, setGender] = useState<GenderType | null>(null);
-  const [role, setRole] = useState<RoleType | null>(null);
-  const [experience, setExperience] = useState<ExperienceType | null>(null);
-  const [activityMode, setActivityMode] = useState<ActivityModeType | null>(
-    null,
-  );
   const [links, setLinks] = useState<LinkItemType[]>([
     { id: ulid(), value: '' },
   ]);
@@ -56,9 +49,14 @@ export default function ProfileContent() {
     resolver: zodResolver(profileFormSchema),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
+    // 디폴트 값
     defaultValues: {
       nickname: '',
       age: null,
+      gender: null,
+      role: null,
+      experience: null,
+      activityMode: null,
     },
   });
 
@@ -67,7 +65,10 @@ export default function ProfileContent() {
    */
   const handleNextStep = async () => {
     // 1페이지 필드들만 검증
-    const isValid = await trigger(['nickname', 'age'], { shouldFocus: true });
+    const isValid = await trigger(
+      ['nickname', 'age', 'gender', 'role', 'experience', 'activityMode'],
+      { shouldFocus: true },
+    );
 
     if (!isValid) {
       return;
@@ -132,21 +133,47 @@ export default function ProfileContent() {
             />
 
             {/* 성별 선택 */}
-            <GenderField gender={gender} setGender={setGender} />
+            <GenderField
+              ref={register('gender').ref}
+              value={watch('gender') as GenderType | null}
+              onChange={(value: string) => {
+                setValue('gender', value);
+                clearErrors('gender');
+              }}
+              error={errors.gender?.message}
+            />
 
             {/* 직군 선택 */}
-            <RoleField role={role} setRole={setRole} />
+            <RoleField
+              ref={register('role').ref}
+              value={watch('role') as RoleType | null}
+              onChange={(value: string) => {
+                setValue('role', value);
+                clearErrors('role');
+              }}
+              error={errors.role?.message}
+            />
 
             {/* 경력 선택 */}
             <ExperienceField
-              experience={experience}
-              setExperience={setExperience}
+              ref={register('experience').ref}
+              value={watch('experience') as ExperienceType | null}
+              onChange={(value: string) => {
+                setValue('experience', value);
+                clearErrors('experience');
+              }}
+              error={errors.experience?.message}
             />
 
             {/* 선호 방식 선택 */}
             <ActivityModeField
-              activityMode={activityMode}
-              setActivityMode={setActivityMode}
+              ref={register('activityMode').ref}
+              value={watch('activityMode') as ActivityModeType | null}
+              onChange={(value: string) => {
+                setValue('activityMode', value);
+                clearErrors('activityMode');
+              }}
+              error={errors.activityMode?.message}
             />
 
             {/* 기술 스택 선택 */}

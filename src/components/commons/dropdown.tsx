@@ -12,7 +12,7 @@ interface DropdownItem {
 interface DropdownProps {
   items: DropdownItem[];
   label: string;
-  isError: boolean;
+  isError?: boolean;
   className?: string;
 }
 
