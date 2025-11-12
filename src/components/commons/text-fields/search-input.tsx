@@ -4,7 +4,7 @@ import SearchIcon from '@/assets/icons/search/14.svg';
 import Input from '@/components/commons/text-fields/input';
 
 interface SearchInputProps extends ComponentProps<typeof Input> {
-  onSearch: () => void;
+  onSearch?: () => void;
   buttonType?: 'button' | 'reset' | 'submit';
   className?: string;
 }
@@ -26,7 +26,7 @@ export default function SearchInput({
       <Input className={clsx('pl-[34px]', className)} {...props} />
       <button
         type={buttonType}
-        onClick={onSearch}
+        onClick={() => onSearch?.()}
         className="absolute left-3.5 top-1/2 -translate-y-1/2"
         aria-label="검색하기"
       >
