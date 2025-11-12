@@ -59,6 +59,30 @@ export const interestsSchema = z
   .array(z.string())
   .min(1, '필수 선택 항목입니다');
 
+/** 링크 스키마 */
+const linkSchema = z.object({
+  id: z.string(),
+  value: z.string(),
+  error: z.string().optional(),
+});
+
+const URL_PATTERN =
+  /^(https?:\/\/)?([\da-z\u00a1-\uffff.-]+)\.([a-z.]{2,6})([/\w\u00a1-\uffff .-]*)*\/?$/i;
+
+export const linksSchema = z.array(linkSchema).refine(
+  (links) => {
+    if (links.some((link) => link.error)) {
+      return false;
+    }
+
+    return links.every((link) => {
+      if (!link.value) return true;
+      return URL_PATTERN.test(link.value);
+    });
+  },
+  { message: '유효한 URL을 입력해 주세요' },
+);
+
 /** 전체 프로필 스키마 */
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
@@ -68,6 +92,7 @@ export const profileFormSchema = z.object({
   experience: experienceSchema,
   activityMode: activityModeSchema,
   interests: interestsSchema,
+  links: linksSchema,
 });
 
 /** 프로필 폼 데이터 타입 */

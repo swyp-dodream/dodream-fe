@@ -70,20 +70,26 @@ export default function ProfileContent() {
    * 다음 페이지 이동 핸들러
    */
   const handleNextStep = async () => {
-    // 1페이지 필드들만 검증
+    // 관심 분야, 링크 폼에 설정
+    setValue('interests', interests);
+    setValue('links', links);
+
+    // 모든 필드 한 번에 검증
     const isValid = await trigger(
-      ['nickname', 'age', 'gender', 'role', 'experience', 'activityMode'],
+      [
+        'nickname',
+        'age',
+        'gender',
+        'role',
+        'experience',
+        'activityMode',
+        'interests',
+        'links',
+      ],
       { shouldFocus: true },
     );
 
     if (!isValid) {
-      return;
-    }
-
-    setValue('interests', interests);
-    const interestsValid = await trigger(['interests']);
-
-    if (!interestsValid) {
       return;
     }
 
@@ -95,6 +101,7 @@ export default function ProfileContent() {
 
     // if (response.available) {
     //   setError('nickname', { message: '중복된 닉네임입니다' });
+    //   setFocus('nickname');
     //   return;
     // }
 
@@ -211,8 +218,8 @@ export default function ProfileContent() {
       <div className="flex justify-between mt-20">
         {/* 진행률 */}
         <div className="flex gap-4 items-center">
-          <ProgressBar value={50} />
-          <span className="body-sm-regular">1/2</span>
+          <ProgressBar value={step} max={2} />
+          <span className="body-sm-regular">{step}/2</span>
         </div>
 
         {/* 다음 버튼 */}
@@ -228,9 +235,19 @@ export default function ProfileContent() {
               다음
             </Button>
           ) : (
-            <Button type="submit" variant="solid" size="sm">
-              저장
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setStep(1)}
+              >
+                이전
+              </Button>
+              <Button type="submit" variant="solid" size="sm">
+                저장
+              </Button>
+            </div>
           )}
         </div>
       </div>
