@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { DropdownMenu } from 'radix-ui';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
+import DropdownButton from './buttons/dropdown-button';
 
 interface DropdownItem {
   label: string;
@@ -16,8 +17,10 @@ interface DropdownProps {
 /**
  * 드롭다운 컴포넌트
  * @param items - 드롭다운 아이템
+ * @param label - 드롭다운 라벨 (텍스트 기본값)
  * @example
  * <Dropdown
+ *   label="메뉴 선택"
  *   items={[
  *     { label: '프로필', onSelect: () => console.log('프로필') },
  *     { label: '설정', onSelect: () => console.log('설정') },
@@ -29,13 +32,9 @@ export default function Dropdown({ items, label, className }: DropdownProps) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button
-          type="button"
-          className="py-3 px-4 body-lg-medium bg-container-primary rounded-md flex items-center justify-between w-[180px] outline-none group"
-        >
-          {label}
+        <DropdownButton label={label}>
           <ArrowIcon className="text-icon-light group-data-[state=open]:rotate-180" />
-        </button>
+        </DropdownButton>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>

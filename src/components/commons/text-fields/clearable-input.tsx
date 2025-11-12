@@ -22,7 +22,7 @@ export default function ClearableInput({
       <button
         type="button"
         onClick={onClear}
-        className="absolute right-3.5 top-1/2 -translate-y-1/2"
+        className="absolute right-3.5 top-3.5"
         aria-label="삭제하기"
       >
         <XIcon className="text-icon-light" aria-hidden="true" />
