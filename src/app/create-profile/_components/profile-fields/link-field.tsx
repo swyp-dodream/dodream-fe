@@ -1,21 +1,13 @@
+import { ulid } from 'ulid';
 import Button from '@/components/commons/buttons/button';
 import ClearableInput from '@/components/commons/text-fields/clearable-input';
+import type { LinkItemType } from '@/types/profile.type';
 
 const MAX_LINKS = 3;
 
 type LinkFieldProps = {
-  links: {
-    id: number;
-    value: string;
-    error?: string;
-  }[];
-  onLinksChange: (
-    links: {
-      id: number;
-      value: string;
-      error?: string;
-    }[],
-  ) => void;
+  links: LinkItemType[];
+  onLinksChange: (links: LinkItemType[]) => void;
 };
 
 /**
@@ -29,7 +21,7 @@ export default function LinkField({ links, onLinksChange }: LinkFieldProps) {
    */
   const handleAdd = () => {
     if (links.length < MAX_LINKS) {
-      onLinksChange([...links, { id: Date.now(), value: '' }]);
+      onLinksChange([...links, { id: ulid(), value: '' }]);
     }
   };
 
@@ -57,7 +49,7 @@ export default function LinkField({ links, onLinksChange }: LinkFieldProps) {
    * @param id - 입력 필드 ID
    * @param value - 입력 필드에 들어갈 값
    */
-  const handleChange = (id: number, value: string) => {
+  const handleChange = (id: string, value: string) => {
     const error = validateUrl(value);
     onLinksChange(
       links.map((link) => (link.id === id ? { ...link, value, error } : link)),
@@ -68,7 +60,7 @@ export default function LinkField({ links, onLinksChange }: LinkFieldProps) {
    * input 삭제 버튼 클릭 핸들러
    * @param id - 입력 필드 ID
    */
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: string) => {
     if (links.length === 1) {
       // 1개일 때: 내용만 지우기
       onLinksChange([{ id: links[0].id, value: '' }]);

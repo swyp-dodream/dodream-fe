@@ -89,6 +89,15 @@ export type InterestsType =
   | 'art-performance';
 
 /**
+ * 링크 상태 타입
+ */
+export type LinkItemType = {
+  id: string;
+  value: string;
+  error?: string;
+};
+
+/**
  * 프로필 타입
  * TODO: 실제 타입으로 변경
  */

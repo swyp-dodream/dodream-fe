@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ulid } from 'ulid';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
@@ -10,6 +11,7 @@ import type {
   AgeRangeType,
   ExperienceType,
   GenderType,
+  LinkItemType,
   RoleType,
 } from '@/types/profile.type';
 import ActivityModeField from './profile-fields/activity-mode-field';
@@ -35,9 +37,9 @@ export default function ProfileContent() {
   const [activityMode, setActivityMode] = useState<ActivityModeType | null>(
     null,
   );
-  const [links, setLinks] = useState<
-    { id: number; value: string; error?: string }[]
-  >([{ id: 1, value: '' }]);
+  const [links, setLinks] = useState<LinkItemType[]>([
+    { id: ulid(), value: '' },
+  ]);
 
   // 관심 분야
   const interests = useProfileStore((state) => state.interests);
