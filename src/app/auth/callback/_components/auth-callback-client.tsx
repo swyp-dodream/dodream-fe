@@ -33,7 +33,6 @@ export default function AuthCallBackClient({
 
     const verifyLogin = async () => {
       try {
-        // TODO: 새로운 유저인지 조회
         const { exists } = await userApi.getProfileExists();
         router.replace(`${exists ? '/' : '/create-profile'}`);
       } catch (err) {

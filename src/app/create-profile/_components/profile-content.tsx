@@ -5,6 +5,7 @@ import { ulid } from 'ulid';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
+import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
@@ -27,6 +28,9 @@ import NicknameField from './profile-fields/user-info/nickname-field';
 export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
+
+  // 생성하지 않고 벗어나면 로그아웃 처리
+  const { preventLogout } = useLogoutOnLeave();
 
   // 필드 상태
   const [nickname, setNickname] = useState('');
