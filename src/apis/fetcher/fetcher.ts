@@ -16,6 +16,24 @@ async function fetcher<T>(
       ...options,
     });
 
+    const contentType = res.headers.get('content-type');
+
+    // JSON이 아닌 응답 체크
+    if (!contentType?.includes('application/json') && res.status !== 204) {
+      console.error('Non-JSON response:', {
+        status: res.status,
+        contentType,
+        url,
+      });
+
+      // HTML 응답은 인증 에러로 간주
+      if (contentType?.includes('text/html')) {
+        throw new Error('401');
+      }
+
+      throw new Error(`Unexpected response type: ${contentType}`);
+    }
+
     if (!res.ok) {
       const errorText = await res.text();
       console.error('Error response:', errorText);

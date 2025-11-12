@@ -9,10 +9,10 @@ const userApi = {
   getUser: () => authApi.get<UserType>('/api/auth/me'),
 
   /** 로그아웃 */
-  logout: () => {
+  logout: async () => {
     tokenStorage.clearAll();
     queryClient.removeQueries({ queryKey: [QUERY_KEY.user] });
-    authApi.post('api/auth/logout');
+    await authApi.post('api/auth/logout');
   },
 
   /** 유저 프로필 존재 여부 */
