@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import BookmarkIcon from '@/assets/icons/bookmark/20.svg';
+import TechCategories from '@/components/commons/tech-categories';
 import PostCardProjectType from '@/components/features/post/post-card/post-card-project-type';
 import PostCardRoles from '@/components/features/post/post-card/post-card-roles';
 import PostCardStatus from '@/components/features/post/post-card/post-card-status';
-import PostCardTechCategories from '@/components/features/post/post-card/post-card-tech-categories';
 import PostCardViews from '@/components/features/post/post-card/post-card-views';
 
 /**
@@ -145,7 +145,7 @@ export const PostCard = Object.assign(Root, {
   Header,
   Main,
   Title,
-  TechCategories: PostCardTechCategories,
+  TechCategories: TechCategories,
   Roles: PostCardRoles,
   Footer,
   Actions,

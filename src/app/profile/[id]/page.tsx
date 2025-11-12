@@ -4,7 +4,7 @@ import InterestTags from '@/app/profile/_components/interest-tags';
 import ProfileLinks from '@/app/profile/_components/profile-link';
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
-import PostCardTechCategories from '@/components/features/post/post-card/post-card-tech-categories';
+import TechCategories from '@/components/commons/tech-categories';
 import { PROFILE } from '@/mocks/profiles';
 import type { Profile } from '@/types/profile.type';
 
@@ -77,7 +77,7 @@ export default function ProfilePage() {
         <section className="flex flex-col gap-4">
           <h3 className="heading-sm">기술 스택</h3>
           {/* TODO: techCategories 수정 시 map 제거 */}
-          <PostCardTechCategories
+          <TechCategories
             techCategories={profile.techSkills.map((tech) => tech.name)}
           />
         </section>

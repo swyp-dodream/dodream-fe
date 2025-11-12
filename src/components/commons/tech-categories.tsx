@@ -2,13 +2,13 @@ import Image from 'next/image';
 
 const MAX_STACKS = 5;
 
-interface PostCardTechCategoriesProps {
+interface TechCategoriesProps {
   techCategories: string[];
 }
 
-export default function PostCardTechCategories({
+export default function TechCategories({
   techCategories,
-}: PostCardTechCategoriesProps) {
+}: TechCategoriesProps) {
   const renderingTechCategories = techCategories.slice(0, MAX_STACKS);
   const restCount = techCategories.length - MAX_STACKS;
 
