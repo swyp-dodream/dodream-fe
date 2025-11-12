@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import type { ComponentProps } from 'react';
+import { type ComponentProps, forwardRef } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
@@ -22,33 +22,33 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
  *   placeholder="이메일"
  * />
  */
-export default function Input({
-  className,
-  isError = false,
-  variant = 'light',
-  ...props
-}: InputProps) {
-  return (
-    <input
-      className={clsx(
-        'py-3 px-4 rounded-md outline-none',
-        {
-          'border-border-primary': !isError,
-          'border-border-error': isError,
-        },
-        {
-          'placeholder:text-gray-400 border bg-surface body-lg-medium':
-            variant === 'light',
-          'placeholder:text-subtle bg-primary body-md-regular':
-            variant === 'dark',
-        },
-        className,
-      )}
-      {...props}
-      aria-invalid={isError}
-    />
-  );
-}
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, isError = false, variant = 'light', ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        className={clsx(
+          'py-3 px-4 rounded-md outline-none',
+          {
+            'border-border-primary': !isError,
+            'border-border-error': isError,
+          },
+          {
+            'placeholder:text-gray-400 border bg-surface body-lg-medium':
+              variant === 'light',
+            'placeholder:text-subtle bg-primary body-md-regular':
+              variant === 'dark',
+          },
+          className,
+        )}
+        {...props}
+        aria-invalid={isError}
+      />
+    );
+  },
+);
+
+Input.displayName = 'Input';
 
 interface FormInputProps extends ComponentProps<typeof Input> {
   id: string;
@@ -61,26 +61,28 @@ interface FormInputProps extends ComponentProps<typeof Input> {
  * @param errorMessage - 에러 메시지
  * @param children - input과 에러 메시지 사이에 넣을 요소
  */
-export function FormInput({
-  children,
-  errorMessage,
-  id,
-  ...props
-}: FormInputProps) {
-  return (
-    <div className="flex flex-col gap-2">
-      <Input
-        id={id}
-        isError={!!errorMessage}
-        aria-describedby={errorMessage ? `${id}-error` : undefined}
-        {...props}
-      />
-      {children}
-      {errorMessage && (
-        <p id={`${id}-error`} className="body-sm-medium text-error">
-          {errorMessage}
-        </p>
-      )}
-    </div>
-  );
-}
+export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
+  ({ children, errorMessage, id, ...props }, ref) => {
+    return (
+      <div className="flex flex-col gap-2">
+        <Input
+          id={id}
+          ref={ref}
+          isError={!!errorMessage}
+          aria-describedby={errorMessage ? `${id}-error` : undefined}
+          {...props}
+        />
+        {children}
+        {errorMessage && (
+          <p id={`${id}-error`} className="body-sm-medium text-error">
+            {errorMessage}
+          </p>
+        )}
+      </div>
+    );
+  },
+);
+
+FormInput.displayName = 'FormInput';
+
+export default Input;

@@ -1,11 +1,14 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { ulid } from 'ulid';
+import api from '@/apis/api';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
-import useProfileStore from '@/store/profile-store';
+import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
 import type {
   ActivityModeType,
   AgeRangeType,
@@ -29,7 +32,6 @@ export default function ProfileContent() {
   const [step, setStep] = useState(1);
 
   // 필드 상태
-  const [nickname, setNickname] = useState('');
   const [age, setAge] = useState<AgeRangeType | null>(null);
   const [gender, setGender] = useState<GenderType | null>(null);
   const [role, setRole] = useState<RoleType | null>(null);
@@ -40,26 +42,67 @@ export default function ProfileContent() {
   const [links, setLinks] = useState<LinkItemType[]>([
     { id: ulid(), value: '' },
   ]);
+  // const interests = useProfileStore((state) => state.interests);
 
-  // 관심 분야
-  const interests = useProfileStore((state) => state.interests);
+  // React Hook Form 설정
+  const {
+    register,
+    handleSubmit,
+    watch,
+    trigger,
+    formState: { errors },
+    setError,
+    clearErrors,
+    setFocus,
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileFormSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      nickname: '',
+    },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  /**
+   * 다음 페이지 이동 핸들러
+   */
+  const handleNextStep = async () => {
+    // 1페이지 필드들만 검증
+    const isValid = await trigger(['nickname']);
+
+    if (!isValid) {
+      setFocus('nickname');
+      return;
+    }
+
+    // 닉네임 중복 체크
+    // TODO: 함수 객체로 이동
+    const response = await api.get<{ available: boolean; nickname: string }>(
+      `/api/profiles/check-nickname?${watch('nickname')}`,
+    );
+
+    if (response.available) {
+      setError('nickname', { message: '중복된 닉네임입니다' });
+      return;
+    }
+
+    // 다음 페이지로 이동
+    setStep(2);
   };
 
-  // 모든 필드가 입력되었는지 여부
-  const isAnyFormEmpty =
-    nickname === '' ||
-    age === null ||
-    gender === null ||
-    role === null ||
-    experience === null ||
-    activityMode === null ||
-    interests.length === 0;
+  /**
+   * 프로필 생성 제출 핸들러
+   * @param data - 프로필 폼 데이터
+   */
+  const handleProfileSubmit = (data: ProfileFormData) => {
+    console.log(data);
+  };
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-8"
+      onSubmit={handleSubmit(handleProfileSubmit)}
+    >
       {/* 기본 정보 필드 */}
       {step === 1 && (
         <fieldset>
@@ -69,7 +112,13 @@ export default function ProfileContent() {
           <div className="flex gap-8 py-8">
             {/* TODO: 이미지 컴포넌트 분리 및 수정 */}
             <div className="w-[120px] h-[120px] bg-primary rounded-full" />
-            <NicknameField nickname={nickname} setNickname={setNickname} />
+            <NicknameField
+              value={watch('nickname')}
+              {...register('nickname', {
+                onChange: () => clearErrors('nickname'),
+              })}
+              error={errors.nickname?.message}
+            />
           </div>
 
           <div className="flex flex-col gap-8">
@@ -128,8 +177,7 @@ export default function ProfileContent() {
               type="button"
               variant="solid"
               size="sm"
-              disabled={isAnyFormEmpty}
-              onClick={() => setStep(2)}
+              onClick={handleNextStep}
             >
               다음
             </Button>
