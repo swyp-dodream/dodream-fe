@@ -22,10 +22,10 @@ export default function InterestTags({
 }: InterestTagsProps) {
   return (
     <ul className="flex gap-4">
-      {interests.map((interest) => (
+      {interests.map((interest, index) => (
         <InterestTag
           key={interest}
-          index={interests.indexOf(interest) + 1}
+          index={index + 1}
           variant={variant}
           interest={interest}
           onRemove={() => removeInterest(interest)}

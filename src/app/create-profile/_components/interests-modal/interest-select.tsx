@@ -25,7 +25,7 @@ export default function InterestSelect({ interest }: InterestSelectProps) {
       >
         {/* 체크박스 */}
         <Checkbox
-          name="skills"
+          name="interests"
           id={interest}
           checked={draftInterests.includes(interest)}
           onChange={() => toggleDraftInterests(interest)}
