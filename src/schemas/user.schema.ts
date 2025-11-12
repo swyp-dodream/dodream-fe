@@ -14,9 +14,20 @@ export const nicknameSchema = z
   .max(10, ' ')
   .regex(NICKNAME_REGEX, ' ');
 
-/** 프로필 스키마 */
+/** 나이 스키마 */
+export const ageSchema = z
+  // .enum(ageRangeKeys)
+  .string()
+  .nullable()
+  .refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  });
+
+/** 전체 프로필 스키마 */
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
+  age: ageSchema,
 });
 
+/** 프로필 폼 데이터 타입 */
 export type ProfileFormData = z.infer<typeof profileFormSchema>;

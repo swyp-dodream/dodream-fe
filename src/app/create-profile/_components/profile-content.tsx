@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ulid } from 'ulid';
-import api from '@/apis/api';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
@@ -32,7 +31,6 @@ export default function ProfileContent() {
   const [step, setStep] = useState(1);
 
   // 필드 상태
-  const [age, setAge] = useState<AgeRangeType | null>(null);
   const [gender, setGender] = useState<GenderType | null>(null);
   const [role, setRole] = useState<RoleType | null>(null);
   const [experience, setExperience] = useState<ExperienceType | null>(null);
@@ -51,15 +49,16 @@ export default function ProfileContent() {
     watch,
     trigger,
     formState: { errors },
-    setError,
-    clearErrors,
-    setFocus,
+    // setError,
+    clearErrors, // 에러 후 재입력하면 에러 제거
+    setValue, // 드롭다운 값 설정용
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     defaultValues: {
       nickname: '',
+      age: null,
     },
   });
 
@@ -68,23 +67,22 @@ export default function ProfileContent() {
    */
   const handleNextStep = async () => {
     // 1페이지 필드들만 검증
-    const isValid = await trigger(['nickname']);
+    const isValid = await trigger(['nickname', 'age'], { shouldFocus: true });
 
     if (!isValid) {
-      setFocus('nickname');
       return;
     }
 
     // 닉네임 중복 체크
     // TODO: 함수 객체로 이동
-    const response = await api.get<{ available: boolean; nickname: string }>(
-      `/api/profiles/check-nickname?${watch('nickname')}`,
-    );
+    // const response = await api.get<{ available: boolean; nickname: string }>(
+    //   `/api/profiles/check-nickname?${watch('nickname')}`,
+    // );
 
-    if (response.available) {
-      setError('nickname', { message: '중복된 닉네임입니다' });
-      return;
-    }
+    // if (response.available) {
+    //   setError('nickname', { message: '중복된 닉네임입니다' });
+    //   return;
+    // }
 
     // 다음 페이지로 이동
     setStep(2);
@@ -123,7 +121,15 @@ export default function ProfileContent() {
 
           <div className="flex flex-col gap-8">
             {/* 연령대 선택 */}
-            <AgeField age={age} setAge={setAge} />
+            <AgeField
+              ref={register('age').ref}
+              value={watch('age') as AgeRangeType | null}
+              onChange={(value: string) => {
+                setValue('age', value);
+                clearErrors('age'); // 선택하면 에러 지우기
+              }}
+              error={errors.age?.message}
+            />
 
             {/* 성별 선택 */}
             <GenderField gender={gender} setGender={setGender} />
