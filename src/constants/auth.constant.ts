@@ -1,3 +1,5 @@
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+
 export const PROVIDER_CONFIG = {
   google: {
     logo: '/auth/google-logo.png',
