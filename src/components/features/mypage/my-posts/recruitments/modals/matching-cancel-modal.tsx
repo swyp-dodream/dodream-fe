@@ -83,7 +83,12 @@ export default function MatchingCancelModal({
           <Button variant="outline" size="xs" onClick={onClose}>
             돌아가기
           </Button>
-          <Button variant="solid" size="xs" onClick={handleCacelMatching}>
+          <Button
+            variant="solid"
+            size="xs"
+            onClick={handleCacelMatching}
+            disabled={!selectedCause}
+          >
             매칭 취소
           </Button>
         </footer>
