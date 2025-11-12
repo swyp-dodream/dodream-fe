@@ -12,6 +12,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 /**
  * 한 줄 입력 필드 컴포넌트
  * - input의 기본 속성은 모두 사용 가능합니다.
+ * @param isError - 에러 여부
+ * @param variant - 스타일
  *
  * @example
  * // 에러 상태

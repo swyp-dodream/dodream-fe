@@ -11,6 +11,7 @@ interface InterestsFieldProps {
 
 /**
  * 관심 분야 선택 컴포넌트
+ * @param error - 검증 에러 메시지
  */
 export default function InterestsField({ error }: InterestsFieldProps) {
   const interests = useProfileStore((state) => state.interests);

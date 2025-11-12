@@ -100,17 +100,7 @@ export default function ProfileContent() {
       return;
     }
 
-    // 닉네임 중복 체크
-    // TODO: 함수 객체로 이동
-    // const response = await api.get<{ available: boolean; nickname: string }>(
-    //   `/api/profiles/check-nickname?${watch('nickname')}`,
-    // );
-
-    // if (response.available) {
-    //   setError('nickname', { message: '중복된 닉네임입니다' });
-    //   setFocus('nickname');
-    //   return;
-    // }
+    // TODO: userApi 완성 후 닉네임 중복 체크
 
     // 다음 페이지로 이동
     setStep(2);

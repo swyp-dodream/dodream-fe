@@ -13,6 +13,8 @@ interface TextFieldProps
  * 여러 줄 텍스트 필드
  * @param value - 텍스트 내용
  * @param maxLength - 텍스트 길이 제한 (전달할 경우 남은 글자수 노출)
+ * @param resizable - 사이즈 조절 가능 여부
+ * @param error - 검증 에러 메시지
  */
 const TextField = forwardRef<HTMLTextAreaElement, TextFieldProps>(
   ({ value, maxLength, error, resizable = true, className, ...props }, ref) => {
