@@ -45,5 +45,5 @@ export default function AuthCallBackClient({
     verifyLogin();
   }, [router, accessToken, refreshToken]);
 
-  return <div>로그인 중</div>;
+  return null;
 }

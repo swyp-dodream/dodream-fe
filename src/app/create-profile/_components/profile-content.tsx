@@ -5,7 +5,6 @@ import { ulid } from 'ulid';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
-import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
@@ -30,7 +29,7 @@ export default function ProfileContent() {
   const [step, setStep] = useState(1);
 
   // 생성하지 않고 벗어나면 로그아웃 처리
-  const { preventLogout } = useLogoutOnLeave();
+  // const { preventLogout } = useLogoutOnLeave();
 
   // 필드 상태
   const [nickname, setNickname] = useState('');

@@ -3,18 +3,14 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Image from 'next/image';
 import Link from 'next/link';
-import userApi from '@/apis/user.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
 import useGetUser from '@/hooks/auth/use-get-user';
+import { logout } from '@/utils/auth.util';
 
 export default function NavigationProfile() {
   const { data: user } = useGetUser();
 
   if (!user) return null;
-
-  const handleLogout = async () => {
-    await userApi.logout();
-  };
 
   return (
     <DropdownMenu.Root>
@@ -74,7 +70,7 @@ export default function NavigationProfile() {
                         <button
                           type="button"
                           className="flex items-center body-md-medium gap-4 p-2 outline-none w-full text-left"
-                          onClick={handleLogout}
+                          onClick={() => logout()}
                         >
                           <Icon aria-hidden className="text-white" />
                           <span className="text-white">{label}</span>
