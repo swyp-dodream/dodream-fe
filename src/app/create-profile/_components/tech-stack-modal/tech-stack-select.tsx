@@ -1,21 +1,25 @@
 import Image from 'next/image';
 import { Checkbox } from '@/components/commons/check-box';
 import { TECH_STACKS } from '@/constants/profile.constant';
-import useProfileStore from '@/store/profile-store';
 import type { TechStackType } from '@/types/profile.type';
 
 interface TechStackSelectProps {
   stack: TechStackType;
+  toggleDraftStacks: () => void;
+  checked: boolean;
 }
 
 /**
  * 기술 스택 개별 선택 컴포넌트 (체크박스, 기술 스택 이름 포함)
  * @param stack - 기술 스택
+ * @param toggleDraftStacks - 기술 스택 토글 함수
+ * @param checked - 체크 여부
  */
-export default function TechStackSelect({ stack }: TechStackSelectProps) {
-  const draftStacks = useProfileStore((state) => state.draftStacks);
-  const toggleDraftStacks = useProfileStore((state) => state.toggleDraftStacks);
-
+export default function TechStackSelect({
+  stack,
+  toggleDraftStacks,
+  checked,
+}: TechStackSelectProps) {
   return (
     <li className="flex items-center mx-3">
       <label htmlFor={stack} className="flex items-center cursor-pointer">
@@ -23,8 +27,8 @@ export default function TechStackSelect({ stack }: TechStackSelectProps) {
         <Checkbox
           name="skills"
           id={stack}
-          checked={draftStacks.includes(stack)}
-          onChange={() => toggleDraftStacks(stack)}
+          checked={checked}
+          onChange={toggleDraftStacks}
         />
 
         {/* 기술 스택 이미지 */}

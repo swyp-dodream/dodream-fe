@@ -5,12 +5,23 @@ import {
   TECH_STACKS_BY_ROLE,
   TECH_STACKS_BY_ROLE_KEYS,
 } from '@/constants/profile.constant';
+import type { TechStackType } from '@/types/profile.type';
 import TechStackSelect from './tech-stack-select';
+
+interface TechStackTabsProps {
+  draftStacks: TechStackType[];
+  toggleDraftStacks: (stack: TechStackType) => void;
+}
 
 /**
  * 기술 스택 탭 컴포넌트 (프론트엔드/백엔드/모바일/디자인)
+ * @param draftStacks - 모달에서 선택된 스택
+ * @param toggleDraftStacks - 기술 스택 토글 함수
  */
-export default function TechStackTabs() {
+export default function TechStackTabs({
+  draftStacks,
+  toggleDraftStacks,
+}: TechStackTabsProps) {
   const [keyword, setKeyword] = useState(''); // 검색 키워드
 
   return (
@@ -60,8 +71,13 @@ export default function TechStackTabs() {
               </output>
             ) : (
               <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
-                {filteredStacks.map((skill) => (
-                  <TechStackSelect key={skill} stack={skill} />
+                {filteredStacks.map((stack) => (
+                  <TechStackSelect
+                    key={stack}
+                    stack={stack}
+                    toggleDraftStacks={() => toggleDraftStacks(stack)}
+                    checked={draftStacks.includes(stack)}
+                  />
                 ))}
               </ul>
             )}

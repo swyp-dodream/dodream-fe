@@ -4,7 +4,6 @@ import type { InterestsType, TechStackType } from '@/types/profile.type';
 type ProfileState = {
   // 기술 스택
   techStacks: TechStackType[];
-  draftStacks: TechStackType[];
 
   // 관심 분야
   interests: InterestsType[];
@@ -13,9 +12,7 @@ type ProfileState = {
 
 type ProfileActions = {
   // 기술 스택 선택 관련 함수
-  toggleDraftStacks: (stack: TechStackType) => void;
-  setDraftStacks: () => void;
-  setStacks: () => void;
+  setStacks: (stacks: TechStackType[]) => void;
   removeStacks: (stack: TechStackType) => void;
 
   // 관심 분야 관련 함수
@@ -31,22 +28,8 @@ type ProfileActions = {
 const useProfileStore = create<ProfileState & ProfileActions>((set) => ({
   // 기술 스택
   techStacks: [],
-  draftStacks: [],
-  toggleDraftStacks: (stack) =>
-    set((state) => {
-      if (state.draftStacks.includes(stack)) {
-        return {
-          draftStacks: state.draftStacks.filter((element) => element !== stack),
-        };
-      } else {
-        if (state.draftStacks.length >= 5)
-          return { draftStacks: state.draftStacks };
-        return { draftStacks: [...state.draftStacks, stack] };
-      }
-    }),
-  setDraftStacks: () =>
-    set((state) => ({ draftStacks: [...state.techStacks] })),
-  setStacks: () => set((state) => ({ techStacks: [...state.draftStacks] })),
+  setStacks: (stacks: TechStackType[]) =>
+    set(() => ({ techStacks: [...stacks] })),
   removeStacks: (stack) =>
     set((state) => ({
       techStacks: state.techStacks.filter((element) => element !== stack),

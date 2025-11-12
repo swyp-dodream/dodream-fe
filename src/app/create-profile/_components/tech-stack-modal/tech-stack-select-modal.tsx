@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import useProfileStore from '@/store/profile-store';
+import type { TechStackType } from '@/types/profile.type';
 import TechStackTabs from './tech-stack-tabs';
 import TechStackTags from './tech-stack-tags';
 
@@ -17,19 +18,25 @@ export default function TechStackSelectModal({
   isOpen,
   onClose,
 }: TechStackSelectModalProps) {
-  const draftStacks = useProfileStore((state) => state.draftStacks);
-  const toggleDraftStacks = useProfileStore((state) => state.toggleDraftStacks);
+  const stacks = useProfileStore((state) => state.techStacks);
   const setStacks = useProfileStore((state) => state.setStacks);
-  const setDraftStacks = useProfileStore((state) => state.setDraftStacks);
+  const [draftStacks, setDraftStacks] = useState<TechStackType[]>(stacks);
 
-  // 컴포넌트 마운트 시 임시 기술 스택 리스트 세팅
-  useEffect(() => {
-    setDraftStacks();
-  }, [setDraftStacks]);
+  /**
+   * 기술 스택 토글 함수
+   * @param stack - 기술 스택
+   */
+  const toggleDraftStacks = (stack: TechStackType) => {
+    if (draftStacks.includes(stack)) {
+      setDraftStacks(draftStacks.filter((element) => element !== stack));
+    } else {
+      setDraftStacks([...draftStacks, stack]);
+    }
+  };
 
   // 저장 버튼 클릭 시 실제 기술 스택 리스트 세팅
   const handleSave = () => {
-    setStacks();
+    setStacks(draftStacks);
     onClose();
   };
 
@@ -47,7 +54,10 @@ export default function TechStackSelectModal({
         </header>
 
         {/* 기술 스택 선택 탭 */}
-        <TechStackTabs />
+        <TechStackTabs
+          draftStacks={draftStacks}
+          toggleDraftStacks={toggleDraftStacks}
+        />
 
         {/* 현재 선택된 태그 */}
         <div className="py-4 mr-auto">
