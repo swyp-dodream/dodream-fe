@@ -1,4 +1,6 @@
 import { TOKEN_STORAGE_KEY } from '@/constants/auth.constant';
+import { QUERY_KEY } from '@/constants/query-key.constant';
+import { queryClient } from '@/lib/query-client';
 
 /**
  * 로컬 스토리지 토큰 관리 함수
@@ -8,6 +10,7 @@ export const tokenStorage = {
   setToken: (token: string) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem(TOKEN_STORAGE_KEY.token, token);
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
     }
   },
   getToken: (): string | null => {
@@ -35,6 +38,7 @@ export const tokenStorage = {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(TOKEN_STORAGE_KEY.token);
       localStorage.removeItem(TOKEN_STORAGE_KEY.refresh_token);
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
     }
   },
 

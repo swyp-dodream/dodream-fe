@@ -5,6 +5,9 @@ const profileApi = {
   /** 유저 정보 */
   getUser: () => authApi.get<UserType>('/api/auth/me'),
 
+  /** 로그아웃 */
+  logout: () => authApi.post('api/auth/logout'),
+
   /** 유저 프로필 존재 여부 */
   getProfileExists: () =>
     authApi.get<{ exists: boolean }>('/api/profiles/me/exists'),
