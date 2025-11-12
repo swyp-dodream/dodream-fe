@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import useProfileStore from '@/store/profile-store';
+import type { InterestsType } from '@/types/profile.type';
 import InterestTabs from './interest-tabs';
 import InterestTags from './interest-tags';
 
@@ -17,21 +18,29 @@ export default function InterestSelectModal({
   isOpen,
   onClose,
 }: InterestSelectModalProps) {
-  const draftInterests = useProfileStore((state) => state.draftInterests);
-  const toggleDraftInterests = useProfileStore(
-    (state) => state.toggleDraftInterests,
-  );
+  const interests = useProfileStore((state) => state.interests);
   const setInterests = useProfileStore((state) => state.setInterests);
-  const setDraftInterests = useProfileStore((state) => state.setDraftInterests);
 
-  // 컴포넌트 마운트 시 임시 관심분야 리스트 세팅
-  useEffect(() => {
-    setDraftInterests();
-  }, [setDraftInterests]);
+  const [draftInterests, setDraftInterests] =
+    useState<InterestsType[]>(interests);
+
+  /**
+   * 관심 분야 토글 함수
+   * @param interest - 관심 분야
+   */
+  const toggleInterests = (interest: InterestsType) => {
+    if (draftInterests.includes(interest)) {
+      setDraftInterests(
+        draftInterests.filter((element) => element !== interest),
+      );
+    } else {
+      setDraftInterests([...draftInterests, interest]);
+    }
+  };
 
   // 저장 버튼 클릭 시 실제 관심분야 리스트 세팅
   const handleSave = () => {
-    setInterests();
+    setInterests(draftInterests);
     onClose();
   };
 
@@ -49,7 +58,10 @@ export default function InterestSelectModal({
         </header>
 
         {/* 관심 분야 선택 탭 */}
-        <InterestTabs />
+        <InterestTabs
+          draftInterests={draftInterests}
+          toggleInterests={toggleInterests}
+        />
 
         {/* 현재 선택된 태그 */}
         <div className="py-6 mr-auto">
@@ -60,7 +72,7 @@ export default function InterestSelectModal({
           ) : (
             <InterestTags
               interests={draftInterests}
-              removeInterest={toggleDraftInterests}
+              removeInterest={toggleInterests}
             />
           )}
         </div>

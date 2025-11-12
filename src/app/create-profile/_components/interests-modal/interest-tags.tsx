@@ -11,7 +11,7 @@ interface InterestTagsProps {
 
 /**
  * 선택된 관심분야 리스트 컴포넌트
- * @param interests - 관심분야 리스트
+ * @param draftInterests - 관심분야 리스트
  * @param removeInterest- 관심분야 삭제 함수
  * @param variant - 스타일
  */

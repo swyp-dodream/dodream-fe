@@ -1,22 +1,24 @@
 import { Checkbox } from '@/components/commons/check-box';
 import { INTERESTS } from '@/constants/profile.constant';
-import useProfileStore from '@/store/profile-store';
 import type { InterestsType } from '@/types/profile.type';
 
 interface InterestSelectProps {
   interest: InterestsType;
+  toggleInterests: () => void;
+  checked: boolean;
 }
 
 /**
  * 관심분야 개별 선택 컴포넌트 (체크박스, 분야 이름 포함)
  * @param interest - 관심분야
+ * @param toggleInterests - 관심분야 선택 토글 함수
+ * @param checked - 체크 여부
  */
-export default function InterestSelect({ interest }: InterestSelectProps) {
-  const draftInterests = useProfileStore((state) => state.draftInterests);
-  const toggleDraftInterests = useProfileStore(
-    (state) => state.toggleDraftInterests,
-  );
-
+export default function InterestSelect({
+  interest,
+  toggleInterests,
+  checked,
+}: InterestSelectProps) {
   return (
     <li className="flex items-center mx-3">
       <label
@@ -27,8 +29,8 @@ export default function InterestSelect({ interest }: InterestSelectProps) {
         <Checkbox
           name="interests"
           id={interest}
-          checked={draftInterests.includes(interest)}
-          onChange={() => toggleDraftInterests(interest)}
+          checked={checked}
+          onChange={toggleInterests}
         />
 
         {/* 관심 분야 */}

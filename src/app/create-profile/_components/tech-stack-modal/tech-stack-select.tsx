@@ -5,19 +5,19 @@ import type { TechStackType } from '@/types/profile.type';
 
 interface TechStackSelectProps {
   stack: TechStackType;
-  toggleDraftStacks: () => void;
+  toggleStacks: () => void;
   checked: boolean;
 }
 
 /**
  * 기술 스택 개별 선택 컴포넌트 (체크박스, 기술 스택 이름 포함)
  * @param stack - 기술 스택
- * @param toggleDraftStacks - 기술 스택 토글 함수
+ * @param toggleStacks - 기술 스택 선택 토글 함수
  * @param checked - 체크 여부
  */
 export default function TechStackSelect({
   stack,
-  toggleDraftStacks,
+  toggleStacks,
   checked,
 }: TechStackSelectProps) {
   return (
@@ -28,7 +28,7 @@ export default function TechStackSelect({
           name="skills"
           id={stack}
           checked={checked}
-          onChange={toggleDraftStacks}
+          onChange={toggleStacks}
         />
 
         {/* 기술 스택 이미지 */}

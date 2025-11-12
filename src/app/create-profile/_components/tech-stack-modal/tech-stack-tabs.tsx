@@ -10,17 +10,17 @@ import TechStackSelect from './tech-stack-select';
 
 interface TechStackTabsProps {
   draftStacks: TechStackType[];
-  toggleDraftStacks: (stack: TechStackType) => void;
+  toggleStacks: (stack: TechStackType) => void;
 }
 
 /**
  * 기술 스택 탭 컴포넌트 (프론트엔드/백엔드/모바일/디자인)
  * @param draftStacks - 모달에서 선택된 스택
- * @param toggleDraftStacks - 기술 스택 토글 함수
+ * @param toggleStacks - 기술 스택 토글 함수
  */
 export default function TechStackTabs({
   draftStacks,
-  toggleDraftStacks,
+  toggleStacks,
 }: TechStackTabsProps) {
   const [keyword, setKeyword] = useState(''); // 검색 키워드
 
@@ -75,7 +75,7 @@ export default function TechStackTabs({
                   <TechStackSelect
                     key={stack}
                     stack={stack}
-                    toggleDraftStacks={() => toggleDraftStacks(stack)}
+                    toggleStacks={() => toggleStacks(stack)}
                     checked={draftStacks.includes(stack)}
                   />
                 ))}

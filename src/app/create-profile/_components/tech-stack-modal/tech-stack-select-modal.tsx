@@ -26,7 +26,7 @@ export default function TechStackSelectModal({
    * 기술 스택 토글 함수
    * @param stack - 기술 스택
    */
-  const toggleDraftStacks = (stack: TechStackType) => {
+  const toggleStacks = (stack: TechStackType) => {
     if (draftStacks.includes(stack)) {
       setDraftStacks(draftStacks.filter((element) => element !== stack));
     } else {
@@ -54,10 +54,7 @@ export default function TechStackSelectModal({
         </header>
 
         {/* 기술 스택 선택 탭 */}
-        <TechStackTabs
-          draftStacks={draftStacks}
-          toggleDraftStacks={toggleDraftStacks}
-        />
+        <TechStackTabs draftStacks={draftStacks} toggleStacks={toggleStacks} />
 
         {/* 현재 선택된 태그 */}
         <div className="py-4 mr-auto">
@@ -66,10 +63,7 @@ export default function TechStackSelectModal({
               선택된 태그가 없습니다.
             </span>
           ) : (
-            <TechStackTags
-              stacks={draftStacks}
-              removeStacks={toggleDraftStacks}
-            />
+            <TechStackTags stacks={draftStacks} removeStacks={toggleStacks} />
           )}
         </div>
 
