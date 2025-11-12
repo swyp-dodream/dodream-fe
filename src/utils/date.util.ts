@@ -1,4 +1,10 @@
-import { differenceInCalendarDays, format, startOfDay } from 'date-fns';
+import {
+  differenceInCalendarDays,
+  format,
+  formatDistanceToNow,
+  startOfDay,
+} from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 export function formatDeadlineAt(deadlineAt: Date) {
   const today = startOfDay(new Date());
@@ -19,4 +25,15 @@ export function formatDeadlineAt(deadlineAt: Date) {
 
 export function formatDate(date: Date) {
   return format(date, 'yyyy.MM.dd');
+}
+
+/**
+ * 게시글 작성으로부터 지난 시간 구하는 함수
+ * @param dateString - 현재 날짜
+ */
+export function getRelativeTime(dateString: string): string {
+  return formatDistanceToNow(new Date(dateString), {
+    addSuffix: true,
+    locale: ko,
+  });
 }
