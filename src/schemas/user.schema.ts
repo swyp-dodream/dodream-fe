@@ -83,6 +83,9 @@ export const linksSchema = z.array(linkSchema).refine(
   { message: '유효한 URL을 입력해 주세요' },
 );
 
+/** 자기소개 스키마 */
+export const introSchema = z.string().min(1, '필수 입력 항목입니다');
+
 /** 전체 프로필 스키마 */
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
@@ -93,6 +96,8 @@ export const profileFormSchema = z.object({
   activityMode: activityModeSchema,
   interests: interestsSchema,
   links: linksSchema,
+  intro: introSchema,
+  acceptOffers: z.boolean(), // 지원 제안 받기
 });
 
 /** 프로필 폼 데이터 타입 */
