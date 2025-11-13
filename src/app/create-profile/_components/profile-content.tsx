@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import userApi from '@/apis/user.api';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
@@ -47,7 +48,8 @@ export default function ProfileContent() {
     watch,
     trigger,
     formState: { errors },
-    // setError,
+    setError,
+    setFocus,
     clearErrors, // 에러 후 재입력하면 에러 제거
     setValue, // 드롭다운 값 설정용
   } = useForm<ProfileFormData>({
@@ -100,10 +102,23 @@ export default function ProfileContent() {
       return;
     }
 
-    // TODO: userApi 완성 후 닉네임 중복 체크
+    // 닉네임 중복 체크
+    try {
+      const { available } = await userApi.checkNickname(watch('nickname'));
+      if (!available) {
+        setError('nickname', {
+          type: 'server',
+          message: '중복된 닉네임입니다',
+        });
+        setFocus('nickname');
+        return;
+      }
 
-    // 다음 페이지로 이동
-    setStep(2);
+      // 다음 페이지로 이동
+      setStep(2);
+    } catch {
+      console.error('닉네임 확인 중 오류가 발생했습니다.');
+    }
   };
 
   /**
@@ -226,12 +241,7 @@ export default function ProfileContent() {
                 작성해 주는 서비스예요. 현재까지 입력해 주신 기본정보와 자기소개
                 내용이 반영되어 작성돼요."
               />
-              <button
-                className="border border-border-brand text-brand body-lg-medium h-[34px] w-[140px] rounded-md bg-surface py-2 ml-3 hover:bg-button-ai"
-                type="button"
-              >
-                AI로 초안 작성
-              </button>
+              {/* <CreateIntroButton ProfileFormData={watch()} /> */}
             </div>
             <TextField
               className="w-full"
