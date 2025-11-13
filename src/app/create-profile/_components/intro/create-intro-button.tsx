@@ -1,7 +1,7 @@
 import { overlay } from 'overlay-kit';
 import { INTERESTS, TECH_STACKS } from '@/constants/profile.constant';
 import type { ProfileFormData } from '@/schemas/user.schema';
-import type { AiRequestDataType } from '@/types/profile.type';
+import type { AiRequestType } from '@/types/profile.type';
 import {
   convertActivityModeValue,
   convertAgeValue,
@@ -34,7 +34,7 @@ export default function CreateIntroButton({
   setIntro,
 }: CreateIntroButtonProps) {
   // 요청 타입에 맞도록 변환
-  const data: AiRequestDataType = {
+  const data: AiRequestType = {
     nickname,
     ageBand: convertAgeValue(age),
     experience: convertExperienceValue(experience),
