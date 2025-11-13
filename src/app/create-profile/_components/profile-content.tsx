@@ -43,7 +43,7 @@ export default function ProfileContent() {
   // 생성하지 않고 벗어나면 로그아웃 처리
   // const { preventLogout } = useLogoutOnLeave();
 
-  const _router = useRouter();
+  const router = useRouter();
 
   // 프로필 생성 뮤테이션
   const { mutate: createProfile } = useCreateProfile();
@@ -142,7 +142,7 @@ export default function ProfileContent() {
     createProfile(data, {
       onSuccess: (response) => {
         // 성공 시 홈으로 리다이렉트
-        // router.replace('/');
+        router.replace('/');
         console.log(response);
       },
     });
