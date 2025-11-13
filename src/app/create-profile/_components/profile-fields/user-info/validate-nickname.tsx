@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import ValidationRuleIcon from '@/assets/icons/validation-rule/4.svg';
-import { NICKNAME_REGEX } from '@/constants/profile.constant';
+import { nicknameValidations } from '@/schemas/user.schema';
 
 interface ValidateNicknameProps {
   nickname: string;
@@ -12,12 +12,8 @@ interface ValidateNicknameProps {
  */
 export default function ValidateNickname({ nickname }: ValidateNicknameProps) {
   const isNicknameEmpty = nickname.length === 0;
-
-  // 닉네임 길이 유효성 검사
-  const isLengthInvalid = nickname.length > 10;
-
-  // 닉네임 형식 유효성 검사
-  const isFormatInvalid = !NICKNAME_REGEX.test(nickname);
+  const isLengthValid = nicknameValidations.length.safeParse(nickname).success;
+  const isFormatValid = nicknameValidations.format.safeParse(nickname).success;
 
   return (
     <ul className="flex gap-5">
@@ -25,8 +21,8 @@ export default function ValidateNickname({ nickname }: ValidateNicknameProps) {
         <ValidationRuleIcon
           className={clsx({
             'text-subtle': isNicknameEmpty,
-            'text-bg-error': isLengthInvalid,
-            'text-bg-success': !isLengthInvalid,
+            'text-bg-error': !isNicknameEmpty && !isLengthValid,
+            'text-bg-success': !isNicknameEmpty && isLengthValid,
           })}
         />
         최대 10자
@@ -35,8 +31,8 @@ export default function ValidateNickname({ nickname }: ValidateNicknameProps) {
         <ValidationRuleIcon
           className={clsx({
             'text-subtle': isNicknameEmpty,
-            'text-bg-error': isFormatInvalid,
-            'text-bg-success': !isFormatInvalid,
+            'text-bg-error': !isNicknameEmpty && !isFormatValid,
+            'text-bg-success': !isNicknameEmpty && isFormatValid,
           })}
         />
         한국어, 영어, 숫자 가능

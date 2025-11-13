@@ -1,15 +1,20 @@
+'use client';
+
 import clsx from 'clsx';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, Ref } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
   variant?: 'light' | 'dark';
   className?: string;
+  ref?: Ref<HTMLInputElement>;
 }
 
 /**
  * 한 줄 입력 필드 컴포넌트
  * - input의 기본 속성은 모두 사용 가능합니다.
+ * @param isError - 에러 여부
+ * @param variant - 스타일
  *
  * @example
  * // 에러 상태
@@ -24,10 +29,12 @@ export default function Input({
   className,
   isError = false,
   variant = 'light',
+  ref,
   ...props
 }: InputProps) {
   return (
     <input
+      ref={ref}
       className={clsx(
         'py-3 px-4 rounded-md outline-none',
         {
@@ -63,12 +70,14 @@ export function FormInput({
   children,
   errorMessage,
   id,
+  ref,
   ...props
 }: FormInputProps) {
   return (
     <div className="flex flex-col gap-2">
       <Input
         id={id}
+        ref={ref}
         isError={!!errorMessage}
         aria-describedby={errorMessage ? `${id}-error` : undefined}
         {...props}

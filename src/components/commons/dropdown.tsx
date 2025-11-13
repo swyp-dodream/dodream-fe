@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { DropdownMenu } from 'radix-ui';
+import type { Ref } from 'react';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from './buttons/dropdown-button';
 
@@ -9,15 +10,18 @@ interface DropdownItem {
 }
 
 interface DropdownProps {
-  label: string;
   items: DropdownItem[];
+  label: string;
+  isError?: boolean;
   className?: string;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 /**
  * 드롭다운 컴포넌트
  * @param items - 드롭다운 아이템
  * @param label - 드롭다운 라벨 (텍스트 기본값)
+ * @param isError - 에러 여부
  * @example
  * <Dropdown
  *   label="메뉴 선택"
@@ -28,11 +32,17 @@ interface DropdownProps {
  *   ]}
  * />
  */
-export default function Dropdown({ items, label, className }: DropdownProps) {
+export default function Dropdown({
+  items,
+  label,
+  isError = false,
+  className,
+  ref,
+}: DropdownProps) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <DropdownButton label={label}>
+        <DropdownButton ref={ref} label={label} isError={isError}>
           <ArrowIcon className="text-icon-light group-data-[state=open]:rotate-180" />
         </DropdownButton>
       </DropdownMenu.Trigger>

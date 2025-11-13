@@ -1,30 +1,44 @@
-import type { Dispatch, SetStateAction } from 'react';
+import type { Ref } from 'react';
 import Dropdown from '@/components/commons/dropdown';
 import { ROLE, ROLE_LIST } from '@/constants/profile.constant';
 import type { RoleType } from '@/types/profile.type';
 
 interface RoleFieldProps {
-  role: RoleType | null;
-  setRole: Dispatch<SetStateAction<RoleType | null>>;
+  value: RoleType | null;
+  onChange: (value: string) => void;
+  error?: string;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 /**
  * 직군 선택 컴포넌트
- * @param role - 직군
- * @param setRole - 직군 set 함수
+ * @param value - 현재 선택된 직군
+ * @param onChange - 직군 변경 핸들러
+ * @param error - 검증 에러 메시지
  */
-export default function RoleField({ role, setRole }: RoleFieldProps) {
-  const displayLabel = role ? ROLE[role] : '직군 선택'; // 선택되지 않았을 경우 기본 메시지
+export default function RoleField({
+  value,
+  onChange,
+  error,
+  ref,
+}: RoleFieldProps) {
+  const displayLabel = value ? ROLE[value] : '직군 선택';
+
   return (
-    <div className="flex justify-between items-center">
-      <span className="body-lg-medium">직군</span>
-      <Dropdown
-        label={displayLabel}
-        items={ROLE_LIST.map((role) => ({
-          label: role.label,
-          onSelect: () => setRole(role.value as RoleType),
-        }))}
-      />
+    <div className="flex justify-between">
+      <span className="body-lg-medium py-3">직군</span>
+      <div className="flex flex-col">
+        <Dropdown
+          ref={ref}
+          label={displayLabel}
+          items={ROLE_LIST.map((role) => ({
+            label: role.label,
+            onSelect: () => onChange(role.value),
+          }))}
+          isError={!!error}
+        />
+        {error && <p className="body-sm-medium text-error mt-2">{error}</p>}
+      </div>
     </div>
   );
 }
