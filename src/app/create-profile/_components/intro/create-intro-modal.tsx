@@ -4,19 +4,19 @@ import { useEffect } from 'react';
 import Button from '@/components/commons/buttons/button';
 import LoadingSpinner from '@/components/commons/loading-spinner';
 import Modal from '@/components/commons/modal';
-import useGenerateAiIntro from '@/hooks/user/use-generate-ai-intro';
-import type { AiRequestDataType } from '@/types/profile.type';
+import useGenerateAiIntro from '@/hooks/profile/use-generate-ai-intro';
+import type { AiRequestType } from '@/types/profile.type';
 
 interface CreateIntroModalProps {
   isOpen: boolean;
   onClose: () => void;
-  data: AiRequestDataType;
+  data: AiRequestType;
   setIntro: (text: string) => void;
 }
 
 /**
  * AI 초안 생성 모달
- * @param data - AI 초안 요청을 위한 유저 프로필 정보 (AiRequestDataType 타입)
+ * @param data - AI 초안 요청을 위한 유저 프로필 정보 (AiRequestType 타입)
  * @param setIntro - 자기소개 생성 완료 시 텍스트 필드에 저장하는 함수
  */
 export default function CreateIntroModal({

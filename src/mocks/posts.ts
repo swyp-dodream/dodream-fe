@@ -226,9 +226,9 @@ Fabric.js, Konva, Canvas API 등 실시간 그래픽 경험 WebRTC / WebSocket �
       ],
     },
     {
-      name: 'PM',
+      name: '기획자',
       recruitCount: 3,
-      members: [{ id: 16, nickname: 'PM1', profileUrl: '' }],
+      members: [{ id: 16, nickname: '기획자1', profileUrl: '' }],
     },
     {
       name: '마케터',
