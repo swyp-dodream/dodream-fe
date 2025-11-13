@@ -98,6 +98,21 @@ export type LinkItemType = {
 };
 
 /**
+ * AI 자기소개 초안 데이터 타입
+ */
+export type AiRequestDataType = {
+  nickname: string;
+  ageBand: string | null;
+  experience: string | null;
+  activityMode: string | null;
+  introText: string;
+  profileUrls: string[];
+  roles: Array<string | null>;
+  interestKeywords: string[];
+  techSkills: string[];
+};
+
+/**
  * 프로필 타입
  * TODO: 실제 타입으로 변경
  */
