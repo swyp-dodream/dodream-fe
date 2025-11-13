@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { DropdownMenu } from 'radix-ui';
-import { forwardRef } from 'react';
+import type { Ref } from 'react';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from './buttons/dropdown-button';
 
@@ -14,6 +14,7 @@ interface DropdownProps {
   label: string;
   isError?: boolean;
   className?: string;
+  ref?: Ref<HTMLButtonElement>;
 }
 
 /**
@@ -31,39 +32,39 @@ interface DropdownProps {
  *   ]}
  * />
  */
-const Dropdown = forwardRef<HTMLButtonElement, DropdownProps>(
-  ({ items, label, isError = false, className }, ref) => {
-    return (
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
-          <DropdownButton ref={ref} label={label} isError={isError}>
-            <ArrowIcon className="text-icon-light group-data-[state=open]:rotate-180" />
-          </DropdownButton>
-        </DropdownMenu.Trigger>
+export default function Dropdown({
+  items,
+  label,
+  isError = false,
+  className,
+  ref,
+}: DropdownProps) {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <DropdownButton ref={ref} label={label} isError={isError}>
+          <ArrowIcon className="text-icon-light group-data-[state=open]:rotate-180" />
+        </DropdownButton>
+      </DropdownMenu.Trigger>
 
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content
-            className={clsx(
-              'bg-surface rounded-md shadow-card p-3 w-[180px] space-y-2 body-md-medium',
-              className,
-            )}
-          >
-            {items.map((item) => (
-              <DropdownMenu.Item
-                key={item.label}
-                onSelect={item.onSelect}
-                className="px-2 py-2 cursor-pointer hover:bg-primary rounded outline-none"
-              >
-                {item.label}
-              </DropdownMenu.Item>
-            ))}
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
-    );
-  },
-);
-
-Dropdown.displayName = 'Dropdown';
-
-export default Dropdown;
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          className={clsx(
+            'bg-surface rounded-md shadow-card p-3 w-[180px] space-y-2 body-md-medium',
+            className,
+          )}
+        >
+          {items.map((item) => (
+            <DropdownMenu.Item
+              key={item.label}
+              onSelect={item.onSelect}
+              className="px-2 py-2 cursor-pointer hover:bg-primary rounded outline-none"
+            >
+              {item.label}
+            </DropdownMenu.Item>
+          ))}
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
+}

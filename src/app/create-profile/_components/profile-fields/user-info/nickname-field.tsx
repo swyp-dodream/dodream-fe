@@ -1,4 +1,4 @@
-import { type ChangeEvent, forwardRef } from 'react';
+import type { ChangeEvent, Ref } from 'react';
 import { FormInput } from '@/components/commons/text-fields/input';
 import ValidateNickname from './validate-nickname';
 
@@ -7,6 +7,7 @@ interface NicknameFieldProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   name: string;
   error?: string;
+  ref?: Ref<HTMLInputElement>;
 }
 
 /**
@@ -16,31 +17,31 @@ interface NicknameFieldProps {
  * @param name - 필드 이름
  * @param error - 에러 메시지
  */
-const NicknameField = forwardRef<HTMLInputElement, NicknameFieldProps>(
-  ({ value, onChange, name, error }, ref) => {
-    return (
-      <div>
-        <div className="flex flex-col gap-3">
-          <label htmlFor="nickname-field" className="body-lg-medium">
-            닉네임
-          </label>
-          <FormInput
-            id="nickname-field"
-            name={name}
-            placeholder="닉네임 입력"
-            value={value}
-            onChange={onChange}
-            ref={ref}
-            errorMessage={error}
-          >
-            <ValidateNickname nickname={value} />
-          </FormInput>
-        </div>
+export default function NicknameField({
+  value,
+  onChange,
+  name,
+  error,
+  ref,
+}: NicknameFieldProps) {
+  return (
+    <div>
+      <div className="flex flex-col gap-3">
+        <label htmlFor="nickname-field" className="body-lg-medium">
+          닉네임
+        </label>
+        <FormInput
+          id="nickname-field"
+          name={name}
+          placeholder="닉네임 입력"
+          value={value}
+          onChange={onChange}
+          ref={ref}
+          errorMessage={error}
+        >
+          <ValidateNickname nickname={value} />
+        </FormInput>
       </div>
-    );
-  },
-);
-
-NicknameField.displayName = 'NicknameField';
-
-export default NicknameField;
+    </div>
+  );
+}
