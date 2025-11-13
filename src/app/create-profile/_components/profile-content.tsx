@@ -37,6 +37,9 @@ export default function ProfileContent() {
   const interests = useProfileStore((state) => state.interests); // 관심 분야
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
+  // 생성하지 않고 벗어나면 로그아웃 처리
+  // const { preventLogout } = useLogoutOnLeave();
+
   // React Hook Form 설정
   const {
     register,

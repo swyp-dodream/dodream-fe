@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import authApi from '@/apis/auth.api';
+import userApi from '@/apis/user.api';
 import { tokenStorage } from '@/utils/auth.util';
 
 interface AuthCallBackClientProps {
@@ -20,7 +20,6 @@ export default function AuthCallBackClient({
 
   useEffect(() => {
     // TODO: 이미 로그인된 사용자는 접근 비허용 - 코드 수정
-    // 토큰 없을 경우 리다이렉트 처리
     if (tokenStorage.getToken() || !accessToken || !refreshToken) {
       router.replace('/');
       return;
@@ -34,16 +33,8 @@ export default function AuthCallBackClient({
 
     const verifyLogin = async () => {
       try {
-        const user = await authApi.getUser();
-        const userProfile = await authApi.getProfile();
-
-        // 초기 발급받은 토큰으로 받은 유저 정보 출력 테스트
-        console.log('유저 정보:', user);
-        console.log('유저 프로필 정보:', userProfile);
-
-        // TODO: 유저 상태에 따른 리다이렉트 처리
-        // router.replace(`${user ? '/' : '/create-profile'}`);
-        router.replace('/');
+        const { exists } = await userApi.getProfileExists();
+        router.replace(`${exists ? '/' : '/create-profile'}`);
       } catch (err) {
         console.error(err);
         // TODO: 로그인 실패 시 처리
@@ -54,5 +45,5 @@ export default function AuthCallBackClient({
     verifyLogin();
   }, [router, accessToken, refreshToken]);
 
-  return <div>로그인 중</div>;
+  return null;
 }

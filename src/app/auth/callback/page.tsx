@@ -1,15 +1,17 @@
 import AuthCallBackClient from './_components/auth-callback-client';
 
 interface AuthCallBackPageProps {
-  searchParams: Record<string, string>;
+  searchParams: Promise<Record<string, string>>;
 }
 
-export default function AuthCallBackPage({
+export default async function AuthCallBackPage({
   searchParams,
 }: AuthCallBackPageProps) {
+  const params = await searchParams;
+
   return (
     <div>
-      <AuthCallBackClient searchParams={searchParams} />
+      <AuthCallBackClient searchParams={params} />
     </div>
   );
 }
