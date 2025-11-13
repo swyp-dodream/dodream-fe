@@ -2,6 +2,7 @@ import type {
   ACTIVITY_MODE,
   AGE_RANGES,
   EXPERIENCE,
+  GENDER,
 } from '@/constants/profile.constant';
 
 /** 연령대 변환 */
@@ -18,6 +19,21 @@ export const convertAgeValue = (
   };
 
   return ageMap[age] || '선택안함';
+};
+
+/** 성별 변환 */
+export const convertGenderValue = (
+  gender: keyof typeof GENDER | null,
+): string => {
+  if (gender === null) return '선택안함';
+
+  const genderMap: Record<keyof typeof GENDER, string> = {
+    M: '남성',
+    F: '여성',
+    NA: '선택안함',
+  };
+
+  return genderMap[gender] || '선택안함';
 };
 
 /** 경력 변환 */

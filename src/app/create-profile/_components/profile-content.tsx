@@ -1,15 +1,17 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import userApi from '@/apis/user.api';
+import profileApi from '@/apis/profile.api';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
 import Toggle from '@/components/commons/toggle';
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
+import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
 import useProfileStore from '@/store/profile-store';
 import type {
@@ -34,13 +36,17 @@ import NicknameField from './profile-fields/user-info/nickname-field';
 export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
-
   const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
   const interests = useProfileStore((state) => state.interests); // 관심 분야
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
   // 생성하지 않고 벗어나면 로그아웃 처리
   // const { preventLogout } = useLogoutOnLeave();
+
+  const _router = useRouter();
+
+  // 프로필 생성 뮤테이션
+  const { mutate: createProfile } = useCreateProfile();
 
   // React Hook Form 설정
   const {
@@ -105,7 +111,7 @@ export default function ProfileContent() {
 
     // 닉네임 중복 체크
     try {
-      const { available } = await userApi.checkNickname(watch('nickname'));
+      const { available } = await profileApi.checkNickname(watch('nickname'));
       if (!available) {
         setError('nickname', {
           type: 'server',
@@ -130,12 +136,16 @@ export default function ProfileContent() {
     // 2페이지 필드 검증
     const isValid = await trigger(['intro'], { shouldFocus: true });
 
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
 
-    // TODO: userApi 완성 후 제출 처리
-    alert(JSON.stringify(data, null, 2));
+    // 제출 처리
+    createProfile(data, {
+      onSuccess: (response) => {
+        // 성공 시 홈으로 리다이렉트
+        // router.replace('/');
+        console.log(response);
+      },
+    });
   };
 
   return (
