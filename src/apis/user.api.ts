@@ -10,9 +10,13 @@ const userApi = {
 
   /** 로그아웃 */
   logout: async () => {
-    tokenStorage.clearAll();
-    queryClient.removeQueries({ queryKey: [QUERY_KEY.user] });
-    await authApi.post('api/auth/logout');
+    try {
+      await authApi.post('api/auth/logout');
+      tokenStorage.clearAll();
+      queryClient.removeQueries({ queryKey: [QUERY_KEY.user] });
+    } catch {
+      throw Error('로그아웃 실패');
+    }
   },
 
   /** 유저 프로필 존재 여부 */

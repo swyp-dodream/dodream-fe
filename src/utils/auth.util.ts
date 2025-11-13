@@ -49,7 +49,10 @@ export const tokenStorage = {
   },
 };
 
-/** 로그아웃 함수 */
+/**
+ * 로그아웃 함수
+ * TODO: 리다이렉트 코드를 미들웨어로 이동
+ */
 export const logout = () => {
   tokenStorage.clearAll();
 
