@@ -45,7 +45,6 @@ export const ROLE = {
   AOS: '안드로이드',
   Designer: '디자이너',
   PM: 'PM',
-  Planner: '기획자',
   Marketer: '마케터',
 } as const;
 

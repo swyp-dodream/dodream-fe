@@ -231,14 +231,6 @@ Fabric.js, Konva, Canvas API 등 실시간 그래픽 경험 WebRTC / WebSocket �
       members: [{ id: 16, nickname: 'PM1', profileUrl: '' }],
     },
     {
-      name: '기획자',
-      recruitCount: 3,
-      members: [
-        { id: 19, nickname: '기획자1', profileUrl: '' },
-        { id: 20, nickname: '기획자2', profileUrl: '' },
-      ],
-    },
-    {
       name: '마케터',
       recruitCount: 3,
       members: [
