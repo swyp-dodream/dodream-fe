@@ -242,13 +242,18 @@ export default function ProfileContent() {
                 작성해 주는 서비스예요. 현재까지 입력해 주신 기본정보와 자기소개
                 내용이 반영되어 작성돼요."
               />
-              <CreateIntroButton ProfileFormData={watch()} />
+              {/* AI 초안 생성 버튼 */}
+              <CreateIntroButton
+                ProfileFormData={watch()}
+                setIntro={(text) => setValue('intro', text)}
+              />
             </div>
             <TextField
               className="w-full"
               placeholder="자기소개를 작성해 주세요."
               maxLength={500}
               resizable={false}
+              value={watch('intro')}
               {...register('intro', {
                 onChange: () => clearErrors('intro'),
               })}

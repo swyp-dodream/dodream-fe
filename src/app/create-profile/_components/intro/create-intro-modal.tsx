@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import Button from '@/components/commons/buttons/button';
 import LoadingSpinner from '@/components/commons/loading-spinner';
@@ -9,17 +11,19 @@ interface CreateIntroModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: AiRequestDataType;
+  setIntro: (text: string) => void;
 }
 
 /**
  * AI 초안 생성 모달
  * @param data - AI 초안 요청을 위한 유저 프로필 정보 (AiRequestDataType 타입)
- * @returns
+ * @param setIntro - 자기소개 생성 완료 시 텍스트 필드에 저장하는 함수
  */
 export default function CreateIntroModal({
   isOpen,
   onClose,
   data,
+  setIntro,
 }: CreateIntroModalProps) {
   const {
     mutate,
@@ -35,12 +39,27 @@ export default function CreateIntroModal({
       reset(); // 이전 상태 초기화
       mutate(data);
     }
+
+    // 모달이 닫힐 때 요청 취소 및 상태 초기화
+    return () => {
+      if (isPending) {
+        reset();
+      }
+    };
   }, [isOpen]);
 
   // 초안 재생성
   const handleRegenerate = () => {
     reset();
     mutate(data);
+  };
+
+  // 초안 적용
+  const handleSetIntro = () => {
+    if (!newIntro) return;
+
+    setIntro(newIntro);
+    onClose();
   };
 
   return (
@@ -63,7 +82,9 @@ export default function CreateIntroModal({
               <p className="body-lg-regular">다시 시도해주세요.</p>
             </div>
             <footer className="flex gap-5 justify-end">
-              <Button variant="outline">취소</Button>
+              <Button variant="outline" onClick={onClose}>
+                취소
+              </Button>
               <Button variant="solid" onClick={handleRegenerate}>
                 다시 작성
               </Button>
@@ -96,7 +117,9 @@ export default function CreateIntroModal({
               <Button variant="outline" onClick={handleRegenerate}>
                 다시 작성
               </Button>
-              <Button variant="solid">글 삽입</Button>
+              <Button variant="solid" onClick={handleSetIntro}>
+                글 삽입
+              </Button>
             </footer>
           </div>
         )}
