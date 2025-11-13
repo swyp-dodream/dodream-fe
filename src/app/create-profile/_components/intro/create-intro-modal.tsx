@@ -1,20 +1,47 @@
+import { useEffect } from 'react';
 import Button from '@/components/commons/buttons/button';
 import LoadingSpinner from '@/components/commons/loading-spinner';
 import Modal from '@/components/commons/modal';
+import useGenerateAiIntro from '@/hooks/user/use-generate-ai-intro';
+import type { AiRequestDataType } from '@/types/profile.type';
 
 interface CreateIntroModalProps {
   isOpen: boolean;
   onClose: () => void;
+  data: AiRequestDataType;
 }
 
+/**
+ * AI 초안 생성 모달
+ * @param data - AI 초안 요청을 위한 유저 프로필 정보 (AiRequestDataType 타입)
+ * @returns
+ */
 export default function CreateIntroModal({
   isOpen,
   onClose,
+  data,
 }: CreateIntroModalProps) {
-  const isLoading = true;
-  const isError = false;
-  const data =
-    '안녕하세요, 직무 전문가 이름입니다. 간결한 한 줄 강점/경험을 통해 지원 분야에 기여하겠습니다. 첫째, 강점입니다. 관련 경험/성과를 통해 구체적 증명을 할 수 있었습니다. 구체적인 수치를 제시하여, 역량을 갖추었음을 증명했습니다. 둘째, 강점입니다. 관련 경험/성과를 통해 구체적 증명을 할 수 있었습니다. 구체적인 수치를 제시하여, 역량을 갖추었음을 증명했습니다. 셋째, 강점입니다. 관련 경험/성과를 통해 구체적 증명을 할 수 있었습니다. 구체적인 수치를 제시하여, 역량을 갖추었음을 증명했습니다.';
+  const {
+    mutate,
+    data: newIntro,
+    isPending,
+    isError,
+    reset,
+  } = useGenerateAiIntro();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 무한 루프 방지 mutate, data 제거
+  useEffect(() => {
+    if (isOpen) {
+      reset(); // 이전 상태 초기화
+      mutate(data);
+    }
+  }, [isOpen]);
+
+  // 초안 재생성
+  const handleRegenerate = () => {
+    reset();
+    mutate(data);
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -23,6 +50,8 @@ export default function CreateIntroModal({
         <Modal.Title>AI 자기소개 초안 생성</Modal.Title>
         <Modal.Description>AI로 자기소개를 생성합니다</Modal.Description>
         <h4 className="body-lg-medium">AI 초안</h4>
+
+        {/* 에러 발생할 경우 */}
         {isError && (
           <section
             className="flex flex-col w-full"
@@ -35,11 +64,15 @@ export default function CreateIntroModal({
             </div>
             <footer className="flex gap-5 justify-end">
               <Button variant="outline">취소</Button>
-              <Button variant="solid">다시 작성</Button>
+              <Button variant="solid" onClick={handleRegenerate}>
+                다시 작성
+              </Button>
             </footer>
           </section>
         )}
-        {isLoading && (
+
+        {/* 로딩중 UI */}
+        {isPending && (
           <section
             className="h-[260px] flex flex-col items-center justify-center gap-[36px]"
             aria-live="polite"
@@ -51,19 +84,22 @@ export default function CreateIntroModal({
             </p>
           </section>
         )}
-        {!isLoading && !isError && data && (
+
+        {/* AI 자기소개 데이터 있을 경우 */}
+        {newIntro && (
           <div className="flex flex-col">
             <p className="h-40 border border-border-primary py-4 px-7 rounded-md body-lg-medium overflow-y-auto my-6">
-              {data}
+              {newIntro}
             </p>
             <hr className="text-border-primary" />
             <footer className="flex gap-5 justify-end mt-4">
-              <Button variant="outline">다시 작성</Button>
+              <Button variant="outline" onClick={handleRegenerate}>
+                다시 작성
+              </Button>
               <Button variant="solid">글 삽입</Button>
             </footer>
           </div>
         )}
-
         <Modal.Close />
       </Modal.Content>
     </Modal>

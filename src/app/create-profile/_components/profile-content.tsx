@@ -20,6 +20,7 @@ import type {
   LinkItemType,
   RoleType,
 } from '@/types/profile.type';
+import CreateIntroButton from './intro/create-intro-button';
 import ActivityModeField from './profile-fields/activity-mode-field';
 import AgeField from './profile-fields/age-field';
 import ExperienceField from './profile-fields/experience-field';
@@ -166,7 +167,7 @@ export default function ProfileContent() {
               ref={register('age').ref}
               value={watch('age') as AgeRangeType | null}
               onChange={(value: string) => {
-                setValue('age', value);
+                setValue('age', value as AgeRangeType);
                 clearErrors('age'); // 선택하면 에러 지우기
               }}
               error={errors.age?.message}
@@ -177,7 +178,7 @@ export default function ProfileContent() {
               ref={register('gender').ref}
               value={watch('gender') as GenderType | null}
               onChange={(value: string) => {
-                setValue('gender', value);
+                setValue('gender', value as GenderType);
                 clearErrors('gender');
               }}
               error={errors.gender?.message}
@@ -188,7 +189,7 @@ export default function ProfileContent() {
               ref={register('role').ref}
               value={watch('role') as RoleType | null}
               onChange={(value: string) => {
-                setValue('role', value);
+                setValue('role', value as RoleType);
                 clearErrors('role');
               }}
               error={errors.role?.message}
@@ -199,7 +200,7 @@ export default function ProfileContent() {
               ref={register('experience').ref}
               value={watch('experience') as ExperienceType | null}
               onChange={(value: string) => {
-                setValue('experience', value);
+                setValue('experience', value as ExperienceType);
                 clearErrors('experience');
               }}
               error={errors.experience?.message}
@@ -210,7 +211,7 @@ export default function ProfileContent() {
               ref={register('activityMode').ref}
               value={watch('activityMode') as ActivityModeType | null}
               onChange={(value: string) => {
-                setValue('activityMode', value);
+                setValue('activityMode', value as ActivityModeType);
                 clearErrors('activityMode');
               }}
               error={errors.activityMode?.message}
@@ -241,7 +242,7 @@ export default function ProfileContent() {
                 작성해 주는 서비스예요. 현재까지 입력해 주신 기본정보와 자기소개
                 내용이 반영되어 작성돼요."
               />
-              {/* <CreateIntroButton ProfileFormData={watch()} /> */}
+              <CreateIntroButton ProfileFormData={watch()} />
             </div>
             <TextField
               className="w-full"
