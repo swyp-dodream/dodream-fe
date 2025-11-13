@@ -20,7 +20,7 @@ export function useGetProfile() {
 }
 
 /**
- * 유저의 프로필 여부를 저정하는 쿼리
+ * 유저의 프로필 여부를 저장하는 쿼리
  */
 export function useGetProfileExists() {
   const { data: user } = useGetUser();

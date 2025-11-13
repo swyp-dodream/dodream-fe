@@ -49,7 +49,14 @@ export default function useCreateProfile() {
     },
     onSuccess: () => {
       // 성공 시 프로필 여부 쿼리 무효화
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.user],
+        refetchType: 'active',
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.user, QUERY_KEY.profileExists],
+        refetchType: 'active',
+      });
     },
     onError: () => {
       console.error('프로필 생성 실패:');

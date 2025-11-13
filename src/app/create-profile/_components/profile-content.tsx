@@ -2,15 +2,18 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { overlay } from 'overlay-kit';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import profileApi from '@/apis/profile.api';
+import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
 import Toggle from '@/components/commons/toggle';
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
+import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
 import useProfileStore from '@/store/profile-store';
@@ -41,7 +44,7 @@ export default function ProfileContent() {
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
   // 생성하지 않고 벗어나면 로그아웃 처리
-  // const { preventLogout } = useLogoutOnLeave();
+  const { preventLogout } = useLogoutOnLeave();
 
   const router = useRouter();
 
@@ -140,10 +143,13 @@ export default function ProfileContent() {
 
     // 제출 처리
     createProfile(data, {
-      onSuccess: (response) => {
+      onSuccess: () => {
         // 성공 시 홈으로 리다이렉트
         router.replace('/');
-        console.log(response);
+        overlay.open(({ isOpen, close }) => (
+          <WelcomeModal isOpen={isOpen} onClose={close} />
+        ));
+        preventLogout(); // 로그아웃 방지
       },
     });
   };
