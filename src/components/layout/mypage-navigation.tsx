@@ -13,8 +13,9 @@ export default function MyPageNavigation() {
       className="col-span-2 h-full border-r-1 border-border-primary"
     >
       <ul className="flex flex-col gap-7 fixed">
-        {MYPAGE_MENU_LIST.map(({ label, href, icon: Icon }) => {
+        {MYPAGE_MENU_LIST.map(({ label, href, icon }) => {
           const isActive = pathname.startsWith(href);
+          const Icon = icon.default;
 
           return (
             <li key={href}>

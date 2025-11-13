@@ -1,4 +1,4 @@
-import api from '@/apis/api';
+import { api } from './fetcher/api';
 
 const postApi = {
   cancelOffer: (suggestionId: number) => {

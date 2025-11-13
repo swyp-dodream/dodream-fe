@@ -28,6 +28,9 @@ export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
 
+  // 생성하지 않고 벗어나면 로그아웃 처리
+  // const { preventLogout } = useLogoutOnLeave();
+
   // 필드 상태
   const [nickname, setNickname] = useState('');
   const [age, setAge] = useState<AgeRangeType | null>(null);
