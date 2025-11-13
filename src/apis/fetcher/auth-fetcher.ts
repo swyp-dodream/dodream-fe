@@ -13,8 +13,8 @@ export default async function authenticatedFetcher<T>(
     return await fetcher<T>(endpoint, {
       ...options,
       headers: {
-        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
         ...options.headers,
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
       },
     });
   } catch (error) {
@@ -33,8 +33,8 @@ export default async function authenticatedFetcher<T>(
       return fetcher<T>(endpoint, {
         ...options,
         headers: {
-          Authorization: `Bearer ${newToken}`,
           ...options.headers,
+          Authorization: `Bearer ${newToken}`,
         },
       });
     }
