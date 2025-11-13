@@ -29,7 +29,7 @@ export function useGetProfileExists() {
     queryKey: [QUERY_KEY.user, QUERY_KEY.profileExists],
     queryFn: userApi.getProfileExists,
     enabled: !!user,
-    staleTime: 0,
-    gcTime: 0,
+    staleTime: 12 * 60 * 60 * 1000,
+    gcTime: 12 * 60 * 60 * 1000,
   });
 }
