@@ -7,7 +7,6 @@ async function fetcher<T>(
   try {
     const url = `${BASE_URL}${endpoint}`;
 
-    // TODO: 파일 업로드 고려하여 Content-Type 수정
     const res = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +19,7 @@ async function fetcher<T>(
 
     // JSON이 아닌 응답 체크
     if (!contentType?.includes('application/json') && res.status !== 204) {
-      console.error('Non-JSON response:', {
+      console.error('JSON이 아닌 응답:', {
         status: res.status,
         contentType,
         url,
@@ -28,16 +27,26 @@ async function fetcher<T>(
 
       // HTML 응답은 인증 에러로 간주
       if (contentType?.includes('text/html')) {
-        throw new Error('401');
+        const error: Error & { status?: number } = new Error('인증되지 않음');
+        error.status = 401;
+        throw error;
       }
 
-      throw new Error(`Unexpected response type: ${contentType}`);
+      const error: Error & { status?: number } = new Error(
+        `응담 형식: ${contentType}`,
+      );
+      error.status = res.status;
+      throw error;
     }
 
     if (!res.ok) {
       const errorText = await res.text();
-      console.error('Error response:', errorText);
-      throw new Error(`${res.status}`);
+      console.error('에러 응답:', errorText);
+      const error: Error & { status?: number } = new Error(
+        errorText || `HTTP 에러 ${res.status}`,
+      );
+      error.status = res.status;
+      throw error;
     }
 
     return res.status === 204 ? ({} as T) : await res.json();

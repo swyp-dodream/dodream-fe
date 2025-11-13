@@ -1,3 +1,4 @@
+// authenticatedFetcher.ts
 import { BASE_URL } from '@/constants/auth.constant';
 import { tokenStorage } from '@/utils/auth.util';
 import fetcher from './fetcher';
@@ -18,14 +19,12 @@ export default async function authenticatedFetcher<T>(
     });
   } catch (error) {
     // 401/402 에러 시 토큰 갱신 처리
-    if (
-      error instanceof Error &&
-      (error.message.includes('401') || error.message.includes('402'))
-    ) {
+    const status = (error as Error & { status?: number }).status;
+    if (status === 401 || status === 402) {
       const newToken = await refreshAccessToken();
 
       if (!newToken) {
-        tokenStorage.clearAll(); // 모든 토큰 삭제
+        tokenStorage.clearAll();
         window.location.href = '/';
         throw error;
       }
@@ -45,7 +44,7 @@ export default async function authenticatedFetcher<T>(
 }
 
 /**
- * 리프레시 토큰 발급 함수
+ * 리프레시 토큰으로 토큰 재발급
  */
 async function refreshAccessToken(): Promise<string | null> {
   try {
@@ -61,7 +60,10 @@ async function refreshAccessToken(): Promise<string | null> {
       },
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error('토큰 재발급 실패');
+      return null;
+    }
 
     const { accessToken } = await res.json();
     tokenStorage.setToken(accessToken);
