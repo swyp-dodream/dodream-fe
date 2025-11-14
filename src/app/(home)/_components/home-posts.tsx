@@ -60,7 +60,18 @@ function HomePostCards({ posts }: HomePostCardsProps) {
       {posts.map((post) => {
         return (
           <li key={post.id}>
-            <DefaultPostCard post={post} />
+            <DefaultPostCard
+              id={post.id}
+              title={post.title}
+              status={post.status}
+              ownerNickname={post.ownerNickname}
+              ownerProfileImageUrl={post.ownerProfileImageUrl}
+              projectType={post.projectType}
+              deadlineDate={post.deadlineDate}
+              viewCount={post.viewCount}
+              stacks={post.stacks}
+              roles={post.roles}
+            />
           </li>
         );
       })}

@@ -37,7 +37,20 @@ export default function BookmarkPage() {
             <Tabs.Content key={tabValue} value={tabValue}>
               {posts.length > 0 ? (
                 posts.map((post) => (
-                  <DefaultPostCard key={post.id} post={post} />
+                  // TODO: 임시 값 수정하기
+                  <DefaultPostCard
+                    key={post.id}
+                    id={Number(post.id)}
+                    title={post.title}
+                    status="RECRUITING"
+                    ownerNickname="닉네임"
+                    ownerProfileImageUrl=""
+                    projectType="PROJECT"
+                    deadlineDate={post.deadlineAt.toString()}
+                    viewCount={post.views}
+                    stacks={post.techCategories}
+                    roles={[{ role: '백엔드', headcount: 1 }]}
+                  />
                 ))
               ) : (
                 <BookmarkEmptyState tabValue={tabValue} />

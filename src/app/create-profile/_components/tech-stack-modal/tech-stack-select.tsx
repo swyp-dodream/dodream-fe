@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Checkbox } from '@/components/commons/check-box';
-import { TECH_STACKS } from '@/constants/profile.constant';
 import type { TechStackType } from '@/types/profile.type';
 
 interface TechStackSelectProps {
@@ -41,7 +40,7 @@ export default function TechStackSelect({
         />
 
         {/* 기술 스택 */}
-        <span className="body-md-regular">{TECH_STACKS[stack]}</span>
+        <span className="body-md-regular">{stack}</span>
       </label>
     </li>
   );

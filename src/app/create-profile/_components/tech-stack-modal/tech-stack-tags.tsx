@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import XIcon from '@/assets/icons/x/12.svg';
-import { TECH_STACKS } from '@/constants/profile.constant';
 import type { TechStackType } from '@/types/profile.type';
 
 interface TechStackTagsProps {
@@ -56,7 +55,7 @@ function TechStackTag({ stack, onRemove, variant = 'sm' }: TechStackTagProps) {
           variant === 'md',
       })}
     >
-      {TECH_STACKS[stack]}
+      {stack}
       <button type="button" onClick={onRemove}>
         <XIcon className="text-icon-light" />
       </button>

@@ -1,32 +1,55 @@
 import { PostCard } from '@/components/features/post/post-card';
-import type { PostContentType } from '@/types/post.type';
+import type { PostStatusType, ProjectType } from '@/types/post.type';
 import { formatDeadlineAt } from '@/utils/date.util';
 
 interface DefaultPostCardProps {
-  post: PostContentType;
+  id: number;
+  title: string;
+  status: PostStatusType;
+  ownerNickname: string;
+  ownerProfileImageUrl: string;
+  projectType: ProjectType;
+  deadlineDate: string;
+  viewCount: number;
+  stacks: string[];
+  roles: {
+    role: string;
+    headcount: number;
+  }[];
 }
 
-export default function DefaultPostCard({ post }: DefaultPostCardProps) {
+export default function DefaultPostCard({
+  id,
+  title,
+  status,
+  ownerNickname,
+  ownerProfileImageUrl,
+  projectType,
+  deadlineDate,
+  viewCount,
+  stacks,
+  roles,
+}: DefaultPostCardProps) {
   return (
-    <PostCard href={`/post/${post.id}`}>
+    <PostCard href={`/post/${id}`}>
       <PostCard.Header
-        nickname={post.ownerNickname}
-        elapsedTime={formatDeadlineAt(post.deadlineDate)}
-        projectType={post.projectType}
+        nickname={ownerNickname}
+        elapsedTime={formatDeadlineAt(deadlineDate)}
+        projectType={projectType}
         // TODO: 북마크 값 변경
         isBookmarked={false}
       />
 
       <PostCard.Main>
-        <PostCard.Title>{post.title}</PostCard.Title>
+        <PostCard.Title>{title}</PostCard.Title>
 
         <div className="flex flex-col gap-4">
-          <PostCard.TechCategories techCategories={post.stacks} />
-          <PostCard.Roles roles={post.roles} />
+          <PostCard.TechCategories techCategories={stacks} />
+          <PostCard.Roles roles={roles} />
         </div>
       </PostCard.Main>
 
-      <PostCard.Footer views={post.viewCount} status={post.status} />
+      <PostCard.Footer views={viewCount} status={status} />
     </PostCard>
   );
 }

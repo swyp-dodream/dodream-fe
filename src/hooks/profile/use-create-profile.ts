@@ -10,7 +10,6 @@ import {
   convertAgeValue,
   convertExperienceValue,
   convertGenderValue,
-  convertTechStackValue,
 } from '@/utils/profile.util';
 
 export default function useCreateProfile() {
@@ -25,9 +24,7 @@ export default function useCreateProfile() {
         roleNames: [ROLE[data.role as RoleType]],
         experience: convertExperienceValue(data.experience),
         activityMode: convertActivityModeValue(data.activityMode),
-        techSkillNames: data.techStacks.map((stack) =>
-          convertTechStackValue(stack),
-        ),
+        techSkillNames: data.techStacks,
         interestKeywordNames: data.interests.map(
           (interest) => INTERESTS[interest],
         ),
