@@ -1,8 +1,13 @@
 export const QUERY_KEY = {
+  /** 로그인 하지 않아도 사용 가능 */
   user: 'user',
-  profile: 'profile',
+
+  /** 로그인 후 사용 */
+  auth: 'auth',
   profileExists: 'profileExists',
-  posts: 'posts',
+  profile: 'profile',
   aiPost: 'aiPost',
+
+  posts: 'posts',
   offers: 'offers',
 };

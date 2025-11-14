@@ -1,5 +1,3 @@
-import { QUERY_KEY } from '@/constants/query-key.constant';
-import { queryClient } from '@/lib/query-client';
 import type { ProfileType, UserType } from '@/types/auth.type';
 import { tokenStorage } from '@/utils/auth.util';
 import { authApi } from './fetcher/api';
@@ -12,10 +10,12 @@ const userApi = {
   logout: async () => {
     try {
       await authApi.post('/api/auth/logout');
+      console.log('로그아웃 성공');
+    } catch (error) {
+      console.error('로그아웃 실패:', error);
+    } finally {
+      // API 성공/실패 관계없이 로컬 정리
       tokenStorage.clearAll();
-      queryClient.removeQueries({ queryKey: [QUERY_KEY.user] });
-    } catch {
-      throw Error('로그아웃 실패');
     }
   },
 

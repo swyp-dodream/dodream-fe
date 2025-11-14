@@ -1,4 +1,3 @@
-// authenticatedFetcher.ts
 import { BASE_URL } from '@/constants/auth.constant';
 import { tokenStorage } from '@/utils/auth.util';
 import fetcher from './fetcher';

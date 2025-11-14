@@ -60,7 +60,7 @@ async function fetcher<T>(
 
     return res.status === 204 ? ({} as T) : await res.json();
   } catch (error) {
-    console.error(`Fetch 요청 오류: ${error}`);
+    console.error(`${endpoint} Fetch 요청 오류: ${error}`);
     throw error;
   }
 }

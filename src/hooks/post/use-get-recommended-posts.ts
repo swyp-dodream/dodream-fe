@@ -7,7 +7,7 @@ export default function useGetRecommendedPosts() {
   const { data: profileExists } = useGetProfileExists();
 
   return useQuery({
-    queryKey: [QUERY_KEY.aiPost],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.aiPost],
     queryFn: postApi.getRecommendedPosts,
     enabled: !!profileExists?.exists,
   });

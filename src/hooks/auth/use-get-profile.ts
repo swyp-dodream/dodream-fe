@@ -10,7 +10,7 @@ export function useGetProfile() {
   const { data: profileExists } = useGetProfileExists();
 
   return useQuery({
-    queryKey: [QUERY_KEY.user, QUERY_KEY.profile],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.profile],
     queryFn: userApi.getProfile,
     enabled: profileExists?.exists === true,
     retry: false, // 프로필 없으면 재시도 X
@@ -26,7 +26,7 @@ export function useGetProfileExists() {
   const { data: user } = useGetUser();
 
   return useQuery({
-    queryKey: [QUERY_KEY.user, QUERY_KEY.profileExists],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
     queryFn: userApi.getProfileExists,
     enabled: !!user,
     staleTime: 12 * 60 * 60 * 1000,
