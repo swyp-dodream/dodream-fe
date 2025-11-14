@@ -1,14 +1,20 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { overlay } from 'overlay-kit';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import profileApi from '@/apis/profile.api';
+import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
 import Toggle from '@/components/commons/toggle';
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
+import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
+import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
 import useProfileStore from '@/store/profile-store';
 import type {
@@ -19,6 +25,7 @@ import type {
   LinkItemType,
   RoleType,
 } from '@/types/profile.type';
+import CreateIntroButton from './intro/create-intro-button';
 import ActivityModeField from './profile-fields/activity-mode-field';
 import AgeField from './profile-fields/age-field';
 import ExperienceField from './profile-fields/experience-field';
@@ -32,13 +39,17 @@ import NicknameField from './profile-fields/user-info/nickname-field';
 export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
-
   const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
   const interests = useProfileStore((state) => state.interests); // 관심 분야
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
   // 생성하지 않고 벗어나면 로그아웃 처리
-  // const { preventLogout } = useLogoutOnLeave();
+  const { preventLogout } = useLogoutOnLeave();
+
+  const router = useRouter();
+
+  // 프로필 생성 뮤테이션
+  const { mutate: createProfile } = useCreateProfile();
 
   // React Hook Form 설정
   const {
@@ -47,7 +58,8 @@ export default function ProfileContent() {
     watch,
     trigger,
     formState: { errors },
-    // setError,
+    setError,
+    setFocus,
     clearErrors, // 에러 후 재입력하면 에러 제거
     setValue, // 드롭다운 값 설정용
   } = useForm<ProfileFormData>({
@@ -100,10 +112,23 @@ export default function ProfileContent() {
       return;
     }
 
-    // TODO: userApi 완성 후 닉네임 중복 체크
+    // 닉네임 중복 체크
+    try {
+      const { available } = await profileApi.checkNickname(watch('nickname'));
+      if (!available) {
+        setError('nickname', {
+          type: 'server',
+          message: '중복된 닉네임입니다',
+        });
+        setFocus('nickname');
+        return;
+      }
 
-    // 다음 페이지로 이동
-    setStep(2);
+      // 다음 페이지로 이동
+      setStep(2);
+    } catch {
+      console.error('닉네임 확인 중 오류가 발생했습니다.');
+    }
   };
 
   /**
@@ -114,12 +139,21 @@ export default function ProfileContent() {
     // 2페이지 필드 검증
     const isValid = await trigger(['intro'], { shouldFocus: true });
 
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
 
-    // TODO: userApi 완성 후 제출 처리
-    alert(JSON.stringify(data, null, 2));
+    // 제출 처리
+    createProfile(data, {
+      onSuccess: () => {
+        // 로그아웃 방지
+        preventLogout();
+
+        // 성공 시 홈으로 리다이렉트
+        router.replace('/');
+        overlay.open(({ isOpen, close }) => (
+          <WelcomeModal isOpen={isOpen} onClose={close} />
+        ));
+      },
+    });
   };
 
   return (
@@ -151,7 +185,7 @@ export default function ProfileContent() {
               ref={register('age').ref}
               value={watch('age') as AgeRangeType | null}
               onChange={(value: string) => {
-                setValue('age', value);
+                setValue('age', value as AgeRangeType);
                 clearErrors('age'); // 선택하면 에러 지우기
               }}
               error={errors.age?.message}
@@ -162,7 +196,7 @@ export default function ProfileContent() {
               ref={register('gender').ref}
               value={watch('gender') as GenderType | null}
               onChange={(value: string) => {
-                setValue('gender', value);
+                setValue('gender', value as GenderType);
                 clearErrors('gender');
               }}
               error={errors.gender?.message}
@@ -173,7 +207,7 @@ export default function ProfileContent() {
               ref={register('role').ref}
               value={watch('role') as RoleType | null}
               onChange={(value: string) => {
-                setValue('role', value);
+                setValue('role', value as RoleType);
                 clearErrors('role');
               }}
               error={errors.role?.message}
@@ -184,7 +218,7 @@ export default function ProfileContent() {
               ref={register('experience').ref}
               value={watch('experience') as ExperienceType | null}
               onChange={(value: string) => {
-                setValue('experience', value);
+                setValue('experience', value as ExperienceType);
                 clearErrors('experience');
               }}
               error={errors.experience?.message}
@@ -195,7 +229,7 @@ export default function ProfileContent() {
               ref={register('activityMode').ref}
               value={watch('activityMode') as ActivityModeType | null}
               onChange={(value: string) => {
-                setValue('activityMode', value);
+                setValue('activityMode', value as ActivityModeType);
                 clearErrors('activityMode');
               }}
               error={errors.activityMode?.message}
@@ -226,18 +260,18 @@ export default function ProfileContent() {
                 작성해 주는 서비스예요. 현재까지 입력해 주신 기본정보와 자기소개
                 내용이 반영되어 작성돼요."
               />
-              <button
-                className="border border-border-brand text-brand body-lg-medium h-[34px] w-[140px] rounded-md bg-surface py-2 ml-3 hover:bg-button-ai"
-                type="button"
-              >
-                AI로 초안 작성
-              </button>
+              {/* AI 초안 생성 버튼 */}
+              <CreateIntroButton
+                ProfileFormData={watch()}
+                setIntro={(text) => setValue('intro', text)}
+              />
             </div>
             <TextField
               className="w-full"
               placeholder="자기소개를 작성해 주세요."
               maxLength={500}
               resizable={false}
+              value={watch('intro')}
               {...register('intro', {
                 onChange: () => clearErrors('intro'),
               })}

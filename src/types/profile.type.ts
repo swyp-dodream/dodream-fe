@@ -98,6 +98,40 @@ export type LinkItemType = {
 };
 
 /**
+ * AI 자기소개 초안 데이터 타입
+ */
+export type AiRequestType = {
+  nickname: string;
+  ageBand: string | null;
+  experience: string | null;
+  activityMode: string | null;
+  introText: string;
+  profileUrls: string[];
+  roles: Array<string | null>;
+  interestKeywords: string[];
+  techSkills: string[];
+};
+
+/**
+ * 프로필 생성 요청 타입
+ */
+export type CreateProfileRequestType = {
+  nickname: string;
+  gender: string;
+  ageBand: string;
+  experience: string;
+  activityMode: string;
+  profileImageCode: number;
+  roleNames: string[];
+  interestKeywordNames: string[];
+  techSkillNames: string[];
+  introText: string;
+  projectProposalEnabled: boolean;
+  studyProposalEnabled: boolean;
+  profileUrls: Record<string, string>;
+};
+
+/**
  * 프로필 타입
  * TODO: 실제 타입으로 변경
  */

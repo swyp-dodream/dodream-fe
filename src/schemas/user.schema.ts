@@ -1,14 +1,15 @@
 import { z } from 'zod';
-import { NICKNAME_REGEX } from '@/constants/profile.constant';
-
-/** 공통 드롭다운 스키마 */
-const requiredDropdownString = () =>
-  z
-    .string()
-    .nullable()
-    .refine((val) => val !== null, {
-      message: '필수 선택 항목입니다',
-    });
+import {
+  ACTIVITY_MODE,
+  AGE_RANGES,
+  EXPERIENCE,
+  GENDER,
+  INTERESTS,
+  NICKNAME_REGEX,
+  ROLE,
+  TECH_STACKS,
+} from '@/constants/profile.constant';
+import type { InterestsType, TechStackType } from '@/types/profile.type';
 
 /** URL 정규식 */
 const URL_PATTERN =
@@ -27,16 +28,47 @@ export const nicknameSchema = z
   .max(10, ' ')
   .regex(NICKNAME_REGEX, ' ');
 
-/** 나이, 성별, 직군, 경력, 선호 방식 스키마 */
-export const ageSchema = requiredDropdownString();
-export const genderSchema = requiredDropdownString();
-export const roleSchema = requiredDropdownString();
-export const experienceSchema = requiredDropdownString();
-export const activityModeSchema = requiredDropdownString();
+/**
+ * 나이, 성별, 직군, 경력, 선호 방식 스키마
+ * - 기존에 있던 타입 활용
+ */
+export const ageSchema = z.enum(
+  Object.keys(AGE_RANGES) as [
+    keyof typeof AGE_RANGES,
+    ...Array<keyof typeof AGE_RANGES>,
+  ],
+);
+
+export const genderSchema = z.enum(
+  Object.keys(GENDER) as [keyof typeof GENDER, ...Array<keyof typeof GENDER>],
+);
+
+export const roleSchema = z.enum(
+  Object.keys(ROLE) as [keyof typeof ROLE, ...Array<keyof typeof ROLE>],
+);
+
+export const experienceSchema = z.enum(
+  Object.keys(EXPERIENCE) as [
+    keyof typeof EXPERIENCE,
+    ...Array<keyof typeof EXPERIENCE>,
+  ],
+);
+
+export const activityModeSchema = z.enum(
+  Object.keys(ACTIVITY_MODE) as [
+    keyof typeof ACTIVITY_MODE,
+    ...Array<keyof typeof ACTIVITY_MODE>,
+  ],
+);
+
+/** 기술 스택 스키마 */
+export const techStacksSchema = z.array(
+  z.enum(Object.keys(TECH_STACKS) as [TechStackType, ...TechStackType[]]),
+);
 
 /** 관심 분야 스키마 */
 export const interestsSchema = z
-  .array(z.string())
+  .array(z.enum(Object.keys(INTERESTS) as [InterestsType, ...InterestsType[]]))
   .min(1, '필수 선택 항목입니다');
 
 /** 링크 스키마 */
@@ -66,12 +98,22 @@ export const introSchema = z.string().min(1, '필수 입력 항목입니다');
 /** 전체 프로필 스키마 */
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
-  age: ageSchema,
-  gender: genderSchema,
-  role: roleSchema,
-  experience: experienceSchema,
-  activityMode: activityModeSchema,
-  techStacks: z.any(), // 검증 없음
+  age: ageSchema.nullable().refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  }),
+  gender: genderSchema.nullable().refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  }),
+  role: roleSchema.nullable().refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  }),
+  experience: experienceSchema.nullable().refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  }),
+  activityMode: activityModeSchema.nullable().refine((val) => val !== null, {
+    message: '필수 선택 항목입니다',
+  }),
+  techStacks: techStacksSchema,
   interests: interestsSchema,
   links: linksSchema,
   intro: introSchema,

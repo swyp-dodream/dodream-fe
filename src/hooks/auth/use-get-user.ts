@@ -7,7 +7,7 @@ export default function useGetUser() {
   return useQuery({
     queryKey: [QUERY_KEY.user],
     queryFn: userApi.getUser,
-    enabled: tokenStorage.hasToken(),
+    enabled: tokenStorage.hasToken,
     staleTime: 10 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
