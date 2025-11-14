@@ -31,8 +31,8 @@ export type ActivityModeLabelType = (typeof ACTIVITY_MODE)[ActivityModeType];
 // 기술 스택 타입
 // TODO: 추후 백엔드에서 받아오는 것으로 수정
 export type TechStackType =
-  | 'Javascript'
-  | 'Typescript'
+  | 'JavaScript'
+  | 'TypeScript'
   | 'React'
   | 'Vue'
   | 'Svelte'
@@ -43,21 +43,21 @@ export type TechStackType =
   | 'Nestjs'
   | 'Go'
   | 'Express'
-  | 'Mysql'
-  | 'Mongodb'
+  | 'MySQL'
+  | 'MongoDB'
   | 'Ruby'
   | 'Python'
   | 'Django'
-  | 'Php'
-  | 'Graphql'
+  | 'php'
+  | 'GraphQL'
   | 'Firebase'
   | 'Swift'
-  | 'ObjectiveC'
+  | 'Objective-C'
   | 'Kotlin'
   | 'Flutter'
   | 'ReactNative'
   | 'Zeplin'
-  | 'AdobeXd'
+  | 'Adobe'
   | 'Figma'
   | 'Sketch';
 

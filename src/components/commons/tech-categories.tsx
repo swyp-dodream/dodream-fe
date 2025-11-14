@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { TECH_STACK_MAP } from '@/constants/profile.constant';
+import type { TechStackType } from '@/types/profile.type';
 
 const MAX_STACKS = 5;
 
@@ -17,7 +19,7 @@ export default function TechCategories({
       {renderingTechCategories.map((techCategory) => (
         <Image
           key={techCategory}
-          src={`/logo/stacks/${techCategory}/32.svg`}
+          src={`/logo/stacks/${TECH_STACK_MAP[techCategory as TechStackType]}/32.svg`}
           alt={`${techCategory}`}
           width={32}
           height={32}
