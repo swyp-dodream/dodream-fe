@@ -52,6 +52,7 @@ export type PostContentType = {
 };
 
 export type ProjectType = 'PROJECT' | 'STUDY';
+export type HomeProjectType = ProjectType | 'ALL';
 
 export type PostStatusType = 'COMPLETED' | 'RECRUITING';
 

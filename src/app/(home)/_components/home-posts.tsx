@@ -3,22 +3,20 @@
 import { useState } from 'react';
 import { Tabs } from '@/components/commons/tabs';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
+import {
+  HOME_PROJECT_MAP,
+  HOME_PROJECT_TAB_VALUES,
+} from '@/constants/post.constant';
 import useGetPosts from '@/hooks/post/use-get-posts';
-import type { PostContentType } from '@/types/post.type';
-
-// TODO: 타입 분리
-export const TAB_VALUE = {
-  all: '전체',
-  project: '프로젝트',
-  study: '스터디',
-} as const;
-
-type ProjectType = keyof typeof TAB_VALUE;
-const PROJECT_TAB_VALUES = Object.keys(TAB_VALUE) as ProjectType[];
+import type {
+  HomeProjectType,
+  PostContentType,
+  ProjectType,
+} from '@/types/post.type';
 
 export default function HomePosts() {
-  const [activePostType, setActivePostType] = useState<ProjectType>('all');
-  const { data: posts } = useGetPosts();
+  const [activePostType, setActivePostType] = useState<HomeProjectType>('ALL');
+  const { data: posts } = useGetPosts(activePostType);
 
   // TODO: 탭 스타일 분리
   return (
@@ -38,9 +36,9 @@ export default function HomePosts() {
           className="col-span-2 flex p-3 gap-3 bg-primary rounded-lg"
           aria-label="게시글 타입 필터"
         >
-          {PROJECT_TAB_VALUES.map((tabValue) => (
+          {HOME_PROJECT_TAB_VALUES.map((tabValue) => (
             <Tabs.Trigger key={tabValue} value={tabValue}>
-              {TAB_VALUE[tabValue]}
+              {HOME_PROJECT_MAP[tabValue as HomeProjectType]}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
