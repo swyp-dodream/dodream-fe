@@ -59,9 +59,9 @@ export const convertActivityModeValue = (
   if (mode === null) return '선택안함';
 
   const modeMap: Record<keyof typeof ACTIVITY_MODE, string> = {
-    online: '온라인',
-    offline: '오프라인',
-    hybrid: '하이브리드',
+    ONLINE: '온라인',
+    OFFLINE: '오프라인',
+    HYBRID: '하이브리드',
   };
 
   return modeMap[mode] || '선택안함';

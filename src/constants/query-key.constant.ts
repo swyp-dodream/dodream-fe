@@ -3,5 +3,6 @@ export const QUERY_KEY = {
   profile: 'profile',
   profileExists: 'profileExists',
   posts: 'posts',
+  aiPost: 'aiPost',
   offers: 'offers',
 };

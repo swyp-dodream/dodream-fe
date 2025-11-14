@@ -22,7 +22,7 @@ export default function AuthCallBackClient({
 
   useEffect(() => {
     // TODO: 이미 로그인된 사용자는 접근 비허용 - 코드 수정
-    if (tokenStorage.getToken() || !accessToken || !refreshToken) {
+    if (!accessToken || !refreshToken) {
       router.replace('/');
       return;
     }

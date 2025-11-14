@@ -3,26 +3,20 @@
 import Link from 'next/link';
 import { Tabs } from 'radix-ui';
 import { useState } from 'react';
-import {
-  HOME_RECOMMENDED_POST_PROJECT,
-  HOME_RECOMMENDED_POST_STUDY,
-} from '@/mocks/home';
-import type { RecommendedPostType } from '@/types/home.type';
+import useGetRecommendedPosts from '@/hooks/post/use-get-recommended-posts';
+import type {
+  ProjectType,
+  RecommendedPostContentType,
+} from '@/types/post.type';
 import { formatDate } from '@/utils/date.util';
 import RecommendTypes from './recommend-types';
 
-// TODO: 타입 분리
-type TabValue = 'study' | 'project';
-
 export default function RecommendedPosts() {
-  // TODO: 타입 분리할 경우 수정
-  const [activePostType, setActivePostType] = useState<TabValue>('project');
+  const [activePostType, setActivePostType] = useState<ProjectType>('PROJECT');
+  const { data: posts } = useGetRecommendedPosts();
 
-  // TODO: API 요청으로 수정
-  const posts =
-    activePostType === 'project'
-      ? HOME_RECOMMENDED_POST_PROJECT
-      : HOME_RECOMMENDED_POST_STUDY;
+  // TODO: 로딩 스켈레톤 추가
+  if (!posts || posts.posts.length === 0) return null;
 
   return (
     <section className="col-span-12 flex flex-col gap-8">
@@ -39,8 +33,8 @@ export default function RecommendedPosts() {
 
       {/* AI 추천 게시글 */}
       <ul className="flex gap-7">
-        {posts.map((post) => (
-          <RecommendedPost key={post.id} post={post} />
+        {posts.posts.map((post) => (
+          <RecommendedPost key={post.postId} post={post} />
         ))}
       </ul>
     </section>
@@ -48,19 +42,18 @@ export default function RecommendedPosts() {
 }
 
 interface RecommendedPostProps {
-  post: RecommendedPostType;
+  post: RecommendedPostContentType;
 }
 
 /**
  * 개별 게시글 컴포넌트
- * TODO: 타입 수정 후 컴포넌트 수정
  */
 function RecommendedPost({ post }: RecommendedPostProps) {
   return (
     <li className="flex-1 border border-border-primary rounded-lg px-6 py-5 ">
-      <Link href="/">
+      <Link href={`/post/${post.postId}`}>
         <article className="flex flex-col h-full gap-5">
-          <RecommendTypes labels={post.type} />
+          <RecommendTypes labels={post.fields} />
           <h3 className="heading-sm line-clamp-2">{post.title}</h3>
           <div className="flex gap-3 text-subtle flex-1 items-end">
             <span>마감</span>
@@ -73,8 +66,8 @@ function RecommendedPost({ post }: RecommendedPostProps) {
 }
 
 interface PostTypeTabsProps {
-  value: TabValue;
-  onValueChange: (value: TabValue) => void;
+  value: ProjectType;
+  onValueChange: (value: ProjectType) => void;
 }
 
 /**
@@ -86,7 +79,7 @@ function PostTypeTabs({ value, onValueChange }: PostTypeTabsProps) {
   return (
     <Tabs.Root
       value={value}
-      onValueChange={(value) => onValueChange(value as TabValue)}
+      onValueChange={(value) => onValueChange(value as ProjectType)}
     >
       <Tabs.List
         className="flex gap-5 body-lg-medium text-subtle"

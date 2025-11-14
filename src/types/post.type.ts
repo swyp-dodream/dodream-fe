@@ -1,3 +1,5 @@
+import type { ActivityModeType } from './profile.type';
+
 /** 게시글 데이터 타입 */
 export type PostType = {
   content: PostContentType[];
@@ -38,7 +40,7 @@ export type PostContentType = {
   ownerNickname: string;
   ownerProfileImageUrl: string;
   projectType: ProjectType;
-  activityMode: 'ONLINE' | 'OFFLINE' | 'HYBRID';
+  activityMode: ActivityModeType;
   duration: DurationType;
   deadlineDate: string;
   interestKeywords: string[];
@@ -49,6 +51,24 @@ export type PostContentType = {
     headcount: number;
   }[];
   owner: boolean;
+};
+
+/** AI 추천 게시글 타입 */
+export type RecommendedPostsType = {
+  posts: RecommendedPostContentType[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
+/** AI 추천 게시글 컨텐츠 타입ㄴ */
+export type RecommendedPostContentType = {
+  postId: number;
+  title: string;
+  projectType: ProjectType;
+  activityMode: ActivityModeType;
+  deadlineAt: string;
+  similarity: number;
+  fields: string[];
 };
 
 export type ProjectType = 'PROJECT' | 'STUDY';

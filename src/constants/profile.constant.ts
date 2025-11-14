@@ -74,9 +74,9 @@ export const EXPERIENCE_LIST = Object.entries(EXPERIENCE).map(
  * 선호 방식 값 객체
  */
 export const ACTIVITY_MODE = {
-  online: '온라인',
-  offline: '오프라인',
-  hybrid: '온·오프라인',
+  ONLINE: '온라인',
+  OFFLINE: '오프라인',
+  HYBRID: '온·오프라인',
 };
 
 export const ACTIVITY_MODE_LIST = Object.entries(ACTIVITY_MODE).map(

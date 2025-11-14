@@ -25,7 +25,6 @@ export default async function authenticatedFetcher<T>(
 
       if (!newToken) {
         tokenStorage.clearAll();
-        window.location.href = '/';
         throw error;
       }
 
