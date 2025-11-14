@@ -39,7 +39,7 @@ export default function Navigation() {
         </li>
 
         <li>
-          <Link href="/" aria-label="글쓰기">
+          <Link href="/posts/new" aria-label="글쓰기">
             <EditIcon className="text-icon-dark" />
           </Link>
         </li>
