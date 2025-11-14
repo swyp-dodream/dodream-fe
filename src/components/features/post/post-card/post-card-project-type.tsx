@@ -1,14 +1,13 @@
 import clsx from 'clsx';
+import type { ProjectType } from '@/types/post.type';
 
 const PROJECT_TYPE_CONFIG = {
-  project: { text: '프로젝트', color: 'bg-project' },
-  study: { text: '스터디', color: 'bg-study' },
+  PROJECT: { text: '프로젝트', color: 'bg-project' },
+  STUDY: { text: '스터디', color: 'bg-study' },
 } as const;
 
-type PostCardProjectTypeValue = keyof typeof PROJECT_TYPE_CONFIG;
-
 interface PostCardProjectTypeProps {
-  projectType: PostCardProjectTypeValue;
+  projectType: ProjectType;
 }
 
 export default function PostCardProjectType({

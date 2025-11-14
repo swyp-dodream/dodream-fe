@@ -1,46 +1,32 @@
 import { PostCard } from '@/components/features/post/post-card';
-import type { MockPost, Role } from '@/mocks/posts';
+import type { PostContentType } from '@/types/post.type';
 import { formatDeadlineAt } from '@/utils/date.util';
 
-const ROLE_LABEL_MAP: Record<Role, string> = {
-  FE: '프론트엔드',
-  BE: '백엔드',
-  iOS: 'iOS',
-  AOS: '안드로이드',
-  Designer: '디자이너',
-  PM: 'PM',
-  Planner: '기획자',
-  Marketer: '마케터',
-};
-
-function getRoles(roles: Role[]) {
-  return roles.map((role) => ROLE_LABEL_MAP[role]);
-}
-
 interface DefaultPostCardProps {
-  post: MockPost;
+  post: PostContentType;
 }
 
 export default function DefaultPostCard({ post }: DefaultPostCardProps) {
   return (
-    <PostCard>
+    <PostCard href={`/post/${post.id}`}>
       <PostCard.Header
-        nickname={post.ownerUserId}
-        elapsedTime={formatDeadlineAt(post.deadlineAt)}
+        nickname={post.ownerNickname}
+        elapsedTime={formatDeadlineAt(post.deadlineDate)}
         projectType={post.projectType}
-        isBookmarked={post.isBookmarked}
+        // TODO: 북마크 값 변경
+        isBookmarked={false}
       />
 
       <PostCard.Main>
         <PostCard.Title>{post.title}</PostCard.Title>
 
         <div className="flex flex-col gap-4">
-          <PostCard.TechCategories techCategories={post.techCategories} />
-          <PostCard.Roles roles={getRoles(post.roles)} />
+          <PostCard.TechCategories techCategories={post.stacks} />
+          <PostCard.Roles roles={post.roles} />
         </div>
       </PostCard.Main>
 
-      <PostCard.Footer views={post.views} status={post.status} />
+      <PostCard.Footer views={post.viewCount} status={post.status} />
     </PostCard>
   );
 }

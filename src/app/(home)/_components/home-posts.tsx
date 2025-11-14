@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { Tabs } from '@/components/commons/tabs';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
-import { HOME_POSTS } from '@/mocks/home';
-import type { MockPost } from '@/mocks/posts';
+import useGetPosts from '@/hooks/post/use-get-posts';
+import type { PostContentType } from '@/types/post.type';
 
 // TODO: 타입 분리
 export const TAB_VALUE = {
@@ -18,12 +18,7 @@ const PROJECT_TAB_VALUES = Object.keys(TAB_VALUE) as ProjectType[];
 
 export default function HomePosts() {
   const [activePostType, setActivePostType] = useState<ProjectType>('all');
-
-  // TODO: 목데이터 대신 API 사용
-  const posts = HOME_POSTS.filter((post) => {
-    if (activePostType === 'all') return true;
-    return activePostType === post.projectType;
-  });
+  const { data: posts } = useGetPosts();
 
   // TODO: 탭 스타일 분리
   return (
@@ -50,23 +45,25 @@ export default function HomePosts() {
           ))}
         </Tabs.List>
       </Tabs>
-      <HomePostCards posts={posts} />
+      <HomePostCards posts={posts?.content ?? []} />
     </section>
   );
 }
 
 interface HomePostCardsProps {
-  posts: MockPost[];
+  posts: PostContentType[];
 }
 
 function HomePostCards({ posts }: HomePostCardsProps) {
   return (
     <ul className="grid grid-cols-3 gap-7">
-      {posts.map((post) => (
-        <li key={post.id}>
-          <DefaultPostCard post={post} />
-        </li>
-      ))}
+      {posts.map((post) => {
+        return (
+          <li key={post.id}>
+            <DefaultPostCard post={post} />
+          </li>
+        );
+      })}
     </ul>
   );
 }

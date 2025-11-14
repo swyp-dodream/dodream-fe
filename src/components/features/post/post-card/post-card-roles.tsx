@@ -1,7 +1,9 @@
 const MAX_POSITIONS = 3;
 
 interface PostCardRolesProps {
-  roles: string[];
+  roles: {
+    role: string;
+  }[];
 }
 
 export default function PostCardRoles({ roles }: PostCardRolesProps) {
@@ -11,7 +13,7 @@ export default function PostCardRoles({ roles }: PostCardRolesProps) {
   return (
     <div className="flex gap-2">
       {renderingRoles.map((role) => (
-        <PostCardRole key={role} role={role} />
+        <PostCardRole key={role.role} role={role.role} />
       ))}
       {restCount > 0 && <PostCardRole role={`+${restCount}`} />}
     </div>
