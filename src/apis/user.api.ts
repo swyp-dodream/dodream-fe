@@ -1,6 +1,6 @@
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
-import type { UserType } from '@/types/auth.type';
+import type { ProfileType, UserType } from '@/types/auth.type';
 import { tokenStorage } from '@/utils/auth.util';
 import { authApi } from './fetcher/api';
 
@@ -24,7 +24,7 @@ const userApi = {
     authApi.get<{ exists: boolean }>('/api/profiles/me/exists'),
 
   /** 유저 프로필 */
-  getProfile: () => authApi.get<UserType>('/api/profiles/me'),
+  getProfile: () => authApi.get<ProfileType>('/api/profiles/me'),
 };
 
 export default userApi;

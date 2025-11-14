@@ -2,6 +2,7 @@
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { OverlayProvider } from 'overlay-kit';
 import { Tooltip } from 'radix-ui';
 import type React from 'react';
@@ -14,7 +15,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}
       >
         <OverlayProvider>
-          <Tooltip.Provider>{children}</Tooltip.Provider>
+          <Tooltip.Provider>
+            {children}
+            {process.env.NODE_ENV === 'development' && (
+              <ReactQueryDevtools initialIsOpen={false} />
+            )}
+          </Tooltip.Provider>
         </OverlayProvider>
       </GoogleOAuthProvider>
     </QueryClientProvider>

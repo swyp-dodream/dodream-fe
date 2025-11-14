@@ -3,14 +3,25 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Image from 'next/image';
 import Link from 'next/link';
+import userApi from '@/apis/user.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
+import { useGetProfile } from '@/hooks/auth/use-get-profile';
 import useGetUser from '@/hooks/auth/use-get-user';
-import { logout } from '@/utils/auth.util';
 
 export default function NavigationProfile() {
   const { data: user } = useGetUser();
+  const { data: profile } = useGetProfile();
 
-  if (!user) return null;
+  if (!profile || !user) return null;
+
+  /** 로그아웃 함수 */
+  const handleLogout = async () => {
+    try {
+      await userApi.logout();
+    } catch {
+      console.error('로그아웃 실패');
+    }
+  };
 
   return (
     <DropdownMenu.Root>
@@ -22,7 +33,7 @@ export default function NavigationProfile() {
           className="flex h-8 w-8 relative rounded-full overflow-hidden focus:outline-none"
         >
           <Image
-            src={user.profileImageUrl ?? '/avatar/default-avatar.png'}
+            src="/avatar/default-avatar.png"
             alt="프로필 이미지"
             fill
             sizes="32px"
@@ -42,7 +53,7 @@ export default function NavigationProfile() {
               사용자 정보
             </h2>
             <div className="flex flex-col">
-              <strong className="body-md-medium">{user.name}</strong>
+              <strong className="body-md-medium">{profile.nickname}</strong>
               <span className="body-sm-regular text-subtle">{user.email}</span>
               <DropdownMenu.Item asChild>
                 <Link
@@ -70,7 +81,7 @@ export default function NavigationProfile() {
                         <button
                           type="button"
                           className="flex items-center body-md-medium gap-4 p-2 outline-none w-full text-left"
-                          onClick={() => logout()}
+                          onClick={handleLogout}
                         >
                           <Icon aria-hidden className="text-white" />
                           <span className="text-white">{label}</span>

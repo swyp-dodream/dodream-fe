@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import userApi from '@/apis/user.api';
+import { QUERY_KEY } from '@/constants/query-key.constant';
+import { queryClient } from '@/lib/query-client';
 import { tokenStorage } from '@/utils/auth.util';
 
 interface AuthCallBackClientProps {
@@ -34,6 +36,15 @@ export default function AuthCallBackClient({
     const verifyLogin = async () => {
       try {
         const { exists } = await userApi.getProfileExists();
+
+        // 프로필 쿼리 무효화
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.user],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.user, QUERY_KEY.profileExists],
+        });
+
         router.replace(`${exists ? '/' : '/create-profile'}`);
       } catch (err) {
         console.error(err);

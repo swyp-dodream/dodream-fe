@@ -23,7 +23,6 @@ export default function Navigation() {
   };
 
   return profileExists?.exists ? (
-    // TODO: 네비게이션 링크 URL 변경
     // 로그인 상태: 네비게이션 바 노출
     <nav className="flex" aria-label="사용자 메뉴">
       <ul className="flex items-center gap-7">

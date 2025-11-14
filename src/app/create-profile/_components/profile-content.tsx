@@ -144,12 +144,14 @@ export default function ProfileContent() {
     // 제출 처리
     createProfile(data, {
       onSuccess: () => {
+        // 로그아웃 방지
+        preventLogout();
+
         // 성공 시 홈으로 리다이렉트
         router.replace('/');
         overlay.open(({ isOpen, close }) => (
           <WelcomeModal isOpen={isOpen} onClose={close} />
         ));
-        preventLogout(); // 로그아웃 방지
       },
     });
   };
