@@ -136,8 +136,8 @@ export type CreateProfileRequestType = {
  */
 export type GetProfileSettingsResponseType = {
   email: string;
-  gender: GenderLabelType;
-  ageBand: AgeRangeLabelType;
+  gender: '남성' | '여성' | '선택안함';
+  ageBand: '십대' | '이십대' | '삼십대' | '사십대이상' | '선택안함';
   proposalProjectOn: boolean;
   proposalStudyOn: boolean;
   isPublic: boolean;
