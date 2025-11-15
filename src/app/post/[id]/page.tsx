@@ -1,7 +1,7 @@
 import postApi from '@/apis/post.api';
-import Button from '@/components/commons/buttons/button';
-import { formatDeadlineAt, getRelativeTime } from '@/utils/date.util';
+import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from '../_components/post-bookmark-button';
+import PostDetailButtons from '../_components/post-detail-buttons';
 import PostLinkButton from '../_components/post-link-button';
 import RecruitInfo from '../_components/recruit-info';
 
@@ -54,26 +54,12 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
       <aside className="col-start-10 col-span-3 flex flex-col gap-7">
         {!isClosed ? (
-          postData.owner ? (
-            // 작성자인 경우 - 마감일 표시
-            <div className="flex items-center justify-center h-[50px] body-lg-medium bg-brand text-text-on-brand p-3 w-full rounded-md">
-              마감 {formatDeadlineAt(new Date(postData.deadlineDate))}
-            </div>
-          ) : (
-            // 작성자가 아닌 경우 - 채팅/지원 버튼
-            <div className="flex gap-4">
-              <Button
-                variant="outline"
-                size="md"
-                className="body-lg-medium h-[50px]"
-              >
-                채팅하기
-              </Button>
-              <Button variant="brand" size="md" className="h-[50px]">
-                지원하기
-              </Button>
-            </div>
-          )
+          <PostDetailButtons
+            posId={postData.id}
+            roles={postData.roles}
+            owner={postData.owner}
+            deadlineDate={postData.deadlineDate}
+          />
         ) : (
           <div className="flex items-center justify-center h-[50px] body-lg-medium bg-disabled text-text-on-brand p-3 w-full rounded-md">
             모집 마감

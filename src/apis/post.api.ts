@@ -33,6 +33,14 @@ const postApi = {
   getPostMembers: (id: number) =>
     api.get<PostMembersType>(`/api/posts/${id}/recruits/members`),
 
+  /** 게시물 지원 */
+  apply: (postId: number, data: { roleId: number; message: string }) =>
+    authApi.post<void>(`/api/posts/${postId}/apply`, data),
+
+  /** 게시물 지원 가능 여부 판단 */
+  getApplyAvailable: (postId: number) =>
+    authApi.get<{ canApply: boolean }>(`/api/posts/${postId}/can-apply`),
+
   cancelOffer: (suggestionId: number) => {
     return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
   },
