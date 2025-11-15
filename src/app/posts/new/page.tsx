@@ -2,16 +2,17 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-
 import FieldErrorMessage from '@/app/posts/_components/field-error-message';
-import ActivityModeField from '@/app/posts/_components/fields/activity-mode-field';
-import DeadlineField from '@/app/posts/_components/fields/deadline-field';
-import DurationField from '@/app/posts/_components/fields/duration-field';
-import InterestsField from '@/app/posts/_components/fields/interests-field';
-import ProjectTypeField from '@/app/posts/_components/fields/project-type-field';
-import RolesField from '@/app/posts/_components/fields/roles-field';
-import TechStacksField from '@/app/posts/_components/fields/tech-stacks-field';
-import TitleField from '@/app/posts/_components/fields/title-field';
+import {
+  ActivityModeField,
+  DeadlineField,
+  DurationField,
+  InterestsField,
+  ProjectTypeField,
+  RolesField,
+  TechStacksField,
+  TitleField,
+} from '@/app/posts/_components/fields';
 import Button from '@/components/commons/buttons/button';
 import Editor from '@/components/commons/editor';
 import {
