@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* =========================================================
    Design Tokens
@@ -137,6 +138,7 @@
   --color-icon-dark: var(--color-gray-900);
   --color-icon-avatar: var(--color-gray-400);
   --color-icon-white: var(--color-white);
+  --color-icon-disable: var(--color-gray-400);
 
   --color-text-primary: var(--color-gray-900);
   --color-text-secondary: var(--color-gray-700);
@@ -144,6 +146,7 @@
   --color-text-on-brand: var(--color-white);
   --color-text-brand: var(--color-brand-500);
   --color-text-error: var(--color-feedback-error);
+  --color-text-placeholder: var(--color-gray-400);
 
   --color-scrollbar-thumb: var(--color-gray-600);
   --color-scrollbar-thumb-hover: var(--color-gray-700);
@@ -342,6 +345,10 @@ main,
   color: var(--color-text-subtle);
 }
 
+@utility text-placeholder {
+  color: var(--color-text-placeholder);
+}
+
 @utility text-on-brand {
   color: var(--color-text-on-brand);
 }
@@ -485,4 +492,26 @@ main,
 
 @utility w-modal-xl {
   width: var(--modal-width-xl);
+}
+
+/* =========================================================
+   Tiptap Editor
+   ========================================================= */
+.tiptap {
+  p {
+    @apply my-0 first:mt-0 last:mb-0 body-lg-regular;
+  }
+
+  h1 {
+    @apply heading-sm mt-8 mb-4 first:mt-0 last:mb-0;
+  }
+
+  /* Placeholder (at the top) */
+  p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    @apply body-lg-medium text-placeholder;
+  }
 }
