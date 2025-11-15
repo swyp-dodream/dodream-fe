@@ -116,7 +116,7 @@ export const TECH_STACK_MAP: Record<TechStackType, string> = {
   Flutter: 'flutter',
   ReactNative: 'react-native',
   Zeplin: 'zeplin',
-  Adobe: 'adobe',
+  Adobe: 'adobe-xd',
   Figma: 'figma',
   Sketch: 'sketch',
 };
