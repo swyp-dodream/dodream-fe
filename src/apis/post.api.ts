@@ -27,6 +27,8 @@ const postApi = {
   },
 
   /** 게시물 상세 데이터 */
+  getPostDetailAuth: (id: number) =>
+    authApi.get<PostContentType>(`/api/posts/${id}`),
   getPostDetail: (id: number) => api.get<PostContentType>(`/api/posts/${id}`),
 
   /** 게시물 멤버 내역 */

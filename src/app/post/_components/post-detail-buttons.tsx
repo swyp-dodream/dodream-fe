@@ -1,22 +1,13 @@
 'use client';
 
-import { isPast } from 'date-fns';
-import { overlay } from 'overlay-kit';
 import Button from '@/components/commons/buttons/button';
-import ApplyModal from '@/components/features/mypage/participations/modals/apply-modal';
-import { useGetApplyAvailable } from '@/hooks/post/use-apply';
-import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
+import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import useToast from '@/hooks/use-toast';
 import { formatDeadlineAt } from '@/utils/date.util';
+import ApplyButton from './apply-button';
 
 interface PostDetailButtonsProps {
-  posId: number;
-  roles: {
-    role: string;
-    headcount: number;
-  }[];
-  owner: boolean;
-  deadlineDate: string;
+  postId: number;
 }
 
 /**
@@ -24,39 +15,11 @@ interface PostDetailButtonsProps {
  * @param owner - 작성자인지 여부
  * @param deadlineDate - 모집 마감일
  */
-export default function PostDetailButtons({
-  posId,
-  roles,
-  owner,
-  deadlineDate,
-}: PostDetailButtonsProps) {
-  const { data: profileExists } = useGetProfileExists();
-  const { data: isApplyAvailable } = useGetApplyAvailable(posId);
-
+export default function PostDetailButtons({ postId }: PostDetailButtonsProps) {
+  const { data: postData } = useGetPostDetail(postId);
   const toast = useToast();
 
-  const handleApply = () => {
-    // 로그인하지 않았을 경우 disabled가 아닌 토스트 메시지 띄우기
-    if (!profileExists?.exists) {
-      toast({ title: '로그인이 필요합니다' });
-      return;
-    }
-
-    // 데드라인 날짜 이후일 경우 실패 처리
-    if (isPast(new Date(deadlineDate))) {
-      toast({ title: '마감된 공고입니다.' });
-      return;
-    }
-
-    overlay.open(({ isOpen, close }) => (
-      <ApplyModal
-        postId={posId}
-        roles={roles.map((role) => role.role)}
-        isOpen={isOpen}
-        onClose={close}
-      />
-    ));
-  };
+  if (!postData) return null;
 
   const handleChat = () => {
     toast({ title: '준비중입니다.' });
@@ -64,10 +27,10 @@ export default function PostDetailButtons({
 
   return (
     <>
-      {owner ? (
+      {postData?.owner ? (
         // 작성자인 경우 - 마감일 표시
         <div className="flex items-center justify-center h-[50px] body-lg-medium bg-brand text-text-on-brand p-3 w-full rounded-md">
-          마감 {formatDeadlineAt(new Date(deadlineDate))}
+          마감 {formatDeadlineAt(new Date(postData.deadlineDate))}
         </div>
       ) : (
         // 작성자가 아닌 경우 - 채팅/지원 버튼
@@ -80,15 +43,7 @@ export default function PostDetailButtons({
           >
             채팅하기
           </Button>
-          <Button
-            onClick={handleApply}
-            variant="brand"
-            size="md"
-            className="h-[50px]"
-            disabled={profileExists?.exists && !isApplyAvailable?.canApply}
-          >
-            지원하기
-          </Button>
+          <ApplyButton postId={postId} />
         </div>
       )}
     </>

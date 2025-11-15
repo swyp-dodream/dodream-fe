@@ -1,0 +1,89 @@
+import { isPast } from 'date-fns';
+import { overlay } from 'overlay-kit';
+import Button from '@/components/commons/buttons/button';
+import ApplyModal from '@/components/features/mypage/participations/modals/apply-modal';
+import { useGetApplyAvailable } from '@/hooks/post/use-apply';
+import { useGetPostDetail } from '@/hooks/post/use-get-posts';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
+import useToast from '@/hooks/use-toast';
+
+interface ApplyButtonProps {
+  postId: number;
+}
+
+/**
+ * 지원하기 버튼
+ * @param postId - 지원할 모집글 id
+ */
+export default function ApplyButton({ postId }: ApplyButtonProps) {
+  const { data: profileExists } = useGetProfileExists();
+  const { data: postData } = useGetPostDetail(postId);
+  const { data: isApplyAvailable } = useGetApplyAvailable(postId);
+  const toast = useToast();
+
+  if (!postData) return null;
+
+  /** 지원하기 */
+  const handleApply = () => {
+    // 로그인하지 않았을 경우 disabled가 아닌 토스트 메시지 띄우기
+    if (!profileExists?.exists) {
+      toast({ title: '로그인이 필요합니다' });
+      return;
+    }
+
+    // 데드라인 날짜 이후일 경우 실패 처리
+    if (
+      isPast(new Date(postData.deadlineDate)) ||
+      postData.status === 'COMPLETED'
+    ) {
+      toast({ title: '마감된 공고입니다.' });
+      return;
+    }
+
+    overlay.open(({ isOpen, close }) => (
+      <ApplyModal
+        postId={postId}
+        roles={postData.roles.map((role) => role.role)}
+        isOpen={isOpen}
+        onClose={close}
+      />
+    ));
+  };
+
+  /** 지원 취소하기 */
+  const handleCancelApply = () => {
+    overlay.open(({ isOpen, close }) => (
+      <ApplyModal
+        postId={postId}
+        roles={postData.roles.map((role) => role.role)}
+        isOpen={isOpen}
+        onClose={close}
+      />
+    ));
+  };
+
+  return (
+    <>
+      {profileExists?.exists && !isApplyAvailable?.canApply ? (
+        <Button
+          onClick={handleCancelApply}
+          variant="brand"
+          size="md"
+          className="h-[50px]"
+        >
+          지원 취소하기
+        </Button>
+      ) : (
+        <Button
+          onClick={handleApply}
+          variant="brand"
+          size="md"
+          className="h-[50px]"
+          disabled={postData.status === 'COMPLETED'}
+        >
+          {postData.status === 'RECRUITING' ? '지원하기' : '모집 마감'}
+        </Button>
+      )}
+    </>
+  );
+}

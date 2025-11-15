@@ -55,12 +55,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
       <aside className="col-start-10 col-span-3 flex flex-col gap-7">
         {!isClosed ? (
-          <PostDetailButtons
-            posId={postData.id}
-            roles={postData.roles}
-            owner={postData.owner}
-            deadlineDate={postData.deadlineDate}
-          />
+          <PostDetailButtons postId={postData.id} />
         ) : (
           <div className="flex items-center justify-center h-[50px] body-lg-medium bg-disabled text-text-on-brand p-3 w-full rounded-md">
             모집 마감

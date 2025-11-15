@@ -7,7 +7,7 @@ import {
   HOME_PROJECT_MAP,
   HOME_PROJECT_TAB_VALUES,
 } from '@/constants/post.constant';
-import useGetPosts from '@/hooks/post/use-get-posts';
+import { useGetPosts } from '@/hooks/post/use-get-posts';
 import type { HomeProjectType, PostContentType } from '@/types/post.type';
 
 export default function HomePosts() {
