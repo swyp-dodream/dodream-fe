@@ -4,6 +4,7 @@ import PostBookmarkButton from '../_components/post-bookmark-button';
 import PostDetailButtons from '../_components/post-detail-buttons';
 import PostLinkButton from '../_components/post-link-button';
 import RecruitInfo from '../_components/recruit-info';
+import RecruitStatus from '../_components/recruit-status';
 
 interface PostDetailPageProps {
   params: { id: string };
@@ -67,7 +68,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         )}
 
         {/* 모집중인 직군 */}
-        {/* <RecruitStatus postId={postData.id} /> */}
+        <RecruitStatus roles={postData.roles} postId={postData.id} />
       </aside>
     </article>
   );

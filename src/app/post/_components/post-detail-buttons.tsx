@@ -1,10 +1,11 @@
 'use client';
 
+import { isPast } from 'date-fns';
 import { overlay } from 'overlay-kit';
 import Button from '@/components/commons/buttons/button';
 import ApplyModal from '@/components/features/mypage/participations/modals/apply-modal';
-import { useGetProfileExists } from '@/hooks/auth/use-get-profile';
 import { useGetApplyAvailable } from '@/hooks/post/use-apply';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import useToast from '@/hooks/use-toast';
 import { formatDeadlineAt } from '@/utils/date.util';
 
@@ -41,6 +42,12 @@ export default function PostDetailButtons({
       return;
     }
 
+    // 데드라인 날짜 이후일 경우 실패 처리
+    if (isPast(new Date(deadlineDate))) {
+      toast({ title: '마감된 공고입니다.' });
+      return;
+    }
+
     overlay.open(({ isOpen, close }) => (
       <ApplyModal
         postId={posId}
@@ -49,6 +56,10 @@ export default function PostDetailButtons({
         onClose={close}
       />
     ));
+  };
+
+  const handleChat = () => {
+    toast({ title: '준비중입니다.' });
   };
 
   return (
@@ -62,6 +73,7 @@ export default function PostDetailButtons({
         // 작성자가 아닌 경우 - 채팅/지원 버튼
         <div className="flex gap-4">
           <Button
+            onClick={handleChat}
             variant="outline"
             size="md"
             className="body-lg-medium h-[50px]"
@@ -73,7 +85,7 @@ export default function PostDetailButtons({
             variant="brand"
             size="md"
             className="h-[50px]"
-            disabled={!isApplyAvailable?.canApply}
+            disabled={profileExists?.exists && !isApplyAvailable?.canApply}
           >
             지원하기
           </Button>

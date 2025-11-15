@@ -1,6 +1,6 @@
 'use client';
 
-import useGetPostMembers from '@/hooks/auth/use-get-post-members';
+import useGetPostMembers from '@/hooks/post/use-get-post-members';
 
 interface RecruitStatusProps {
   postId: number;
