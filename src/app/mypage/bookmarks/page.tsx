@@ -40,7 +40,7 @@ export default function BookmarkPage() {
                   // TODO: 임시 값 수정하기
                   <DefaultPostCard
                     key={post.id}
-                    id={Number(post.id)}
+                    id={post.id}
                     title={post.title}
                     status="RECRUITING"
                     ownerNickname="닉네임"
