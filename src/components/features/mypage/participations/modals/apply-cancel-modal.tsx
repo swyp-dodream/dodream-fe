@@ -5,21 +5,25 @@ import Modal from '@/components/commons/modal';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyCancelModalProps {
+  postId: number;
   isOpen: boolean;
   onClose: () => void;
   nickname: string;
 }
 
 export default function ApplyCancelModal({
+  postId,
   isOpen,
   onClose,
   nickname,
 }: ApplyCancelModalProps) {
   const toast = useToast();
 
+  // TODO: 지원 취소 훅 호출
+
   const handleCancelApply = () => {
-    onClose();
     toast({ title: '지원이 취소되었습니다' });
+    onClose();
   };
 
   return (

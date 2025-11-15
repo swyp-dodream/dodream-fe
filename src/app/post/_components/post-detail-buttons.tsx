@@ -1,10 +1,13 @@
 'use client';
 
 import Button from '@/components/commons/buttons/button';
+import ApplyButton from '@/components/features/post/post-card/buttons/apply-button';
+import ApplyCancelButton from '@/components/features/post/post-card/buttons/apply-cancel-button';
+import { useGetApplyAvailable } from '@/hooks/post/use-apply';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import useToast from '@/hooks/use-toast';
 import { formatDeadlineAt } from '@/utils/date.util';
-import ApplyButton from './apply-button';
 
 interface PostDetailButtonsProps {
   postId: number;
@@ -17,6 +20,8 @@ interface PostDetailButtonsProps {
  */
 export default function PostDetailButtons({ postId }: PostDetailButtonsProps) {
   const { data: postData } = useGetPostDetail(postId);
+  const { data: profileExists } = useGetProfileExists();
+  const { data: isApplyAvailable } = useGetApplyAvailable(postId);
   const toast = useToast();
 
   if (!postData) return null;
@@ -34,16 +39,20 @@ export default function PostDetailButtons({ postId }: PostDetailButtonsProps) {
         </div>
       ) : (
         // 작성자가 아닌 경우 - 채팅/지원 버튼
-        <div className="flex gap-4">
-          <Button
-            onClick={handleChat}
-            variant="outline"
-            size="md"
-            className="body-lg-medium h-[50px]"
-          >
+        <div className="flex gap-4 h-[50px] body-lg-medium">
+          <Button onClick={handleChat} variant="outline" size="md">
             채팅하기
           </Button>
-          <ApplyButton postId={postId} />
+          {profileExists?.exists && !isApplyAvailable?.canApply ? (
+            <ApplyCancelButton
+              postId={postId}
+              ownerNickname={postData.ownerNickname}
+              variant="brand"
+              size="md"
+            />
+          ) : (
+            <ApplyButton postId={postId} variant="brand" size="md" />
+          )}
         </div>
       )}
     </>
