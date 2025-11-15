@@ -1,6 +1,7 @@
 import type {
   AiRequestType,
   CreateProfileRequestType,
+  GetProfileSettingsResponseType,
 } from '@/types/profile.type';
 import { api, authApi } from './fetcher/api';
 
@@ -18,6 +19,10 @@ const profileApi = {
   /** 프로필 생성 */
   createProfile: (data: CreateProfileRequestType) =>
     authApi.post<void>('/api/profiles', data),
+
+  /** 내 계정 설정 조회 */
+  getProfileSettings: () =>
+    authApi.get<GetProfileSettingsResponseType>('/api/profiles/settings'),
 };
 
 export default profileApi;
