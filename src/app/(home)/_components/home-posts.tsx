@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Tabs } from '@/components/commons/tabs';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import {
@@ -8,15 +8,32 @@ import {
   HOME_PROJECT_TAB_VALUES,
 } from '@/constants/post.constant';
 import useGetPosts from '@/hooks/post/use-get-posts';
-import type {
-  HomeProjectType,
-  PostContentType,
-  ProjectType,
-} from '@/types/post.type';
+import type { HomeProjectType, PostContentType } from '@/types/post.type';
 
 export default function HomePosts() {
-  const [activePostType, setActivePostType] = useState<HomeProjectType>('ALL');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const activePostType =
+    (searchParams.get('projectType') as HomeProjectType) || 'ALL';
   const { data: posts } = useGetPosts(activePostType);
+
+  const handleTabChange = (value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    if (value === 'ALL') {
+      newParams.delete('projectType'); // ALL이면 파라미터 제거
+    } else {
+      newParams.set('projectType', value);
+    }
+
+    router.push(`/?${newParams.toString()}`, { scroll: false });
+  };
+
+  // console.log(
+  //   'posts ➡️',
+  //   posts?.content.map((element) => element.projectType),
+  // );
 
   // TODO: 탭 스타일 분리
   return (
@@ -30,7 +47,7 @@ export default function HomePosts() {
       <Tabs
         className="w-fit"
         value={activePostType}
-        onValueChange={(value) => setActivePostType(value as ProjectType)}
+        onValueChange={handleTabChange}
       >
         <Tabs.List
           className="col-span-2 flex p-3 gap-3 bg-primary rounded-lg"

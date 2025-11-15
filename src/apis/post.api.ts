@@ -6,10 +6,15 @@ import type {
 import { api, authApi } from './fetcher/api';
 
 const postApi = {
-  /** 게시글 목록 */
-  getPosts: (type: HomeProjectType) => {
-    const query = type === 'ALL' ? '' : `?projectType=${type}`;
-    return api.get<PostType>(`/api/posts${query}`);
+  /**
+   * 게시글 목록
+   * @param projectType - 프로젝트 종류 (프로젝트/스터디)
+   * TODO: 정렬, 필터링 추가
+   */
+  getPosts: (projectType: HomeProjectType) => {
+    return api.get<PostType>(
+      `/api/posts?sortType=LATEST&projectType=${projectType}`,
+    );
   },
 
   /** AI 추천 게시글 */
