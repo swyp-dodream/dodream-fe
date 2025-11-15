@@ -19,6 +19,9 @@ const userApi = {
     }
   },
 
+  /** 회원탈퇴 */
+  deleteUser: () => authApi.delete<void>('/api/users/withdraw'),
+
   /** 유저 프로필 존재 여부 */
   getProfileExists: () =>
     authApi.get<{ exists: boolean }>('/api/profiles/me/exists'),
