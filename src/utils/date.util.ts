@@ -25,7 +25,8 @@ export function formatDeadlineAt(deadlineAt: Date | string) {
   return `D+${Math.abs(diffDays)}`;
 }
 
-export function formatDate(date: Date) {
+export function formatDate(newDate: Date | string) {
+  const date = typeof newDate === 'string' ? new Date(newDate) : newDate;
   return format(date, 'yyyy.MM.dd');
 }
 

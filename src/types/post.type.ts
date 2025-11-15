@@ -30,7 +30,7 @@ export type PostType = {
   empty: boolean;
 };
 
-/** 게시글 컨텐츠 타입 */
+/** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
 export type PostContentType = {
   id: number;
   title: string;
@@ -60,7 +60,7 @@ export type RecommendedPostsType = {
   hasNext: boolean;
 };
 
-/** AI 추천 게시글 컨텐츠 타입ㄴ */
+/** AI 추천 게시글 컨텐츠 타입 */
 export type RecommendedPostContentType = {
   postId: number;
   title: string;

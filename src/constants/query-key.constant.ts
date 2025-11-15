@@ -7,6 +7,7 @@ export const QUERY_KEY = {
   profileExists: 'profileExists',
   profile: 'profile',
   aiPost: 'aiPost',
+  postDetail: 'postDetail',
 
   posts: 'posts',
   offers: 'offers',

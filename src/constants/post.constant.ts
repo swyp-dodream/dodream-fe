@@ -1,4 +1,8 @@
-import type { DurationType, HomeProjectType } from '@/types/post.type';
+import type {
+  DurationType,
+  HomeProjectType,
+  ProjectType,
+} from '@/types/post.type';
 
 /** 기간 매핑 객체 */
 export const DURATION_LABELS: Record<DurationType, string> = {
@@ -19,6 +23,11 @@ export const DURATION_LIST = Object.entries(DURATION_LABELS).map(
     label,
   }),
 );
+
+export const PROJECT_MAP: Record<ProjectType, string> = {
+  PROJECT: '프로젝트',
+  STUDY: '스터디',
+};
 
 export const HOME_PROJECT_MAP: Record<HomeProjectType, string> = {
   ALL: '전체',

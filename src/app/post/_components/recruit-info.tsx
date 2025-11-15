@@ -1,29 +1,35 @@
 import Image from 'next/image';
+import { DURATION_LABELS, PROJECT_MAP } from '@/constants/post.constant';
+import { ACTIVITY_MODE } from '@/constants/profile.constant';
+import type { DurationType, ProjectType } from '@/types/post.type';
+import type { ActivityModeType } from '@/types/profile.type';
 import { formatDate } from '@/utils/date.util';
 
 interface RecruitInfoProps {
-  summary: {
-    type: string;
-    deadline: string;
-    activityMethod: string;
-    interests: string[];
-    duration: string;
-    techStacks: string[];
-  };
+  projectType: ProjectType;
+  deadlineDate: string;
+  activityMode: ActivityModeType;
+  interestKeywords: string[];
+  duration: DurationType;
+  techStacks: string[];
 }
 
 /**
  * 모집 요약 컴포넌트
- * @param summary - 모집 요약 정보
- * @param summary.type - 모집 유형 (예: 프로젝트, 스터디)
- * @param summary.deadline - 모집 마감일
- * @param summary.activityMethod - 활동 방식
- * @param summary.interests - 관심 분야 목록
- * @param summary.duration - 활동 기간 (예: 1개월, 3개월)
- * @param summary.techStacks - 사용 기술 스택 목록
+ * @param projectType - 모집 유형 (예: 프로젝트, 스터디)
+ * @param deadlineDate - 모집 마감일
+ * @param activityMode - 활동 방식
+ * @param interestKeywords - 관심 분야 목록
+ * @param duration - 활동 기간 (예: 1개월, 3개월)
+ * @param techStacks - 사용 기술 스택 목록
  */
 export default function RecruitInfo({
-  summary: { type, deadline, activityMethod, interests, duration, techStacks },
+  projectType,
+  deadlineDate,
+  activityMode,
+  interestKeywords,
+  duration,
+  techStacks,
 }: RecruitInfoProps) {
   return (
     <div className="flex flex-col gap-8">
@@ -31,23 +37,27 @@ export default function RecruitInfo({
       <dl className="flex flex-col gap-4 body-lg-medium">
         <div className="flex">
           <div className="flex flex-col gap-4 w-[282px]">
-            <RecruitInfoItem label="모집 유형">{type}</RecruitInfoItem>
+            <RecruitInfoItem label="모집 유형">
+              {PROJECT_MAP[projectType]}
+            </RecruitInfoItem>
             <RecruitInfoItem label="모집 마감">
-              <time>{formatDate(new Date(deadline))}</time>
+              <time>{formatDate(deadlineDate)}</time>
             </RecruitInfoItem>
             <RecruitInfoItem label="활동 방식">
-              {activityMethod}
+              {ACTIVITY_MODE[activityMode]}
             </RecruitInfoItem>
           </div>
           <div className="flex flex-col gap-4 w-[282px]">
             <RecruitInfoItem label="관심 분야">
               <ul className="flex gap-4">
-                {interests.map((interest) => (
+                {interestKeywords.map((interest) => (
                   <li key={interest}>{interest}</li>
                 ))}
               </ul>
             </RecruitInfoItem>
-            <RecruitInfoItem label="활동 기간">{duration}</RecruitInfoItem>
+            <RecruitInfoItem label="활동 기간">
+              {DURATION_LABELS[duration]}
+            </RecruitInfoItem>
           </div>
         </div>
         <RecruitInfoItem label="기술 스택">

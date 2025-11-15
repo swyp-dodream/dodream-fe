@@ -1,19 +1,18 @@
+import postApi from '@/apis/post.api';
 import Button from '@/components/commons/buttons/button';
-import { MOCK_POST_DETAIL } from '@/mocks/posts';
 import { formatDeadlineAt, getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from '../_components/post-bookmark-button';
 import PostLinkButton from '../_components/post-link-button';
 import RecruitInfo from '../_components/recruit-info';
-import RecruitStatus from '../_components/recruit-status';
 
-export default function PostDetailPage() {
-  // TODO: 하드코딩된 데이터 삭제
-  const postData = MOCK_POST_DETAIL;
-  const currentUserId = 2;
-  const isBookmarked = false;
+interface PostDetailPageProps {
+  params: { id: string };
+}
 
-  const isAuthor = postData.author.id === currentUserId;
-  const isClosed = new Date(postData.summary.deadline) < new Date();
+export default async function PostDetailPage({ params }: PostDetailPageProps) {
+  const postData = await postApi.getPostDetail(Number(params.id));
+
+  const isClosed = new Date(postData.deadlineDate) < new Date();
 
   return (
     <article className="grid grid-cols-12 gap-x-7">
@@ -22,13 +21,14 @@ export default function PostDetailPage() {
           {/* 프로필, 작성 시간 영역 */}
           {/* TODO: 프로필 이미지로 수정 */}
           <div className="w-9 h-9 rounded-full bg-primary" />
-          <span className="ml-4 mr-3">{postData.author.nickname}</span>
-          <time className="text-subtle" dateTime={postData.author.postedAt}>
-            {getRelativeTime(postData.author.postedAt)}
+          <span className="ml-4 mr-3">{postData.ownerNickname}</span>
+          <time className="text-subtle" dateTime={postData.deadlineDate}>
+            {getRelativeTime(postData.createdAt)}
           </time>
           <div className="flex ml-auto gap-7">
             {/* 북마크 버튼 */}
-            <PostBookmarkButton isBookmarked={isBookmarked} />
+            {/* TODO: 북마크 버튼 수정 */}
+            <PostBookmarkButton isBookmarked={false} />
             {/* 링크 복사 버튼 */}
             <PostLinkButton />
           </div>
@@ -42,15 +42,22 @@ export default function PostDetailPage() {
           <h3 className="heading-lg mb-8">모집 내용</h3>
           {postData.content}
         </div>
-        <RecruitInfo summary={postData.summary} />
+        <RecruitInfo
+          projectType={postData.projectType}
+          deadlineDate={postData.deadlineDate}
+          activityMode={postData.activityMode}
+          interestKeywords={postData.interestKeywords}
+          duration={postData.duration}
+          techStacks={postData.stacks}
+        />
       </section>
 
       <aside className="col-start-10 col-span-3 flex flex-col gap-7">
         {!isClosed ? (
-          isAuthor ? (
+          postData.owner ? (
             // 작성자인 경우 - 마감일 표시
             <div className="flex items-center justify-center h-[50px] body-lg-medium bg-brand text-text-on-brand p-3 w-full rounded-md">
-              마감 {formatDeadlineAt(new Date(postData.summary.deadline))}
+              마감 {formatDeadlineAt(new Date(postData.deadlineDate))}
             </div>
           ) : (
             // 작성자가 아닌 경우 - 채팅/지원 버튼
@@ -74,7 +81,7 @@ export default function PostDetailPage() {
         )}
 
         {/* 모집중인 직군 */}
-        <RecruitStatus roles={postData.roles} />
+        {/* <RecruitStatus postId={postData.id} /> */}
       </aside>
     </article>
   );

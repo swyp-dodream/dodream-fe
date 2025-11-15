@@ -2,6 +2,7 @@ import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
   HomeProjectType,
+  PostContentType,
   PostType,
   RecommendedPostsType,
 } from '@/types/post.type';
@@ -23,6 +24,9 @@ const postApi = {
   getRecommendedPosts: () => {
     return authApi.get<RecommendedPostsType>(`/api/recommendations`);
   },
+
+  /** 게시물 상세 데이터 */
+  getPostDetail: (id: number) => api.get<PostContentType>(`/api/posts/${id}`),
 
   cancelOffer: (suggestionId: number) => {
     return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
