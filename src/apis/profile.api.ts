@@ -1,3 +1,4 @@
+import type { UpdateProfileSettingsFormData } from '@/schemas/profile.schema';
 import type {
   AiRequestType,
   CreateProfileRequestType,
@@ -23,6 +24,13 @@ const profileApi = {
   /** 내 계정 설정 조회 */
   getProfileSettings: () =>
     authApi.get<GetProfileSettingsResponseType>('/api/profiles/settings'),
+
+  /** 내 계정 설정 수정 */
+  updateProfileSettings: (payload: UpdateProfileSettingsFormData) =>
+    authApi.put<UpdateProfileSettingsFormData>(
+      '/api/profiles/settings',
+      payload,
+    ),
 };
 
 export default profileApi;
