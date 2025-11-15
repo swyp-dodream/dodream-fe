@@ -6,7 +6,7 @@ import useCancelApply from '@/hooks/post/use-cancel-apply';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyCancelModalProps {
-  postId: number;
+  postId: bigint;
   isOpen: boolean;
   onClose: () => void;
   nickname: string;

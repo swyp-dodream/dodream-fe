@@ -12,7 +12,8 @@ interface PostDetailPageProps {
 }
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
-  const postData = await postApi.getPostDetail(Number(params.id));
+  const { id } = await params;
+  const postData = await postApi.getPostDetail(BigInt(id));
 
   const isClosed = new Date(postData.deadlineDate) < new Date();
 

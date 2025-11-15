@@ -15,7 +15,7 @@ export function useGetPosts(projectType: HomeProjectType) {
 }
 
 /** 게시물 상세 정보 */
-export function useGetPostDetail(postId: number) {
+export function useGetPostDetail(postId: bigint) {
   const { data: profileExists } = useGetProfileExists();
 
   return useQuery({

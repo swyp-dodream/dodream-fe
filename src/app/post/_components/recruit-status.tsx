@@ -3,7 +3,7 @@
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
 
 interface RecruitStatusProps {
-  postId: number;
+  postId: bigint;
   roles: {
     role: string;
     headcount: number;

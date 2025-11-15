@@ -10,7 +10,7 @@ import useToast from '@/hooks/use-toast';
 import { formatDeadlineAt } from '@/utils/date.util';
 
 interface PostDetailButtonsProps {
-  postId: number;
+  postId: bigint;
 }
 
 /**

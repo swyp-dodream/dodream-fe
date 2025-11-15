@@ -10,7 +10,7 @@ import { useApply } from '@/hooks/post/use-apply';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyModalProps {
-  postId: number;
+  postId: bigint;
   roles: string[];
   isOpen: boolean;
   onClose: () => void;

@@ -7,7 +7,7 @@ import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyCancelButtonProps {
-  postId: number;
+  postId: bigint;
   ownerNickname: string;
   variant?: 'default' | 'brand' | 'solid' | 'outline';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';

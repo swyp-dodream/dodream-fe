@@ -9,7 +9,7 @@ import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyButtonProps {
-  postId: number;
+  postId: bigint;
   variant?: 'default' | 'brand' | 'solid' | 'outline';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;

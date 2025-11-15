@@ -3,7 +3,7 @@ import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 
 /** 모집글의 매칭된 멤버 */
-export default function useGetPostMembers(postId: number) {
+export default function useGetPostMembers(postId: bigint) {
   return useQuery({
     queryKey: [QUERY_KEY.postMembers, postId],
     queryFn: () => postApi.getPostMembers(postId),

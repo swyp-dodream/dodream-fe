@@ -12,7 +12,7 @@ export function useApply() {
       roleId,
       message = '',
     }: {
-      postId: number;
+      postId: bigint;
       roleId: number;
       message?: string;
     }) => postApi.apply(postId, { roleId, message }),
@@ -26,7 +26,7 @@ export function useApply() {
 }
 
 /** 지원 가능 여부 판단 */
-export function useGetApplyAvailable(postId: number) {
+export function useGetApplyAvailable(postId: bigint) {
   const { data: profileExists } = useGetProfileExists();
 
   return useQuery({

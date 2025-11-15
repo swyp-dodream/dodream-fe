@@ -52,7 +52,7 @@ export default function MyApplicationPostCard({
       <PostCard.Actions>
         {/* TODO: 닉네임 변경 */}
         <ApplyCancelButton
-          postId={Number(post.id)}
+          postId={post.id}
           ownerNickname={post.ownerUserId}
           variant="outline"
           size="md"

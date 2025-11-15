@@ -32,7 +32,7 @@ export type PostType = {
 
 /** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
 export type PostContentType = {
-  id: number;
+  id: bigint;
   title: string;
   content: string;
   status: PostStatusType;
@@ -79,7 +79,7 @@ export type RecommendedPostsType = {
 
 /** AI 추천 게시글 컨텐츠 타입 */
 export type RecommendedPostContentType = {
-  postId: number;
+  postId: bigint;
   title: string;
   projectType: ProjectType;
   activityMode: ActivityModeType;
