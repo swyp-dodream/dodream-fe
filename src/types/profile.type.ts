@@ -144,6 +144,14 @@ export type GetProfileSettingsResponseType = {
 };
 
 /**
+ * 계정 설정 수정 응답 타입
+ */
+export type UpdateProfileSettingsResponseType = Omit<
+  GetProfileSettingsResponseType,
+  'email'
+>;
+
+/**
  * 프로필 타입
  * TODO: 실제 타입으로 변경
  */
