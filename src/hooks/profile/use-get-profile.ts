@@ -3,9 +3,7 @@ import userApi from '@/apis/user.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import useGetUser from '../auth/use-get-user';
 
-/**
- * 유저의 프로필을 저장하는 쿼리
- */
+/** 유저의 프로필 데이터 */
 export function useGetProfile() {
   const { data: profileExists } = useGetProfileExists();
 
@@ -19,9 +17,7 @@ export function useGetProfile() {
   });
 }
 
-/**
- * 유저의 프로필 여부를 저장하는 쿼리
- */
+/** 유저의 프로필 존재 여부 */
 export function useGetProfileExists() {
   const { data: user } = useGetUser();
 
