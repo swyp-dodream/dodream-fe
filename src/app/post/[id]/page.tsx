@@ -1,3 +1,4 @@
+import parse from 'html-react-parser';
 import postApi from '@/apis/post.api';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from '../_components/post-bookmark-button';
@@ -41,7 +42,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         {/* 내용 영역 */}
         <div className="mt-9 mb-12 whitespace-pre-line">
           <h3 className="heading-lg mb-8">모집 내용</h3>
-          {postData.content}
+          {parse(postData.content)}
         </div>
         <RecruitInfo
           projectType={postData.projectType}

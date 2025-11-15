@@ -30,11 +30,6 @@ export default function HomePosts() {
     router.push(`/?${newParams.toString()}`, { scroll: false });
   };
 
-  // console.log(
-  //   'posts ➡️',
-  //   posts?.content.map((element) => element.projectType),
-  // );
-
   // TODO: 탭 스타일 분리
   return (
     <section
