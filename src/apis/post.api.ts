@@ -1,4 +1,6 @@
+import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
+  CreatePostResponseType,
   HomeProjectType,
   PostType,
   RecommendedPostsType,
@@ -24,6 +26,10 @@ const postApi = {
 
   cancelOffer: (suggestionId: number) => {
     return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
+  },
+
+  createPost: (payload: PostCreateFormData) => {
+    return authApi.post<CreatePostResponseType>(`/api/posts`, payload);
   },
 };
 
