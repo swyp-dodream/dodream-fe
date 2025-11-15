@@ -26,22 +26,26 @@ const postApi = {
     return authApi.get<RecommendedPostsType>(`/api/recommendations`);
   },
 
-  /** 게시물 상세 데이터 */
+  /** 모집글 상세 데이터 */
   getPostDetailAuth: (id: number) =>
     authApi.get<PostContentType>(`/api/posts/${id}`),
   getPostDetail: (id: number) => api.get<PostContentType>(`/api/posts/${id}`),
 
-  /** 게시물 멤버 내역 */
+  /** 모집글 멤버 내역 */
   getPostMembers: (id: number) =>
     api.get<PostMembersType>(`/api/posts/${id}/recruits/members`),
 
-  /** 게시물 지원 */
+  /** 모집 지원 */
   apply: (postId: number, data: { roleId: number; message: string }) =>
     authApi.post<void>(`/api/posts/${postId}/apply`, data),
 
-  /** 게시물 지원 가능 여부 판단 */
+  /** 모집 지원 가능 여부 판단 */
   getApplyAvailable: (postId: number) =>
     authApi.get<{ canApply: boolean }>(`/api/posts/${postId}/can-apply`),
+
+  /** 모집 지원 취소 */
+  cancelApply: (applicationId: number) =>
+    authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
   cancelOffer: (suggestionId: number) => {
     return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
