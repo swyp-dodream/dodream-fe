@@ -47,18 +47,18 @@ const OPTIONS: Array<{
   label: string;
   value: NonNullable<PostCreateFormData['activityMode']>;
 }> = [
-  { label: ACTIVITY_MODE.online, value: 'ONLINE' },
-  { label: ACTIVITY_MODE.offline, value: 'OFFLINE' },
-  { label: ACTIVITY_MODE.hybrid, value: 'HYBRID' },
+  { label: ACTIVITY_MODE.ONLINE, value: 'ONLINE' },
+  { label: ACTIVITY_MODE.OFFLINE, value: 'OFFLINE' },
+  { label: ACTIVITY_MODE.HYBRID, value: 'HYBRID' },
 ];
 
 const ACTIVITY_MODE_LABEL: Record<
   NonNullable<PostCreateFormData['activityMode']>,
   string
 > = {
-  ONLINE: ACTIVITY_MODE.online,
-  OFFLINE: ACTIVITY_MODE.offline,
-  HYBRID: ACTIVITY_MODE.hybrid,
+  ONLINE: ACTIVITY_MODE.ONLINE,
+  OFFLINE: ACTIVITY_MODE.OFFLINE,
+  HYBRID: ACTIVITY_MODE.HYBRID,
 };
 
 interface ActivityModeDropdownProps {

@@ -7,6 +7,7 @@ import PostCardProjectType from '@/components/features/post/post-card/post-card-
 import PostCardRoles from '@/components/features/post/post-card/post-card-roles';
 import PostCardStatus from '@/components/features/post/post-card/post-card-status';
 import PostCardViews from '@/components/features/post/post-card/post-card-views';
+import type { PostStatusType, ProjectType } from '@/types/post.type';
 
 /**
  * 카드 전체 레이아웃
@@ -65,7 +66,7 @@ function Header({
 }: {
   nickname: string;
   elapsedTime: string;
-  projectType: 'project' | 'study';
+  projectType: ProjectType;
   isBookmarked: boolean;
   showBookmarkIcon?: boolean;
 }) {
@@ -122,13 +123,7 @@ function Title({ children }: { children: React.ReactNode }) {
 /**
  * 카드 푸터 - 조회수, 모집 상태
  */
-function Footer({
-  views,
-  status,
-}: {
-  views: number;
-  status: 'recruiting' | 'completed';
-}) {
+function Footer({ views, status }: { views: number; status: PostStatusType }) {
   return (
     <footer className="flex gap-5 text-secondary">
       <PostCardViews views={views} />

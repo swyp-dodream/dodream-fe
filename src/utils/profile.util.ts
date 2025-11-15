@@ -3,7 +3,6 @@ import type {
   AGE_RANGES,
   EXPERIENCE,
   GENDER,
-  TECH_STACKS,
 } from '@/constants/profile.constant';
 
 /** 연령대 변환 */
@@ -60,51 +59,10 @@ export const convertActivityModeValue = (
   if (mode === null) return '선택안함';
 
   const modeMap: Record<keyof typeof ACTIVITY_MODE, string> = {
-    online: '온라인',
-    offline: '오프라인',
-    hybrid: '하이브리드',
+    ONLINE: '온라인',
+    OFFLINE: '오프라인',
+    HYBRID: '하이브리드',
   };
 
   return modeMap[mode] || '선택안함';
-};
-
-/** 기술 스택 변환 */
-export const convertTechStackValue = (
-  stack: keyof typeof TECH_STACKS | null,
-): string => {
-  if (stack === null) return '선택안함';
-
-  const stackMap: Record<keyof typeof TECH_STACKS, string> = {
-    'adobe-xd': 'Adobe',
-    django: 'Django',
-    express: 'Express',
-    figma: 'Figma',
-    firebase: 'Firebase',
-    flutter: 'Flutter',
-    go: 'Go',
-    graphql: 'GraphQL',
-    java: 'Java',
-    javascript: 'JavaScript',
-    kotlin: 'Kotlin',
-    mongodb: 'MongoDB',
-    mysql: 'MySQL',
-    nestjs: 'Nestjs',
-    nextjs: 'Nextjs',
-    nodejs: 'Nodejs',
-    'objective-c': 'Objective-C',
-    php: 'php',
-    python: 'Python',
-    'react-native': 'ReactNative',
-    ruby: 'Ruby',
-    sketch: 'Sketch',
-    spring: 'Spring',
-    svelte: 'Svelte',
-    swift: 'Swift',
-    typescript: 'TypeScript',
-    vue: 'Vue',
-    react: 'React',
-    zeplin: 'Zeplin',
-  };
-
-  return stackMap[stack] || '선택안함';
 };

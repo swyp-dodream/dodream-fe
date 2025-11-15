@@ -1,12 +1,13 @@
 import clsx from 'clsx';
 import UserSearchIcon from '@/assets/icons/user-search/14.svg';
+import type { PostStatusType } from '@/types/post.type';
 
 interface PostCardStatusProps {
-  status: 'recruiting' | 'completed';
+  status: PostStatusType;
 }
 
 export default function PostCardStatus({ status }: PostCardStatusProps) {
-  const isRecruiting = status === 'recruiting';
+  const isRecruiting = status === 'RECRUITING';
 
   return (
     <div className="flex gap-2 items-center">

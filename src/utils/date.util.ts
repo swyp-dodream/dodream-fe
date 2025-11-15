@@ -6,9 +6,11 @@ import {
 } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
-export function formatDeadlineAt(deadlineAt: Date) {
+export function formatDeadlineAt(deadlineAt: Date | string) {
+  const date =
+    typeof deadlineAt === 'string' ? new Date(deadlineAt) : deadlineAt;
   const today = startOfDay(new Date());
-  const target = startOfDay(deadlineAt);
+  const target = startOfDay(date);
 
   const diffDays = differenceInCalendarDays(target, today);
 

@@ -15,7 +15,7 @@ const ROLE_LABEL_MAP: Record<Role, string> = {
   Marketer: '마케터',
 };
 
-function getRoles(roles: Role[]) {
+function _getRoles(roles: Role[]) {
   return roles.map((role) => ROLE_LABEL_MAP[role]);
 }
 
@@ -29,7 +29,8 @@ export default function SuggestedPostCard({ post }: SuggestedPostCardProps) {
       <PostCard.Header
         nickname={post.ownerUserId}
         elapsedTime={formatDeadlineAt(post.deadlineAt)}
-        projectType={post.projectType}
+        // TODO: 값 수정
+        projectType="STUDY"
         isBookmarked={post.isBookmarked}
       />
 
@@ -38,11 +39,13 @@ export default function SuggestedPostCard({ post }: SuggestedPostCardProps) {
 
         <div className="flex flex-col gap-4">
           <PostCard.TechCategories techCategories={post.techCategories} />
-          <PostCard.Roles roles={getRoles(post.roles)} />
+          {/* TODO: 값 수정 */}
+          <PostCard.Roles roles={[]} />
         </div>
       </PostCard.Main>
 
-      <PostCard.Footer views={post.views} status={post.status} />
+      {/* TODO: 값 수정 */}
+      <PostCard.Footer views={post.views} status="COMPLETED" />
 
       <PostCard.Actions>
         <ChatButton />

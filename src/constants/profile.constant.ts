@@ -74,9 +74,9 @@ export const EXPERIENCE_LIST = Object.entries(EXPERIENCE).map(
  * 선호 방식 값 객체
  */
 export const ACTIVITY_MODE = {
-  online: '온라인',
-  offline: '오프라인',
-  hybrid: '온·오프라인',
+  ONLINE: '온라인',
+  OFFLINE: '오프라인',
+  HYBRID: '온·오프라인',
 };
 
 export const ACTIVITY_MODE_LIST = Object.entries(ACTIVITY_MODE).map(
@@ -89,63 +89,59 @@ export const ACTIVITY_MODE_LIST = Object.entries(ACTIVITY_MODE).map(
 /**
  * 기술 스택 객체
  */
-export const TECH_STACKS: Record<TechStackType, string> = {
-  // 프론트엔드
-  javascript: 'JavaScript',
-  typescript: 'TypeScript',
-  react: 'React',
-  vue: 'Vue',
-  svelte: 'Svelte',
-  nextjs: 'Next.js',
-  // 백엔드
-  java: 'Java',
-  spring: 'Spring',
-  nodejs: 'Node.js',
-  nestjs: 'NestJS',
-  go: 'Go',
-  express: 'Express',
-  mysql: 'MySQL',
-  mongodb: 'MongoDB',
-  ruby: 'Ruby',
-  python: 'Python',
-  django: 'Django',
-  php: 'PHP',
-  graphql: 'GraphQL',
-  firebase: 'Firebase',
-  // 모바일
-  swift: 'Swift',
-  'objective-c': 'Objective-C',
-  kotlin: 'Kotlin',
-  flutter: 'Flutter',
-  'react-native': 'React Native',
-  // 디자인
-  zeplin: 'Zeplin',
-  'adobe-xd': 'Adobe XD',
-  figma: 'Figma',
-  sketch: 'Sketch',
+export const TECH_STACK_MAP: Record<TechStackType, string> = {
+  JavaScript: 'javascript',
+  TypeScript: 'typescript',
+  React: 'react',
+  Vue: 'vue',
+  Svelte: 'svelte',
+  Nextjs: 'nextjs',
+  Java: 'java',
+  Spring: 'spring',
+  Nodejs: 'nodejs',
+  Nestjs: 'nestjs',
+  Go: 'go',
+  Express: 'express',
+  MySQL: 'mysql',
+  MongoDB: 'mongodb',
+  Ruby: 'ruby',
+  Python: 'python',
+  Django: 'django',
+  php: 'php',
+  GraphQL: 'graphql',
+  Firebase: 'firebase',
+  Swift: 'swift',
+  'Objective-C': 'objective-c',
+  Kotlin: 'kotlin',
+  Flutter: 'flutter',
+  ReactNative: 'react-native',
+  Zeplin: 'zeplin',
+  Adobe: 'adobe-xd',
+  Figma: 'figma',
+  Sketch: 'sketch',
 };
 
 export const TECH_STACKS_BY_ROLE: Record<string, TechStackType[]> = {
-  프론트엔드: ['javascript', 'typescript', 'react', 'vue', 'svelte', 'nextjs'],
+  프론트엔드: ['JavaScript', 'TypeScript', 'React', 'Vue', 'Svelte', 'Nextjs'],
   백엔드: [
-    'java',
-    'spring',
-    'nodejs',
-    'nestjs',
-    'go',
-    'kotlin',
-    'express',
-    'mysql',
-    'mongodb',
-    'ruby',
-    'python',
-    'django',
+    'Java',
+    'Spring',
+    'Nodejs',
+    'Nestjs',
+    'Go',
+    'Kotlin',
+    'Express',
+    'MySQL',
+    'MongoDB',
+    'Ruby',
+    'Python',
+    'Django',
     'php',
-    'graphql',
-    'firebase',
+    'GraphQL',
+    'Firebase',
   ],
-  모바일: ['swift', 'objective-c', 'kotlin', 'java', 'flutter', 'react-native'],
-  디자인: ['zeplin', 'figma', 'sketch', 'adobe-xd'],
+  모바일: ['Swift', 'Objective-C', 'Kotlin', 'Java', 'Flutter', 'ReactNative'],
+  디자인: ['Zeplin', 'Figma', 'Sketch', 'Adobe'],
 };
 
 export const TECH_STACKS_BY_ROLE_KEYS = Object.keys(TECH_STACKS_BY_ROLE);

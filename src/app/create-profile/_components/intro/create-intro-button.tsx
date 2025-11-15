@@ -1,5 +1,5 @@
 import { overlay } from 'overlay-kit';
-import { INTERESTS, TECH_STACKS } from '@/constants/profile.constant';
+import { INTERESTS } from '@/constants/profile.constant';
 import type { ProfileFormData } from '@/schemas/user.schema';
 import type { AiRequestType } from '@/types/profile.type';
 import {
@@ -45,7 +45,7 @@ export default function CreateIntroButton({
       .map((url) => url.value),
     roles: [role],
     interestKeywords: interests.map((interest) => INTERESTS[interest]),
-    techSkills: techStacks.map((stack) => TECH_STACKS[stack]),
+    techSkills: techStacks,
   };
 
   return (

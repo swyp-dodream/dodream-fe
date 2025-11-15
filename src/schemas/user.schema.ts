@@ -7,7 +7,7 @@ import {
   INTERESTS,
   NICKNAME_REGEX,
   ROLE,
-  TECH_STACKS,
+  TECH_STACK_MAP,
 } from '@/constants/profile.constant';
 import type { InterestsType, TechStackType } from '@/types/profile.type';
 
@@ -63,7 +63,7 @@ export const activityModeSchema = z.enum(
 
 /** 기술 스택 스키마 */
 export const techStacksSchema = z.array(
-  z.enum(Object.keys(TECH_STACKS) as [TechStackType, ...TechStackType[]]),
+  z.enum(Object.keys(TECH_STACK_MAP) as [TechStackType, ...TechStackType[]]),
 );
 
 /** 관심 분야 스키마 */

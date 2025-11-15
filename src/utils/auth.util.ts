@@ -39,7 +39,8 @@ export const tokenStorage = {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(TOKEN_STORAGE_KEY.token);
       localStorage.removeItem(TOKEN_STORAGE_KEY.refresh_token);
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
+      queryClient.setQueryData([QUERY_KEY.user], null);
+      queryClient.removeQueries({ queryKey: [QUERY_KEY.auth] });
     }
   },
 
