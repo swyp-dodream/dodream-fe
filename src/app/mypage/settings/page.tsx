@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import AgeField from '@/app/create-profile/_components/profile-fields/age-field';
 import GenderField from '@/app/create-profile/_components/profile-fields/gender-field';
+import DeleteAccountButton from '@/app/mypage/settings/_components/delete-account-button';
 import Button from '@/components/commons/buttons/button';
 import Input from '@/components/commons/text-fields/input';
 import Toggle from '@/components/commons/toggle';
@@ -138,7 +139,7 @@ export default function SettingsPage() {
         >
           저장
         </Button>
-        <button type="button">계정 삭제</button>
+        <DeleteAccountButton />
       </footer>
     </div>
   );
