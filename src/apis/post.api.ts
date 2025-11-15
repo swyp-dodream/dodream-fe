@@ -1,5 +1,6 @@
 import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
+  CreatePostResponseType,
   HomeProjectType,
   PostType,
   RecommendedPostsType,
@@ -28,7 +29,7 @@ const postApi = {
   },
 
   createPost: (payload: PostCreateFormData) => {
-    return authApi.post<void>(`/api/posts`, payload);
+    return authApi.post<CreatePostResponseType>(`/api/posts`, payload);
   },
 };
 

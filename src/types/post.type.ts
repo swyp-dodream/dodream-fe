@@ -71,6 +71,9 @@ export type RecommendedPostContentType = {
   fields: string[];
 };
 
+/** 모집글 생성 응답 타입 */
+export type CreatePostResponseType = PostContentType;
+
 export type ProjectType = 'PROJECT' | 'STUDY';
 export type HomeProjectType = ProjectType | 'ALL';
 
