@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import FieldErrorMessage from '@/app/posts/_components/field-error-message';
 import {
@@ -15,12 +16,15 @@ import {
 } from '@/app/posts/_components/fields';
 import Button from '@/components/commons/buttons/button';
 import Editor from '@/components/commons/editor';
+import useCreatePost from '@/hooks/post/use-create-post';
 import {
   type PostCreateFormData,
   postCreateFormSchema,
 } from '@/schemas/post.schema';
 
 export default function PostCreatePage() {
+  const router = useRouter();
+  const { mutateAsync: createPost, isPending } = useCreatePost();
   const methods = useForm<PostCreateFormData>({
     resolver: zodResolver(postCreateFormSchema),
     defaultValues: {
@@ -38,9 +42,13 @@ export default function PostCreatePage() {
     reValidateMode: 'onChange',
   });
 
-  // TODO: API 연결
-  const onSubmit = methods.handleSubmit((values) => {
-    console.log(values);
+  const onSubmit = methods.handleSubmit(async (values) => {
+    try {
+      await createPost(values);
+      router.push('/');
+    } catch (error) {
+      console.error('모집글 생성 실패:', error);
+    }
   });
 
   return (
@@ -102,8 +110,8 @@ export default function PostCreatePage() {
             />
           </div>
 
-          <Button type="submit" variant="solid" size="md">
-            게시
+          <Button disabled={isPending} type="submit" variant="solid" size="md">
+            {isPending ? '게시 중...' : '게시'}
           </Button>
         </form>
       </FormProvider>
