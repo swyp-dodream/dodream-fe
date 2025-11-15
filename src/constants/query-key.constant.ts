@@ -10,4 +10,5 @@ export const QUERY_KEY = {
 
   posts: 'posts',
   offers: 'offers',
+  posts: 'posts',
 };
