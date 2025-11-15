@@ -53,6 +53,23 @@ export type PostContentType = {
   owner: boolean;
 };
 
+/** 상세 페이지 멤버 내역 */
+export type PostMembersType = {
+  users: {
+    suggestionId: number;
+    applicationId: number;
+    userId: number;
+    nickname: string;
+    profileImage: string;
+    status: string;
+    createdAt: string;
+    experience: string;
+    jobGroups: string[];
+  }[];
+  nextCursor: 0;
+  hasNext: true;
+};
+
 /** AI 추천 게시글 타입 */
 export type RecommendedPostsType = {
   posts: RecommendedPostContentType[];

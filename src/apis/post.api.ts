@@ -3,6 +3,7 @@ import type {
   CreatePostResponseType,
   HomeProjectType,
   PostContentType,
+  PostMembersType,
   PostType,
   RecommendedPostsType,
 } from '@/types/post.type';
@@ -27,6 +28,10 @@ const postApi = {
 
   /** 게시물 상세 데이터 */
   getPostDetail: (id: number) => api.get<PostContentType>(`/api/posts/${id}`),
+
+  /** 게시물 멤버 내역 */
+  getPostMembers: (id: number) =>
+    api.get<PostMembersType>(`/api/posts/${id}/recruits/members`),
 
   cancelOffer: (suggestionId: number) => {
     return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
