@@ -1,41 +1,39 @@
-import postApi from '@/apis/post.api';
-import { ROLE_LIST } from '@/constants/profile.constant';
+'use client';
+
+import useGetPostMembers from '@/hooks/auth/use-get-post-members';
 
 interface RecruitStatusProps {
   postId: number;
+  roles: {
+    role: string;
+    headcount: number;
+  }[];
 }
 
 /**
  * 모집자 현황 컴포넌트
  * @param postId - 게시물 ID
+ * @param roles - 모집중인 직군 리스트
  */
-export default async function RecruitStatus({ postId }: RecruitStatusProps) {
-  const postMembers = await postApi.getPostMembers(postId);
+export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
+  const { data: postMembers } = useGetPostMembers(postId);
 
-  const membersByJobGroup = postMembers.users.reduce(
-    (acc, user) => {
-      user.jobGroups.forEach((jobGroup) => {
-        if (!acc[jobGroup]) {
-          acc[jobGroup] = [];
-        }
-        acc[jobGroup].push(user);
-      });
-      return acc;
-    },
-    {} as Record<string, typeof postMembers.users>,
-  );
+  if (!postMembers) return null;
 
   return (
     <div className="bg-surface shadow-card py-5 px-6 rounded-md">
       <ul className="flex flex-col [&>li]:relative [&>li]:border-b [&>li]:border-border-primary [&>li:not(:first-child)]:pt-4 [&>li:not(:last-child)]:pb-4 [&>li:last-child]:border-none">
-        {ROLE_LIST.map((role) => {
-          const members = membersByJobGroup[role.label] || null;
+        {roles.map((roleInfo) => {
+          // 해당 직군을 가진 멤버들만 필터링
+          const membersForRole = postMembers?.users.filter((member) =>
+            member.jobGroups.includes(roleInfo.role),
+          );
 
           return (
-            <li key={role.label} className="flex items-center">
-              <span className="w-[82px] body-lg-medium">{role.label}</span>
+            <li key={roleInfo.role} className="flex items-center">
+              <span className="w-[82px] body-lg-medium">{roleInfo.role}</span>
               <ul className="flex flex-row-reverse flex-1 justify-end [&>li]:relative [&>li:not(:last-child)]:-ml-3">
-                {members?.map((member) => (
+                {membersForRole.map((member) => (
                   <MemberInfo
                     key={member.userId}
                     member={{
@@ -46,7 +44,9 @@ export default async function RecruitStatus({ postId }: RecruitStatusProps) {
                   />
                 ))}
               </ul>
-              <span>{members?.length || 0}/3명</span>
+              <span>
+                {membersForRole.length}/{roleInfo.headcount}명
+              </span>
             </li>
           );
         })}

@@ -41,6 +41,9 @@ export default function AuthCallBackClient({
         await queryClient.invalidateQueries({
           queryKey: [QUERY_KEY.user],
         });
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.auth],
+        });
 
         router.replace(`${exists ? '/' : '/create-profile'}`);
       } catch (err) {
