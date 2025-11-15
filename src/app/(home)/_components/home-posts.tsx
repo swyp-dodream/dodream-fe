@@ -76,7 +76,7 @@ function HomePostCards({ posts }: HomePostCardsProps) {
         return (
           <li key={post.id}>
             <DefaultPostCard
-              id={post.id}
+              id={BigInt(post.id)}
               title={post.title}
               status={post.status}
               ownerNickname={post.ownerNickname}

@@ -3,7 +3,7 @@ import type { PostStatusType, ProjectType } from '@/types/post.type';
 import { formatDeadlineAt } from '@/utils/date.util';
 
 interface DefaultPostCardProps {
-  id: number;
+  id: bigint;
   title: string;
   status: PostStatusType;
   ownerNickname: string;

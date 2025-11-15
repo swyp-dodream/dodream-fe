@@ -45,7 +45,7 @@ export default function PostCreatePage() {
   const onSubmit = methods.handleSubmit(async (values) => {
     try {
       const createdPost = await createPost(values);
-      router.push(`/post/${createdPost.id}`);
+      router.push(`/post/${BigInt(createdPost.id)}`);
     } catch (error) {
       console.error('모집글 생성 실패:', error);
     }
