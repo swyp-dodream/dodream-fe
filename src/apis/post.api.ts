@@ -28,20 +28,23 @@ const postApi = {
 
   /** 모집글 상세 데이터 */
   getPostDetailAuth: (id: bigint) =>
-    authApi.get<PostContentType>(`/api/posts/${id}`),
-  getPostDetail: (id: bigint) => api.get<PostContentType>(`/api/posts/${id}`),
+    authApi.get<PostContentType>(`/api/posts/${BigInt(id)}`),
+  getPostDetail: (id: bigint) =>
+    api.get<PostContentType>(`/api/posts/${BigInt(id)}`),
 
   /** 모집글 멤버 내역 */
   getPostMembers: (id: bigint) =>
-    api.get<PostMembersType>(`/api/posts/${id}/recruits/members`),
+    api.get<PostMembersType>(`/api/posts/${BigInt(id)}/recruits/members`),
 
   /** 모집 지원 */
   apply: (postId: bigint, data: { roleId: number; message: string }) =>
-    authApi.post<void>(`/api/posts/${postId}/apply`, data),
+    authApi.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
   /** 모집 지원 가능 여부 판단 */
   getApplyAvailable: (postId: bigint) =>
-    authApi.get<{ canApply: boolean }>(`/api/posts/${postId}/can-apply`),
+    authApi.get<{ canApply: boolean }>(
+      `/api/posts/${BigInt(postId)}/can-apply`,
+    ),
 
   /** 모집 지원 취소 */
   cancelApply: (applicationId: number) =>
