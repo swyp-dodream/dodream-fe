@@ -46,7 +46,7 @@ export const convertGenderValue = (
 export const parseGenderValue = (
   label: string | null,
 ): keyof typeof GENDER | null => {
-  if (!label || label === '선택안함') return null;
+  if (!label) return null;
   return GENDER_VALUE_REVERSE_MAP[label] ?? null;
 };
 
