@@ -6,7 +6,7 @@ import LoginModal from '@/app/auth/_components/login-modal';
 import BellIcon from '@/assets/icons/bell/20.svg';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
-import { useGetProfileExists } from '@/hooks/auth/use-get-profile';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import Button from '../commons/buttons/button';
 import NavigationProfile from './navigation-profile';
 

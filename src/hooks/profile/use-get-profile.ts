@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import userApi from '@/apis/user.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import useGetUser from './use-get-user';
+import useGetUser from '../auth/use-get-user';
 
 /**
  * 유저의 프로필을 저장하는 쿼리

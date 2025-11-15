@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import LoginModal from '@/app/auth/_components/login-modal';
 import AlertCircleIcon from '@/assets/icons/alert-circle/16.svg';
-import { useGetProfileExists } from '@/hooks/auth/use-get-profile';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import RecommendTypes from './recommend-types';
 
 export default function Banner() {
