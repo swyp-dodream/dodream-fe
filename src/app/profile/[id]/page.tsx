@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import InterestTags from '@/app/profile/_components/interest-tags';
@@ -5,12 +7,12 @@ import ProfileLinks from '@/app/profile/_components/profile-link';
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
 import TechCategories from '@/components/commons/tech-categories';
-import { PROFILE } from '@/mocks/profiles';
-import type { Profile } from '@/types/profile.type';
+import { useGetProfile } from '@/hooks/profile/use-get-profile';
 
 export default function ProfilePage() {
-  // TODO: path 파라미로부터 프로필 데이터 페칭
-  const profile: Profile = PROFILE;
+  const { data: profile } = useGetProfile();
+
+  if (!profile) return;
 
   // TODO: 프로필 페이지 ID, 로그인 유저 ID 비교
   const isMyProfile = true;
@@ -21,7 +23,7 @@ export default function ProfilePage() {
       <section className="col-span-12 flex justify-between">
         {/* TODO: 이미지 수정 */}
         <Image
-          src="/"
+          src="/avatar/default-avatar.png"
           alt={`${profile.nickname}님의 프로필 이미지`}
           width={120}
           height={120}
@@ -46,7 +48,7 @@ export default function ProfilePage() {
               <SuitcaseIcon className="text-icon-medium" aria-hidden="true" />
               <div className="flex gap-1 text-secondary">
                 {/* TODO: 직무 값 사용 방법 수정 */}
-                <div>{profile.roles.name}</div>
+                <div>{profile.roles[0].name}</div>
                 <div aria-hidden="true">·</div>
                 <div>{profile.experience}</div>
               </div>
@@ -65,12 +67,14 @@ export default function ProfilePage() {
         </section>
 
         {/* 링크 */}
-        <section className="flex flex-col gap-4">
-          <h3 className="heading-sm">링크</h3>
-          <nav aria-label="사용자 외부 링크">
-            <ProfileLinks profileUrls={profile.profileUrls} />
-          </nav>
-        </section>
+        {Object.keys(profile.profileUrls).length !== 0 && (
+          <section className="flex flex-col gap-4">
+            <h3 className="heading-sm">링크</h3>
+            <nav aria-label="사용자 외부 링크">
+              <ProfileLinks profileUrls={Object.values(profile.profileUrls)} />
+            </nav>
+          </section>
+        )}
       </div>
       <div className="col-span-4 col-start-9 flex flex-col">
         {/* 기술 스택 */}
@@ -78,7 +82,7 @@ export default function ProfilePage() {
           <h3 className="heading-sm">기술 스택</h3>
           {/* TODO: techCategories 수정 시 map 제거 */}
           <TechCategories
-            techCategories={profile.techSkills.map((tech) => tech.name)}
+            techCategories={profile.techSkills.map((skill) => skill.name)}
           />
         </section>
 

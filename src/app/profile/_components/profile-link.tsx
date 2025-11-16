@@ -2,14 +2,7 @@ import Link from 'next/link';
 import LinkIcon from '@/assets/icons/link/14.svg';
 
 interface ProfileLinksProps {
-  profileUrls: {
-    id: number;
-    profileId: number;
-    label: string;
-    url: string;
-    createdAt: string;
-    updatedAt: string;
-  }[];
+  profileUrls: string[];
 }
 
 /**
@@ -19,7 +12,7 @@ export default function ProfileLinks({ profileUrls }: ProfileLinksProps) {
   return (
     <ul className="flex flex-col gap-3 body-md-medium">
       {profileUrls.map((url) => (
-        <ProfileLink url={url.url} key={url.id} />
+        <ProfileLink url={url} key={url} />
       ))}
     </ul>
   );

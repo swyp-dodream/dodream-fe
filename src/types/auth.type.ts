@@ -22,11 +22,15 @@ export type ProfileType = {
     code: string;
     name: string;
   }[];
-  interestKeywordNames: {
+  interestKeywords: {
     id: number;
     categoryId: number;
     name: string;
   }[];
-  techSkills: string[];
+  techSkills: {
+    id: number;
+    categoryId: number;
+    name: string;
+  }[];
   profileUrls: Record<string, string>;
 };
