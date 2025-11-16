@@ -1,12 +1,12 @@
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import TextField from '@/components/commons/text-fields/text-field';
+import useGetMyApplicationDetail from '@/hooks/my/use-get-my-application-detail';
 
 interface ApplyDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  roleName: string;
-  message: string;
+  applicationId: bigint;
 }
 
 const INFO_LABEL_CLASS = 'text-primary body-lg-medium';
@@ -14,9 +14,11 @@ const INFO_LABEL_CLASS = 'text-primary body-lg-medium';
 export default function ApplyDetailModal({
   isOpen,
   onClose,
-  roleName,
-  message,
+  applicationId,
 }: ApplyDetailModalProps) {
+  const { data: myApplicationDetail } =
+    useGetMyApplicationDetail(applicationId);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Overlay />
@@ -32,7 +34,7 @@ export default function ApplyDetailModal({
               <dt className={INFO_LABEL_CLASS}>지원 직군</dt>
               <dd>
                 <span className="inline-flex rounded-full bg-chip-selected px-4 py-3 text-on-brand">
-                  {roleName}
+                  {myApplicationDetail?.roleName}
                 </span>
               </dd>
             </div>
@@ -41,7 +43,7 @@ export default function ApplyDetailModal({
               <dt className={INFO_LABEL_CLASS}>지원 메시지</dt>
               <dd>
                 <TextField
-                  value={message}
+                  value={myApplicationDetail?.message}
                   className="w-full"
                   readOnly
                   resizable={false}

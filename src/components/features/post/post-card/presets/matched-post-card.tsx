@@ -49,7 +49,7 @@ export default function MatchedPostCard({ post }: MatchedPostCardProps) {
 
       <PostCard.Actions>
         <MathcingCancelButton nickname="닉네임" />
-        <ApplyDetailButton />
+        <ApplyDetailButton applicationId={BigInt(1)} />
       </PostCard.Actions>
     </PostCard>
   );

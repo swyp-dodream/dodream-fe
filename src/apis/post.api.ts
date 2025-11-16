@@ -1,6 +1,7 @@
 import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
+  GetMyAppliedPostsResponseType,
   HomeProjectType,
   PostContentType,
   PostMembersType,
@@ -38,7 +39,7 @@ const postApi = {
 
   /** 모집 지원 */
   apply: (postId: bigint, data: { roleId: number; message: string }) =>
-    authApi.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
+    authApi.post(`/api/posts/${BigInt(postId)}/apply`, data),
 
   /** 모집 지원 가능 여부 판단 */
   getApplyAvailable: (postId: bigint) =>
@@ -47,7 +48,7 @@ const postApi = {
     ),
 
   /** 모집 지원 취소 */
-  cancelApply: (applicationId: number) =>
+  cancelApply: (applicationId: bigint) =>
     authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
   cancelOffer: (suggestionId: number) => {
@@ -56,6 +57,18 @@ const postApi = {
 
   createPost: (payload: PostCreateFormData) => {
     return authApi.post<CreatePostResponseType>(`/api/posts`, payload);
+  },
+
+  /** 내가 지원한 글 목록 조회 */
+  getMyAppliedPosts: (page?: number, size?: number) => {
+    const params = new URLSearchParams();
+
+    if (page) params.set('page', String(page));
+    if (size) params.set('size', String(size));
+
+    return authApi.get<GetMyAppliedPostsResponseType>(
+      `/api/my/applications?${params.toString()}`,
+    );
   },
 };
 

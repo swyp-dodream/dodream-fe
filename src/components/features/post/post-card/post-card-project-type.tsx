@@ -13,7 +13,10 @@ interface PostCardProjectTypeProps {
 export default function PostCardProjectType({
   projectType,
 }: PostCardProjectTypeProps) {
-  const { text, color } = PROJECT_TYPE_CONFIG[projectType];
+  const projectTypeKey =
+    projectType.toUpperCase() as keyof typeof PROJECT_TYPE_CONFIG;
+  const { text, color } =
+    PROJECT_TYPE_CONFIG[projectTypeKey] ?? PROJECT_TYPE_CONFIG.PROJECT;
 
   return (
     <div

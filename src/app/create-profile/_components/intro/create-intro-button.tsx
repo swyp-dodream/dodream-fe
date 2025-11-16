@@ -1,7 +1,15 @@
 import { overlay } from 'overlay-kit';
 import { INTERESTS } from '@/constants/profile.constant';
-import type { ProfileFormData } from '@/schemas/user.schema';
-import type { AiRequestType } from '@/types/profile.type';
+import type {
+  ActivityModeType,
+  AgeRangeType,
+  AiRequestType,
+  ExperienceType,
+  InterestsType,
+  LinkItemType,
+  RoleType,
+  TechStackType,
+} from '@/types/profile.type';
 import {
   convertActivityModeValue,
   convertAgeValue,
@@ -10,27 +18,41 @@ import {
 import CreateIntroModal from './create-intro-modal';
 
 interface CreateIntroButtonProps {
-  ProfileFormData: ProfileFormData;
+  nickname: string;
+  age: AgeRangeType | null;
+  experience: ExperienceType;
+  activityMode: ActivityModeType;
+  links: LinkItemType[];
+  role: RoleType;
+  interests: InterestsType[];
+  techStacks: TechStackType[];
+  intro: string;
   setIntro: (text: string) => void;
 }
 
 /**
  * AI 자기소개 생성 버튼
- * @param ProfileFormData - Zod 프로필 스키마 타입의 프로필 데이터
+ * @param nickname - 닉네임
+ * @param age - 나이
+ * @param experience - 경력
+ * @param activityMode - 선호 활동 방식
+ * @param links - 프로필 URL
+ * @param role - 직군
+ * @param interests - 관심 분야
+ * @param techStacks - 기술 스택
+ * @param intro - 자기소개
  * @param setIntro - 자기소개 생성 완료 시 텍스트 필드에 저장하는 함수
  */
 export default function CreateIntroButton({
-  ProfileFormData: {
-    nickname,
-    age,
-    experience,
-    activityMode,
-    links,
-    role,
-    interests,
-    techStacks,
-    intro,
-  },
+  nickname,
+  age,
+  experience,
+  activityMode,
+  links,
+  role,
+  interests,
+  techStacks,
+  intro,
   setIntro,
 }: CreateIntroButtonProps) {
   // 요청 타입에 맞도록 변환

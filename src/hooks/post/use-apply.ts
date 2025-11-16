@@ -17,9 +17,19 @@ export function useApply() {
       message?: string;
     }) => postApi.apply(postId, { roleId, message }),
     onSuccess: (_, variables) => {
-      // TODO: 쿼리 무효화 로직 실행
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, variables.postId],
+        queryKey: [
+          QUERY_KEY.auth,
+          QUERY_KEY.canApply,
+          variables.postId.toString(),
+        ],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEY.auth,
+          QUERY_KEY.postDetail,
+          variables.postId.toString(),
+        ],
       });
     },
   });
@@ -30,7 +40,7 @@ export function useGetApplyAvailable(postId: bigint) {
   const { data: profileExists } = useGetProfileExists();
 
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId.toString()],
     queryFn: () => postApi.getApplyAvailable(postId),
     enabled: profileExists?.exists === true, // 프로필 있을 때만 판단
     staleTime: 0,

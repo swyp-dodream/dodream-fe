@@ -1,63 +1,50 @@
 import { PostCard } from '@/components/features/post/post-card';
 import ApplyCancelButton from '@/components/features/post/post-card/buttons/apply-cancel-button';
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
-import type { MockPost, Role } from '@/mocks/posts';
+import type { MyAppliedPostType } from '@/types/post.type';
 import { formatDeadlineAt } from '@/utils/date.util';
 
-const ROLE_LABEL_MAP: Record<Role, string> = {
-  FE: '프론트엔드',
-  BE: '백엔드',
-  iOS: 'iOS',
-  AOS: '안드로이드',
-  Designer: '디자이너',
-  PM: 'PM',
-  Planner: '기획자',
-  Marketer: '마케터',
-};
-
-function _getRoles(roles: Role[]) {
-  return roles.map((role) => ROLE_LABEL_MAP[role]);
-}
-
 interface MyApplicationPostCardProps {
-  post: MockPost;
+  myAppliedPost: MyAppliedPostType;
 }
 
 export default function MyApplicationPostCard({
-  post,
+  myAppliedPost,
 }: MyApplicationPostCardProps) {
   return (
-    <PostCard>
+    <PostCard href={`/post/${BigInt(myAppliedPost.postId)}`}>
       <PostCard.Header
-        nickname={post.ownerUserId}
-        elapsedTime={formatDeadlineAt(post.deadlineAt)}
-        // TODO: 값 수정
-        projectType="PROJECT"
-        isBookmarked={post.isBookmarked}
+        nickname={myAppliedPost.leaderName}
+        elapsedTime={formatDeadlineAt(myAppliedPost.appliedAt)}
+        projectType={myAppliedPost.projectType}
+        isBookmarked={myAppliedPost.bookmarked}
       />
 
       <PostCard.Main>
-        <PostCard.Title>{post.title}</PostCard.Title>
+        <PostCard.Title>{myAppliedPost.postTitle}</PostCard.Title>
 
         <div className="flex flex-col gap-4">
-          <PostCard.TechCategories techCategories={post.techCategories} />
-          {/* TODO: 값 수정 */}
-          <PostCard.Roles roles={[]} />
+          <PostCard.TechCategories techCategories={myAppliedPost.stacks} />
+          <PostCard.Roles
+            roles={myAppliedPost.roles.map((role) => ({ role }))}
+          />
         </div>
       </PostCard.Main>
 
-      {/* TODO: 값 수정 */}
-      <PostCard.Footer views={post.views} status="RECRUITING" />
+      <PostCard.Footer
+        views={myAppliedPost.viewCount}
+        status={myAppliedPost.status}
+      />
 
       <PostCard.Actions>
-        {/* TODO: 닉네임 변경 */}
         <ApplyCancelButton
-          postId={post.id}
-          ownerNickname={post.ownerUserId}
+          applicationId={myAppliedPost.id}
+          postId={myAppliedPost.postId}
+          ownerNickname={myAppliedPost.leaderName}
           variant="outline"
           size="md"
         />
-        <ApplyDetailButton />
+        <ApplyDetailButton applicationId={myAppliedPost.id} />
       </PostCard.Actions>
     </PostCard>
   );

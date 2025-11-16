@@ -27,7 +27,7 @@ export default function ApplyButton({
   ...props
 }: ApplyButtonProps) {
   const { data: profileExists } = useGetProfileExists();
-  const { data: postData } = useGetPostDetail(postId);
+  const { data: postData } = useGetPostDetail(BigInt(postId));
   const toast = useToast();
 
   if (!postData) return null;
@@ -37,6 +37,11 @@ export default function ApplyButton({
     // 로그인하지 않았을 경우 disabled가 아닌 토스트 메시지 띄우기
     if (!profileExists?.exists) {
       toast({ title: '로그인이 필요합니다' });
+      return;
+    }
+
+    if (postData.applicationId) {
+      toast({ title: '이미 지원한 공고입니다' });
       return;
     }
 
@@ -51,7 +56,7 @@ export default function ApplyButton({
 
     overlay.open(({ isOpen, close }) => (
       <ApplyModal
-        postId={postId}
+        postId={postData.id}
         roles={postData.roles.map((role) => role.role)}
         isOpen={isOpen}
         onClose={close}

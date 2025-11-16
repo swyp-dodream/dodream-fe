@@ -1,9 +1,10 @@
 import ApplyAcceptButton from '@/components/features/mypage/my-posts/recruitments/buttons/apply-accept-button';
-import ApplyDetailButton from '@/components/features/mypage/my-posts/recruitments/buttons/apply-detail-button';
+
 import RecruitmentUserRow from '@/components/features/mypage/my-posts/recruitments/recruitment-user-row';
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
 import RoleTabsHeader from '@/components/features/mypage/my-posts/recruitments/role-tabs-header';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
+import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import { ROLES, type Role } from '@/mocks/posts';
 import type { ApplicantsUser } from './types';
 
@@ -32,7 +33,7 @@ export default function ApplicantsRoleTabs({
                   {...user}
                   actions={
                     <UserActions>
-                      <ApplyDetailButton />
+                      <ApplyDetailButton applicationId={BigInt(1)} />
                       <ApplyAcceptButton />
                     </UserActions>
                   }
