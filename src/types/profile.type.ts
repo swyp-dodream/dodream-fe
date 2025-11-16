@@ -132,6 +132,26 @@ export type CreateProfileRequestType = {
 };
 
 /**
+ * 계정 설정 조회 응답 타입
+ */
+export type GetProfileSettingsResponseType = {
+  email: string;
+  gender: '남성' | '여성' | '선택안함';
+  ageBand: '십대' | '이십대' | '삼십대' | '사십대이상' | '선택안함';
+  proposalProjectOn: boolean;
+  proposalStudyOn: boolean;
+  isPublic: boolean;
+};
+
+/**
+ * 계정 설정 수정 응답 타입
+ */
+export type UpdateProfileSettingsResponseType = Omit<
+  GetProfileSettingsResponseType,
+  'email'
+>;
+
+/**
  * 프로필 타입
  * TODO: 실제 타입으로 변경
  */

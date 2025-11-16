@@ -5,7 +5,7 @@ import type { GenderType } from '@/types/profile.type';
 
 interface GenderFieldProps {
   value: GenderType | null;
-  onChange: (value: string) => void;
+  onChange: (value: GenderType) => void;
   error?: string;
   ref?: Ref<HTMLButtonElement>;
 }
@@ -33,7 +33,7 @@ export default function GenderField({
           label={displayLabel}
           items={GENDER_LIST.map((gender) => ({
             label: gender.label,
-            onSelect: () => onChange(gender.value),
+            onSelect: () => onChange(gender.value as GenderType),
           }))}
           isError={!!error}
         />

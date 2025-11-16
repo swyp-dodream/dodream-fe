@@ -5,7 +5,7 @@ import type { AgeRangeType } from '@/types/profile.type';
 
 interface AgeFieldProps {
   value: AgeRangeType | null;
-  onChange: (value: string) => void;
+  onChange: (value: AgeRangeType) => void;
   error?: string;
   ref?: Ref<HTMLButtonElement>;
 }
@@ -36,7 +36,7 @@ export default function AgeField({
             label={displayLabel}
             items={AGE_RANGE_LIST.map((ageRange) => ({
               label: ageRange.label,
-              onSelect: () => onChange(ageRange.value),
+              onSelect: () => onChange(ageRange.value as AgeRangeType),
             }))}
             isError={!!error}
           />

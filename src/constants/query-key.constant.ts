@@ -9,6 +9,7 @@ export const QUERY_KEY = {
   auth: 'auth',
   profileExists: 'profileExists',
   profile: 'profile',
+  profileSettings: 'profileSettings',
   aiPost: 'aiPost',
   canApply: 'canApply',
 
