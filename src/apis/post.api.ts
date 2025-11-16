@@ -1,6 +1,7 @@
 import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
+  GetMyAppliedPostsResponseType,
   HomeProjectType,
   PostContentType,
   PostMembersType,
@@ -65,7 +66,9 @@ const postApi = {
     if (page) params.set('page', String(page));
     if (size) params.set('size', String(size));
 
-    return authApi.get(`/api/my/applications?${params.toString()}`);
+    return authApi.get<GetMyAppliedPostsResponseType>(
+      `/api/my/applications?${params.toString()}`,
+    );
   },
 };
 
