@@ -1,10 +1,10 @@
+import {
+  ApplicationsTabContent,
+  MatchedTabContent,
+  SuggestedTabContent,
+} from '@/app/mypage/participations/_components/tab-content';
 import { Tabs } from '@/components/commons/tabs';
 import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
-import MatchedPostCard from '@/components/features/post/post-card/presets/matched-post-card';
-import MyApplicationPostCard from '@/components/features/post/post-card/presets/my-application-post-card';
-import SuggestedPostCard from '@/components/features/post/post-card/presets/suggested-post-card';
-
-import { MOCK_POSTS } from '@/mocks/posts';
 
 const PARTICIPATIONS_TABS = [
   {
@@ -40,36 +40,6 @@ export default function ParticipantsPage() {
           </Tabs.Content>
         ))}
       </Tabs>
-    </>
-  );
-}
-
-function ApplicationsTabContent() {
-  return (
-    <>
-      {MOCK_POSTS.map((post) => (
-        <MyApplicationPostCard key={post.id} post={post} />
-      ))}
-    </>
-  );
-}
-
-function SuggestedTabContent() {
-  return (
-    <>
-      {MOCK_POSTS.map((post) => (
-        <SuggestedPostCard key={post.id} post={post} />
-      ))}
-    </>
-  );
-}
-
-function MatchedTabContent() {
-  return (
-    <>
-      {MOCK_POSTS.map((post) => (
-        <MatchedPostCard key={post.id} post={post} />
-      ))}
     </>
   );
 }
