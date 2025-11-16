@@ -31,6 +31,9 @@ export function useApply() {
           variables.postId.toString(),
         ],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts],
+      });
     },
   });
 }
