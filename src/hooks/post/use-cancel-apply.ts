@@ -4,12 +4,15 @@ import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 
 /** 지원 취소 */
-export default function useCancelApply() {
+export default function useCancelApply(postId: bigint) {
   return useMutation({
-    mutationFn: (applicationId: number) => postApi.cancelApply(applicationId),
+    mutationFn: (applicationId: bigint) => postApi.cancelApply(applicationId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, '115538170476498944'],
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId.toString()],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
       });
     },
   });

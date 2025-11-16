@@ -8,6 +8,7 @@ import useToast from '@/hooks/use-toast';
 
 interface ApplyCancelButtonProps {
   postId: bigint;
+  applicationId: bigint;
   ownerNickname: string;
   variant?: 'default' | 'brand' | 'solid' | 'outline';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -21,6 +22,7 @@ interface ApplyCancelButtonProps {
  */
 export default function ApplyCancelButton({
   postId,
+  applicationId,
   ownerNickname,
   variant,
   size,
@@ -38,6 +40,7 @@ export default function ApplyCancelButton({
     overlay.open(({ isOpen, close }) => (
       <ApplyCancelModal
         postId={postId}
+        applicationId={BigInt(applicationId)}
         isOpen={isOpen}
         onClose={close}
         nickname={ownerNickname}

@@ -19,10 +19,11 @@ export function useGetPostDetail(postId: bigint) {
   const { data: profileExists } = useGetProfileExists();
 
   return useQuery({
-    queryKey: [],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
     queryFn: () => {
-      if (profileExists?.exists) return postApi.getPostDetailAuth(postId);
-      return postApi.getPostDetail(postId);
+      if (profileExists?.exists)
+        return postApi.getPostDetailAuth(BigInt(postId));
+      return postApi.getPostDetail(BigInt(postId));
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
