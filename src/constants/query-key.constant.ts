@@ -1,7 +1,6 @@
 export const QUERY_KEY = {
   /** 로그인 하지 않아도 사용 가능 */
   user: 'user',
-  postDetail: 'postDetail',
   posts: 'posts',
   postMembers: 'postMembers',
 
@@ -12,6 +11,7 @@ export const QUERY_KEY = {
   profileSettings: 'profileSettings',
   aiPost: 'aiPost',
   canApply: 'canApply',
+  postDetail: 'postDetail',
 
   offers: 'offers',
 };

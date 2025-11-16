@@ -3,17 +3,15 @@ import LinkIcon from '@/assets/icons/link/14.svg';
 
 interface ProfileLinksProps {
   profileUrls: {
-    id: number;
-    profileId: number;
-    label: string;
+    id: bigint;
     url: string;
-    createdAt: string;
-    updatedAt: string;
   }[];
 }
 
 /**
  * 프로필 페이지의 관련 링크 리스트
+ * @param profileUrls.id - 링크 ID
+ * @param profileUrls.url - 링크 값
  */
 export default function ProfileLinks({ profileUrls }: ProfileLinksProps) {
   return (

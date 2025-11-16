@@ -131,6 +131,19 @@ export type CreateProfileRequestType = {
   profileUrls: Record<string, string>;
 };
 
+/** 프로필 업데이트 요청 타입 */
+export type UpdateProfileRequestType = {
+  nickname: string;
+  experience: string;
+  activityMode: string;
+  introText: string;
+  profileImageCode: number;
+  roleNames: string[];
+  techSkillNames: string[];
+  interestKeywordNames: string[];
+  profileUrls: Record<string, string>;
+};
+
 /**
  * 계정 설정 조회 응답 타입
  */
@@ -153,18 +166,18 @@ export type UpdateProfileSettingsResponseType = Omit<
 
 /**
  * 프로필 타입
- * TODO: 실제 타입으로 변경
  */
-export type Profile = {
+export type ProfileType = {
   nickname: string;
   experience: string;
   activityMode: string;
   introText: string;
+  profileImageCode: number;
   roles: {
     id: number;
     code: string;
     name: string;
-  };
+  }[];
   interestKeywords: {
     id: number;
     categoryId: number;
@@ -176,11 +189,8 @@ export type Profile = {
     name: string;
   }[];
   profileUrls: {
-    id: number;
+    id: bigint;
     profileId: number;
-    label: string;
     url: string;
-    createdAt: string;
-    updatedAt: string;
   }[];
 };

@@ -6,25 +6,31 @@ import useCancelApply from '@/hooks/post/use-cancel-apply';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyCancelModalProps {
+  applicationId: bigint;
   postId: bigint;
+  nickname: string;
   isOpen: boolean;
   onClose: () => void;
-  nickname: string;
 }
 
+/**
+ * 지원 취소 모달
+ * @param applicationId - 지원 ID
+ * @param postId - 모집글 ID
+ * @param nickname - 모집글 작성자 닉네임
+ */
 export default function ApplyCancelModal({
+  applicationId,
   postId,
   nickname,
   isOpen,
   onClose,
 }: ApplyCancelModalProps) {
-  const { mutate: cancelApply } = useCancelApply();
+  const { mutate: cancelApply } = useCancelApply(postId);
   const toast = useToast();
 
-  // TODO: 지원 취소 훅 호출
-
   const handleCancelApply = () => {
-    cancelApply(1, {
+    cancelApply(applicationId, {
       onSuccess: () => {
         toast({ title: '지원이 취소되었습니다' });
       },

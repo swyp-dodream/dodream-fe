@@ -33,6 +33,7 @@ export type PostType = {
 /** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
 export type PostContentType = {
   id: bigint;
+  applicationId: bigint;
   title: string;
   content: string;
   status: PostStatusType;

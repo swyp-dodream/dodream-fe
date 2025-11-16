@@ -44,9 +44,12 @@ export default function PostDetailButtons({ postId }: PostDetailButtonsProps) {
             채팅하기
           </Button>
           {/* TODO: 매칭된 경우 매칭 취소 버튼으로 변경 */}
-          {profileExists?.exists && !isApplyAvailable?.canApply ? (
+          {profileExists?.exists &&
+          !isApplyAvailable?.canApply &&
+          postData.applicationId ? (
             <ApplyCancelButton
               postId={postId}
+              applicationId={BigInt(postData.applicationId)}
               ownerNickname={postData.ownerNickname}
               variant="brand"
               size="md"

@@ -262,7 +262,15 @@ export default function ProfileContent() {
               />
               {/* AI 초안 생성 버튼 */}
               <CreateIntroButton
-                ProfileFormData={watch()}
+                nickname={watch('nickname')}
+                age={watch('age') as AgeRangeType}
+                experience={watch('experience') as ExperienceType}
+                activityMode={watch('activityMode') as ActivityModeType}
+                links={links}
+                role={watch('role') as RoleType}
+                interests={interests}
+                techStacks={techStacks}
+                intro={watch('intro') || ''}
                 setIntro={(text) => setValue('intro', text)}
               />
             </div>
