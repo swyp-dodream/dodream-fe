@@ -13,5 +13,7 @@ export const QUERY_KEY = {
   canApply: 'canApply',
   postDetail: 'postDetail',
 
+  myAppliedPosts: 'myAppliedPosts',
+  myApplicationDetail: 'myApplicationDetail',
   offers: 'offers',
 };

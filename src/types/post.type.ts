@@ -1,3 +1,6 @@
+import type { PaginationInfo } from '@/types/api.type';
+import type { RoleName } from '@/types/role.type';
+import type { TechSkillName } from '@/types/tech-skill.type';
 import type { ActivityModeType } from './profile.type';
 
 /** 게시글 데이터 타입 */
@@ -92,10 +95,37 @@ export type RecommendedPostContentType = {
 /** 모집글 생성 응답 타입 */
 export type CreatePostResponseType = PostContentType;
 
+/** 내가 지원한 글 목록 타입 */
+export type MyAppliedPostType = {
+  id: bigint;
+  postId: bigint;
+  postTitle: string;
+  projectType: ProjectType;
+  activityMode: ActivityModeType;
+  status: PostStatusType;
+  leaderName: string;
+  leaderProfileImage: string;
+  myStatus: MyStatusType;
+  appliedAt: Date;
+  roles: RoleName[];
+  stacks: TechSkillName[];
+  viewCount: number;
+  bookmarked: boolean;
+};
+export type GetMyAppliedPostsResponseType = PaginationInfo & {
+  applications: MyAppliedPostType[];
+};
+
 export type ProjectType = 'PROJECT' | 'STUDY';
 export type HomeProjectType = ProjectType | 'ALL';
 
 export type PostStatusType = 'COMPLETED' | 'RECRUITING';
+export type MyStatusType =
+  | 'PENDING'
+  | 'APPLIED'
+  | 'WITHDRAWN'
+  | 'ACCEPTED'
+  | 'REJECTED';
 
 /** 기간 타입 */
 export type DurationType =

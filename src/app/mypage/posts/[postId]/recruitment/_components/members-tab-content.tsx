@@ -1,9 +1,9 @@
-import ApplyDetailButton from '@/components/features/mypage/my-posts/recruitments/buttons/apply-detail-button';
 import MathcingCancelButton from '@/components/features/mypage/my-posts/recruitments/buttons/matching-cancel-button';
 import RecruitmentEmptyState from '@/components/features/mypage/my-posts/recruitments/recruitment-empty-state';
 import RecruitmentUserRow from '@/components/features/mypage/my-posts/recruitments/recruitment-user-row';
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
+import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import { ROLE_LABEL_MAP } from '@/constants/role.constant';
 import { ROLES, type Role } from '@/mocks/posts';
 import type { ApplicantsUser } from './applicants/types';
@@ -85,7 +85,7 @@ export default function MembersTabContent() {
                   {...user}
                   actions={
                     <UserActions>
-                      <ApplyDetailButton />
+                      <ApplyDetailButton applicationId={BigInt(1)} />
                       <MathcingCancelButton />
                     </UserActions>
                   }
