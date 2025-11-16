@@ -11,7 +11,6 @@ import useToast from '@/hooks/use-toast';
 
 interface ApplyModalProps {
   postId: bigint;
-  applicationId: bigint;
   roles: string[];
   isOpen: boolean;
   onClose: () => void;
@@ -24,7 +23,6 @@ interface ApplyModalProps {
  */
 export default function ApplyModal({
   postId,
-  applicationId,
   roles,
   isOpen,
   onClose,
@@ -32,7 +30,7 @@ export default function ApplyModal({
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [message, setMessage] = useState('');
   const toast = useToast();
-  const { mutate: apply } = useApply(applicationId);
+  const { mutate: apply } = useApply();
 
   // 모집중인 직군만 필터링
   const availableRoles = ROLES.filter((role) => roles.includes(role.name));

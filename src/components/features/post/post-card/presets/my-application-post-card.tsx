@@ -50,9 +50,10 @@ export default function MyApplicationPostCard({
       <PostCard.Footer views={post.views} status="RECRUITING" />
 
       <PostCard.Actions>
-        {/* TODO: 닉네임 변경 */}
+        {/* TODO: applicationId 변경 */}
         <ApplyCancelButton
           postId={post.id}
+          applicationId={BigInt(1)}
           ownerNickname={post.ownerUserId}
           variant="outline"
           size="md"

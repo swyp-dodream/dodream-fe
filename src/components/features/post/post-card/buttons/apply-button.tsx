@@ -57,7 +57,6 @@ export default function ApplyButton({
     overlay.open(({ isOpen, close }) => (
       <ApplyModal
         postId={postData.id}
-        applicationId={postData.applicationId}
         roles={postData.roles.map((role) => role.role)}
         isOpen={isOpen}
         onClose={close}
