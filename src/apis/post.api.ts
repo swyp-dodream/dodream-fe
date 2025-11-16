@@ -57,6 +57,16 @@ const postApi = {
   createPost: (payload: PostCreateFormData) => {
     return authApi.post<CreatePostResponseType>(`/api/posts`, payload);
   },
+
+  /** 내가 지원한 글 목록 조회 */
+  getMyAppliedPosts: (page?: number, size?: number) => {
+    const params = new URLSearchParams();
+
+    if (page) params.set('page', String(page));
+    if (size) params.set('size', String(size));
+
+    return authApi.get(`/api/my/applications?${params.toString()}`);
+  },
 };
 
 export default postApi;
