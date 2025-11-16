@@ -16,6 +16,7 @@ interface ApplyModalProps {
   onClose: () => void;
 }
 
+// TODO: 인원 꽉 찬 직군은 지원 버튼 안눌리도록
 /**
  * 지원 요청 모달
  * @param postId - 게시물 ID
