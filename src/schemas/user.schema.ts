@@ -122,3 +122,13 @@ export const profileFormSchema = z.object({
 
 /** 프로필 폼 데이터 타입 */
 export type ProfileFormData = z.infer<typeof profileFormSchema>;
+
+/** 프로필 수정용 스키마 (age, gender, acceptOffers 제외) */
+export const profileEditFormSchema = profileFormSchema.omit({
+  age: true,
+  gender: true,
+  acceptOffers: true,
+});
+
+/** 프로필 수정 폼 데이터 타입 */
+export type ProfileEditFormData = z.infer<typeof profileEditFormSchema>;

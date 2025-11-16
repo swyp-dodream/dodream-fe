@@ -1,7 +1,15 @@
 import { overlay } from 'overlay-kit';
 import { INTERESTS } from '@/constants/profile.constant';
-import type { ProfileFormData } from '@/schemas/user.schema';
-import type { AiRequestType } from '@/types/profile.type';
+import type {
+  ActivityModeType,
+  AgeRangeType,
+  AiRequestType,
+  ExperienceType,
+  InterestsType,
+  LinkItemType,
+  RoleType,
+  TechStackType,
+} from '@/types/profile.type';
 import {
   convertActivityModeValue,
   convertAgeValue,
@@ -10,7 +18,15 @@ import {
 import CreateIntroModal from './create-intro-modal';
 
 interface CreateIntroButtonProps {
-  ProfileFormData: ProfileFormData;
+  nickname: string;
+  age: AgeRangeType | null;
+  experience: ExperienceType;
+  activityMode: ActivityModeType;
+  links: LinkItemType[];
+  role: RoleType;
+  interests: InterestsType[];
+  techStacks: TechStackType[];
+  intro: string;
   setIntro: (text: string) => void;
 }
 
@@ -20,17 +36,15 @@ interface CreateIntroButtonProps {
  * @param setIntro - 자기소개 생성 완료 시 텍스트 필드에 저장하는 함수
  */
 export default function CreateIntroButton({
-  ProfileFormData: {
-    nickname,
-    age,
-    experience,
-    activityMode,
-    links,
-    role,
-    interests,
-    techStacks,
-    intro,
-  },
+  nickname,
+  age,
+  experience,
+  activityMode,
+  links,
+  role,
+  interests,
+  techStacks,
+  intro,
   setIntro,
 }: CreateIntroButtonProps) {
   // 요청 타입에 맞도록 변환

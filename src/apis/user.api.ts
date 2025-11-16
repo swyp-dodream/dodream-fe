@@ -1,4 +1,5 @@
-import type { ProfileType, UserType } from '@/types/auth.type';
+import type { UserType } from '@/types/auth.type';
+import type { ProfileType } from '@/types/profile.type';
 import { tokenStorage } from '@/utils/auth.util';
 import { authApi } from './fetcher/api';
 

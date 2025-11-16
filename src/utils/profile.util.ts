@@ -1,9 +1,12 @@
-import type {
-  ACTIVITY_MODE,
-  AGE_RANGES,
-  EXPERIENCE,
-  GENDER,
+import {
+  type ACTIVITY_MODE,
+  type AGE_RANGES,
+  type EXPERIENCE,
+  type GENDER,
+  INTERESTS,
+  ROLE,
 } from '@/constants/profile.constant';
+import type { InterestsType } from '@/types/profile.type';
 import { createReverseMap } from '@/utils/transform.util';
 
 /** 연령대 변환 */
@@ -97,4 +100,38 @@ export const parseActivityModeValue = (
 ): keyof typeof ACTIVITY_MODE | null => {
   if (!label || label === '선택안함') return null;
   return ACTIVITY_MODE_VALUE_REVERSE_MAP[label] ?? null;
+};
+
+/** 직군 변환 */
+const ROLE_VALUE_REVERSE_MAP = createReverseMap(ROLE);
+
+export const convertRoleValue = (role: keyof typeof ROLE | null): string => {
+  if (role === null) return '선택안함';
+
+  return ROLE[role] || '선택안함';
+};
+
+export const parseRoleValue = (
+  label: string | null,
+): keyof typeof ROLE | null => {
+  if (!label || label === '선택안함') return null;
+  return ROLE_VALUE_REVERSE_MAP[label] ?? null;
+};
+
+/** 관심 분야 변환 */
+const INTERESTS_VALUE_REVERSE_MAP = createReverseMap(INTERESTS);
+
+export const convertInterestsValue = (
+  interest: InterestsType | null,
+): string => {
+  if (interest === null) return '';
+
+  return INTERESTS[interest] || '';
+};
+
+export const parseInterestsValue = (
+  label: string | null,
+): InterestsType | null => {
+  if (!label) return null;
+  return INTERESTS_VALUE_REVERSE_MAP[label] ?? null;
 };

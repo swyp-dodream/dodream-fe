@@ -57,7 +57,7 @@ export default function NavigationProfile() {
               <span className="body-sm-regular text-subtle">{user.email}</span>
               <DropdownMenu.Item asChild>
                 <Link
-                  href={`/profile/${user.id}`}
+                  href={`/profile/me`}
                   className="py-3 bg-dropdown-white-10 rounded-full text-center mt-4 outline-none"
                 >
                   내 프로필 보기

@@ -31,7 +31,7 @@ export default function ProfilePage() {
         />
         {isMyProfile && (
           <Link
-            href="/"
+            href="/profile/edit"
             className="w-fit h-fit bg-primary px-5 py-3 rounded-full body-md-medium"
             aria-label="프로필 정보 수정하기"
           >
@@ -71,7 +71,7 @@ export default function ProfilePage() {
           <section className="flex flex-col gap-4">
             <h3 className="heading-sm">링크</h3>
             <nav aria-label="사용자 외부 링크">
-              <ProfileLinks profileUrls={Object.values(profile.profileUrls)} />
+              <ProfileLinks profileUrls={profile.profileUrls} />
             </nav>
           </section>
         )}

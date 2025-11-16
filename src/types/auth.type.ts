@@ -9,28 +9,3 @@ export type UserType = {
 };
 
 export type ProviderType = 'GOOGLE' | 'NAVER';
-
-/** 프로필 데이터 타입 */
-export type ProfileType = {
-  nickname: string;
-  experience: string;
-  activityMode: string;
-  introText: string;
-  profileImageCode: number;
-  roles: {
-    id: number;
-    code: string;
-    name: string;
-  }[];
-  interestKeywords: {
-    id: number;
-    categoryId: number;
-    name: string;
-  }[];
-  techSkills: {
-    id: number;
-    categoryId: number;
-    name: string;
-  }[];
-  profileUrls: Record<string, string>;
-};
