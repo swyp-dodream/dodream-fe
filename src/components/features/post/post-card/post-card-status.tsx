@@ -7,7 +7,7 @@ interface PostCardStatusProps {
 }
 
 export default function PostCardStatus({ status }: PostCardStatusProps) {
-  const isRecruiting = status === 'RECRUITING';
+  const isRecruiting = status.toUpperCase() === 'RECRUITING';
 
   return (
     <div className="flex gap-2 items-center">
