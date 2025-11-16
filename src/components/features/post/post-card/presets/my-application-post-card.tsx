@@ -43,7 +43,7 @@ export default function MyApplicationPostCard({
           variant="outline"
           size="md"
         />
-        <ApplyDetailButton />
+        <ApplyDetailButton applicationId={myAppliedPost.id} />
       </PostCard.Actions>
     </PostCard>
   );

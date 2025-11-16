@@ -3,15 +3,25 @@
 import { overlay } from 'overlay-kit';
 import Button from '@/components/commons/buttons/button';
 import ApplyDetailModal from '@/components/features/mypage/my-posts/recruitments/modals/apply-detail-modal';
+import useGetMyApplicationDetail from '@/hooks/my/use-get-my-application-detail';
 
-export default function ApplyDetailButton() {
+interface ApplyDetailButtonProps {
+  applicationId: bigint;
+}
+
+export default function ApplyDetailButton({
+  applicationId,
+}: ApplyDetailButtonProps) {
+  const { data: myApplicationDetail } =
+    useGetMyApplicationDetail(applicationId);
+
   const handleOpenApplyDetailModal = () => {
     overlay.open(({ isOpen, close }) => (
       <ApplyDetailModal
         isOpen={isOpen}
         onClose={close}
-        roleName="프론트엔드"
-        message="열심히하겠습니다~~~~"
+        roleName={myApplicationDetail?.roleName ?? ''}
+        message={myApplicationDetail?.message ?? ''}
       />
     ));
   };
