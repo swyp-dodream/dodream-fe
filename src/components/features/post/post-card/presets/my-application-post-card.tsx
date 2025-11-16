@@ -38,6 +38,7 @@ export default function MyApplicationPostCard({
 
       <PostCard.Actions>
         <ApplyCancelButton
+          applicationId={myAppliedPost.id}
           postId={myAppliedPost.postId}
           ownerNickname={myAppliedPost.leaderName}
           variant="outline"
