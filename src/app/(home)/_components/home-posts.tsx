@@ -7,7 +7,7 @@ import {
   HOME_PROJECT_MAP,
   HOME_PROJECT_TAB_VALUES,
 } from '@/constants/post.constant';
-import useGetPosts from '@/hooks/post/use-get-posts';
+import { useGetPosts } from '@/hooks/post/use-get-posts';
 import type { HomeProjectType, PostContentType } from '@/types/post.type';
 
 export default function HomePosts() {
@@ -29,11 +29,6 @@ export default function HomePosts() {
 
     router.push(`/?${newParams.toString()}`, { scroll: false });
   };
-
-  // console.log(
-  //   'posts ➡️',
-  //   posts?.content.map((element) => element.projectType),
-  // );
 
   // TODO: 탭 스타일 분리
   return (

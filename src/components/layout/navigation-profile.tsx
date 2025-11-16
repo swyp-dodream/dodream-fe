@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import userApi from '@/apis/user.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
-import { useGetProfile } from '@/hooks/auth/use-get-profile';
 import useGetUser from '@/hooks/auth/use-get-user';
+import { useGetProfile } from '@/hooks/profile/use-get-profile';
 
 export default function NavigationProfile() {
   const { data: user } = useGetUser();

@@ -50,7 +50,13 @@ export default function MyApplicationPostCard({
       <PostCard.Footer views={post.views} status="RECRUITING" />
 
       <PostCard.Actions>
-        <ApplyCancelButton />
+        {/* TODO: 닉네임 변경 */}
+        <ApplyCancelButton
+          postId={post.id}
+          ownerNickname={post.ownerUserId}
+          variant="outline"
+          size="md"
+        />
         <ApplyDetailButton />
       </PostCard.Actions>
     </PostCard>

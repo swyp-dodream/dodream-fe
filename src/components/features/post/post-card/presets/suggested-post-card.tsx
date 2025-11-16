@@ -49,7 +49,7 @@ export default function SuggestedPostCard({ post }: SuggestedPostCardProps) {
 
       <PostCard.Actions>
         <ChatButton />
-        <ApplyButton />
+        <ApplyButton postId={post.id} variant="solid" size="md" />
       </PostCard.Actions>
     </PostCard>
   );

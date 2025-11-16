@@ -3,6 +3,7 @@ import userApi from '@/apis/user.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { tokenStorage } from '@/utils/auth.util';
 
+/** 유저 기본 정보 */
 export default function useGetUser() {
   return useQuery({
     queryKey: [QUERY_KEY.user],

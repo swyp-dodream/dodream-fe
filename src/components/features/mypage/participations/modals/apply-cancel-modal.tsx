@@ -2,24 +2,41 @@
 
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
+import useCancelApply from '@/hooks/post/use-cancel-apply';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyCancelModalProps {
+  postId: bigint;
   isOpen: boolean;
   onClose: () => void;
   nickname: string;
 }
 
 export default function ApplyCancelModal({
+  postId,
+  nickname,
   isOpen,
   onClose,
-  nickname,
 }: ApplyCancelModalProps) {
+  const { mutate: cancelApply } = useCancelApply();
   const toast = useToast();
 
+  // TODO: 지원 취소 훅 호출
+
   const handleCancelApply = () => {
-    onClose();
-    toast({ title: '지원이 취소되었습니다' });
+    cancelApply(1, {
+      onSuccess: () => {
+        toast({ title: '지원이 취소되었습니다' });
+      },
+      onError: () => {
+        toast({
+          title: '지원을 취소하지 못했습니다. 잠시 후 다시 시도해주세요.',
+        });
+      },
+      onSettled: () => {
+        onClose();
+      },
+    });
   };
 
   return (

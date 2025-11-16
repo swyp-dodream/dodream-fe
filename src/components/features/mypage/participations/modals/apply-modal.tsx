@@ -5,22 +5,53 @@ import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import TextField from '@/components/commons/text-fields/text-field';
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
+import { ROLES } from '@/constants/role.constant';
+import { useApply } from '@/hooks/post/use-apply';
 import useToast from '@/hooks/use-toast';
 
 interface ApplyModalProps {
+  postId: bigint;
+  roles: string[];
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
+/**
+ * 지원 요청 모달
+ * @param postId - 게시물 ID
+ * @param roles - 현재 모집중인 직군 리스트 (예: ['프론트엔드', '백엔드'])
+ */
+export default function ApplyModal({
+  postId,
+  roles,
+  isOpen,
+  onClose,
+}: ApplyModalProps) {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [message, setMessage] = useState('');
   const toast = useToast();
+  const { mutate: apply } = useApply();
 
-  // TODO: 추후 API 연결
+  // 모집중인 직군만 필터링
+  const availableRoles = ROLES.filter((role) => roles.includes(role.name));
+
   const handleSubmit = () => {
-    onClose();
-    toast({ title: '지원이 전송 완료되었습니다' });
+    if (!selectedRole) return;
+
+    apply(
+      { postId, roleId: Number(selectedRole), message },
+      {
+        onSuccess: () => {
+          toast({ title: '지원이 전송 완료되었습니다' });
+          onClose();
+        },
+        onError: () => {
+          toast({
+            title: '지원 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+          });
+        },
+      },
+    );
   };
 
   return (
@@ -42,8 +73,11 @@ export default function ApplyModal({ isOpen, onClose }: ApplyModalProps) {
               onValueChange={setSelectedRole}
             >
               <RoleTabs.List>
-                <RoleTabs.Trigger value="fe">프론트엔드</RoleTabs.Trigger>
-                <RoleTabs.Trigger value="be">백엔드</RoleTabs.Trigger>
+                {availableRoles.map((role) => (
+                  <RoleTabs.Trigger value={String(role.id)} key={role.name}>
+                    {role.name}
+                  </RoleTabs.Trigger>
+                ))}
               </RoleTabs.List>
             </RoleTabs>
           </div>

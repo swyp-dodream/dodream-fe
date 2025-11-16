@@ -30,9 +30,9 @@ export type PostType = {
   empty: boolean;
 };
 
-/** 게시글 컨텐츠 타입 */
+/** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
 export type PostContentType = {
-  id: number;
+  id: bigint;
   title: string;
   content: string;
   status: PostStatusType;
@@ -53,6 +53,23 @@ export type PostContentType = {
   owner: boolean;
 };
 
+/** 상세 페이지 멤버 내역 */
+export type PostMembersType = {
+  users: {
+    suggestionId: number;
+    applicationId: number;
+    userId: number;
+    nickname: string;
+    profileImage: string;
+    status: string;
+    createdAt: string;
+    experience: string;
+    jobGroups: string[];
+  }[];
+  nextCursor: 0;
+  hasNext: true;
+};
+
 /** AI 추천 게시글 타입 */
 export type RecommendedPostsType = {
   posts: RecommendedPostContentType[];
@@ -60,9 +77,9 @@ export type RecommendedPostsType = {
   hasNext: boolean;
 };
 
-/** AI 추천 게시글 컨텐츠 타입ㄴ */
+/** AI 추천 게시글 컨텐츠 타입 */
 export type RecommendedPostContentType = {
-  postId: number;
+  postId: bigint;
   title: string;
   projectType: ProjectType;
   activityMode: ActivityModeType;

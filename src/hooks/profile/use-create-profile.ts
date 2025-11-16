@@ -12,6 +12,7 @@ import {
   convertGenderValue,
 } from '@/utils/profile.util';
 
+/** 프로필 생성 */
 export default function useCreateProfile() {
   return useMutation({
     mutationFn: async (data: ProfileFormData) => {

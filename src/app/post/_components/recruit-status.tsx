@@ -1,38 +1,55 @@
+'use client';
+
+import useGetPostMembers from '@/hooks/post/use-get-post-members';
+
 interface RecruitStatusProps {
+  postId: bigint;
   roles: {
-    name: string;
-    recruitCount: number;
-    members: {
-      id: number;
-      nickname: string;
-      profileUrl: string;
-    }[];
+    role: string;
+    headcount: number;
   }[];
 }
 
 /**
  * 모집자 현황 컴포넌트
- * @param roles.name - 직군
- * @param roles.recruitCount - 전체 모집 예정 수
- * @param roles.members - 멤버 리스트
+ * @param postId - 게시물 ID
+ * @param roles - 모집중인 직군 리스트
  */
-export default function RecruitStatus({ roles }: RecruitStatusProps) {
+export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
+  const { data: postMembers } = useGetPostMembers(postId);
+
+  if (!postMembers) return null;
+
   return (
     <div className="bg-surface shadow-card py-5 px-6 rounded-md">
       <ul className="flex flex-col [&>li]:relative [&>li]:border-b [&>li]:border-border-primary [&>li:not(:first-child)]:pt-4 [&>li:not(:last-child)]:pb-4 [&>li:last-child]:border-none">
-        {roles.map((role) => (
-          <li key={role.name} className="flex items-center">
-            <span className="w-[82px] body-lg-medium">{role.name}</span>
-            <ul className="flex flex-row-reverse flex-1 justify-end [&>li]:relative [&>li:not(:last-child)]:-ml-3">
-              {role.members.map((member) => (
-                <MemberInfo key={member.id} member={member} />
-              ))}
-            </ul>
-            <span>
-              {role.members.length}/{role.recruitCount}명
-            </span>
-          </li>
-        ))}
+        {roles.map((roleInfo) => {
+          // 해당 직군을 가진 멤버들만 필터링
+          const membersForRole = postMembers?.users.filter((member) =>
+            member.jobGroups.includes(roleInfo.role),
+          );
+
+          return (
+            <li key={roleInfo.role} className="flex items-center">
+              <span className="w-[82px] body-lg-medium">{roleInfo.role}</span>
+              <ul className="flex flex-row-reverse flex-1 justify-end [&>li]:relative [&>li:not(:last-child)]:-ml-3">
+                {membersForRole.map((member) => (
+                  <MemberInfo
+                    key={member.userId}
+                    member={{
+                      id: member.userId,
+                      nickname: member.nickname,
+                      profileUrl: member.profileImage,
+                    }}
+                  />
+                ))}
+              </ul>
+              <span>
+                {membersForRole.length}/{roleInfo.headcount}명
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
