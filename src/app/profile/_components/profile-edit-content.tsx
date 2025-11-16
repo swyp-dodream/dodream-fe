@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import profileApi from '@/apis/profile.api';
@@ -16,6 +17,8 @@ import Button from '@/components/commons/buttons/button';
 import TextField from '@/components/commons/text-fields/text-field';
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
+import useUpdateProfile from '@/hooks/profile/use-update-profile';
+import useToast from '@/hooks/use-toast';
 import {
   type ProfileEditFormData,
   profileEditFormSchema,
@@ -38,12 +41,16 @@ import {
 
 export default function ProfileEditContent() {
   const { data: profile } = useGetProfile(); // 프로필
+  const { mutate: updateProfile } = useUpdateProfile();
 
   const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
   const setStacks = useProfileStore((state) => state.setStacks);
   const interests = useProfileStore((state) => state.interests); // 관심 분야
   const setInterests = useProfileStore((state) => state.setInterests);
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
+
+  const router = useRouter();
+  const toast = useToast();
 
   // React Hook Form 설정
   const {
@@ -142,7 +149,16 @@ export default function ProfileEditContent() {
     }
 
     // 제출 처리
-    alert(JSON.stringify(data, null, 2));
+    updateProfile(data, {
+      onSuccess: () => {
+        router.push('/profile/me');
+      },
+      onError: () => {
+        toast({
+          title: '변경사항을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.',
+        });
+      },
+    });
   };
 
   return (

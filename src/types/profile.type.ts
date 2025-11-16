@@ -131,6 +131,19 @@ export type CreateProfileRequestType = {
   profileUrls: Record<string, string>;
 };
 
+/** 프로필 업데이트 요청 타입 */
+export type UpdateProfileRequestType = {
+  nickname: string;
+  experience: string;
+  activityMode: string;
+  introText: string;
+  profileImageCode: number;
+  roleNames: string[];
+  techSkillNames: string[];
+  interestKeywordNames: string[];
+  profileUrls: Record<string, string>;
+};
+
 /**
  * 계정 설정 조회 응답 타입
  */

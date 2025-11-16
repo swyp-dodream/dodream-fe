@@ -27,7 +27,7 @@ export default function ProfilePage() {
           alt={`${profile.nickname}님의 프로필 이미지`}
           width={120}
           height={120}
-          className="rounded-full bg-primary"
+          className="rounded-full bg-primary shrink-0 w-[120px] h-[120px]"
         />
         {isMyProfile && (
           <Link
