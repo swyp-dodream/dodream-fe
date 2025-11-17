@@ -1,6 +1,9 @@
 import clsx from 'clsx';
 import Link from 'next/link';
+import { overlay } from 'overlay-kit';
 import { useState } from 'react';
+import InterestSelectModal from '@/app/create-profile/_components/interests-modal/interest-select-modal';
+import TechStackSelectModal from '@/app/create-profile/_components/tech-stack-modal/tech-stack-select-modal';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import RotateIcon from '@/assets/icons/rotate/14.svg';
 import Dropdown from '@/components/commons/dropdown';
@@ -28,8 +31,38 @@ export default function HomeFilters() {
         >
           <HomeFilterButton>직군</HomeFilterButton>
         </Dropdown>
-        <HomeFilterButton>기술 스택</HomeFilterButton>
-        <HomeFilterButton>관심 분야</HomeFilterButton>
+
+        {/* 기술 스택 필터링 */}
+        <HomeFilterButton
+          onClick={() => {
+            overlay.open(({ isOpen, close }) => (
+              <TechStackSelectModal
+                isOpen={isOpen}
+                onClose={close}
+                isFilter={true}
+              />
+            ));
+          }}
+          className="hover:bg-primary"
+        >
+          기술 스택
+        </HomeFilterButton>
+
+        {/* 관심 분야 필터링 */}
+        <HomeFilterButton
+          onClick={() => {
+            overlay.open(({ isOpen, close }) => (
+              <InterestSelectModal
+                isOpen={isOpen}
+                onClose={close}
+                isFilter={true}
+              />
+            ));
+          }}
+          className="hover:bg-primary"
+        >
+          관심 분야
+        </HomeFilterButton>
 
         {/* 활동 방식 필터링 */}
         <Dropdown
@@ -79,7 +112,7 @@ export default function HomeFilters() {
           </button>
         </div>
 
-        {/* 필터링된 목록 태그 */}
+        {/* 필터링된 태그 */}
         {isFilterOpen && (
           <div className="mt-4">
             <HomeFilterTags />
