@@ -9,6 +9,7 @@ import {
 } from '@/constants/post.constant';
 import { useGetPosts } from '@/hooks/post/use-get-posts';
 import type { HomeProjectType, PostContentType } from '@/types/post.type';
+import HomeFilters from './filters/home-filters';
 
 export default function HomePosts() {
   const router = useRouter();
@@ -55,6 +56,7 @@ export default function HomePosts() {
           ))}
         </Tabs.List>
       </Tabs>
+      <HomeFilters />
       <HomePostCards posts={posts?.content ?? []} />
     </section>
   );
