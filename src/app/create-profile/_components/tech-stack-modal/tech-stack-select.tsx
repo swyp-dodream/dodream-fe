@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Checkbox } from '@/components/commons/check-box';
+import { TECH_STACK_MAP } from '@/constants/profile.constant';
 import type { TechStackType } from '@/types/profile.type';
 
 interface TechStackSelectProps {
@@ -32,7 +33,7 @@ export default function TechStackSelect({
 
         {/* 기술 스택 이미지 */}
         <Image
-          src={`/logo/stacks/${stack}/24.svg`}
+          src={`/logo/stacks/${TECH_STACK_MAP[stack]}/24.svg`}
           alt={`${stack}`}
           width={24}
           height={24}
