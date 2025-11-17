@@ -23,7 +23,9 @@ export default function HomeFilterButton({
       ref={ref}
       type="button"
       className={clsx(
-        'py-3 px-4 body-md-medium hover:bg-container-primary rounded-full flex items-center justify-between outline-none gap-2',
+        'py-3 px-4 body-md-medium rounded-full flex items-center justify-between outline-none gap-2 group',
+        'data-[state=open]:bg-primary',
+        'data-[state=closed]:hover:bg-primary',
         className,
       )}
       {...props}
