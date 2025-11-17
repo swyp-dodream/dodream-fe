@@ -111,10 +111,15 @@ export type MyAppliedPostType = {
   stacks: TechSkillName[];
   viewCount: number;
   bookmarked: boolean;
+  postCreatedAt: Date;
 };
 export type GetMyAppliedPostsResponseType = PaginationInfo & {
   applications: MyAppliedPostType[];
 };
+
+/** 내가 제안받은 글 목록 타입 */
+export type MySuggestedPostType = MyAppliedPostType;
+export type GetMySuggestedPostResponseType = GetMyAppliedPostsResponseType;
 
 export type ProjectType = 'PROJECT' | 'STUDY';
 export type HomeProjectType = ProjectType | 'ALL';

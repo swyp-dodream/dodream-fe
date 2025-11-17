@@ -2,6 +2,7 @@ import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
   GetMyAppliedPostsResponseType,
+  GetMySuggestedPostResponseType,
   HomeProjectType,
   PostContentType,
   PostMembersType,
@@ -68,6 +69,18 @@ const postApi = {
 
     return authApi.get<GetMyAppliedPostsResponseType>(
       `/api/my/applications?${params.toString()}`,
+    );
+  },
+
+  /** 내가 제안 받은 글 목록 조회 */
+  getMySuggestedPosts: (page?: number, size?: number) => {
+    const params = new URLSearchParams();
+
+    if (page) params.set('page', String(page));
+    if (size) params.set('size', String(size));
+
+    return authApi.get<GetMySuggestedPostResponseType>(
+      `/api/my/suggestions?${params.toString()}`,
     );
   },
 };
