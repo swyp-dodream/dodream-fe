@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
+import useQueryParams from '@/hooks/filter/use-query-params';
 import useProfileStore from '@/store/profile-store';
 import type { TechStackType } from '@/types/profile.type';
 import TechStackTabs from './tech-stack-tabs';
@@ -22,13 +23,14 @@ export default function TechStackSelectModal({
 }: TechStackSelectModalProps) {
   const stacks = useProfileStore((state) => state.techStacks);
   const setStacks = useProfileStore((state) => state.setStacks);
+  const { getParamAll, setParams } = useQueryParams();
 
   const [draftStacks, setDraftStacks] = useState<TechStackType[]>(() => {
     // 필터링 모달이 아닌 경우
     if (!isFilter) return stacks;
 
     // 필터링 모달인 경우
-    return [];
+    return getParamAll('stack') as TechStackType[];
   });
 
   /**
@@ -36,15 +38,20 @@ export default function TechStackSelectModal({
    * @param stack - 기술 스택
    */
   const toggleStacks = (stack: TechStackType) => {
-    if (!isFilter) {
-      // 필터링 모달이 아닌 경우
-      if (draftStacks.includes(stack)) {
-        setDraftStacks(draftStacks.filter((element) => element !== stack));
-      } else {
-        setDraftStacks([...draftStacks, stack]);
+    if (draftStacks.includes(stack)) {
+      const newStacks = draftStacks.filter((element) => element !== stack);
+      setDraftStacks(newStacks);
+
+      if (isFilter) {
+        setParams({ stack: newStacks.length > 0 ? newStacks : null });
       }
     } else {
-      // 필터링 모달인 경우
+      const newStacks = [...draftStacks, stack];
+      setDraftStacks(newStacks);
+
+      if (isFilter) {
+        setParams({ stack: newStacks });
+      }
     }
   };
 

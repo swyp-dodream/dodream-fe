@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
+import { INTERESTS } from '@/constants/profile.constant';
+import useQueryParams from '@/hooks/filter/use-query-params';
 import useProfileStore from '@/store/profile-store';
 import type { InterestsType } from '@/types/profile.type';
 import InterestTabs from './interest-tabs';
@@ -22,13 +24,14 @@ export default function InterestSelectModal({
 }: InterestSelectModalProps) {
   const interests = useProfileStore((state) => state.interests);
   const setInterests = useProfileStore((state) => state.setInterests);
+  const { getParamAll, setParams } = useQueryParams();
 
   const [draftInterests, setDraftInterests] = useState<InterestsType[]>(() => {
     // 필터링 모달이 아닌 경우
     if (!isFilter) return interests;
 
     // 필터링 모달인 경우
-    return [];
+    return getParamAll('interest') as InterestsType[];
   });
 
   /**
@@ -36,17 +39,24 @@ export default function InterestSelectModal({
    * @param interest - 관심 분야
    */
   const toggleInterests = (interest: InterestsType) => {
-    if (!isFilter) {
-      // 필터링 모달이 아닌 경우
-      if (draftInterests.includes(interest)) {
-        setDraftInterests(
-          draftInterests.filter((element) => element !== interest),
-        );
-      } else {
-        setDraftInterests([...draftInterests, interest]);
+    if (draftInterests.includes(interest)) {
+      const newInterests = draftInterests.filter(
+        (element) => element !== interest,
+      );
+      setDraftInterests(newInterests);
+
+      if (isFilter) {
+        setParams({ interest: newInterests.length > 0 ? newInterests : null });
       }
     } else {
-      // 필터링 모달인 경우
+      const newInterests = [...draftInterests, interest];
+      setDraftInterests(newInterests);
+
+      if (isFilter) {
+        setParams({
+          interest: newInterests.map((interest) => INTERESTS[interest]),
+        });
+      }
     }
   };
 
