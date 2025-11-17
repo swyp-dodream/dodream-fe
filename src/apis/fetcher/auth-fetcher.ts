@@ -19,6 +19,7 @@ export default async function authenticatedFetcher<T>(
   } catch (error) {
     // 401/402 에러 시 토큰 갱신 처리
     const status = (error as Error & { status?: number }).status;
+
     if (status === 401 || status === 402) {
       const newToken = await refreshAccessToken();
 
@@ -50,18 +51,20 @@ async function refreshAccessToken(): Promise<string | null> {
 
     if (!refreshToken) return null;
 
-    const res = await fetch(`${BASE_URL}/auth/refresh`, {
+    const res = await fetch(`${BASE_URL}/api/auth/reissue`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${refreshToken}`,
+        'Refresh-Token': refreshToken,
       },
     });
 
     if (!res.ok) {
-      console.error('토큰 재발급 실패');
+      console.error('토큰 재발급 실패', res.status);
       return null;
     }
+
+    console.log('토큰 재발급 성공');
 
     const { accessToken } = await res.json();
     tokenStorage.setToken(accessToken);

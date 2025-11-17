@@ -1,55 +1,50 @@
+'use client';
+
 import { PostCard } from '@/components/features/post/post-card';
 import ApplyButton from '@/components/features/post/post-card/buttons/apply-button';
 import ChatButton from '@/components/features/post/post-card/buttons/chat-button';
-import type { MockPost, Role } from '@/mocks/posts';
+import type { MySuggestedPostType } from '@/types/post.type';
 import { formatDeadlineAt } from '@/utils/date.util';
 
-const ROLE_LABEL_MAP: Record<Role, string> = {
-  FE: '프론트엔드',
-  BE: '백엔드',
-  iOS: 'iOS',
-  AOS: '안드로이드',
-  Designer: '디자이너',
-  PM: 'PM',
-  Planner: '기획자',
-  Marketer: '마케터',
-};
-
-function _getRoles(roles: Role[]) {
-  return roles.map((role) => ROLE_LABEL_MAP[role]);
-}
-
 interface SuggestedPostCardProps {
-  post: MockPost;
+  mySuggestedPost: MySuggestedPostType;
 }
 
-export default function SuggestedPostCard({ post }: SuggestedPostCardProps) {
+export default function SuggestedPostCard({
+  mySuggestedPost,
+}: SuggestedPostCardProps) {
   return (
-    <PostCard>
+    <PostCard href={`/post/${BigInt(mySuggestedPost.postId)}`}>
       <PostCard.Header
-        nickname={post.ownerUserId}
-        elapsedTime={formatDeadlineAt(post.deadlineAt)}
-        // TODO: 값 수정
-        projectType="STUDY"
-        isBookmarked={post.isBookmarked}
+        nickname={mySuggestedPost.leaderName}
+        elapsedTime={formatDeadlineAt(mySuggestedPost.appliedAt)}
+        projectType={mySuggestedPost.projectType}
+        isBookmarked={mySuggestedPost.bookmarked}
       />
 
       <PostCard.Main>
-        <PostCard.Title>{post.title}</PostCard.Title>
+        <PostCard.Title>{mySuggestedPost.postTitle}</PostCard.Title>
 
         <div className="flex flex-col gap-4">
-          <PostCard.TechCategories techCategories={post.techCategories} />
-          {/* TODO: 값 수정 */}
-          <PostCard.Roles roles={[]} />
+          <PostCard.TechCategories techCategories={mySuggestedPost.stacks} />
+          <PostCard.Roles
+            roles={mySuggestedPost.roles.map((role) => ({ role }))}
+          />
         </div>
       </PostCard.Main>
 
-      {/* TODO: 값 수정 */}
-      <PostCard.Footer views={post.views} status="COMPLETED" />
+      <PostCard.Footer
+        views={mySuggestedPost.viewCount}
+        status={mySuggestedPost.status}
+      />
 
       <PostCard.Actions>
         <ChatButton />
-        <ApplyButton postId={post.id} variant="solid" size="md" />
+        <ApplyButton
+          postId={mySuggestedPost.postId}
+          variant="solid"
+          size="md"
+        />
       </PostCard.Actions>
     </PostCard>
   );
