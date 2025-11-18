@@ -20,9 +20,9 @@ export default function useToggleBookmark() {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts],
       });
-      // queryClient.invalidateQueries({
-      //   queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts],
-      // });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts],
+      });
     },
   });
 }
