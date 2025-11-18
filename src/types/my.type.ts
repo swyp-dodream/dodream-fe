@@ -16,3 +16,33 @@ export type GetMyApplicationDetailResponseType = {
   message: string;
   appliedAt: Date;
 };
+
+/** 내가 쓴 글 조회 */
+export type MyPostsResponseType = {
+  posts: MyPostsContentType[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+};
+
+export type MyPostsContentType = {
+  postId: bigint;
+  title: string;
+  projectType: string;
+  activityMode: string;
+  duration: string;
+  status: string;
+  deadlineAt: string;
+  viewCount: number;
+  fields: string[];
+  roleRequirements: {
+    roleName: string;
+    headcount: number;
+  }[];
+  stacks: string[];
+  createdAt: string;
+  updatedAt: string;
+};

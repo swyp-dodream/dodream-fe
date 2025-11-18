@@ -1,5 +1,8 @@
 import { authApi } from '@/apis/fetcher/api';
-import type { GetMyApplicationDetailResponseType } from '@/types/my.type';
+import type {
+  GetMyApplicationDetailResponseType,
+  MyPostsResponseType,
+} from '@/types/my.type';
 
 const myApi = {
   /** 내 지원 상세 조회 */
@@ -8,6 +11,9 @@ const myApi = {
       `/api/my/applications/${BigInt(applicationId)}`,
     );
   },
+
+  /** 내가 쓴 글 목록 */
+  getMyPosts: () => authApi.get<MyPostsResponseType>('/api/posts/my'),
 };
 
 export default myApi;
