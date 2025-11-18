@@ -117,6 +117,7 @@ export type GetMySuggestedPostResponseType = GetMyAppliedPostsResponseType;
 
 /** 내가 매칭된 글 목록 타입 */
 export type MyMatchedPostType = Omit<MyAppliedPostType, 'appliedAt'> & {
+  applicationId: bigint;
   matchedAt: Date;
 };
 export type GetMyMatchedPostsResponseType = PaginationInfo & {
