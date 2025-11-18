@@ -12,10 +12,7 @@ interface DefaultPostCardProps {
   deadlineDate: string;
   viewCount: number;
   stacks: string[];
-  roles: {
-    role: string;
-    headcount: number;
-  }[];
+  roles: string[];
 }
 
 export default function DefaultPostCard({

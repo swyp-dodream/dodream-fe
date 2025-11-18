@@ -28,9 +28,7 @@ export default function SuggestedPostCard({
 
         <div className="flex flex-col gap-4">
           <PostCard.TechCategories techCategories={mySuggestedPost.stacks} />
-          <PostCard.Roles
-            roles={mySuggestedPost.roles.map((role) => ({ role }))}
-          />
+          <PostCard.Roles roles={mySuggestedPost.roles} />
         </div>
       </PostCard.Main>
 

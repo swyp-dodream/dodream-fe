@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
+import useQueryParams from '@/hooks/filter/use-query-params';
 import useProfileStore from '@/store/profile-store';
 import type { TechStackType } from '@/types/profile.type';
 import TechStackTabs from './tech-stack-tabs';
@@ -9,6 +10,7 @@ import TechStackTags from './tech-stack-tags';
 interface TechStackSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isFilter?: boolean;
 }
 
 /**
@@ -17,10 +19,19 @@ interface TechStackSelectModalProps {
 export default function TechStackSelectModal({
   isOpen,
   onClose,
+  isFilter = false,
 }: TechStackSelectModalProps) {
   const stacks = useProfileStore((state) => state.techStacks);
   const setStacks = useProfileStore((state) => state.setStacks);
-  const [draftStacks, setDraftStacks] = useState<TechStackType[]>(stacks);
+  const { getArrayParam, setParams } = useQueryParams();
+
+  const [draftStacks, setDraftStacks] = useState<TechStackType[]>(() => {
+    // 필터링 모달이 아닌 경우
+    if (!isFilter) return stacks;
+
+    // 필터링 모달인 경우
+    return getArrayParam('techs') as TechStackType[];
+  });
 
   /**
    * 기술 스택 토글 함수
@@ -28,9 +39,19 @@ export default function TechStackSelectModal({
    */
   const toggleStacks = (stack: TechStackType) => {
     if (draftStacks.includes(stack)) {
-      setDraftStacks(draftStacks.filter((element) => element !== stack));
+      const newStacks = draftStacks.filter((element) => element !== stack);
+      setDraftStacks(newStacks);
+
+      if (isFilter) {
+        setParams({ techs: newStacks.length > 0 ? newStacks : null });
+      }
     } else {
-      setDraftStacks([...draftStacks, stack]);
+      const newStacks = [...draftStacks, stack];
+      setDraftStacks(newStacks);
+
+      if (isFilter) {
+        setParams({ techs: newStacks });
+      }
     }
   };
 
@@ -68,12 +89,14 @@ export default function TechStackSelectModal({
         </div>
 
         {/* 저장 버튼 */}
-        <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
-          <span>{draftStacks.length}/5 선택됨</span>
-          <Button variant="solid" size="xs" onClick={handleSave}>
-            저장
-          </Button>
-        </footer>
+        {!isFilter && (
+          <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
+            <span>{draftStacks.length}/5 선택됨</span>
+            <Button variant="solid" size="xs" onClick={handleSave}>
+              저장
+            </Button>
+          </footer>
+        )}
         <Modal.Close />
       </Modal.Content>
     </Modal>

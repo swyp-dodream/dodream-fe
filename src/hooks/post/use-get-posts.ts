@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import type { HomeProjectType } from '@/types/post.type';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
 /** 게시물 목록 */
-export function useGetPosts(projectType: HomeProjectType) {
+export function useGetPosts(query: string) {
   return useQuery({
-    queryKey: [QUERY_KEY.posts, projectType],
-    queryFn: () => postApi.getPosts(projectType),
+    queryKey: [QUERY_KEY.posts, query],
+    queryFn: () => postApi.getPosts(query),
     staleTime: 30 * 1000,
     gcTime: 10 * 60 * 1000,
   });
