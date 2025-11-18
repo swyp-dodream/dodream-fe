@@ -25,7 +25,10 @@ const myApi = {
     });
   },
   /** 내가 쓴 글 목록 */
-  getMyPosts: () => authApi.get<MyPostsResponseType>('/api/posts/my'),
+  getMyPosts: (type: string) => {
+    const tab = type === 'PROJECT' ? 'project' : 'study';
+    return authApi.get<MyPostsResponseType>(`/api/posts/my?tab=${tab}`);
+  },
 };
 
 export default myApi;
