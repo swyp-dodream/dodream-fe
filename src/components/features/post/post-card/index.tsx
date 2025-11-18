@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import BookmarkIcon from '@/assets/icons/bookmark/20.svg';
+import PostBookmarkButton from '@/app/post/_components/post-bookmark-button';
 import TechCategories from '@/components/commons/tech-categories';
 import PostCardProjectType from '@/components/features/post/post-card/post-card-project-type';
 import PostCardRoles from '@/components/features/post/post-card/post-card-roles';
@@ -58,12 +58,14 @@ function Root({
  * 카드 헤더 - 닉네임, 남은 기한, 종류(프로젝트/스터디), 북마크 아이콘
  */
 function Header({
+  postId,
   nickname,
   elapsedTime,
   projectType,
   isBookmarked,
   showBookmarkIcon = true,
 }: {
+  postId: bigint;
   nickname: string;
   elapsedTime: string;
   projectType: ProjectType;
@@ -87,18 +89,7 @@ function Header({
       <div className="flex gap-3 items-center">
         <PostCardProjectType projectType={projectType} />
         {showBookmarkIcon && (
-          <button
-            type="button"
-            aria-label={isBookmarked ? '북마크 해제' : '북마크 추가'}
-          >
-            <BookmarkIcon
-              className={
-                isBookmarked
-                  ? 'fill-bg-brand text-bg-brand'
-                  : 'fill-none text-border-secondary'
-              }
-            />
-          </button>
+          <PostBookmarkButton isBookmarked={isBookmarked} postId={postId} />
         )}
       </div>
     </header>

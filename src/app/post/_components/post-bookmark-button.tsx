@@ -1,20 +1,40 @@
+'use client';
+
 import BookmarkIcon from '@/assets/icons/bookmark/24.svg';
+import useToggleBookmark from '@/hooks/bookmark/use-toggle-bookmark';
 
 interface PostBookmarkButtonProps {
+  postId: bigint;
   isBookmarked: boolean;
 }
 
 /**
  * 게시글 상세의 북마크 버튼 컴포넌트
+ * @param postId - 모집글 ID
  * @param isBookmarked - 북마크 여부
  */
 export default function PostBookmarkButton({
+  postId,
   isBookmarked,
 }: PostBookmarkButtonProps) {
+  const { mutate, isPending } = useToggleBookmark();
+
+  const handleToggleBookmark = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (isPending) {
+      return;
+    }
+    mutate(postId);
+  };
+
   return (
     <button
       type="button"
       aria-label={isBookmarked ? '북마크 해제' : '북마크 추가'}
+      onClick={handleToggleBookmark}
+      disabled={isPending}
     >
       <BookmarkIcon
         className={

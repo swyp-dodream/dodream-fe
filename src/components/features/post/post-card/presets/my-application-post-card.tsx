@@ -14,6 +14,7 @@ export default function MyApplicationPostCard({
   return (
     <PostCard href={`/post/${BigInt(myAppliedPost.postId)}`}>
       <PostCard.Header
+        postId={BigInt(myAppliedPost.postId)}
         nickname={myAppliedPost.leaderName}
         elapsedTime={formatDeadlineAt(myAppliedPost.appliedAt)}
         projectType={myAppliedPost.projectType}

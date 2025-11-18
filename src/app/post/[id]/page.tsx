@@ -31,7 +31,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <div className="flex ml-auto gap-7">
             {/* 북마크 버튼 */}
             {/* TODO: 북마크 버튼 수정 */}
-            <PostBookmarkButton isBookmarked={false} />
+            <PostBookmarkButton isBookmarked={false} postId={BigInt(id)} />
             {/* 링크 복사 버튼 */}
             <PostLinkButton />
           </div>

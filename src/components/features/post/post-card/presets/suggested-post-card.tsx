@@ -16,6 +16,7 @@ export default function SuggestedPostCard({
   return (
     <PostCard href={`/post/${BigInt(mySuggestedPost.postId)}`}>
       <PostCard.Header
+        postId={mySuggestedPost.postId}
         nickname={mySuggestedPost.leaderName}
         elapsedTime={formatDeadlineAt(mySuggestedPost.appliedAt)}
         projectType={mySuggestedPost.projectType}
