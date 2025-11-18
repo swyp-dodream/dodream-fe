@@ -7,7 +7,6 @@ import {
   HOME_PROJECT_MAP,
   HOME_PROJECT_TAB_VALUES,
 } from '@/constants/post.constant';
-import { useGetPosts } from '@/hooks/post/use-get-posts';
 import type { HomeProjectType, PostContentType } from '@/types/post.type';
 import HomeFilters from './filters/home-filters';
 
@@ -17,7 +16,7 @@ export default function HomePosts() {
 
   const activePostType =
     (searchParams.get('projectType') as HomeProjectType) || 'ALL';
-  const { data: posts } = useGetPosts(activePostType);
+  // const { data: posts } = useGetPosts(activePostType);
 
   const handleTabChange = (value: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -57,7 +56,8 @@ export default function HomePosts() {
         </Tabs.List>
       </Tabs>
       <HomeFilters />
-      <HomePostCards posts={posts?.content ?? []} />
+      {/* <HomePostCards posts={posts?.content ?? []} /> */}
+      <HomePostCards posts={[]} />
     </section>
   );
 }

@@ -35,7 +35,7 @@ export default function HomeFilters() {
           label="직군"
           items={ROLE_LIST.map((role) => ({
             label: role.label,
-            onSelect: () => setParams({ roles: role.label }),
+            onSelect: () => setParams({ roles: role.value }),
           }))}
         >
           <HomeFilterButton>직군</HomeFilterButton>
@@ -78,7 +78,7 @@ export default function HomeFilters() {
           label="활동 방식"
           items={ACTIVITY_MODE_LIST.map((mode) => ({
             label: mode.label,
-            onSelect: () => setParams({ activityMode: mode.label }),
+            onSelect: () => setParams({ activityMode: mode.value }),
           }))}
         >
           <HomeFilterButton>활동 방식</HomeFilterButton>
@@ -89,7 +89,7 @@ export default function HomeFilters() {
           label={params.sortType}
           items={SORT_LABEL_LIST.map((sortType) => ({
             label: sortType.label,
-            onSelect: () => setParams({ sort: sortType.label }),
+            onSelect: () => setParams({ sort: sortType.value }),
           }))}
         >
           <HomeFilterButton>{params.sortType ?? '최신순'}</HomeFilterButton>

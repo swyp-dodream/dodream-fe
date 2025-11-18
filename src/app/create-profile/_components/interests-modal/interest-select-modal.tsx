@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import { INTERESTS } from '@/constants/profile.constant';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import useProfileStore from '@/store/profile-store';
 import type { InterestsType } from '@/types/profile.type';
@@ -54,7 +53,7 @@ export default function InterestSelectModal({
 
       if (isFilter) {
         setParams({
-          interests: newInterests.map((interest) => INTERESTS[interest]),
+          interests: newInterests.map((interest) => interest),
         });
       }
     }

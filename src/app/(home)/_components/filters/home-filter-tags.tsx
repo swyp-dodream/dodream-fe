@@ -1,5 +1,6 @@
 import XIcon from '@/assets/icons/x/12.svg';
 import useQueryParams from '@/hooks/filter/use-query-params';
+import { getLabel } from '@/utils/filter.util';
 
 /**
  * 적용된 필터 태그 리스트
@@ -33,7 +34,7 @@ export default function HomeFilterTags() {
           key={`${param}-${value}`}
           className="body-md-regular px-2 flex gap-2 bg-primary rounded-sm"
         >
-          {value}
+          {getLabel(value)}
           <button type="button" onClick={() => removeParamValue(param, value)}>
             <XIcon className="text-icon-light" />
           </button>
