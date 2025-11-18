@@ -102,7 +102,7 @@ export type MyAppliedPostType = {
   postTitle: string;
   projectType: ProjectType;
   activityMode: ActivityModeType;
-  status: PostStatusType;
+  postStatus: PostStatusType;
   leaderName: string;
   leaderProfileImage: string;
   myStatus: MyStatusType;
@@ -114,7 +114,7 @@ export type MyAppliedPostType = {
   postCreatedAt: Date;
 };
 export type GetMyAppliedPostsResponseType = PaginationInfo & {
-  applications: MyAppliedPostType[];
+  content: MyAppliedPostType[];
 };
 
 /** 내가 제안받은 글 목록 타입 */
