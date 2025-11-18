@@ -27,6 +27,7 @@ export default function MatchedPostCard({ post }: MatchedPostCardProps) {
   return (
     <PostCard>
       <PostCard.Header
+        postId={post.id}
         nickname={post.ownerUserId}
         elapsedTime={formatDeadlineAt(post.deadlineAt)}
         // TODO: 값 수정
