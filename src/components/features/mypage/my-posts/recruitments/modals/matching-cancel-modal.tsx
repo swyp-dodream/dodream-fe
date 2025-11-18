@@ -12,6 +12,7 @@ import {
 } from '@/constants/matching.constant';
 import useCancelMatching from '@/hooks/matching/use-cancel-matching';
 import useToast from '@/hooks/use-toast';
+import { getNoPaneltyDate } from '@/utils/date.util';
 
 interface MatchingCancelModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ interface MatchingCancelModalProps {
   nickname: string;
   postId: bigint;
   matchingId: bigint;
+  matchedAt: Date;
 }
 
 export default function MatchingCancelModal({
@@ -27,6 +29,7 @@ export default function MatchingCancelModal({
   nickname,
   postId,
   matchingId,
+  matchedAt,
 }: MatchingCancelModalProps) {
   const [selectedCause, setSelectedCause] =
     useState<MatchingCancelReasonCode | null>(null);
@@ -96,9 +99,9 @@ export default function MatchingCancelModal({
             <h2 className="heading-md">
               {nickname}님과의 매칭을 취소하시겠어요?
             </h2>
-            {/* TODO: 실제 값으로 변경 */}
+            {/* TODO: 매칭 취소 가능 횟수 구현 예정 */}
             <p className="body-lg-regular">
-              해당 모집글의 매칭 취소 가능 횟수가 두 번 남았어요
+              {getNoPaneltyDate(matchedAt)}까지 패널티 없이 취소할 수 있어요
             </p>
           </div>
 

@@ -42,6 +42,7 @@ export default function MyMatchedPostCard({
           nickname={myMatchedPost.leaderName}
           postId={myMatchedPost.postId}
           matchingId={myMatchedPost.id}
+          matchedAt={myMatchedPost.matchedAt}
         />
         <ApplyDetailButton applicationId={myMatchedPost.applicationId} />
       </PostCard.Actions>

@@ -8,12 +8,14 @@ interface MatchingCancelButtonProps {
   nickname: string;
   postId: bigint;
   matchingId: bigint;
+  matchedAt: Date;
 }
 
 export default function MathcingCancelButton({
   nickname,
   postId,
   matchingId,
+  matchedAt,
 }: MatchingCancelButtonProps) {
   const handleOpenMatchingCancelModal = () => {
     overlay.open(({ isOpen, close }) => (
@@ -23,6 +25,7 @@ export default function MathcingCancelButton({
         nickname={nickname}
         postId={postId}
         matchingId={matchingId}
+        matchedAt={matchedAt}
       />
     ));
   };
