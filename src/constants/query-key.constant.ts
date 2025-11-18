@@ -16,5 +16,6 @@ export const QUERY_KEY = {
   myAppliedPosts: 'myAppliedPosts',
   myApplicationDetail: 'myApplicationDetail',
   mySuggestedPosts: 'mySuggestedPosts',
+  myMatchedPosts: 'myMatchedPosts',
   offers: 'offers',
 };
