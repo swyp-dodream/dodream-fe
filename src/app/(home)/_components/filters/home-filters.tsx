@@ -6,9 +6,10 @@ import TechStackSelectModal from '@/app/create-profile/_components/tech-stack-mo
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import RotateIcon from '@/assets/icons/rotate/14.svg';
 import Dropdown from '@/components/commons/dropdown';
-import { SORT_LABEL_LIST } from '@/constants/filter.constant';
+import { SORT_LABEL_LIST, SORT_LABELS } from '@/constants/filter.constant';
 import { ACTIVITY_MODE_LIST, ROLE_LIST } from '@/constants/profile.constant';
 import useQueryParams from '@/hooks/filter/use-query-params';
+import type { SortType } from '@/types/filter.type';
 import HomeFilterButton from './home-filter-button';
 import HomeFilterTags from './home-filter-tags';
 
@@ -86,25 +87,30 @@ export default function HomeFilters() {
 
         {/* 정렬 기준 필터링 */}
         <Dropdown
-          label={params.sortType}
+          label={params.sort}
           items={SORT_LABEL_LIST.map((sortType) => ({
             label: sortType.label,
             onSelect: () => setParams({ sort: sortType.value }),
           }))}
         >
-          <HomeFilterButton>{params.sortType ?? '최신순'}</HomeFilterButton>
+          <HomeFilterButton>
+            {SORT_LABELS[(params.sort ?? 'LATEST') as SortType]}
+          </HomeFilterButton>
         </Dropdown>
 
         {/* 모집글만 보기 */}
         <button
           type="button"
           onClick={() =>
-            setBoolParam('onlyRecruiting', !getBoolParam('onlyRecruiting'))
+            setBoolParam(
+              'onlyRecruiting',
+              !getBoolParam('onlyRecruiting', true),
+            )
           }
           className={clsx(
             'py-3 px-4 body-md-medium rounded-full flex items-center justify-between outline-none gap-2 group hover:bg-primary mr-auto',
             {
-              'bg-primary': getBoolParam('onlyRecruiting'),
+              'bg-primary': getBoolParam('onlyRecruiting', true),
             },
           )}
         >

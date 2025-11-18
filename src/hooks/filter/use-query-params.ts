@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { INTERESTS, ROLE } from '@/constants/profile.constant';
 
 /** 파라미터 관리 훅 */
 export default function useQueryParams() {
@@ -28,8 +29,10 @@ export default function useQueryParams() {
   };
 
   /** 개별 파라미터 (boolean 값) */
-  const getBoolParam = (key: string) => {
-    return getParam(key) === 'true';
+  const getBoolParam = (key: string, defaultValue: boolean = false) => {
+    const value = getParam(key);
+    if (value === null) return defaultValue;
+    return value === 'true';
   };
 
   /** 파라미터 설정 */
@@ -70,7 +73,7 @@ export default function useQueryParams() {
 
   /** 파라미터 설정 (boolean 값) */
   const setBoolParam = (key: string, value: boolean) => {
-    setParams({ [key]: value ? 'true' : null });
+    setParams({ [key]: value ? 'true' : 'false' });
   };
 
   /** 개별 파라미터 삭제 */
@@ -83,10 +86,29 @@ export default function useQueryParams() {
     router.push(pathname, { scroll: false });
   };
 
-  /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기 제외) */
+  /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기, 프로젝트 타입 제외) */
   const filterParams = Object.entries(getParams()).filter(
-    ([key]) => key !== 'sort' && key !== 'onlyRecruiting',
+    ([key]) => key !== 'sort' && key !== 'onlyRecruiting' && key !== 'type',
   );
+
+  /** 쿼리 스트링 생성 */
+  const getApiQueryString = () => {
+    const params = new URLSearchParams();
+
+    searchParams.forEach((value, key) => {
+      if (key === 'roles') {
+        const label = ROLE[value as keyof typeof ROLE];
+        if (label) params.append(key, label);
+      } else if (key === 'interests') {
+        const label = INTERESTS[value as keyof typeof INTERESTS];
+        if (label) params.append(key, label);
+      } else {
+        params.append(key, value);
+      }
+    });
+
+    return params.toString();
+  };
 
   return {
     params: getParams(),
@@ -98,5 +120,6 @@ export default function useQueryParams() {
     setBoolParam,
     removeParam,
     clearParams,
+    getApiQueryString,
   };
 }

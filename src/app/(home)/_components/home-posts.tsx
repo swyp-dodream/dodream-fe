@@ -1,33 +1,33 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Tabs } from '@/components/commons/tabs';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import {
   HOME_PROJECT_MAP,
   HOME_PROJECT_TAB_VALUES,
 } from '@/constants/post.constant';
-import type { HomeProjectType, PostContentType } from '@/types/post.type';
+import useQueryParams from '@/hooks/filter/use-query-params';
+import { useGetPosts } from '@/hooks/post/use-get-posts';
+import type {
+  HomeProjectType,
+  PostContentType,
+  PostStatusType,
+  ProjectType,
+} from '@/types/post.type';
 import HomeFilters from './filters/home-filters';
 
 export default function HomePosts() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { getParam, setParams, getApiQueryString } = useQueryParams();
+  const { data: posts } = useGetPosts(getApiQueryString());
 
-  const activePostType =
-    (searchParams.get('projectType') as HomeProjectType) || 'ALL';
-  // const { data: posts } = useGetPosts(activePostType);
+  const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
   const handleTabChange = (value: string) => {
-    const newParams = new URLSearchParams(searchParams);
-
     if (value === 'ALL') {
-      newParams.delete('projectType'); // ALL이면 파라미터 제거
+      setParams({ type: null }); // ALL이면 파라미터 제거
     } else {
-      newParams.set('projectType', value);
+      setParams({ type: value });
     }
-
-    router.push(`/?${newParams.toString()}`, { scroll: false });
   };
 
   // TODO: 탭 스타일 분리
@@ -56,8 +56,7 @@ export default function HomePosts() {
         </Tabs.List>
       </Tabs>
       <HomeFilters />
-      {/* <HomePostCards posts={posts?.content ?? []} /> */}
-      <HomePostCards posts={[]} />
+      <HomePostCards posts={posts?.posts.content ?? []} />
     </section>
   );
 }
@@ -75,13 +74,13 @@ function HomePostCards({ posts }: HomePostCardsProps) {
             <DefaultPostCard
               id={BigInt(post.id)}
               title={post.title}
-              status={post.status}
-              ownerNickname={post.ownerNickname}
-              ownerProfileImageUrl={post.ownerProfileImageUrl}
-              projectType={post.projectType}
-              deadlineDate={post.deadlineDate}
+              status={post.status as PostStatusType}
+              ownerProfileImageUrl={''}
+              ownerNickname={post.author}
+              projectType={post.projectType as ProjectType}
+              deadlineDate={post.deadline}
               viewCount={post.viewCount}
-              stacks={post.stacks}
+              stacks={post.techs}
               roles={post.roles}
             />
           </li>
