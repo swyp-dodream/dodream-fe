@@ -20,7 +20,7 @@ export default function TechStackTags({
   variant,
 }: TechStackTagsProps) {
   return (
-    <ul className="flex gap-4">
+    <ul className="flex gap-x-4 gap-y-3 flex-wrap shrink-0">
       {stacks.map((stack) => (
         <TechStackTag
           key={stack}

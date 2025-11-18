@@ -28,7 +28,7 @@ export default function HomeFilterTags() {
   };
 
   return (
-    <ul className="flex gap-4">
+    <ul className="flex gap-x-4 gap-y-3 flex-wrap">
       {allParamPairs.map(([param, value]) => (
         <li
           key={`${param}-${value}`}
