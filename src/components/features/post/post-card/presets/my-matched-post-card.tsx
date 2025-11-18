@@ -37,7 +37,11 @@ export default function MyMatchedPostCard({
       />
 
       <PostCard.Actions>
-        <MathcingCancelButton nickname="닉네임" />
+        <MathcingCancelButton
+          nickname={myMatchedPost.leaderName}
+          postId={myMatchedPost.postId}
+          matchingId={myMatchedPost.id}
+        />
         <ApplyDetailButton applicationId={myMatchedPost.id} />
       </PostCard.Actions>
     </PostCard>

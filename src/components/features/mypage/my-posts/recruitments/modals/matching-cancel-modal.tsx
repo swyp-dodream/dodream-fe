@@ -1,37 +1,86 @@
 'use client';
 
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import TextField from '@/components/commons/text-fields/text-field';
+import {
+  MATCHING_CANCEL_REASON_CODES,
+  MATCHING_CANCEL_REASON_OPTIONS,
+  type MatchingCancelReasonCode,
+} from '@/constants/matching.constant';
+import useCancelMatching from '@/hooks/matching/use-cancel-matching';
 import useToast from '@/hooks/use-toast';
-
-const CAUSE_LIST = [
-  { id: '1', label: '다른 멤버와 함께 하기로 했어요' },
-  { id: '2', label: '일정이 맞지 않았어요' },
-  { id: '3', label: '기대하는 역할과 방향이 달랐어요' },
-  { id: '4', label: '기타' },
-];
 
 interface MatchingCancelModalProps {
   isOpen: boolean;
   onClose: () => void;
   nickname: string;
+  postId: bigint;
+  matchingId: bigint;
 }
 
 export default function MatchingCancelModal({
   isOpen,
   onClose,
   nickname,
+  postId,
+  matchingId,
 }: MatchingCancelModalProps) {
-  const [selectedCause, setSelectedCause] = useState<string | null>(null);
+  const [selectedCause, setSelectedCause] =
+    useState<MatchingCancelReasonCode | null>(null);
+  const [reasonText, setReasonText] = useState('');
   const toast = useToast();
+  const { mutate: cancelMatching, isPending } = useCancelMatching(postId);
 
-  const handleCacelMatching = () => {
-    onClose();
-    toast({ title: '매칭이 취소되었습니다' });
+  const cancelReasons = useMemo(
+    () =>
+      MATCHING_CANCEL_REASON_CODES.map((code) => ({
+        value: code,
+        label: MATCHING_CANCEL_REASON_OPTIONS[code],
+      })),
+    [],
+  );
+
+  const handleSelectCause = (code: MatchingCancelReasonCode) => {
+    setSelectedCause(code);
+    if (code !== 'OTHER') {
+      setReasonText('');
+    }
   };
+
+  const handleCancelMatching = () => {
+    if (!selectedCause) {
+      return;
+    }
+    const text = selectedCause === 'OTHER' ? reasonText.trim() : reasonText;
+
+    if (selectedCause === 'OTHER' && text.length === 0) {
+      return;
+    }
+
+    cancelMatching(
+      { matchingId, reasonCode: selectedCause, reasonText: text },
+      {
+        onSuccess: () => {
+          toast({ title: '매칭이 취소되었습니다.' });
+          onClose();
+        },
+        onError: () => {
+          toast({
+            title: '매칭 취소에 실패했습니다.',
+          });
+        },
+      },
+    );
+  };
+
+  const isReasonTextDisabled = selectedCause !== 'OTHER';
+  const disabled =
+    !selectedCause ||
+    isPending ||
+    (selectedCause === 'OTHER' && reasonText.trim().length === 0);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -47,6 +96,7 @@ export default function MatchingCancelModal({
             <h2 className="heading-md">
               {nickname}님과의 매칭을 취소하시겠어요?
             </h2>
+            {/* TODO: 실제 값으로 변경 */}
             <p className="body-lg-regular">
               해당 모집글의 매칭 취소 가능 횟수가 두 번 남았어요
             </p>
@@ -57,14 +107,14 @@ export default function MatchingCancelModal({
               매칭 취소 사유 <span className="text-error">*</span>
             </h3>
             <div className="flex flex-col">
-              {CAUSE_LIST.map(({ id, label }) => (
+              {cancelReasons.map(({ value, label }) => (
                 <CheckBoxWithLabel
-                  key={id}
+                  key={value}
                   name="cause"
-                  id={id}
+                  id={value}
                   label={label}
-                  checked={selectedCause === id}
-                  onSelect={() => setSelectedCause(id)}
+                  checked={selectedCause === value}
+                  onSelect={() => handleSelectCause(value)}
                 />
               ))}
             </div>
@@ -73,8 +123,9 @@ export default function MatchingCancelModal({
               className="w-[530px]"
               resizable={false}
               placeholder="매칭 취소 사유를 작성해 주세요."
-              onChange={() => {}}
-              readOnly={selectedCause !== '4'}
+              onChange={(event) => setReasonText(event.target.value)}
+              value={reasonText}
+              readOnly={isReasonTextDisabled}
             />
           </div>
         </section>
@@ -86,8 +137,8 @@ export default function MatchingCancelModal({
           <Button
             variant="solid"
             size="xs"
-            onClick={handleCacelMatching}
-            disabled={!selectedCause}
+            onClick={handleCancelMatching}
+            disabled={disabled}
           >
             매칭 취소
           </Button>
