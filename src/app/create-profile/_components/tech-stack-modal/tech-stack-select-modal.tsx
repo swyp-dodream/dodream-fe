@@ -47,6 +47,8 @@ export default function TechStackSelectModal({
       }
     } else {
       const newStacks = [...draftStacks, stack];
+      if (!isFilter && draftStacks.length >= 5) return;
+
       setDraftStacks(newStacks);
 
       if (isFilter) {
