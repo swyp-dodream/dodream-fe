@@ -26,9 +26,7 @@ export default function MyApplicationPostCard({
 
         <div className="flex flex-col gap-4">
           <PostCard.TechCategories techCategories={myAppliedPost.stacks} />
-          <PostCard.Roles
-            roles={myAppliedPost.roles.map((role) => ({ role }))}
-          />
+          <PostCard.Roles roles={myAppliedPost.roles} />
         </div>
       </PostCard.Main>
 

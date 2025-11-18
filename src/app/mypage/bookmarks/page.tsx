@@ -49,7 +49,7 @@ export default function BookmarkPage() {
                     deadlineDate={post.deadlineAt.toString()}
                     viewCount={post.views}
                     stacks={post.techCategories}
-                    roles={[{ role: '백엔드', headcount: 1 }]}
+                    roles={['백엔드']}
                   />
                 ))
               ) : (
