@@ -29,6 +29,8 @@ export const PROJECT_MAP: Record<ProjectType, string> = {
   STUDY: '스터디',
 };
 
+export const PROJECT_TAB_VALUES = Object.keys(PROJECT_MAP);
+
 export const HOME_PROJECT_MAP: Record<HomeProjectType, string> = {
   ALL: '전체',
   PROJECT: '프로젝트',
