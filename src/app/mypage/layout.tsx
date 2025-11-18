@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import MyPageNavigation from '@/components/layout/mypage-navigation';
 
 export default function MyPageLayout({
@@ -7,7 +8,7 @@ export default function MyPageLayout({
     <div className="w-full h-full grid grid-cols-12 gap-7">
       <MyPageNavigation />
       <section className="col-span-8 col-start-4 flex flex-col gap-9">
-        {children}
+        <Suspense>{children}</Suspense>
       </section>
     </div>
   );
