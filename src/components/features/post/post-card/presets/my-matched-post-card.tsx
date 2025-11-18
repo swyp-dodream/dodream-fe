@@ -14,6 +14,7 @@ export default function MyMatchedPostCard({
   return (
     <PostCard href={`/post/${BigInt(myMatchedPost.postId)}`}>
       <PostCard.Header
+        postId={myMatchedPost.postId}
         nickname={myMatchedPost.leaderName}
         elapsedTime={formatDeadlineAt(myMatchedPost.matchedAt)}
         projectType={myMatchedPost.projectType}
@@ -42,7 +43,7 @@ export default function MyMatchedPostCard({
           postId={myMatchedPost.postId}
           matchingId={myMatchedPost.id}
         />
-        <ApplyDetailButton applicationId={myMatchedPost.id} />
+        <ApplyDetailButton applicationId={myMatchedPost.applicationId} />
       </PostCard.Actions>
     </PostCard>
   );
