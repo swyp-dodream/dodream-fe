@@ -21,7 +21,7 @@ export default function InterestTags({
   variant,
 }: InterestTagsProps) {
   return (
-    <ul className="flex gap-4">
+    <ul className="flex gap-x-4 gap-y-3 flex-wrap">
       {interests.map((interest, index) => (
         <InterestTag
           key={interest}
