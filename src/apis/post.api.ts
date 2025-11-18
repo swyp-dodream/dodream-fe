@@ -2,9 +2,9 @@ import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
   GetMyAppliedPostsResponseType,
+  GetMyMatchedPostsResponseType,
   GetMySuggestedPostResponseType,
-  HomeProjectType,
-  PostContentType,
+  PostDetailType,
   PostMembersType,
   PostType,
   RecommendedPostsType,
@@ -14,14 +14,9 @@ import { api, authApi } from './fetcher/api';
 const postApi = {
   /**
    * 게시글 목록
-   * @param projectType - 프로젝트 종류 (프로젝트/스터디)
-   * TODO: 정렬, 필터링 추가
+   * @parma query - 쿼리 스트링
    */
-  getPosts: (projectType: HomeProjectType) => {
-    return api.get<PostType>(
-      `/api/posts?sortType=LATEST&projectType=${projectType}`,
-    );
-  },
+  getPosts: (query: string) => api.get<PostType>(`/api/home?size=12&${query}`),
 
   /** AI 추천 게시글 */
   getRecommendedPosts: () => {
@@ -30,9 +25,9 @@ const postApi = {
 
   /** 모집글 상세 데이터 */
   getPostDetailAuth: (id: bigint) =>
-    authApi.get<PostContentType>(`/api/posts/${BigInt(id)}`),
+    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
   getPostDetail: (id: bigint) =>
-    api.get<PostContentType>(`/api/posts/${BigInt(id)}`),
+    api.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
 
   /** 모집글 멤버 내역 */
   getPostMembers: (id: bigint) =>
@@ -81,6 +76,18 @@ const postApi = {
 
     return authApi.get<GetMySuggestedPostResponseType>(
       `/api/my/suggestions?${params.toString()}`,
+    );
+  },
+
+  /** 내가 매칭된 글 목록 조회 */
+  getMyMatchedPosts: (page?: number, size?: number) => {
+    const params = new URLSearchParams();
+
+    if (page) params.set('page', String(page));
+    if (size) params.set('size', String(size));
+
+    return authApi.get<GetMyMatchedPostsResponseType>(
+      `/api/matched?${params.toString()}`,
     );
   },
 };

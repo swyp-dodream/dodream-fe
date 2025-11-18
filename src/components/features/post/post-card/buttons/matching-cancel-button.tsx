@@ -6,10 +6,16 @@ import MatchingCancelModal from '@/components/features/mypage/my-posts/recruitme
 
 interface MatchingCancelButtonProps {
   nickname: string;
+  postId: bigint;
+  matchingId: bigint;
+  matchedAt: Date;
 }
 
 export default function MathcingCancelButton({
   nickname,
+  postId,
+  matchingId,
+  matchedAt,
 }: MatchingCancelButtonProps) {
   const handleOpenMatchingCancelModal = () => {
     overlay.open(({ isOpen, close }) => (
@@ -17,6 +23,9 @@ export default function MathcingCancelButton({
         isOpen={isOpen}
         onClose={close}
         nickname={nickname}
+        postId={postId}
+        matchingId={matchingId}
+        matchedAt={matchedAt}
       />
     ));
   };

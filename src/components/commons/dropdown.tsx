@@ -14,6 +14,7 @@ interface DropdownProps {
   label: string;
   isError?: boolean;
   className?: string;
+  children?: React.ReactNode;
   ref?: Ref<HTMLButtonElement>;
 }
 
@@ -33,6 +34,7 @@ interface DropdownProps {
  * />
  */
 export default function Dropdown({
+  children,
   items,
   label,
   isError = false,
@@ -42,9 +44,13 @@ export default function Dropdown({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <DropdownButton ref={ref} label={label} isError={isError}>
-          <ArrowIcon className="text-icon-light group-data-[state=open]:rotate-180" />
-        </DropdownButton>
+        {children ? (
+          children
+        ) : (
+          <DropdownButton ref={ref} label={label} isError={isError}>
+            <ArrowIcon className="text-icon-light group-data-[state=open]:rotate-180" />
+          </DropdownButton>
+        )}
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>

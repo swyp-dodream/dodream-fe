@@ -6,7 +6,7 @@ import type { InterestsType } from '@/types/profile.type';
 interface InterestTagsProps {
   interests: InterestsType[];
   removeInterest: (interest: InterestsType) => void;
-  variant?: 'light' | 'dark';
+  variant?: 'light' | 'dark' | 'filter';
 }
 
 /**
@@ -21,7 +21,7 @@ export default function InterestTags({
   variant,
 }: InterestTagsProps) {
   return (
-    <ul className="flex gap-4">
+    <ul className="flex gap-x-4 gap-y-3 flex-wrap">
       {interests.map((interest, index) => (
         <InterestTag
           key={interest}
@@ -38,7 +38,7 @@ export default function InterestTags({
 interface InterestTagProps {
   interest: InterestsType;
   index: number;
-  variant?: 'light' | 'dark';
+  variant?: 'light' | 'dark' | 'filter';
   onRemove: () => void;
 }
 
@@ -57,16 +57,15 @@ function InterestTag({
 }: InterestTagProps) {
   return (
     <li
-      className={clsx(
-        'flex gap-2 items-center px-4 py-3 rounded-full body-lg-medium',
-        {
-          'bg-button text-text-on-brand': variant === 'dark',
-          'bg-surface text-primary border border-border-primary':
-            variant === 'light',
-        },
-      )}
+      className={clsx('flex gap-2 items-center  rounded-full body-lg-medium', {
+        'bg-button text-text-on-brand px-4 py-3': variant === 'dark',
+        'bg-surface text-primary border border-border-primary px-4 py-3':
+          variant === 'light',
+        'bg-container-primary px-2 rounded-sm body-md-regular':
+          variant === 'filter',
+      })}
     >
-      {`${INDEX_LABEL[index]} ${INTERESTS[interest]}`}
+      {`${`${variant === 'filter' ? '' : INDEX_LABEL[index]} `}${INTERESTS[interest]}`}
       <button type="button" onClick={onRemove}>
         <XIcon className="text-icon-light" />
       </button>

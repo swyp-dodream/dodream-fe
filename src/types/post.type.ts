@@ -5,36 +5,30 @@ import type { ActivityModeType } from './profile.type';
 
 /** 게시글 데이터 타입 */
 export type PostType = {
-  content: PostContentType[];
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-    sort: {
-      unsorted: boolean;
-      sorted: boolean;
-      empty: boolean;
-    };
-    offset: number;
-    unpaged: boolean;
-    paged: boolean;
+  posts: {
+    content: PostContentType[];
   };
-  totalPages: number;
-  totalElements: number;
-  last: boolean;
-  numberOfElements: number;
-  first: boolean;
-  size: number;
-  number: number;
-  sort: {
-    unsorted: boolean;
-    sorted: boolean;
-    empty: boolean;
-  };
-  empty: boolean;
+};
+
+/** 게시글 데이터 내용 타입 */
+export type PostContentType = {
+  id: bigint;
+  title: string;
+  projectType: string;
+  roles: string[];
+  techs: string[];
+  interests: string[];
+  author: string;
+  authorProfileImageCode: string;
+  viewCount: number;
+  deadline: string;
+  status: string;
+  activityMode: string;
+  createdAt: string;
 };
 
 /** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
-export type PostContentType = {
+export type PostDetailType = {
   id: bigint;
   applicationId: bigint;
   title: string;
@@ -102,7 +96,7 @@ export type MyAppliedPostType = {
   postTitle: string;
   projectType: ProjectType;
   activityMode: ActivityModeType;
-  status: PostStatusType;
+  postStatus: PostStatusType;
   leaderName: string;
   leaderProfileImage: string;
   myStatus: MyStatusType;
@@ -114,12 +108,21 @@ export type MyAppliedPostType = {
   postCreatedAt: Date;
 };
 export type GetMyAppliedPostsResponseType = PaginationInfo & {
-  applications: MyAppliedPostType[];
+  content: MyAppliedPostType[];
 };
 
 /** 내가 제안받은 글 목록 타입 */
 export type MySuggestedPostType = MyAppliedPostType;
 export type GetMySuggestedPostResponseType = GetMyAppliedPostsResponseType;
+
+/** 내가 매칭된 글 목록 타입 */
+export type MyMatchedPostType = Omit<MyAppliedPostType, 'appliedAt'> & {
+  applicationId: bigint;
+  matchedAt: Date;
+};
+export type GetMyMatchedPostsResponseType = PaginationInfo & {
+  content: MyMatchedPostType[];
+};
 
 export type ProjectType = 'PROJECT' | 'STUDY';
 export type HomeProjectType = ProjectType | 'ALL';

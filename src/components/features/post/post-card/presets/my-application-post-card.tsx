@@ -14,6 +14,7 @@ export default function MyApplicationPostCard({
   return (
     <PostCard href={`/post/${BigInt(myAppliedPost.postId)}`}>
       <PostCard.Header
+        postId={BigInt(myAppliedPost.postId)}
         nickname={myAppliedPost.leaderName}
         elapsedTime={formatDeadlineAt(myAppliedPost.appliedAt)}
         projectType={myAppliedPost.projectType}
@@ -25,15 +26,13 @@ export default function MyApplicationPostCard({
 
         <div className="flex flex-col gap-4">
           <PostCard.TechCategories techCategories={myAppliedPost.stacks} />
-          <PostCard.Roles
-            roles={myAppliedPost.roles.map((role) => ({ role }))}
-          />
+          <PostCard.Roles roles={myAppliedPost.roles} />
         </div>
       </PostCard.Main>
 
       <PostCard.Footer
         views={myAppliedPost.viewCount}
-        status={myAppliedPost.status}
+        status={myAppliedPost.postStatus}
       />
 
       <PostCard.Actions>

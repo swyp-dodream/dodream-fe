@@ -16,6 +16,7 @@ export default function SuggestedPostCard({
   return (
     <PostCard href={`/post/${BigInt(mySuggestedPost.postId)}`}>
       <PostCard.Header
+        postId={mySuggestedPost.postId}
         nickname={mySuggestedPost.leaderName}
         elapsedTime={formatDeadlineAt(mySuggestedPost.appliedAt)}
         projectType={mySuggestedPost.projectType}
@@ -27,15 +28,13 @@ export default function SuggestedPostCard({
 
         <div className="flex flex-col gap-4">
           <PostCard.TechCategories techCategories={mySuggestedPost.stacks} />
-          <PostCard.Roles
-            roles={mySuggestedPost.roles.map((role) => ({ role }))}
-          />
+          <PostCard.Roles roles={mySuggestedPost.roles} />
         </div>
       </PostCard.Main>
 
       <PostCard.Footer
         views={mySuggestedPost.viewCount}
-        status={mySuggestedPost.status}
+        status={mySuggestedPost.postStatus}
       />
 
       <PostCard.Actions>

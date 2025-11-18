@@ -12,10 +12,7 @@ interface DefaultPostCardProps {
   deadlineDate: string;
   viewCount: number;
   stacks: string[];
-  roles: {
-    role: string;
-    headcount: number;
-  }[];
+  roles: string[];
 }
 
 export default function DefaultPostCard({
@@ -37,6 +34,7 @@ export default function DefaultPostCard({
         elapsedTime={formatDeadlineAt(deadlineDate)}
         projectType={projectType}
         // TODO: 북마크 값 변경
+        postId={id}
         isBookmarked={false}
       />
 
