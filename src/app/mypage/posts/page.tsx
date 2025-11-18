@@ -10,7 +10,8 @@ import useGetMyPosts from '@/hooks/my/use-get-my-posts';
 
 export default function MyPostsPage() {
   const { params, setParams } = useQueryParams();
-  const { data: posts } = useGetMyPosts(params.type);
+  const projectType = params.type || 'PROJECT';
+  const { data: posts } = useGetMyPosts(projectType);
 
   if (!posts) return null;
 
@@ -19,7 +20,7 @@ export default function MyPostsPage() {
       <MyPageHeader title="내가 쓴 글" />
 
       <Tabs
-        defaultValue={params.type || 'PROJECT'}
+        defaultValue={projectType}
         onValueChange={(value) => setParams({ type: value })}
       >
         <Tabs.List>
