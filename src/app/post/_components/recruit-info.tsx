@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { DURATION_LABELS, PROJECT_MAP } from '@/constants/post.constant';
-import { ACTIVITY_MODE } from '@/constants/profile.constant';
+import { ACTIVITY_MODE, TECH_STACK_MAP } from '@/constants/profile.constant';
 import type { DurationType, ProjectType } from '@/types/post.type';
-import type { ActivityModeType } from '@/types/profile.type';
+import type { ActivityModeType, TechStackType } from '@/types/profile.type';
 import { formatDate } from '@/utils/date.util';
 
 interface RecruitInfoProps {
@@ -65,7 +65,7 @@ export default function RecruitInfo({
             {techStacks.map((stack) => (
               <Image
                 key={stack}
-                src={`/logo/stacks/${stack}/24.svg`}
+                src={`/logo/stacks/${TECH_STACK_MAP[stack as TechStackType]}/24.svg`}
                 alt={`${stack}`}
                 width={24}
                 height={24}
