@@ -7,7 +7,7 @@ import useGetMySuggestedPosts from '@/hooks/my/use-get-my-suggested.posts';
 export default function SuggestedTabContent() {
   const { data: suggestedPosts } = useGetMySuggestedPosts();
 
-  if (suggestedPosts?.applications.length === 0) {
+  if (suggestedPosts?.content.length === 0) {
     return (
       <MyPageEmptyState
         title="제안받은 내역이 없습니다"
@@ -18,7 +18,7 @@ export default function SuggestedTabContent() {
 
   return (
     <>
-      {suggestedPosts?.applications.map((mySuggestedPost) => (
+      {suggestedPosts?.content.map((mySuggestedPost) => (
         <SuggestedPostCard
           key={mySuggestedPost.id}
           mySuggestedPost={mySuggestedPost}

@@ -33,7 +33,7 @@ export default function MyApplicationPostCard({
 
       <PostCard.Footer
         views={myAppliedPost.viewCount}
-        status={myAppliedPost.status}
+        status={myAppliedPost.postStatus}
       />
 
       <PostCard.Actions>

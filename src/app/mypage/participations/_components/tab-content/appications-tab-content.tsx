@@ -7,7 +7,7 @@ import useGetMyAppliedPosts from '@/hooks/post/use-get-applied-posts';
 export default function ApplicationsTabContent() {
   const { data: myAppliedPosts } = useGetMyAppliedPosts();
 
-  if (myAppliedPosts?.applications.length === 0) {
+  if (myAppliedPosts?.content.length === 0) {
     return (
       <MyPageEmptyState
         title="지원한 글이 없습니다"
@@ -18,7 +18,7 @@ export default function ApplicationsTabContent() {
 
   return (
     <>
-      {myAppliedPosts?.applications?.map((myAppliedPost) => (
+      {myAppliedPosts?.content?.map((myAppliedPost) => (
         <MyApplicationPostCard
           key={myAppliedPost.id}
           myAppliedPost={myAppliedPost}

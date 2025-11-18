@@ -35,7 +35,7 @@ export default function SuggestedPostCard({
 
       <PostCard.Footer
         views={mySuggestedPost.viewCount}
-        status={mySuggestedPost.status}
+        status={mySuggestedPost.postStatus}
       />
 
       <PostCard.Actions>
