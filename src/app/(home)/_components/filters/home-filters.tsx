@@ -17,7 +17,15 @@ import HomeFilterTags from './home-filter-tags';
  */
 export default function HomeFilters() {
   const [isFilterOpen, setFilterOpen] = useState(true);
-  const { params, setParams, clearParams } = useQueryParams();
+  // const [keyword, setKeyword] = useState('');
+  const {
+    params,
+    filterParams,
+    setParams,
+    clearParams,
+    getBoolParam,
+    setBoolParam,
+  } = useQueryParams();
 
   return (
     <div>
@@ -27,7 +35,7 @@ export default function HomeFilters() {
           label="직군"
           items={ROLE_LIST.map((role) => ({
             label: role.label,
-            onSelect: () => setParams({ roleType: role.label }),
+            onSelect: () => setParams({ roles: role.label }),
           }))}
         >
           <HomeFilterButton>직군</HomeFilterButton>
@@ -70,7 +78,7 @@ export default function HomeFilters() {
           label="활동 방식"
           items={ACTIVITY_MODE_LIST.map((mode) => ({
             label: mode.label,
-            onSelect: () => setParams({ modeType: mode.label }),
+            onSelect: () => setParams({ activityMode: mode.label }),
           }))}
         >
           <HomeFilterButton>활동 방식</HomeFilterButton>
@@ -81,15 +89,41 @@ export default function HomeFilters() {
           label={params.sortType}
           items={SORT_LABEL_LIST.map((sortType) => ({
             label: sortType.label,
-            onSelect: () => setParams({ sortType: sortType.label }),
+            onSelect: () => setParams({ sort: sortType.label }),
           }))}
         >
           <HomeFilterButton>{params.sortType ?? '최신순'}</HomeFilterButton>
         </Dropdown>
+
+        {/* 모집글만 보기 */}
+        <button
+          type="button"
+          onClick={() =>
+            setBoolParam('onlyRecruiting', !getBoolParam('onlyRecruiting'))
+          }
+          className={clsx(
+            'py-3 px-4 body-md-medium rounded-full flex items-center justify-between outline-none gap-2 group hover:bg-primary mr-auto',
+            {
+              'bg-primary': getBoolParam('onlyRecruiting'),
+            },
+          )}
+        >
+          모집글만 보기
+        </button>
+
+        {/* 검색 */}
+        {/* TODO: 필터링 API와 통합되면 추가 */}
+        {/* <SearchInput
+          placeholder="찾고 싶은 키워드를 검색하세요"
+          variant="dark"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          className="w-[283px]"
+        /> */}
       </div>
 
       <hr className="border-border-primary mb-6" />
-      {Object.entries(params).length !== 0 && (
+      {filterParams.length !== 0 && (
         <>
           <div className="flex flex-col px-4">
             <div className="body-md-medium text-secondary flex gap-5">

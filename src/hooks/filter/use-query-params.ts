@@ -23,8 +23,13 @@ export default function useQueryParams() {
   };
 
   /** 개별 파라미터 (배열) */
-  const getParamAll = (key: string) => {
+  const getArrayParam = (key: string) => {
     return searchParams.getAll(key);
+  };
+
+  /** 개별 파라미터 (boolean 값) */
+  const getBoolParam = (key: string) => {
+    return getParam(key) === 'true';
   };
 
   /** 파라미터 설정 */
@@ -63,6 +68,11 @@ export default function useQueryParams() {
     router.push(url, { scroll: false });
   };
 
+  /** 파라미터 설정 (boolean 값) */
+  const setBoolParam = (key: string, value: boolean) => {
+    setParams({ [key]: value ? 'true' : null });
+  };
+
   /** 개별 파라미터 삭제 */
   const removeParam = (key: string) => {
     setParams({ [key]: null });
@@ -73,11 +83,19 @@ export default function useQueryParams() {
     router.push(pathname, { scroll: false });
   };
 
+  /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기 제외) */
+  const filterParams = Object.entries(getParams()).filter(
+    ([key]) => key !== 'sort' && key !== 'onlyRecruiting',
+  );
+
   return {
     params: getParams(),
     getParam,
-    getParamAll,
+    getArrayParam,
+    filterParams,
     setParams,
+    getBoolParam,
+    setBoolParam,
     removeParam,
     clearParams,
   };

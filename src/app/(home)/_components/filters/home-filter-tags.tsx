@@ -5,19 +5,18 @@ import useQueryParams from '@/hooks/filter/use-query-params';
  * 적용된 필터 태그 리스트
  */
 export default function HomeFilterTags() {
-  const { params, getParamAll, removeParam, setParams } = useQueryParams();
+  const { filterParams, getArrayParam, removeParam, setParams } =
+    useQueryParams();
 
   // 모든 파라미터 평탄화
-  const allParamPairs = Object.keys(params)
-    .filter((key) => key !== 'sortType')
-    .flatMap((key) => {
-      const values = getParamAll(key);
-      return values.map((value) => [key, value] as const);
-    });
+  const allParamPairs = filterParams.flatMap(([key]) => {
+    const values = getArrayParam(key);
+    return values.map((value) => [key, value] as const);
+  });
 
   /** 파라미터 제거 함수 */
   const removeParamValue = (key: string, valueToRemove: string) => {
-    const allValues = getParamAll(key);
+    const allValues = getArrayParam(key);
     const newValues = allValues.filter((v) => v !== valueToRemove);
 
     if (newValues.length === 0) {

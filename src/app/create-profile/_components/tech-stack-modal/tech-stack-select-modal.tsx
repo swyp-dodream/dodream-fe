@@ -23,14 +23,14 @@ export default function TechStackSelectModal({
 }: TechStackSelectModalProps) {
   const stacks = useProfileStore((state) => state.techStacks);
   const setStacks = useProfileStore((state) => state.setStacks);
-  const { getParamAll, setParams } = useQueryParams();
+  const { getArrayParam, setParams } = useQueryParams();
 
   const [draftStacks, setDraftStacks] = useState<TechStackType[]>(() => {
     // 필터링 모달이 아닌 경우
     if (!isFilter) return stacks;
 
     // 필터링 모달인 경우
-    return getParamAll('stack') as TechStackType[];
+    return getArrayParam('techs') as TechStackType[];
   });
 
   /**
@@ -43,14 +43,14 @@ export default function TechStackSelectModal({
       setDraftStacks(newStacks);
 
       if (isFilter) {
-        setParams({ stack: newStacks.length > 0 ? newStacks : null });
+        setParams({ techs: newStacks.length > 0 ? newStacks : null });
       }
     } else {
       const newStacks = [...draftStacks, stack];
       setDraftStacks(newStacks);
 
       if (isFilter) {
-        setParams({ stack: newStacks });
+        setParams({ techs: newStacks });
       }
     }
   };

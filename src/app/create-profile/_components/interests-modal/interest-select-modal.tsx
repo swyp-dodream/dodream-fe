@@ -11,7 +11,7 @@ import InterestTags from './interest-tags';
 interface InterestSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  isFilter: boolean;
+  isFilter?: boolean;
 }
 
 /**
@@ -24,14 +24,14 @@ export default function InterestSelectModal({
 }: InterestSelectModalProps) {
   const interests = useProfileStore((state) => state.interests);
   const setInterests = useProfileStore((state) => state.setInterests);
-  const { getParamAll, setParams } = useQueryParams();
+  const { getArrayParam, setParams } = useQueryParams();
 
   const [draftInterests, setDraftInterests] = useState<InterestsType[]>(() => {
     // 필터링 모달이 아닌 경우
     if (!isFilter) return interests;
 
     // 필터링 모달인 경우
-    return getParamAll('interest') as InterestsType[];
+    return getArrayParam('interests') as InterestsType[];
   });
 
   /**
@@ -46,7 +46,7 @@ export default function InterestSelectModal({
       setDraftInterests(newInterests);
 
       if (isFilter) {
-        setParams({ interest: newInterests.length > 0 ? newInterests : null });
+        setParams({ interests: newInterests.length > 0 ? newInterests : null });
       }
     } else {
       const newInterests = [...draftInterests, interest];
@@ -54,7 +54,7 @@ export default function InterestSelectModal({
 
       if (isFilter) {
         setParams({
-          interest: newInterests.map((interest) => INTERESTS[interest]),
+          interests: newInterests.map((interest) => INTERESTS[interest]),
         });
       }
     }
