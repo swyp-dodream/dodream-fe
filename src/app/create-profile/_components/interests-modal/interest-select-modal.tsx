@@ -49,6 +49,8 @@ export default function InterestSelectModal({
       }
     } else {
       const newInterests = [...draftInterests, interest];
+      if (!isFilter && draftInterests.length >= 5) return;
+
       setDraftInterests(newInterests);
 
       if (isFilter) {
@@ -96,7 +98,7 @@ export default function InterestSelectModal({
             <InterestTags
               interests={draftInterests}
               removeInterest={toggleInterests}
-              variant="filter"
+              variant={isFilter ? 'filter' : 'dark'}
             />
           )}
         </div>
