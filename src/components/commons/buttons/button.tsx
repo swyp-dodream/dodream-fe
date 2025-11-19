@@ -40,7 +40,7 @@ export default function Button({
         BUTTON_SIZE[size],
         BUTTON_VARIANTS[variant],
         {
-          'bg-disabled': disabled,
+          'bg-disabled! border-none text-text-on-brand': disabled,
         },
         className,
       )}

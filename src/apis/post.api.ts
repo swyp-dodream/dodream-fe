@@ -49,7 +49,7 @@ const postApi = {
   cancelApply: (applicationId: bigint) =>
     authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
-  cancelOffer: (suggestionId: number) => {
+  cancelOffer: (suggestionId: bigint) => {
     return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
   },
 

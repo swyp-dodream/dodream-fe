@@ -45,7 +45,7 @@ export function useGetApplyAvailable(postId: bigint) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId.toString()],
     queryFn: () => postApi.getApplyAvailable(postId),
-    enabled: profileExists?.exists === true, // 프로필 있을 때만 판단
+    enabled: profileExists?.exists,
     staleTime: 0,
     gcTime: 1 * 60 * 1000,
   });

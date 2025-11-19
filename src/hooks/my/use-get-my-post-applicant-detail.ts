@@ -3,23 +3,26 @@ import myApi from '@/apis/my.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
-interface UseGetMyApplicationDetailOptions {
+interface UseGetMyPostApplicantDetailOptions {
   enabled?: boolean;
 }
 
-export default function useGetMyApplicationDetail(
+/** 내 모집글 지원자 상세 타입 */
+export default function useGetMyPostApplicantDetail(
+  postId: bigint,
   applicationId: bigint,
-  options?: UseGetMyApplicationDetailOptions,
+  options?: UseGetMyPostApplicantDetailOptions,
 ) {
   const { data: profileExists } = useGetProfileExists();
 
   return useQuery({
     queryKey: [
       QUERY_KEY.auth,
-      QUERY_KEY.myApplicationDetail,
+      QUERY_KEY.myPostApplicantDetail,
+      postId.toString(),
       applicationId.toString(),
     ],
-    queryFn: () => myApi.getMyApplicationDetail(applicationId),
+    queryFn: () => myApi.getMyPostApplicantDetail(postId, applicationId),
     enabled: profileExists?.exists && (options?.enabled ?? true),
   });
 }
