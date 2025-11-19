@@ -7,6 +7,7 @@ interface ApplyDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   applicationId: bigint;
+  type: 'my' | 'received';
 }
 
 const INFO_LABEL_CLASS = 'text-primary body-lg-medium';
@@ -15,9 +16,14 @@ export default function ApplyDetailModal({
   isOpen,
   onClose,
   applicationId,
+  type,
 }: ApplyDetailModalProps) {
-  const { data: myApplicationDetail } =
-    useGetMyApplicationDetail(applicationId);
+  const { data: myApplicationDetail } = useGetMyApplicationDetail(
+    applicationId,
+    {
+      enabled: type === 'my',
+    },
+  );
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
