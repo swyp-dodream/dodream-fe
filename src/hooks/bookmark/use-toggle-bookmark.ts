@@ -15,6 +15,9 @@ export default function useToggleBookmark() {
         queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
       });
       queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.myBookmarkedPosts],
+      });
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts],
       });
       queryClient.invalidateQueries({
