@@ -62,3 +62,22 @@ export type MyPostsContentType = {
   createdAt: string;
   updatedAt: string;
 };
+
+/** 내 모집글 지원자 목록 타입 */
+export type MyPostApplicationsType = {
+  users: MyPostApplicantType[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
+export type MyPostApplicantType = {
+  suggestionId: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  jobGroups: string[];
+};

@@ -13,10 +13,14 @@ export const QUERY_KEY = {
   canApply: 'canApply',
   postDetail: 'postDetail',
 
+  /** 내 참여 내역 관련 */
   myAppliedPosts: 'myAppliedPosts',
   myApplicationDetail: 'myApplicationDetail',
   mySuggestedPosts: 'mySuggestedPosts',
   myMatchedPosts: 'myMatchedPosts',
+
+  /** 내 모집글 관련 */
   myPosts: 'myPosts',
+  myPostApplications: 'myPostApplications',
   offers: 'offers',
 };

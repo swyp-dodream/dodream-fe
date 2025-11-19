@@ -20,8 +20,6 @@ export default function HomePosts() {
   const { getParam, setParams, getApiQueryString } = useQueryParams();
   const { data: posts } = useGetPosts(getApiQueryString());
 
-  console.log('posts ➡️', posts);
-
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
   const handleTabChange = (value: string) => {
