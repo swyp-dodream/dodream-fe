@@ -81,3 +81,18 @@ export type MyPostApplicantType = {
   experience: string;
   jobGroups: string[];
 };
+
+/** 내 모집글 지원자 상세 타입 */
+export type MyPostApplicantDetailType = {
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  jobGroups: string[];
+  appliedRoleId: number;
+  appliedRoleName: string;
+  message: string;
+};

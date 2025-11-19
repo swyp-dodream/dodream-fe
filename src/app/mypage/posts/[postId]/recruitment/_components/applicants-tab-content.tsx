@@ -31,6 +31,7 @@ export default function ApplicantsTabContent({
 
       <ApplicantsSection
         title="일반 지원자"
+        postId={postId}
         roles={appliedRoles ?? []}
         users={applications?.users ?? []}
         isEmpty={applications?.users.length === 0 || !applications?.users}

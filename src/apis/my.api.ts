@@ -2,6 +2,7 @@ import { authApi } from '@/apis/fetcher/api';
 import type { MatchingCancelReasonCode } from '@/constants/matching.constant';
 import type {
   GetMyApplicationDetailResponseType,
+  MyPostApplicantDetailType,
   MyPostApplicationsType,
   MyPostsResponseType,
 } from '@/types/my.type';
@@ -36,6 +37,12 @@ const myApi = {
   getMyPostApplications: (postId: bigint) =>
     authApi.get<MyPostApplicationsType>(
       `/api/posts/${BigInt(postId)}/recruits/applications`,
+    ),
+
+  /** 내 모집글 지원자 상세 정보 */
+  getMyPostApplicantDetail: (postId: bigint, applicationId: bigint) =>
+    authApi.get<MyPostApplicantDetailType>(
+      `/api/posts/${postId}/recruits/applications/${applicationId}`,
     ),
 };
 

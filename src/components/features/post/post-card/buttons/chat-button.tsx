@@ -11,7 +11,7 @@ export default function ChatButton() {
   };
 
   return (
-    <Button variant="outline" size="md" onClick={handleClick}>
+    <Button variant="outline" size="sm" onClick={handleClick}>
       채팅하기
     </Button>
   );

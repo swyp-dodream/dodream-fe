@@ -22,5 +22,6 @@ export const QUERY_KEY = {
   /** 내 모집글 관련 */
   myPosts: 'myPosts',
   myPostApplications: 'myPostApplications',
+  myPostApplicantDetail: 'myPostApplicantDetail',
   offers: 'offers',
 };

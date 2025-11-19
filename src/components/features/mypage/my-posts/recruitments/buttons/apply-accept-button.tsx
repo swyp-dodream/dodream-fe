@@ -12,7 +12,8 @@ export default function ApplyAcceptButton() {
       size="xs"
       onClick={() =>
         toast({
-          title: '지원 수락이 완료되었습니다',
+          // title: '지원 수락이 완료되었습니다',
+          title: '준비중입니다.',
         })
       }
     >

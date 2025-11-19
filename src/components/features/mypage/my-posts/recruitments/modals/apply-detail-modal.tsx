@@ -1,13 +1,17 @@
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import TextField from '@/components/commons/text-fields/text-field';
+import ChatButton from '@/components/features/post/post-card/buttons/chat-button';
 import useGetMyApplicationDetail from '@/hooks/my/use-get-my-application-detail';
+import useGetMyPostApplicantDetail from '@/hooks/my/use-get-my-post-applicant-detail';
+import useToast from '@/hooks/use-toast';
 
 interface ApplyDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   applicationId: bigint;
-  type: 'my' | 'received';
+  postId: bigint;
+  type?: 'my' | 'received';
 }
 
 const INFO_LABEL_CLASS = 'text-primary body-lg-medium';
@@ -16,13 +20,23 @@ export default function ApplyDetailModal({
   isOpen,
   onClose,
   applicationId,
-  type,
+  postId,
+  type = 'my',
 }: ApplyDetailModalProps) {
+  const _toast = useToast();
+
+  // 내 지원일 경우 데이터
   const { data: myApplicationDetail } = useGetMyApplicationDetail(
     applicationId,
     {
       enabled: type === 'my',
     },
+  );
+
+  // 다른 사람의 지원일 경우 데이터
+  const { data: myPostApplicantDetail } = useGetMyPostApplicantDetail(
+    postId,
+    applicationId,
   );
 
   return (
@@ -40,7 +54,9 @@ export default function ApplyDetailModal({
               <dt className={INFO_LABEL_CLASS}>지원 직군</dt>
               <dd>
                 <span className="inline-flex rounded-full bg-chip-selected px-4 py-3 text-on-brand">
-                  {myApplicationDetail?.roleName}
+                  {type === 'my'
+                    ? myApplicationDetail?.roleName
+                    : myPostApplicantDetail?.jobGroups}
                 </span>
               </dd>
             </div>
@@ -49,7 +65,11 @@ export default function ApplyDetailModal({
               <dt className={INFO_LABEL_CLASS}>지원 메시지</dt>
               <dd>
                 <TextField
-                  value={myApplicationDetail?.message}
+                  value={
+                    type === 'my'
+                      ? myApplicationDetail?.message
+                      : myPostApplicantDetail?.message
+                  }
                   className="w-full"
                   readOnly
                   resizable={false}
@@ -61,9 +81,7 @@ export default function ApplyDetailModal({
 
         <footer className="flex justify-end gap-5 border-t-1 border-border-primary pt-4">
           {/* TODO: 채팅페이지로 넘어가도록 구현 */}
-          <Button variant="outline" size="xs">
-            채팅하기
-          </Button>
+          <ChatButton />
           <Button variant="solid" size="xs" onClick={onClose}>
             확인
           </Button>

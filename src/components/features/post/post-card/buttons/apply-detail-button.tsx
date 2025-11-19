@@ -11,10 +11,12 @@ interface ApplyDetailButtonProps
     'onClick' | 'children'
   > {
   applicationId: bigint;
+  postId: bigint;
 }
 
 export default function ApplyDetailButton({
   applicationId,
+  postId,
   ...props
 }: ApplyDetailButtonProps) {
   const handleOpenApplyDetailModal = () => {
@@ -22,7 +24,9 @@ export default function ApplyDetailButton({
       <ApplyDetailModal
         isOpen={isOpen}
         onClose={close}
+        postId={BigInt(postId)}
         applicationId={BigInt(applicationId)}
+        type="received"
       />
     ));
   };

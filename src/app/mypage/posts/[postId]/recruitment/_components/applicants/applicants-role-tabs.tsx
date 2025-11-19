@@ -9,12 +9,14 @@ import type { MyPostApplicantType } from '@/types/my.type';
 
 type ApplicantsRoleTabsProps = {
   roles: string[];
+  postId: bigint;
   users: MyPostApplicantType[];
   headerRight?: React.ReactNode;
 };
 
 export default function ApplicantsRoleTabs({
   roles,
+  postId,
   users,
   headerRight,
 }: ApplicantsRoleTabsProps) {
@@ -33,6 +35,7 @@ export default function ApplicantsRoleTabs({
                   actions={
                     <UserActions>
                       <ApplyDetailButton
+                        postId={BigInt(postId)}
                         applicationId={BigInt(user.applicationId)}
                         variant="outline"
                       />

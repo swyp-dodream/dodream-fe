@@ -3,6 +3,7 @@ import ApplicantsRoleTabs from './applicants-role-tabs';
 
 interface ApplicantsSectionProps {
   title: string;
+  postId: bigint;
   roles: string[];
   users: MyPostApplicantType[];
   isEmpty: boolean;
@@ -12,6 +13,7 @@ interface ApplicantsSectionProps {
 
 export default function ApplicantsSection({
   title,
+  postId,
   roles,
   users,
   isEmpty,
@@ -26,6 +28,7 @@ export default function ApplicantsSection({
       ) : (
         <ApplicantsRoleTabs
           roles={roles}
+          postId={postId}
           users={users}
           headerRight={headerRight}
         />
