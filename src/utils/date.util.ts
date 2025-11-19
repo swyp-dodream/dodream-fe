@@ -1,11 +1,13 @@
 import {
   addDays,
   differenceInCalendarDays,
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
   format,
-  formatDistanceToNow,
+  isYesterday,
   startOfDay,
 } from 'date-fns';
-import { ko } from 'date-fns/locale';
 
 export function formatDeadlineAt(deadlineAt: Date | string) {
   const date =
@@ -36,10 +38,26 @@ export function formatDate(newDate: Date | string) {
  * @param dateString - 현재 날짜
  */
 export function getRelativeTime(dateString: string): string {
-  return formatDistanceToNow(new Date(dateString), {
-    addSuffix: true,
-    locale: ko,
-  });
+  const date = new Date(dateString);
+  const now = new Date();
+
+  const minutes = differenceInMinutes(now, date);
+  const hours = differenceInHours(now, date);
+  const days = differenceInDays(now, date);
+
+  if (minutes < 1) {
+    return '1분';
+  } else if (minutes < 60) {
+    return `${minutes}분`;
+  } else if (hours < 24) {
+    return `${hours}시간`;
+  } else if (isYesterday(date)) {
+    return '어제';
+  } else if (days <= 7) {
+    return `${days}일`;
+  } else {
+    return format(date, 'yyyy.MM.dd');
+  }
 }
 
 /**

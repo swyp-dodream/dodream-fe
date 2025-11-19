@@ -7,6 +7,7 @@ import type {
   PostDetailType,
   PostMembersType,
   PostType,
+  ProjectType,
   RecommendedPostsType,
 } from '@/types/post.type';
 import { api, authApi } from './fetcher/api';
@@ -19,9 +20,10 @@ const postApi = {
   getPosts: (query: string) => api.get<PostType>(`/api/home?size=12&${query}`),
 
   /** AI 추천 게시글 */
-  getRecommendedPosts: () => {
-    return authApi.get<RecommendedPostsType>(`/api/recommendations`);
-  },
+  getRecommendedPosts: (projectType: ProjectType) =>
+    authApi.get<RecommendedPostsType>(
+      `/api/recommendations?projectType=${projectType}`,
+    ),
 
   /** 모집글 상세 데이터 */
   getPostDetailAuth: (id: bigint) =>

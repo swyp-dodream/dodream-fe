@@ -37,7 +37,10 @@ export default function ApplyModal({
   const availableRoles = ROLES.filter((role) => roles.includes(role.name));
 
   const handleSubmit = () => {
-    if (!selectedRole) return;
+    if (!selectedRole) {
+      toast({ title: '직군을 선택해주세요.' });
+      return;
+    }
 
     apply(
       { postId, roleId: Number(selectedRole), message },

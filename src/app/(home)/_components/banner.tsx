@@ -40,7 +40,7 @@ export default function Banner() {
       {/* 모집글 작성 페이지 이동 버튼 */}
       {profileExists ? (
         <Link
-          href="/"
+          href="/posts/new"
           className="bg-brand text-text-on-brand mb-8 ml-9 rounded-md w-fit px-4 py-2 body-md-medium"
         >
           모집글 작성하기
