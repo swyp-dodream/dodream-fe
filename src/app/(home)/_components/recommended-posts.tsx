@@ -13,10 +13,10 @@ import RecommendTypes from './recommend-types';
 
 export default function RecommendedPosts() {
   const [activePostType, setActivePostType] = useState<ProjectType>('PROJECT');
+
   const { data: posts } = useGetRecommendedPosts(activePostType);
 
-  // TODO: 로딩 스켈레톤 추가
-  if (!posts || posts.posts.length === 0) return null;
+  // TODO: 스켈레톤 추가
 
   return (
     <section className="col-span-12 flex flex-col gap-8">
@@ -32,11 +32,17 @@ export default function RecommendedPosts() {
       </div>
 
       {/* AI 추천 게시글 */}
-      <ul className="flex gap-7">
-        {posts.posts.map((post) => (
-          <RecommendedPost key={BigInt(post.postId)} post={post} />
-        ))}
-      </ul>
+      {!posts || posts.posts.length === 0 ? (
+        <p className="mt-9 mb-[91px] body-lg-medium text-center">
+          AI 추천 내역이 없습니다
+        </p>
+      ) : (
+        <ul className="grid grid-cols-4 gap-x-7">
+          {posts.posts.map((post) => (
+            <RecommendedPost key={BigInt(post.postId)} post={post} />
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
@@ -86,13 +92,13 @@ function PostTypeTabs({ value, onValueChange }: PostTypeTabsProps) {
         aria-label="게시글 유형 선택"
       >
         <Tabs.Trigger
-          value="project"
+          value="PROJECT"
           className="data-[state=active]:text-primary"
         >
           프로젝트
         </Tabs.Trigger>
         <Tabs.Trigger
-          value="study"
+          value="STUDY"
           className="data-[state=active]:text-primary"
         >
           스터디
