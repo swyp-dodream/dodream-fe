@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { EXPERIENCE } from '@/constants/profile.constant';
+import { parseExperienceValue } from '@/utils/profile.util';
 
 interface RecruitmentUserRowProps {
   suggestionId: bigint;
@@ -40,7 +42,9 @@ export default function RecruitmentUserRow({
             <div className="body-sm-regular text-secondary flex items-center gap-1">
               <span>{jobGroups[0]}</span>
               <span>·</span>
-              <span>{experience}</span>
+              <span>
+                {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
+              </span>
             </div>
           </div>
         </div>

@@ -45,6 +45,8 @@ export default function MyMatchedPostCard({
         <ApplyDetailButton
           postId={BigInt(myMatchedPost.postId)}
           applicationId={myMatchedPost.applicationId}
+          variant="solid"
+          size="md"
         />
       </PostCard.Actions>
     </PostCard>
