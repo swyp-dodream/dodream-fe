@@ -13,6 +13,9 @@ export const QUERY_KEY = {
   canApply: 'canApply',
   postDetail: 'postDetail',
 
+  /** 북마크 관련 */
+  myBookmarkedPosts: 'myBookmarkedPosts',
+
   /** 내 참여 내역 관련 */
   myAppliedPosts: 'myAppliedPosts',
   myApplicationDetail: 'myApplicationDetail',

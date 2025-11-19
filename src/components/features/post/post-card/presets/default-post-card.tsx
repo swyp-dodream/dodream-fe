@@ -7,12 +7,13 @@ interface DefaultPostCardProps {
   title: string;
   status: PostStatusType;
   ownerNickname: string;
-  ownerProfileImageUrl: string;
+  ownerProfileImageCode: number;
   projectType: ProjectType;
   createDate: string;
   viewCount: number;
   stacks: string[];
   roles: string[];
+  isBookmarked: boolean;
 }
 
 export default function DefaultPostCard({
@@ -20,22 +21,22 @@ export default function DefaultPostCard({
   title,
   status,
   ownerNickname,
-  ownerProfileImageUrl,
+  ownerProfileImageCode,
   projectType,
   createDate,
   viewCount,
   stacks,
   roles,
+  isBookmarked,
 }: DefaultPostCardProps) {
   return (
-    <PostCard href={`/post/${id}`}>
+    <PostCard href={`/post/${BigInt(id)}`}>
       <PostCard.Header
         nickname={ownerNickname}
         elapsedTime={getRelativeTime(createDate)}
         projectType={projectType}
-        // TODO: 북마크 값 변경
         postId={id}
-        isBookmarked={false}
+        isBookmarked={isBookmarked}
       />
 
       <PostCard.Main>

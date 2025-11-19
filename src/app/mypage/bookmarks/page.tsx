@@ -1,60 +1,68 @@
+'use client';
+
+import { useMemo } from 'react';
+import BookmarkedPageTabContent from '@/app/mypage/bookmarks/_components/tab-content';
 import { Tabs } from '@/components/commons/tabs';
-import BookmarkEmptyState from '@/components/features/mypage/bookmark/bookmark-empty-state';
 import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
-import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
-import { MOCK_POSTS, type MockPost, type ProjectType } from '@/mocks/posts';
+import useGetMyBookmarkedPosts from '@/hooks/my/use-get-my-bookmarked-posts';
+import type { MyBookmarkedPostType, ProjectType } from '@/types/post.type';
 
-const PROJECT_TAB_VALUES: ProjectType[] = ['project', 'study'];
-
-const bookmarkedPostsByType = MOCK_POSTS.filter(
-  (post) => post.isBookmarked,
-).reduce<Record<ProjectType, MockPost[]>>(
-  (acc, post) => {
-    acc[post.projectType].push(post);
-    return acc;
+const BOOKMARKED_TABS = [
+  {
+    tabValue: 'PROJECT',
+    label: '프로젝트',
   },
-  { project: [], study: [] },
-);
+  {
+    tabValue: 'STUDY',
+    label: '스터디',
+  },
+];
 
 export default function BookmarkPage() {
+  const { data: bookmarkedPosts } = useGetMyBookmarkedPosts();
+
+  const postsByTabValue = useMemo(() => {
+    const initial: Record<
+      (typeof BOOKMARKED_TABS)[number]['tabValue'],
+      MyBookmarkedPostType[]
+    > = {
+      PROJECT: [],
+      STUDY: [],
+    };
+
+    if (!bookmarkedPosts?.content) return initial;
+
+    return bookmarkedPosts.content.reduce((acc, post) => {
+      const key = post.projectType.toUpperCase();
+      if (key in acc) {
+        acc[key as keyof typeof acc].push(post);
+      }
+      return acc;
+    }, initial);
+  }, [bookmarkedPosts?.content]);
+
   return (
     <>
       <MyPageHeader title="북마크" />
 
-      <Tabs defaultValue="project">
+      <Tabs defaultValue={BOOKMARKED_TABS[0].tabValue}>
         <Tabs.List>
-          {PROJECT_TAB_VALUES.map((tabValue) => (
+          {BOOKMARKED_TABS.map(({ tabValue, label }) => (
             <Tabs.Trigger key={tabValue} value={tabValue}>
-              {tabValue === 'project' ? '프로젝트' : '스터디'}
+              {label}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
 
-        {PROJECT_TAB_VALUES.map((tabValue) => {
-          const posts = bookmarkedPostsByType[tabValue];
+        {BOOKMARKED_TABS.map(({ tabValue }) => {
+          const posts = postsByTabValue[tabValue];
 
           return (
             <Tabs.Content key={tabValue} value={tabValue}>
-              {posts.length > 0 ? (
-                posts.map((post) => (
-                  // TODO: 임시 값 수정하기
-                  <DefaultPostCard
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    status="RECRUITING"
-                    ownerNickname="닉네임"
-                    ownerProfileImageUrl=""
-                    projectType="PROJECT"
-                    createDate={post.deadlineAt.toString()}
-                    viewCount={post.views}
-                    stacks={post.techCategories}
-                    roles={['백엔드']}
-                  />
-                ))
-              ) : (
-                <BookmarkEmptyState tabValue={tabValue} />
-              )}
+              <BookmarkedPageTabContent
+                posts={posts}
+                projectType={tabValue as ProjectType}
+              />
             </Tabs.Content>
           );
         })}
