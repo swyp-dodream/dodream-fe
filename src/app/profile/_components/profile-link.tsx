@@ -17,7 +17,7 @@ export default function ProfileLinks({ profileUrls }: ProfileLinksProps) {
   return (
     <ul className="flex flex-col gap-3 body-md-medium">
       {profileUrls.map((url) => (
-        <ProfileLink url={url.url} key={url.id} />
+        <ProfileLink url={url.url} key={`${url.id}-${url.url}`} />
       ))}
     </ul>
   );

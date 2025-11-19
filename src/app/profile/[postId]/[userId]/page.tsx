@@ -1,4 +1,4 @@
-import ProfileContent from '../../_components/profile-content';
+import ApplicantProfile from './_components/applicant-profile';
 
 interface ApplicantProfilePageProps {
   params: Promise<{
@@ -12,5 +12,5 @@ export default async function ApplicantProfilePage({
 }: ApplicantProfilePageProps) {
   const { userId, postId } = await params;
 
-  return <ProfileContent userId={BigInt(userId)} postId={BigInt(postId)} />;
+  return <ApplicantProfile postId={BigInt(postId)} userId={BigInt(userId)} />;
 }

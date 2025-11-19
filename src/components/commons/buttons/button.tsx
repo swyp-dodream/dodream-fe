@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -35,13 +35,11 @@ export default function Button({
     <button
       type={type}
       disabled={disabled}
-      className={clsx(
+      className={twMerge(
         'body-lg-medium rounded-md',
         BUTTON_SIZE[size],
         BUTTON_VARIANTS[variant],
-        {
-          'bg-disabled! border-none text-text-on-brand': disabled,
-        },
+        disabled && 'bg-disabled border-none text-on-brand',
         className,
       )}
       {...props}

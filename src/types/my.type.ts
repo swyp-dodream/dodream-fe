@@ -120,11 +120,7 @@ export type MyPostApplicantProfileType = {
     name: string;
   }[];
   profileUrls: {
-    id: number;
-    profileId: number;
-    label: string;
+    id: bigint;
     url: string;
-    createdAt: string;
-    updatedAt: string;
   }[];
 };
