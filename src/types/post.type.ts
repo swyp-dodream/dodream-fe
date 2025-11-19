@@ -98,7 +98,7 @@ export type MyAppliedPostType = {
   activityMode: ActivityModeType;
   postStatus: PostStatusType;
   leaderName: string;
-  leaderProfileImage: string;
+  leaderProfileImageCode: number;
   myStatus: MyStatusType;
   appliedAt: Date;
   roles: RoleName[];
@@ -122,6 +122,17 @@ export type MyMatchedPostType = Omit<MyAppliedPostType, 'appliedAt'> & {
 };
 export type GetMyMatchedPostsResponseType = PaginationInfo & {
   content: MyMatchedPostType[];
+};
+
+/** 내가 북마크한 글 목록 타입 */
+export type MyBookmarkedPostType = Omit<
+  MyAppliedPostType,
+  'id' | 'myStatus' | 'appliedAt'
+> & {
+  bookmarkedCreatedAt: Date;
+};
+export type GetMyBookmarkedPostsResponseType = PaginationInfo & {
+  content: MyBookmarkedPostType[];
 };
 
 export type ProjectType = 'PROJECT' | 'STUDY';
