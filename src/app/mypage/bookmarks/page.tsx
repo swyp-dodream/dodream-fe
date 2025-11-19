@@ -46,7 +46,7 @@ export default function BookmarkPage() {
                     ownerNickname="닉네임"
                     ownerProfileImageUrl=""
                     projectType="PROJECT"
-                    deadlineDate={post.deadlineAt.toString()}
+                    createDate={post.deadlineAt.toString()}
                     viewCount={post.views}
                     stacks={post.techCategories}
                     roles={['백엔드']}
