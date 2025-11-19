@@ -2,6 +2,7 @@ import type { PostCreateFormData } from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
   GetMyAppliedPostsResponseType,
+  GetMyBookmarkedPostsResponseType,
   GetMyMatchedPostsResponseType,
   GetMySuggestedPostResponseType,
   PostDetailType,
@@ -78,6 +79,18 @@ const postApi = {
 
     return authApi.get<GetMySuggestedPostResponseType>(
       `/api/my/suggestions?${params.toString()}`,
+    );
+  },
+
+  /** 내가 북마크한 글 목록 조회 */
+  getMyBookmarkedPosts: (page?: number, size?: number) => {
+    const params = new URLSearchParams();
+
+    if (page) params.set('page', String(page));
+    if (size) params.set('size', String(size));
+
+    return authApi.get<GetMyBookmarkedPostsResponseType>(
+      `/api/bookmarks?${params.toString()}`,
     );
   },
 
