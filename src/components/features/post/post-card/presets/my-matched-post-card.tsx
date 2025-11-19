@@ -42,7 +42,10 @@ export default function MyMatchedPostCard({
           matchingId={myMatchedPost.id}
           matchedAt={myMatchedPost.matchedAt}
         />
-        <ApplyDetailButton applicationId={myMatchedPost.applicationId} />
+        <ApplyDetailButton
+          postId={BigInt(myMatchedPost.postId)}
+          applicationId={myMatchedPost.applicationId}
+        />
       </PostCard.Actions>
     </PostCard>
   );

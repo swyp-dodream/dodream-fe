@@ -9,63 +9,15 @@ import { ROLE_LABEL_MAP } from '@/constants/role.constant';
 import useCancelOfferMutation from '@/hooks/post/use-cancel-offer-mutation';
 import useToast from '@/hooks/use-toast';
 import { ROLES, type Role } from '@/mocks/posts';
+import type { MyPostApplicantType } from '@/types/my.type';
 
-const users = [
-  {
-    suggestionId: 1,
-    applicationId: 1,
-    userId: 1,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'applied',
-    roleName: 'FE',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: 'new' as const,
-  },
-  {
-    suggestionId: 2,
-    applicationId: 2,
-    userId: 2,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'withdraw',
-    roleName: 'BE',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: '1to3' as const,
-  },
-  {
-    suggestionId: 3,
-    applicationId: 3,
-    userId: 3,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'applied',
-    roleName: 'PM',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: '3to5' as const,
-  },
-  {
-    suggestionId: 4,
-    applicationId: 4,
-    userId: 4,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'applied',
-    roleName: 'FE',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: 'new' as const,
-  },
-].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+const users: MyPostApplicantType[] = [];
 
 export default function OfferTabContent() {
   const toast = useToast();
   const { mutateAsync: cancelOffer } = useCancelOfferMutation();
 
-  const handleCancelOffer = async (suggestionId: number) => {
+  const handleCancelOffer = async (suggestionId: bigint) => {
     try {
       await cancelOffer(suggestionId);
       toast({ title: '제안이 취소되었습니다' });
@@ -95,7 +47,7 @@ export default function OfferTabContent() {
         <RoleTabs.Content key={role} value={role} columns={8}>
           <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
             {users
-              .filter(({ roleName }) => roleName === role)
+              .filter(({ jobGroups }) => jobGroups[0] === role)
               .map((user) => (
                 <RecruitmentUserRow
                   key={user.suggestionId}

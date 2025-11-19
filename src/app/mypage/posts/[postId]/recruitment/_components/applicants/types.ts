@@ -8,7 +8,7 @@ export type ApplicantsUser = {
   profileImage: string;
   createdAt: Date;
   status: string;
-  roleName: string;
+  jobGroups: string[];
   tags: string[];
   experience: Experience;
 };

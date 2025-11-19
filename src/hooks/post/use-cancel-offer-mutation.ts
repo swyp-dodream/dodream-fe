@@ -7,7 +7,7 @@ import { queryClient } from '@/lib/query-client';
 
 export default function useCancelOfferMutation() {
   return useMutation({
-    mutationFn: (suggestionId: number) => postApi.cancelOffer(suggestionId),
+    mutationFn: (suggestionId: bigint) => postApi.cancelOffer(suggestionId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.offers] });
     },
