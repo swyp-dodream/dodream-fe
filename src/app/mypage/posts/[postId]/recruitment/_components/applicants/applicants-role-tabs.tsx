@@ -40,6 +40,7 @@ export default function ApplicantsRoleTabs({
                         variant="outline"
                         applicationType="received"
                       />
+                      {/* TODO: 매칭 내역과 비교하여 모집 직군이 찼으면 버튼 모집 완료로 변경 */}
                       <ApplyAcceptButton />
                     </UserActions>
                   }

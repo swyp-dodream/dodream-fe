@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import myApi from '@/apis/my.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import { useGetProfile } from '../profile/use-get-profile';
+import { useGetProfileExists } from '../profile/use-get-profile';
 
 interface UseGetMyPostApplicantDetailOptions {
   enabled?: boolean;
@@ -13,11 +13,16 @@ export default function useGetMyPostApplicantDetail(
   applicationId: bigint,
   options?: UseGetMyPostApplicantDetailOptions,
 ) {
-  const { data: profile } = useGetProfile();
+  const { data: profileExists } = useGetProfileExists();
 
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.myPostApplicantDetail],
+    queryKey: [
+      QUERY_KEY.auth,
+      QUERY_KEY.myPostApplicantDetail,
+      postId.toString(),
+      applicationId.toString(),
+    ],
     queryFn: () => myApi.getMyPostApplicantDetail(postId, applicationId),
-    enabled: profile && (options?.enabled ?? true),
+    enabled: profileExists?.exists && (options?.enabled ?? true),
   });
 }
