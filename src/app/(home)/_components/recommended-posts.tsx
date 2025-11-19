@@ -13,7 +13,7 @@ import RecommendTypes from './recommend-types';
 
 export default function RecommendedPosts() {
   const [activePostType, setActivePostType] = useState<ProjectType>('PROJECT');
-  const { data: posts } = useGetRecommendedPosts();
+  const { data: posts } = useGetRecommendedPosts(activePostType);
 
   // TODO: 로딩 스켈레톤 추가
   if (!posts || posts.posts.length === 0) return null;
@@ -34,7 +34,7 @@ export default function RecommendedPosts() {
       {/* AI 추천 게시글 */}
       <ul className="flex gap-7">
         {posts.posts.map((post) => (
-          <RecommendedPost key={post.postId} post={post} />
+          <RecommendedPost key={BigInt(post.postId)} post={post} />
         ))}
       </ul>
     </section>
@@ -51,7 +51,7 @@ interface RecommendedPostProps {
 function RecommendedPost({ post }: RecommendedPostProps) {
   return (
     <li className="flex-1 border border-border-primary rounded-lg px-6 py-5 ">
-      <Link href={`/post/${post.postId}`}>
+      <Link href={`/post/${BigInt(post.postId)}`}>
         <article className="flex flex-col h-full gap-5">
           <RecommendTypes labels={post.fields} />
           <h3 className="heading-sm line-clamp-2">{post.title}</h3>
