@@ -4,7 +4,6 @@ import TextField from '@/components/commons/text-fields/text-field';
 import ChatButton from '@/components/features/post/post-card/buttons/chat-button';
 import useGetMyApplicationDetail from '@/hooks/my/use-get-my-application-detail';
 import useGetMyPostApplicantDetail from '@/hooks/my/use-get-my-post-applicant-detail';
-import useToast from '@/hooks/use-toast';
 
 interface ApplyDetailModalProps {
   isOpen: boolean;
@@ -23,8 +22,6 @@ export default function ApplyDetailModal({
   postId,
   type = 'my',
 }: ApplyDetailModalProps) {
-  const _toast = useToast();
-
   // 내 지원일 경우 데이터
   const { data: myApplicationDetail } = useGetMyApplicationDetail(
     applicationId,
@@ -37,6 +34,9 @@ export default function ApplyDetailModal({
   const { data: myPostApplicantDetail } = useGetMyPostApplicantDetail(
     postId,
     applicationId,
+    {
+      enabled: type === 'received',
+    },
   );
 
   return (

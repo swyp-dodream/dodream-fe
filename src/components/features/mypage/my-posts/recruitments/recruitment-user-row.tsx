@@ -30,7 +30,7 @@ export default function RecruitmentUserRow({
   return (
     <div className="grid grid-cols-subgrid col-span-full pb-6">
       <Link
-        href={`/profile/${userId}`}
+        href={`/profile/${applicationId}`}
         className="grid grid-cols-subgrid col-span-6"
       >
         <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">

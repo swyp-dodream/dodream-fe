@@ -46,6 +46,9 @@ export default function MyApplicationPostCard({
         <ApplyDetailButton
           postId={BigInt(myAppliedPost.postId)}
           applicationId={myAppliedPost.id}
+          variant="solid"
+          size="md"
+          applicationType="my"
         />
       </PostCard.Actions>
     </PostCard>

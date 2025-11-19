@@ -38,6 +38,7 @@ export default function ApplicantsRoleTabs({
                         postId={BigInt(postId)}
                         applicationId={BigInt(user.applicationId)}
                         variant="outline"
+                        applicationType="received"
                       />
                       <ApplyAcceptButton />
                     </UserActions>
