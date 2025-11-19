@@ -1,6 +1,6 @@
 import { PostCard } from '@/components/features/post/post-card';
 import type { PostStatusType, ProjectType } from '@/types/post.type';
-import { formatDeadlineAt } from '@/utils/date.util';
+import { getRelativeTime } from '@/utils/date.util';
 
 interface DefaultPostCardProps {
   id: bigint;
@@ -9,7 +9,7 @@ interface DefaultPostCardProps {
   ownerNickname: string;
   ownerProfileImageUrl: string;
   projectType: ProjectType;
-  deadlineDate: string;
+  createDate: string;
   viewCount: number;
   stacks: string[];
   roles: string[];
@@ -22,7 +22,7 @@ export default function DefaultPostCard({
   ownerNickname,
   ownerProfileImageUrl,
   projectType,
-  deadlineDate,
+  createDate,
   viewCount,
   stacks,
   roles,
@@ -31,7 +31,7 @@ export default function DefaultPostCard({
     <PostCard href={`/post/${id}`}>
       <PostCard.Header
         nickname={ownerNickname}
-        elapsedTime={formatDeadlineAt(deadlineDate)}
+        elapsedTime={getRelativeTime(createDate)}
         projectType={projectType}
         // TODO: 북마크 값 변경
         postId={id}

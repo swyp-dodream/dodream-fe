@@ -20,6 +20,8 @@ export default function HomePosts() {
   const { getParam, setParams, getApiQueryString } = useQueryParams();
   const { data: posts } = useGetPosts(getApiQueryString());
 
+  console.log('posts ➡️', posts);
+
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
   const handleTabChange = (value: string) => {
@@ -78,7 +80,7 @@ function HomePostCards({ posts }: HomePostCardsProps) {
               ownerProfileImageUrl={''}
               ownerNickname={post.author}
               projectType={post.projectType as ProjectType}
-              deadlineDate={post.deadline}
+              createDate={post.createdAt}
               viewCount={post.viewCount}
               stacks={post.techs}
               roles={post.roles}

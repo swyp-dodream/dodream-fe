@@ -3,7 +3,7 @@ import RecruitmentButton from '@/components/features/post/post-card/buttons/recr
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import type { MyPostsContentType } from '@/types/my.type';
 import type { PostStatusType, ProjectType } from '@/types/post.type';
-import { formatDeadlineAt } from '@/utils/date.util';
+import { getRelativeTime } from '@/utils/date.util';
 
 interface MyPostCardProps {
   post: MyPostsContentType;
@@ -19,7 +19,7 @@ export default function MyPostCard({ post }: MyPostCardProps) {
       <PostCard.Header
         postId={post.postId}
         nickname={profile?.nickname}
-        elapsedTime={formatDeadlineAt(post.deadlineAt)}
+        elapsedTime={getRelativeTime(post.createdAt)}
         projectType={post.projectType as ProjectType}
         isBookmarked={false}
         showBookmarkIcon={false}
