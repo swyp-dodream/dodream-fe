@@ -3,6 +3,7 @@ import { EXPERIENCE } from '@/constants/profile.constant';
 import { parseExperienceValue } from '@/utils/profile.util';
 
 interface RecruitmentUserRowProps {
+  postId: bigint;
   suggestionId: bigint;
   applicationId: bigint;
   userId: bigint;
@@ -17,6 +18,7 @@ interface RecruitmentUserRowProps {
 }
 
 export default function RecruitmentUserRow({
+  postId,
   suggestionId,
   applicationId,
   userId,
@@ -32,7 +34,7 @@ export default function RecruitmentUserRow({
   return (
     <div className="grid grid-cols-subgrid col-span-full pb-6">
       <Link
-        href={`/profile/${applicationId}`}
+        href={`/profile/${BigInt(postId)}/${BigInt(userId)}`}
         className="grid grid-cols-subgrid col-span-6"
       >
         <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">

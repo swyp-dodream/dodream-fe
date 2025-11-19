@@ -62,6 +62,7 @@ export default function ApplicantsRoleTabs({
               .map((user) => (
                 <RecruitmentUserRow
                   key={user.suggestionId}
+                  postId={postId}
                   {...user}
                   actions={
                     <UserActions>
