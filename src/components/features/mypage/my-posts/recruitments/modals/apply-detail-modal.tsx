@@ -56,7 +56,7 @@ export default function ApplyDetailModal({
                 <span className="inline-flex rounded-full bg-chip-selected px-4 py-3 text-on-brand">
                   {type === 'my'
                     ? myApplicationDetail?.roleName
-                    : myPostApplicantDetail?.jobGroups}
+                    : myPostApplicantDetail?.appliedRoleName}
                 </span>
               </dd>
             </div>

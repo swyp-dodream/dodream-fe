@@ -91,7 +91,6 @@ export type MyPostApplicantDetailType = {
   status: string;
   createdAt: string;
   experience: string;
-  jobGroups: string[];
   appliedRoleId: number;
   appliedRoleName: string;
   message: string;

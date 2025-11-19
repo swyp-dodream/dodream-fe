@@ -4,6 +4,8 @@ import Image from 'next/image';
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
 import TechCategories from '@/components/commons/tech-categories';
+import { EXPERIENCE } from '@/constants/profile.constant';
+import { parseExperienceValue } from '@/utils/profile.util';
 import InterestTags from './interest-tags';
 import ProfileLinks from './profile-link';
 
@@ -63,7 +65,9 @@ export default function ProfileContent({
                 {/* TODO: 직무 값 사용 방법 수정 */}
                 <div>{role}</div>
                 <div aria-hidden="true">·</div>
-                <div>{experience}</div>
+                <div>
+                  경력 {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
+                </div>
               </div>
             </li>
             <li className="flex gap-3 items-center text-secondary">
