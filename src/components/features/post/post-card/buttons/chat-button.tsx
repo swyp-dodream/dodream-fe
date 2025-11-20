@@ -1,18 +1,18 @@
 'use client';
 
+import Link from 'next/link';
 import Button from '@/components/commons/buttons/button';
-import useToast from '@/hooks/use-toast';
 
-export default function ChatButton() {
-  const toast = useToast();
+interface ChatButtonProps {
+  postId: bigint;
+}
 
-  const handleClick = () => {
-    toast({ title: '준비중입니다' });
-  };
-
+export default function ChatButton({ postId }: ChatButtonProps) {
   return (
-    <Button variant="outline" size="sm" onClick={handleClick}>
-      채팅하기
-    </Button>
+    <Link href={`/chat/${BigInt(postId)}`}>
+      <Button variant="outline" size="md">
+        채팅하기
+      </Button>
+    </Link>
   );
 }
