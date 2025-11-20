@@ -1,0 +1,23 @@
+import { authApi } from '@/apis/fetcher/api';
+import type {
+  CreateChatRoomResponseType,
+  GetChatListResponseType,
+} from '@/types/chat.type';
+
+const chatApi = {
+  /** 채팅방 개설 또는 기존 roomId 조회 */
+  createChatRoom: (postId: bigint) => {
+    return authApi.post<CreateChatRoomResponseType>(`/api/chat/room/create`, {
+      postId,
+    });
+  },
+
+  /** 내 채팅방 목록 조회 */
+  getChatList: (filter: 'ALL' | 'UNREAD') => {
+    return authApi.get<GetChatListResponseType>(
+      `/api/chat/my/rooms?filter=${filter}`,
+    );
+  },
+};
+
+export default chatApi;
