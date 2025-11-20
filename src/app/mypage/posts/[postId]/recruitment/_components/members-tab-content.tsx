@@ -49,6 +49,8 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                           <ApplyDetailButton
                             postId={BigInt(postId)}
                             applicationId={BigInt(user.applicationId)}
+                            variant="outline"
+                            applicationType="received"
                           />
                           <MathcingCancelButton
                             nickname={user.nickname}
@@ -56,6 +58,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                             // TODO: 아래 수정
                             matchingId={BigInt(0)}
                             matchedAt={new Date()}
+                            variant="outline"
                           />
                         </>
                       )}
