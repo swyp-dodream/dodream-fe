@@ -50,6 +50,7 @@ export default function OfferTabContent() {
               .filter(({ jobGroups }) => jobGroups[0] === role)
               .map((user) => (
                 <RecruitmentUserRow
+                  postId={BigInt(0)}
                   key={user.suggestionId}
                   {...user}
                   actions={
