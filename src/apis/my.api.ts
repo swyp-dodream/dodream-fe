@@ -3,6 +3,7 @@ import type { MatchingCancelReasonCode } from '@/constants/matching.constant';
 import type {
   GetMyApplicationDetailResponseType,
   MyPostApplicantDetailType,
+  MyPostApplicantProfileType,
   MyPostApplicationsType,
   MyPostsResponseType,
 } from '@/types/my.type';
@@ -43,6 +44,12 @@ const myApi = {
   getMyPostApplicantDetail: (postId: bigint, applicationId: bigint) =>
     authApi.get<MyPostApplicantDetailType>(
       `/api/posts/${postId}/recruits/applications/${applicationId}`,
+    ),
+
+  /** 내 모집글 지원자 프로필 조회 */
+  getMyPostApplicantProfile: (postId: bigint, userId: bigint) =>
+    authApi.get<MyPostApplicantProfileType>(
+      `/api/profiles/applicant/${userId}/post/${postId}`,
     ),
 };
 

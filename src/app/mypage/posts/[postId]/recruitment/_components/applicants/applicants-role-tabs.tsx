@@ -13,12 +13,14 @@ type ApplicantsRoleTabsProps = {
   postId: bigint;
   users: MyPostApplicantType[];
   headerRight?: React.ReactNode;
+  emptyMessage: string;
 };
 
 export default function ApplicantsRoleTabs({
   postId,
   users,
   headerRight,
+  emptyMessage,
 }: ApplicantsRoleTabsProps) {
   const { data: posts } = useGetPostDetail(BigInt(postId));
   const { data: members } = useGetPostMembers(BigInt(postId));
@@ -46,6 +48,11 @@ export default function ApplicantsRoleTabs({
     return (currentCounts[roleName] || 0) >= role.headcount;
   };
 
+  // 역할별 유저 필터링
+  const getUsersByRole = (roleName: string) => {
+    return users.filter(({ jobGroups }) => jobGroups[0] === roleName);
+  };
+
   if (!posts) return null;
 
   return (
@@ -54,35 +61,44 @@ export default function ApplicantsRoleTabs({
         roles={posts.roles.map((role) => role.role)}
         headerRight={headerRight}
       />
-      {posts.roles.map((role) => (
-        <RoleTabs.Content key={role.role} value={role.role} columns={8}>
-          <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
-            {users
-              .filter(({ jobGroups }) => jobGroups[0] === role.role)
-              .map((user) => (
-                <RecruitmentUserRow
-                  key={user.suggestionId}
-                  {...user}
-                  actions={
-                    <UserActions>
-                      <ApplyDetailButton
-                        postId={BigInt(postId)}
-                        applicationId={BigInt(user.applicationId)}
-                        variant="outline"
-                        applicationType="received"
-                      />
-                      <ApplyAcceptButton
-                        isRecruitCompleted={posts.status === 'COMPLETED'}
-                        isRoleFull={isRoleFull(user.jobGroups[0])}
-                        applicationId={BigInt(user.applicationId)}
-                      />
-                    </UserActions>
-                  }
-                />
-              ))}
-          </div>
-        </RoleTabs.Content>
-      ))}
+      {posts.roles.map((role) => {
+        const roleUsers = getUsersByRole(role.role);
+
+        return (
+          <RoleTabs.Content key={role.role} value={role.role} columns={8}>
+            {roleUsers.length === 0 ? (
+              <p className="body-lg-medium col-span-full text-primary">
+                {emptyMessage}
+              </p>
+            ) : (
+              <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
+                {roleUsers.map((user) => (
+                  <RecruitmentUserRow
+                    key={user.suggestionId}
+                    postId={postId}
+                    {...user}
+                    actions={
+                      <UserActions>
+                        <ApplyDetailButton
+                          postId={BigInt(postId)}
+                          applicationId={BigInt(user.applicationId)}
+                          variant="outline"
+                          applicationType="received"
+                        />
+                        <ApplyAcceptButton
+                          isRecruitCompleted={posts.status === 'COMPLETED'}
+                          isRoleFull={isRoleFull(user.jobGroups[0])}
+                          applicationId={BigInt(user.applicationId)}
+                        />
+                      </UserActions>
+                    }
+                  />
+                ))}
+              </div>
+            )}
+          </RoleTabs.Content>
+        );
+      })}
     </RoleTabs>
   );
 }
