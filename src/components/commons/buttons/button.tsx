@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge';
+import { cn } from '@/utils/style.util';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -35,7 +35,7 @@ export default function Button({
     <button
       type={type}
       disabled={disabled}
-      className={twMerge(
+      className={cn(
         'body-lg-medium rounded-md',
         BUTTON_SIZE[size],
         BUTTON_VARIANTS[variant],
