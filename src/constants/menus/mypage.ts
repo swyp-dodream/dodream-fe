@@ -1,6 +1,8 @@
 // mypage-menu.constant.ts
 
 import type { ComponentType, SVGProps } from 'react';
+import BookmarkIcon16 from '@/assets/icons/book/16.svg';
+import BookmarkIcon20 from '@/assets/icons/book/20.svg';
 import FileTextIcon16 from '@/assets/icons/file-text/16.svg';
 import FileTextIcon20 from '@/assets/icons/file-text/20.svg';
 import LogOutIcon16 from '@/assets/icons/log-out/16.svg';
@@ -22,16 +24,15 @@ export type MyPageMenu = {
 };
 
 export const MYPAGE_MENU_LIST = [
-  // NOTE: 임시로 지워놨습니다.
-  // {
-  //   label: '북마크',
-  //   href: '/mypage/bookmarks',
-  //   icon: {
-  //     small: BookmarkIcon16,
-  //     default: BookmarkIcon20,
-  //   },
-  //   type: 'link',
-  // },
+  {
+    label: '북마크',
+    href: '/mypage/bookmarks',
+    icon: {
+      small: BookmarkIcon16,
+      default: BookmarkIcon20,
+    },
+    type: 'link',
+  },
   {
     label: '내가 쓴 글',
     href: '/mypage/posts',

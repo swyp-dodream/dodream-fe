@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from '@/utils/style.util';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -35,13 +35,11 @@ export default function Button({
     <button
       type={type}
       disabled={disabled}
-      className={clsx(
+      className={cn(
         'body-lg-medium rounded-md',
         BUTTON_SIZE[size],
         BUTTON_VARIANTS[variant],
-        {
-          'bg-disabled': disabled,
-        },
+        disabled && 'bg-disabled border-none text-on-brand',
         className,
       )}
       {...props}

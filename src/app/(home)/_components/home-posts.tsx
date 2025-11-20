@@ -20,8 +20,6 @@ export default function HomePosts() {
   const { getParam, setParams, getApiQueryString } = useQueryParams();
   const { data: posts } = useGetPosts(getApiQueryString());
 
-  console.log('posts ➡️', posts);
-
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
   const handleTabChange = (value: string) => {
@@ -77,13 +75,16 @@ function HomePostCards({ posts }: HomePostCardsProps) {
               id={BigInt(post.id)}
               title={post.title}
               status={post.status as PostStatusType}
-              ownerProfileImageUrl={''}
+              // TODO: 프로필 이미지 코드로 수정
+              ownerProfileImageCode={0}
               ownerNickname={post.author}
               projectType={post.projectType as ProjectType}
               createDate={post.createdAt}
               viewCount={post.viewCount}
               stacks={post.techs}
               roles={post.roles}
+              // TODO: 북마크 상태 수정
+              isBookmarked={false}
             />
           </li>
         );

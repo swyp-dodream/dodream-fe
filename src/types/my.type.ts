@@ -62,3 +62,64 @@ export type MyPostsContentType = {
   createdAt: string;
   updatedAt: string;
 };
+
+/** 내 모집글 지원자 목록 타입 */
+export type MyPostApplicationsType = {
+  users: MyPostApplicantType[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
+export type MyPostApplicantType = {
+  suggestionId: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  jobGroups: string[];
+};
+
+/** 내 모집글 지원자 상세 타입 */
+export type MyPostApplicantDetailType = {
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  appliedRoleId: number;
+  appliedRoleName: string;
+  message: string;
+};
+
+/** 내 모집글 지원자 프로필 타입 */
+export type MyPostApplicantProfileType = {
+  nickname: string;
+  experience: string;
+  activityMode: string;
+  introText: string;
+  profileImageCode: number;
+  roles: {
+    id: number;
+    code: string;
+    name: string;
+  }[];
+  interestKeywords: {
+    id: number;
+    categoryId: number;
+    name: string;
+  }[];
+  techSkills: {
+    id: number;
+    categoryId: number;
+    name: string;
+  }[];
+  profileUrls: {
+    id: bigint;
+    url: string;
+  }[];
+};

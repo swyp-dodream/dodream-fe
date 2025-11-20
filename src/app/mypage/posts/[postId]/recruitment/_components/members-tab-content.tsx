@@ -6,58 +6,9 @@ import ApplyDetailButton from '@/components/features/post/post-card/buttons/appl
 import MathcingCancelButton from '@/components/features/post/post-card/buttons/matching-cancel-button';
 import { ROLE_LABEL_MAP } from '@/constants/role.constant';
 import { ROLES, type Role } from '@/mocks/posts';
-import type { ApplicantsUser } from './applicants/types';
+import type { MyPostApplicantType } from '@/types/my.type';
 
-const users: ApplicantsUser[] = [
-  {
-    suggestionId: 1,
-    applicationId: 1,
-    userId: 1,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'applied',
-    roleName: 'FE',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: 'new' as const,
-  },
-  {
-    suggestionId: 2,
-    applicationId: 2,
-    userId: 2,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'withdraw',
-    roleName: 'BE',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: '1to3' as const,
-  },
-  {
-    suggestionId: 3,
-    applicationId: 3,
-    userId: 3,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'applied',
-    roleName: 'PM',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: '3to5' as const,
-  },
-  {
-    suggestionId: 4,
-    applicationId: 4,
-    userId: 4,
-    nickname: '닉네임입니다닉네임입니다',
-    profileImage: 'https://via.placeholder.com/150',
-    createdAt: new Date(),
-    status: 'applied',
-    roleName: 'FE',
-    tags: ['추천이유태그1', '추천이유태그2'],
-    experience: 'new' as const,
-  },
-].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+const users: MyPostApplicantType[] = [];
 
 export default function MembersTabContent() {
   if (users.length === 0) {
@@ -78,14 +29,19 @@ export default function MembersTabContent() {
         <RoleTabs.Content key={role} value={role} columns={8}>
           <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
             {users
-              .filter(({ roleName }) => roleName === role)
+              .filter(({ jobGroups }) => jobGroups[0] === role)
               .map((user) => (
                 <RecruitmentUserRow
+                  postId={BigInt(0)}
                   key={user.suggestionId}
                   {...user}
                   actions={
+                    // TODO: id 값 수정
                     <UserActions>
-                      <ApplyDetailButton applicationId={BigInt(1)} />
+                      <ApplyDetailButton
+                        postId={BigInt(1)}
+                        applicationId={BigInt(1)}
+                      />
                       <MathcingCancelButton
                         nickname={''}
                         postId={BigInt(0)}
