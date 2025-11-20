@@ -53,19 +53,21 @@ export type PostDetailType = {
 
 /** 상세 페이지 멤버 내역 */
 export type PostMembersType = {
-  users: {
-    suggestionId: number;
-    applicationId: number;
-    userId: number;
-    nickname: string;
-    profileImage: string;
-    status: string;
-    createdAt: string;
-    experience: string;
-    jobGroups: string[];
-  }[];
+  users: PostMemberUserType[];
   nextCursor: 0;
   hasNext: true;
+};
+
+export type PostMemberUserType = {
+  suggestionId: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  jobGroups: string[];
 };
 
 /** AI 추천 게시글 타입 */
