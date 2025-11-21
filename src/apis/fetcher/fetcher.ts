@@ -1,4 +1,5 @@
 import { BASE_URL } from '@/constants/auth.constant';
+import type { ErrorType } from '@/types/error.type';
 
 async function fetcher<T>(
   endpoint: string,
@@ -21,8 +22,11 @@ async function fetcher<T>(
     if (!contentType?.includes('application/json') && res.status !== 204) {
       // HTML 응답은 인증 에러로 간주
       if (contentType?.includes('text/html')) {
-        const error: Error & { status?: number } = new Error('인증되지 않음');
-        error.status = 401;
+        const error: ErrorType = {
+          code: res.status,
+          error: 'UNAUTHORIZED',
+          message: '인증되지 않음',
+        };
         throw error;
       }
 
@@ -31,10 +35,11 @@ async function fetcher<T>(
         if (!res.ok) {
           const errorText = await res.text();
           console.error('에러 응답:', errorText);
-          const error: Error & { status?: number } = new Error(
-            errorText || `HTTP 에러 ${res.status}`,
-          );
-          error.status = res.status;
+          const error: ErrorType = {
+            code: res.status,
+            error: 'PLAIN_TEXT_ERROR',
+            message: errorText || `HTTP 에러 ${res.status}`,
+          };
           throw error;
         }
         // 성공 시 텍스트 반환
@@ -49,13 +54,28 @@ async function fetcher<T>(
     }
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error('에러 응답:', errorText);
-      const error: Error & { status?: number } = new Error(
-        errorText || `HTTP 에러 ${res.status}`,
-      );
-      error.status = res.status;
-      throw error;
+      try {
+        const errorData = await res.json();
+        const error: ErrorType = {
+          code: res.status,
+          error: errorData.error || 'UNKNOWN_ERROR',
+          message: errorData.message || `HTTP 에러 ${res.status}`,
+        };
+        throw error;
+      } catch (parseError) {
+        // JSON 파싱 실패 시
+        if ((parseError as ErrorType).code) {
+          throw parseError;
+        }
+
+        const errorText = await res.text();
+        const error: ErrorType = {
+          code: res.status,
+          error: 'PARSE_ERROR',
+          message: errorText || `HTTP 에러 ${res.status}`,
+        };
+        throw error;
+      }
     }
 
     return res.status === 204 ? ({} as T) : await res.json();
