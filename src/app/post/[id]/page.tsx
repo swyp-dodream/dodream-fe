@@ -45,6 +45,8 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <h3 className="heading-lg mb-8">모집 내용</h3>
           {parse(postData.content)}
         </div>
+
+        {/* 모집 요약 */}
         <RecruitInfo
           projectType={postData.projectType}
           deadlineDate={postData.deadlineDate}
@@ -55,6 +57,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         />
       </section>
 
+      {/* 버튼 */}
       <aside className="col-start-10 col-span-3 flex flex-col gap-7">
         {!isClosed ? (
           <PostDetailButtons postId={postData.id} />

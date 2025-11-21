@@ -59,6 +59,7 @@ export type PostMembersType = {
 };
 
 export type PostMemberUserType = {
+  matchedId: bigint;
   suggestionId: bigint;
   applicationId: bigint;
   userId: bigint;

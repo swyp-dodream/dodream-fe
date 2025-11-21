@@ -25,6 +25,9 @@ export default function useCancelMatching(postId: bigint) {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.postMembers, postId.toString()],
+      });
     },
   });
 }

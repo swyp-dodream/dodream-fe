@@ -12,7 +12,6 @@ import {
 } from '@/constants/matching.constant';
 import useCancelMatching from '@/hooks/matching/use-cancel-matching';
 import useToast from '@/hooks/use-toast';
-import { getNoPaneltyDate } from '@/utils/date.util';
 
 interface MatchingCancelModalProps {
   isOpen: boolean;
@@ -88,39 +87,42 @@ export default function MatchingCancelModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Overlay />
-      <Modal.Content className="flex flex-col gap-5" size="lg">
+      <Modal.Content className="flex flex-col gap-5 py-5 px-7" size="lg">
         <header className="flex items-start justify-between">
           <Modal.Title>매칭 취소</Modal.Title>
           <Modal.Close />
         </header>
 
+        <h2 className="body-lg-medium w-full text-center">매칭 취소</h2>
+
         <section className="flex flex-col gap-9">
           <div className="flex flex-col gap-3">
-            <h2 className="heading-md">
+            <h3 className="heading-md">
               {nickname}님과의 매칭을 취소하시겠어요?
-            </h2>
+            </h3>
             {/* TODO: 매칭 취소 가능 횟수 구현 예정 */}
-            <p className="body-lg-regular">
+            {/* <p className="body-lg-regular">
               {getNoPaneltyDate(matchedAt)}까지 패널티 없이 취소할 수 있어요
-            </p>
+            </p> */}
           </div>
 
           <div className="flex flex-col">
-            <h3 className="body-lg-medium">
+            <h4 className="body-lg-medium">
               매칭 취소 사유 <span className="text-error">*</span>
-            </h3>
-            <div className="flex flex-col">
+            </h4>
+            <ul className="flex flex-col">
               {cancelReasons.map(({ value, label }) => (
-                <CheckBoxWithLabel
-                  key={value}
-                  name="cause"
-                  id={value}
-                  label={label}
-                  checked={selectedCause === value}
-                  onSelect={() => handleSelectCause(value)}
-                />
+                <li key={value}>
+                  <CheckBoxWithLabel
+                    name="cause"
+                    id={value}
+                    label={label}
+                    checked={selectedCause === value}
+                    onSelect={() => handleSelectCause(value)}
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
 
             <TextField
               className="w-[530px]"

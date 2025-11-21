@@ -56,8 +56,8 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                             nickname={user.nickname}
                             postId={BigInt(postId)}
                             // TODO: 아래 수정
-                            matchingId={BigInt(0)}
-                            matchedAt={new Date()}
+                            matchingId={BigInt(user.matchedId)}
+                            matchedAt={new Date(user.createdAt)}
                             variant="outline"
                           />
                         </>
