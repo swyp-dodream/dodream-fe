@@ -1,4 +1,3 @@
-import { BASE_URL } from '@/constants/auth.constant';
 import { tokenStorage } from '@/utils/auth.util';
 import fetcher from './fetcher';
 
@@ -51,7 +50,7 @@ async function refreshAccessToken(): Promise<string | null> {
 
     if (!refreshToken) return null;
 
-    const res = await fetch(`${BASE_URL}/api/auth/reissue`, {
+    const res = await fetch(`/api/auth/reissue`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,8 +62,6 @@ async function refreshAccessToken(): Promise<string | null> {
       console.error('토큰 재발급 실패', res.status);
       return null;
     }
-
-    console.log('토큰 재발급 성공');
 
     const { accessToken } = await res.json();
     tokenStorage.setToken(accessToken);
