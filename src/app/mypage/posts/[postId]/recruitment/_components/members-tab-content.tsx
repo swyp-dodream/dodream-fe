@@ -40,7 +40,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
               .map((user) => (
                 <RecruitmentUserRow
                   postId={BigInt(postId)}
-                  key={user.suggestionId}
+                  key={user.userId}
                   {...user}
                   actions={
                     <UserActions>
