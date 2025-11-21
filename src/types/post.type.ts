@@ -31,6 +31,7 @@ export type PostContentType = {
 export type PostDetailType = {
   id: bigint;
   applicationId: bigint;
+  matchedId: bigint;
   title: string;
   content: string;
   status: PostStatusType;
