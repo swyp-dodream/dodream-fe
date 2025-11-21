@@ -4,13 +4,13 @@ import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import LoadingSpinner from '@/components/commons/loading-spinner';
 import MyPageNavigation from '@/components/layout/mypage-navigation';
-import { useGetProfile } from '@/hooks/profile/use-get-profile';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import useToast from '@/hooks/use-toast';
 
 export default function MyPageLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { data: profile, isLoading } = useGetProfile();
+  const { data: profileExists, isLoading } = useGetProfileExists();
   const [mounted, setMounted] = useState(false);
   const toast = useToast();
   const router = useRouter();
@@ -21,11 +21,11 @@ export default function MyPageLayout({
   }, []);
 
   useEffect(() => {
-    if (mounted && !isLoading && !profile) {
+    if (mounted && !isLoading && !profileExists?.exists) {
       toast({ title: '로그인이 필요합니다.' });
       router.replace('/');
     }
-  }, [profile, isLoading, mounted, router, toast]);
+  }, [profileExists, isLoading, mounted, router, toast]);
 
   if (!mounted || isLoading) {
     return (
@@ -35,7 +35,7 @@ export default function MyPageLayout({
     );
   }
 
-  if (!profile) {
+  if (!profileExists) {
     return null;
   }
 
