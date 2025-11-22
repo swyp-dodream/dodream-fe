@@ -1,7 +1,7 @@
-import parse from 'html-react-parser';
 import postApi from '@/apis/post.api';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from '../_components/post-bookmark-button';
+import PostContent from '../_components/post-content';
 import PostDetailButtons from '../_components/post-detail-buttons';
 import PostLinkButton from '../_components/post-link-button';
 import RecommendedUsers from '../_components/recommended-users';
@@ -45,7 +45,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         <div className="flex flex-col gap-12">
           <div className="whitespace-pre-line">
             <h3 className="heading-lg mb-8">모집 내용</h3>
-            {parse(postData.content)}
+            <PostContent content={postData.content} />
           </div>
 
           {/* 모집 요약 */}
