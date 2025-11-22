@@ -2,11 +2,20 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
+import type { ErrorType } from '@/types/error.type';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
 /** 지원 */
 export function useApply() {
-  return useMutation({
+  return useMutation<
+    void,
+    ErrorType,
+    {
+      postId: bigint;
+      roleId: number;
+      message?: string;
+    }
+  >({
     mutationFn: ({
       postId,
       roleId,

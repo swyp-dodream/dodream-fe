@@ -51,6 +51,12 @@ const myApi = {
     authApi.get<MyPostApplicantProfileType>(
       `/api/profiles/applicant/${userId}/post/${postId}`,
     ),
+
+  /** 지원 수락 */
+  match: (postId: bigint, applicationId: bigint) =>
+    authApi.post<void>(
+      `/api/matched/${postId}/applications/${applicationId}/accept`,
+    ),
 };
 
 export default myApi;

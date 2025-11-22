@@ -57,7 +57,7 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
 
 interface MemberInfoProps {
   member: {
-    id: number;
+    id: bigint;
     nickname: string;
     profileUrl: string;
   };

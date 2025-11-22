@@ -45,7 +45,7 @@ export default function RecruitmentUserRow({
               <span>{jobGroups[0]}</span>
               <span>·</span>
               <span>
-                {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
+                경력 {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
               </span>
             </div>
           </div>

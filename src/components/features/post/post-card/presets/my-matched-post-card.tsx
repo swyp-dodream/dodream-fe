@@ -2,7 +2,7 @@ import { PostCard } from '@/components/features/post/post-card';
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import MathcingCancelButton from '@/components/features/post/post-card/buttons/matching-cancel-button';
 import type { MyMatchedPostType } from '@/types/post.type';
-import { formatDeadlineAt } from '@/utils/date.util';
+import { getRelativeTime } from '@/utils/date.util';
 
 interface MatchedPostCardProps {
   myMatchedPost: MyMatchedPostType;
@@ -16,7 +16,7 @@ export default function MyMatchedPostCard({
       <PostCard.Header
         postId={myMatchedPost.postId}
         nickname={myMatchedPost.leaderName}
-        elapsedTime={formatDeadlineAt(myMatchedPost.matchedAt)}
+        elapsedTime={getRelativeTime(myMatchedPost.postCreatedAt)}
         projectType={myMatchedPost.projectType}
         isBookmarked={myMatchedPost.bookmarked}
       />
@@ -41,6 +41,8 @@ export default function MyMatchedPostCard({
           postId={myMatchedPost.postId}
           matchingId={myMatchedPost.id}
           matchedAt={myMatchedPost.matchedAt}
+          variant="outline"
+          size="md"
         />
         <ApplyDetailButton
           postId={BigInt(myMatchedPost.postId)}

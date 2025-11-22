@@ -86,6 +86,7 @@ export default function ApplicantsRoleTabs({
                           applicationType="received"
                         />
                         <ApplyAcceptButton
+                          postId={BigInt(postId)}
                           isRecruitCompleted={posts.status === 'COMPLETED'}
                           isRoleFull={isRoleFull(user.jobGroups[0])}
                           applicationId={BigInt(user.applicationId)}

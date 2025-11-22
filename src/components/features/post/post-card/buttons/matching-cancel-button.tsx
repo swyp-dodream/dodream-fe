@@ -1,10 +1,15 @@
 'use client';
 
 import { overlay } from 'overlay-kit';
+import type { ComponentPropsWithoutRef } from 'react';
 import Button from '@/components/commons/buttons/button';
 import MatchingCancelModal from '@/components/features/mypage/my-posts/recruitments/modals/matching-cancel-modal';
 
-interface MatchingCancelButtonProps {
+interface MatchingCancelButtonProps
+  extends Omit<
+    ComponentPropsWithoutRef<typeof Button>,
+    'onClick' | 'children'
+  > {
   nickname: string;
   postId: bigint;
   matchingId: bigint;
@@ -16,6 +21,7 @@ export default function MathcingCancelButton({
   postId,
   matchingId,
   matchedAt,
+  ...props
 }: MatchingCancelButtonProps) {
   const handleOpenMatchingCancelModal = () => {
     overlay.open(({ isOpen, close }) => (
@@ -31,7 +37,7 @@ export default function MathcingCancelButton({
   };
 
   return (
-    <Button variant="outline" size="md" onClick={handleOpenMatchingCancelModal}>
+    <Button {...props} onClick={handleOpenMatchingCancelModal}>
       매칭 취소
     </Button>
   );

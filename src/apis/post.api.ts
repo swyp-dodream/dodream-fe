@@ -38,7 +38,7 @@ const postApi = {
 
   /** 모집 지원 */
   apply: (postId: bigint, data: { roleId: number; message: string }) =>
-    authApi.post(`/api/posts/${BigInt(postId)}/apply`, data),
+    authApi.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
   /** 모집 지원 가능 여부 판단 */
   getApplyAvailable: (postId: bigint) =>
