@@ -1,3 +1,4 @@
+import type { ErrorType } from '@/types/error.type';
 import { tokenStorage } from '@/utils/auth.util';
 import fetcher from './fetcher';
 
@@ -17,7 +18,7 @@ export default async function authenticatedFetcher<T>(
     });
   } catch (error) {
     // 401/402 에러 시 토큰 갱신 처리
-    const status = (error as Error & { status?: number }).status;
+    const status = (error as ErrorType)?.code;
 
     if (status === 401 || status === 402) {
       const newToken = await refreshAccessToken();

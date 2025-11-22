@@ -6,12 +6,12 @@ import { useGetProfileExists } from '../profile/use-get-profile';
 
 /** AI 추천 게시물 */
 export default function useGetRecommendedPosts(projectType: ProjectType) {
-  const { data: profileExists } = useGetProfileExists();
+  const { data: profileExists, isSuccess } = useGetProfileExists();
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.aiPost, projectType],
     queryFn: () => postApi.getRecommendedPosts(projectType),
-    enabled: !!profileExists?.exists,
+    enabled: isSuccess && profileExists?.exists === true,
     staleTime: 10 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });

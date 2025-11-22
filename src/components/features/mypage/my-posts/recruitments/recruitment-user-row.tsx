@@ -4,13 +4,9 @@ import { parseExperienceValue } from '@/utils/profile.util';
 
 interface RecruitmentUserRowProps {
   postId: bigint;
-  suggestionId: bigint;
-  applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
-  status: string;
-  createdAt: string;
+  profileImageCode: number;
   experience: string;
   jobGroups: string[];
   tags?: string[];
@@ -19,13 +15,9 @@ interface RecruitmentUserRowProps {
 
 export default function RecruitmentUserRow({
   postId,
-  suggestionId,
-  applicationId,
   userId,
   nickname,
-  profileImage,
-  status,
-  createdAt,
+  profileImageCode,
   experience,
   jobGroups,
   tags,

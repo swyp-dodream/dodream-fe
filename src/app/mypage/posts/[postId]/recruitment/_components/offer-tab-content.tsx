@@ -1,63 +1,66 @@
 'use client';
 
+import OfferButton from '@/components/features/mypage/my-posts/recruitments/buttons/offer-button';
 import OfferCancelButton from '@/components/features/mypage/my-posts/recruitments/buttons/offer-cancel-button';
 import RecruitmentEmptyState from '@/components/features/mypage/my-posts/recruitments/recruitment-empty-state';
 import RecruitmentUserRow from '@/components/features/mypage/my-posts/recruitments/recruitment-user-row';
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
-import { ROLE_LABEL_MAP } from '@/constants/role.constant';
-import useCancelOfferMutation from '@/hooks/post/use-cancel-offer-mutation';
-import useToast from '@/hooks/use-toast';
-import { ROLES, type Role } from '@/mocks/posts';
-import type { MyPostApplicantType } from '@/types/my.type';
 
-const users: MyPostApplicantType[] = [];
+interface OfferTabContentProps {
+  postId: bigint;
+  users: {
+    userId: bigint;
+    suggestionId: bigint;
+    profileImageCode: number;
+    nickname: string;
+    jobGroups: string[];
+    experience: string;
+    tags?: string[];
+  }[];
+}
 
-export default function OfferTabContent() {
-  const toast = useToast();
-  const { mutateAsync: cancelOffer } = useCancelOfferMutation();
-
-  const handleCancelOffer = async (suggestionId: bigint) => {
-    try {
-      await cancelOffer(suggestionId);
-      toast({ title: '제안이 취소되었습니다' });
-    } catch (_error) {
-      toast({
-        title: '제안을 취소하지 못했습니다. 잠시 후 다시 시도해 주세요.',
-      });
-    }
-  };
-
+export default function OfferTabContent({
+  postId,
+  users,
+}: OfferTabContentProps) {
   if (users.length === 0) {
     return <RecruitmentEmptyState tab="offers" />;
   }
 
+  // users에 존재하는 역할만 추출
+  const availableRoles = Array.from(
+    new Set(users.map((user) => user.jobGroups[0])),
+  );
+
   return (
-    <RoleTabs defaultValue={ROLES[0]}>
+    <RoleTabs defaultValue={availableRoles[0]}>
       {/* TODO: API Response 형식 보고 RoleTabsHeader 컴포넌트로 대체 */}
       <RoleTabs.List>
-        {ROLES.map((role) => (
+        {availableRoles.map((role) => (
           <RoleTabs.Trigger key={role} value={role}>
-            {ROLE_LABEL_MAP[role as Role]}
+            {role}
           </RoleTabs.Trigger>
         ))}
       </RoleTabs.List>
 
-      {ROLES.map((role) => (
+      {availableRoles.map((role) => (
         <RoleTabs.Content key={role} value={role} columns={8}>
           <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
             {users
               .filter(({ jobGroups }) => jobGroups[0] === role)
               .map((user) => (
                 <RecruitmentUserRow
-                  postId={BigInt(0)}
-                  key={user.suggestionId}
+                  postId={BigInt(postId)}
+                  key={user.userId}
                   {...user}
                   actions={
                     <UserActions>
-                      <OfferCancelButton
-                        onCancel={() => handleCancelOffer(user.suggestionId)}
-                      />
+                      {user.suggestionId ? (
+                        <OfferCancelButton suggestionId={user.suggestionId} />
+                      ) : (
+                        <OfferButton postId={postId} userId={user.userId} />
+                      )}
                     </UserActions>
                   }
                 />

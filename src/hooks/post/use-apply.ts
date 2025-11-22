@@ -49,12 +49,12 @@ export function useApply() {
 
 /** 지원 가능 여부 판단 */
 export function useGetApplyAvailable(postId: bigint) {
-  const { data: profileExists } = useGetProfileExists();
+  const { data: profileExists, isSuccess } = useGetProfileExists();
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId.toString()],
     queryFn: () => postApi.getApplyAvailable(postId),
-    enabled: profileExists?.exists,
+    enabled: isSuccess && profileExists?.exists === true,
     staleTime: 0,
     gcTime: 1 * 60 * 1000,
   });

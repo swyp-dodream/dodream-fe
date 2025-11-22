@@ -1,5 +1,9 @@
 'use client';
 
+import Link from 'next/link';
+import { useState } from 'react';
+import ArrowDownIcon from '@/assets/icons/chevron-down/14.svg';
+import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
 
 interface RecruitStatusProps {
@@ -17,13 +21,26 @@ interface RecruitStatusProps {
  */
 export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
   const { data: postMembers } = useGetPostMembers(postId);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   if (!postMembers) return null;
+
+  const shouldShowButton = roles.length > 3;
+  const visibleRoles = roles.slice(0, visibleCount);
+  const isExpanded = visibleCount === roles.length;
+
+  const handleToggle = () => {
+    if (isExpanded) {
+      setVisibleCount(3);
+    } else {
+      setVisibleCount((prev) => Math.min(prev + 3, roles.length));
+    }
+  };
 
   return (
     <div className="bg-surface shadow-card py-5 px-6 rounded-md">
       <ul className="flex flex-col [&>li]:relative [&>li]:border-b [&>li]:border-border-primary [&>li:not(:first-child)]:pt-4 [&>li:not(:last-child)]:pb-4 [&>li:last-child]:border-none">
-        {roles.map((roleInfo) => {
+        {visibleRoles.map((roleInfo) => {
           // 해당 직군을 가진 멤버들만 필터링
           const membersForRole = postMembers?.users.filter((member) =>
             member.jobGroups.includes(roleInfo.role),
@@ -51,6 +68,24 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
           );
         })}
       </ul>
+
+      {shouldShowButton && (
+        <button
+          type="button"
+          onClick={handleToggle}
+          className="w-full flex justify-center items-center mt-5 text-secondary body-md-medium"
+        >
+          {isExpanded ? (
+            <div className="flex gap-2 items-center">
+              접기 <ArrowUpIcon />
+            </div>
+          ) : (
+            <div className="flex gap-2 items-center">
+              더보기 <ArrowDownIcon />
+            </div>
+          )}
+        </button>
+      )}
     </div>
   );
 }
@@ -72,10 +107,12 @@ interface MemberInfoProps {
 function MemberInfo({ member }: MemberInfoProps) {
   return (
     <li className="relative group">
-      <div className="bg-primary rounded-full w-8 h-8 border border-white" />
-      <span className="absolute hidden group-hover:block top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap z-50 body-sm-regular text-text-on-brand bg-toast-black-80 px-3 py-2 rounded-md">
-        {member.nickname}
-      </span>
+      <Link href="#">
+        <div className="bg-primary rounded-full w-8 h-8 border border-white" />
+        <span className="absolute hidden group-hover:block top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap z-50 body-sm-regular text-text-on-brand bg-toast-black-80 px-3 py-2 rounded-md">
+          {member.nickname}
+        </span>
+      </Link>
     </li>
   );
 }

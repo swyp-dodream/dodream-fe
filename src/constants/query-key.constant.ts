@@ -27,5 +27,6 @@ export const QUERY_KEY = {
   myPostApplications: 'myPostApplications',
   myPostApplicantDetail: 'myPostApplicantDetail',
   myPostApplicantProfile: 'myPostApplicantProfile',
+  myPostRecommendedUsers: 'myPostRecommendedUsers',
   offers: 'offers',
 };

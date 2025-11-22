@@ -1,9 +1,10 @@
-import parse from 'html-react-parser';
 import postApi from '@/apis/post.api';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from '../_components/post-bookmark-button';
+import PostContent from '../_components/post-content';
 import PostDetailButtons from '../_components/post-detail-buttons';
 import PostLinkButton from '../_components/post-link-button';
+import RecommendedUsers from '../_components/recommended-users';
 import RecruitInfo from '../_components/recruit-info';
 import RecruitStatus from '../_components/recruit-status';
 
@@ -19,7 +20,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
   return (
     <article className="grid grid-cols-12 gap-x-7">
-      <section className="col-span-8">
+      <section className="col-span-8 flex flex-col">
         <div className="flex items-center body-lg-medium">
           {/* 프로필, 작성 시간 영역 */}
           {/* TODO: 프로필 이미지로 수정 */}
@@ -38,23 +39,28 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
         </div>
 
         {/* 제목 */}
-        <h2 className="heading-xl mt-5">{postData.title}</h2>
+        <h2 className="heading-xl mt-5 mb-9">{postData.title}</h2>
 
         {/* 내용 영역 */}
-        <div className="mt-9 mb-12 whitespace-pre-line">
-          <h3 className="heading-lg mb-8">모집 내용</h3>
-          {parse(postData.content)}
-        </div>
+        <div className="flex flex-col gap-12">
+          <div className="whitespace-pre-line">
+            <h3 className="heading-lg mb-8">모집 내용</h3>
+            <PostContent content={postData.content} />
+          </div>
 
-        {/* 모집 요약 */}
-        <RecruitInfo
-          projectType={postData.projectType}
-          deadlineDate={postData.deadlineDate}
-          activityMode={postData.activityMode}
-          interestKeywords={postData.interestKeywords}
-          duration={postData.duration}
-          techStacks={postData.stacks}
-        />
+          {/* 모집 요약 */}
+          <RecruitInfo
+            projectType={postData.projectType}
+            deadlineDate={postData.deadlineDate}
+            activityMode={postData.activityMode}
+            interestKeywords={postData.interestKeywords}
+            duration={postData.duration}
+            techStacks={postData.stacks}
+          />
+
+          {/* 추천 회원 */}
+          <RecommendedUsers postId={postData.id} />
+        </div>
       </section>
 
       {/* 버튼 */}
