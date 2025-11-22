@@ -77,6 +77,8 @@ export default function ApplicantsRoleTabs({
                     key={user.suggestionId}
                     postId={postId}
                     {...user}
+                    // TODO: 프로필 이미지 방식 통일
+                    profileImageCode={1}
                     actions={
                       <UserActions>
                         <ApplyDetailButton
