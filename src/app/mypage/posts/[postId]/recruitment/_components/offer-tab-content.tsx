@@ -59,7 +59,7 @@ export default function OfferTabContent({
                       {user.suggestionId ? (
                         <OfferCancelButton suggestionId={user.suggestionId} />
                       ) : (
-                        <OfferButton />
+                        <OfferButton postId={postId} userId={user.userId} />
                       )}
                     </UserActions>
                   }

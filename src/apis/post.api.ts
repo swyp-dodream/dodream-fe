@@ -112,6 +112,13 @@ const postApi = {
     authApi.get<MyPostRecommendedUsersType>(
       `/api/recommendations/profiles/${BigInt(postId)}`,
     ),
+
+  /** 멤버 제안 */
+  offer: (postId: bigint, userId: bigint) =>
+    authApi.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
+      toUserId: BigInt(userId).toString(),
+      suggestionMessage: '',
+    }),
 };
 
 export default postApi;
