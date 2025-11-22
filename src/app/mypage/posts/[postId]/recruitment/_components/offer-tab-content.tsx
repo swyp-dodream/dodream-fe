@@ -11,7 +11,7 @@ interface OfferTabContentProps {
   postId: bigint;
   users: {
     userId: bigint;
-    suggestionId?: bigint;
+    suggestionId: bigint;
     profileImageCode: number;
     nickname: string;
     jobGroups: string[];

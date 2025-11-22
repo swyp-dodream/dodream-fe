@@ -138,6 +138,7 @@ export type MyPostRecommendedUsersType = {
 
 export type MyPostRecommendedUserProfileType = {
   userId: bigint;
+  suggestionId: bigint;
   nickname: string;
   experience: string;
   profileImageCode: number;

@@ -28,7 +28,7 @@ export default function PostContent({ content }: PostContentProps) {
       <div className="relative">
         <div
           ref={contentRef}
-          className={`overflow-hidden ${!isExpanded && isOverflow ? 'max-h-[480px]' : ''}`}
+          className={`prose prose-slate prose-h1:heading-md prose-p:body-lg-regular [&_p+h1]:mt-8 [&_h1+p]:mt-5 max-w-none overflow-hidden ${!isExpanded && isOverflow ? 'max-h-[480px]' : ''}`}
         >
           {parse(content)}
         </div>
