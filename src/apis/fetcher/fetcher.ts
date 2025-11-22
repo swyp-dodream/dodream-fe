@@ -1,5 +1,6 @@
 import { BASE_URL } from '@/constants/auth.constant';
 import type { ErrorType } from '@/types/error.type';
+import { isErrorType } from '@/utils/error.util';
 
 async function fetcher<T>(
   endpoint: string,
@@ -23,7 +24,7 @@ async function fetcher<T>(
       // HTML 응답은 인증 에러로 간주
       if (contentType?.includes('text/html')) {
         const error: ErrorType = {
-          code: res.status,
+          code: 401,
           error: 'UNAUTHORIZED',
           message: '인증되지 않음',
         };
@@ -80,7 +81,13 @@ async function fetcher<T>(
 
     return res.status === 204 ? ({} as T) : await res.json();
   } catch (error) {
-    console.error(`${endpoint} Fetch 요청 오류: ${error}`);
+    if (isErrorType(error)) {
+      console.error(
+        `${endpoint} Fetch 요청 오류: [${error.code}] ${error.message}`,
+      );
+    } else {
+      console.error(`${endpoint} Fetch 요청 오류:`, error);
+    }
     throw error;
   }
 }
