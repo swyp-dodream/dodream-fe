@@ -124,8 +124,26 @@ export type MyMatchedPostType = Omit<MyAppliedPostType, 'appliedAt'> & {
   applicationId: bigint;
   matchedAt: Date;
 };
+
 export type GetMyMatchedPostsResponseType = PaginationInfo & {
   content: MyMatchedPostType[];
+};
+
+/** 내 모집글 추천 유저 타입 */
+export type MyPostRecommendedUsersType = {
+  profiles: MyPostRecommendedUserProfileType[];
+  nextCursor: 0;
+  hasNext: true;
+};
+
+export type MyPostRecommendedUserProfileType = {
+  userId: bigint;
+  nickname: string;
+  experience: string;
+  profileImageCode: number;
+  interestKeywords: string[];
+  roles: string[];
+  tags: string[];
 };
 
 /** 내가 북마크한 글 목록 타입 */
