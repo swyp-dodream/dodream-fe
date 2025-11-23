@@ -26,6 +26,13 @@ const chatApi = {
       `/api/chat/rooms/${roomId}/history`,
     );
   },
+
+  /** 메시지 읽음 처리 */
+  markChatAsRead: (roomId: string) => {
+    return authApi.post<{ readCount: number }>(
+      `/api/chat/rooms/${roomId}/read`,
+    );
+  },
 };
 
 export default chatApi;
