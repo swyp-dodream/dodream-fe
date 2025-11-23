@@ -1,5 +1,6 @@
 import { BASE_URL } from '@/constants/auth.constant';
 import type { ErrorType } from '@/types/error.type';
+import { isErrorType } from '@/utils/error.util';
 
 async function fetcher<T>(
   endpoint: string,
@@ -23,7 +24,7 @@ async function fetcher<T>(
       // HTML 응답은 인증 에러로 간주
       if (contentType?.includes('text/html')) {
         const error: ErrorType = {
-          code: res.status,
+          code: 401,
           error: 'UNAUTHORIZED',
           message: '인증되지 않음',
         };
@@ -46,10 +47,11 @@ async function fetcher<T>(
         return (await res.text()) as T;
       }
 
-      const error: Error & { status?: number } = new Error(
-        `지원하지 않는 응답 형식: ${contentType}`,
-      );
-      error.status = res.status;
+      const error: ErrorType = {
+        code: res.status || 500,
+        error: 'UNSUPPORTED_CONTENT_TYPE',
+        message: `지원하지 않는 응답 형식: ${contentType}`,
+      };
       throw error;
     }
 
@@ -80,8 +82,22 @@ async function fetcher<T>(
 
     return res.status === 204 ? ({} as T) : await res.json();
   } catch (error) {
-    console.error(`${endpoint} Fetch 요청 오류: ${error}`);
-    throw error;
+    if (isErrorType(error)) {
+      console.error(
+        `${endpoint} Fetch 요청 오류: [${error.code}] ${error.message}`,
+      );
+      throw error;
+    } else {
+      // ErrorType이 아닌 에러는 ErrorType으로 변환
+      console.error(`${endpoint} Fetch 요청 오류:`, error);
+
+      const wrappedError: ErrorType = {
+        code: 500,
+        error: 'NETWORK_ERROR',
+        message: error instanceof Error ? error.message : '네트워크 오류',
+      };
+      throw wrappedError;
+    }
   }
 }
 

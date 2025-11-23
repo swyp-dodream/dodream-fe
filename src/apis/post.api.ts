@@ -5,6 +5,7 @@ import type {
   GetMyBookmarkedPostsResponseType,
   GetMyMatchedPostsResponseType,
   GetMySuggestedPostResponseType,
+  MyPostRecommendedUsersType,
   PostDetailType,
   PostMembersType,
   PostType,
@@ -105,6 +106,19 @@ const postApi = {
       `/api/matched?${params.toString()}`,
     );
   },
+
+  /** 내 모집글 추천 유저 */
+  getMyPostRecommendedUsers: (postId: bigint) =>
+    authApi.get<MyPostRecommendedUsersType>(
+      `/api/recommendations/profiles/${BigInt(postId)}`,
+    ),
+
+  /** 멤버 제안 */
+  offer: (postId: bigint, userId: bigint) =>
+    authApi.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
+      toUserId: BigInt(userId).toString(),
+      suggestionMessage: '',
+    }),
 };
 
 export default postApi;

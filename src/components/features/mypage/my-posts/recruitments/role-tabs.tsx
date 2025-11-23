@@ -8,7 +8,7 @@ function Root({
 }: ComponentPropsWithoutRef<typeof Tabs.Root>) {
   return (
     <Tabs.Root
-      className={clsx('flex flex-col gap-9 col-span-full', className)}
+      className={clsx('flex flex-col gap-8 col-span-full', className)}
       {...props}
     />
   );
