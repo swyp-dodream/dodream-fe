@@ -40,12 +40,14 @@ export default function ChatPage({
   return (
     <>
       <ChatList onSelectChat={setSelectedChat} selectedChat={selectedChat} />
-      <ChatRoom
-        selectedChat={selectedChat}
-        onSendMessage={sendMessage}
-        messages={messages}
-        isMyMessage={isMyMessage}
-      />
+      {selectedChat && (
+        <ChatRoom
+          selectedChat={selectedChat}
+          onSendMessage={sendMessage}
+          messages={messages}
+          isMyMessage={isMyMessage}
+        />
+      )}
     </>
   );
 }
