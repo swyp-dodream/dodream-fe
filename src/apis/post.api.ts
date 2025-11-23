@@ -29,10 +29,8 @@ const postApi = {
     ),
 
   /** 모집글 상세 데이터 */
-  getPostDetailAuth: (id: bigint) =>
-    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
   getPostDetail: (id: bigint) =>
-    api.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
+    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
 
   /** 모집글 멤버 내역 */
   getPostMembers: (id: bigint) =>
