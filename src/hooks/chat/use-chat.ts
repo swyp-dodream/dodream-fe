@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import useGetChatHistory from '@/hooks/chat/use-get-chat-history';
+import useMarkAsRead from '@/hooks/chat/use-mark-as-read';
 import { queryClient } from '@/lib/query-client';
 import type {
   ChatListItemType,
@@ -24,6 +25,7 @@ export default function useChat({ postId }: UseChatParams) {
   );
   const stompClientRef = useRef<Client | null>(null);
   const { data: chatHistory } = useGetChatHistory(selectedChat?.roomId ?? '');
+  const { mutate: markChatAsRead } = useMarkAsRead();
 
   /** 연결하는 함수 */
   const connectWebSoket = useCallback(() => {
@@ -91,12 +93,14 @@ export default function useChat({ postId }: UseChatParams) {
     }
   };
 
+  /** 내 ID를 얻는 함수 */
   const getMyId = () => {
     return selectedChat?.myRole === 'MEMBER'
       ? selectedChat.memberId
       : selectedChat?.leaderId;
   };
 
+  /** 메시지가 내가 작성한 메시지인지 판별하는 함수 */
   const isMyMessage = (id: string) => {
     return getMyId() === id;
   };
@@ -126,6 +130,15 @@ export default function useChat({ postId }: UseChatParams) {
 
     setMessages([...chatHistory]);
   }, [chatHistory]);
+
+  // 채팅방을 선택하면, 읽음 상태로 처리한다.
+  useEffect(() => {
+    if (!selectedChat?.roomId) {
+      return;
+    }
+
+    markChatAsRead(selectedChat.roomId);
+  }, [markChatAsRead, selectedChat?.roomId]);
 
   return {
     roomId,
