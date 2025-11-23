@@ -123,3 +123,23 @@ export type MyPostApplicantProfileType = {
     url: string;
   }[];
 };
+
+/** 내 제안 내역 */
+export type MyPostOffersType = {
+  users: MyPostOfferUserType[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
+export type MyPostOfferUserType = {
+  matchedId: bigint;
+  suggestionId: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  jobGroups: string[];
+};

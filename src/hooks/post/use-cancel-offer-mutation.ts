@@ -9,7 +9,10 @@ export default function useCancelOfferMutation() {
   return useMutation({
     mutationFn: (suggestionId: bigint) => postApi.cancelOffer(suggestionId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.offers] });
+      queryClient.invalidateQueries({
+        // TODO: postId 추가
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.myPostOffers],
+      });
     },
   });
 }

@@ -5,6 +5,7 @@ import type {
   MyPostApplicantDetailType,
   MyPostApplicantProfileType,
   MyPostApplicationsType,
+  MyPostOffersType,
   MyPostsResponseType,
 } from '@/types/my.type';
 
@@ -57,6 +58,10 @@ const myApi = {
     authApi.post<void>(
       `/api/matched/${postId}/applications/${applicationId}/accept`,
     ),
+
+  /** 내 모집글 제안 내역 */
+  getMyPostOffers: (postId: bigint) =>
+    authApi.get<MyPostOffersType>(`/api/posts/${postId}/recruits/offers`),
 };
 
 export default myApi;
