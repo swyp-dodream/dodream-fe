@@ -18,12 +18,14 @@ const formatLabel = (date: Date) => {
 };
 
 interface ChatRoomProps {
+  roomName: string;
   onSendMessage: (message: string) => Promise<void> | void;
   messages: ChatSubscribeMessageType[];
   isMyMessage: (id: string) => boolean;
 }
 
 export default function ChatRoom({
+  roomName,
   onSendMessage,
   messages,
   isMyMessage,
@@ -83,7 +85,7 @@ export default function ChatRoom({
       <header className="flex shrink-0 justify-between items-center sticky">
         <div className="flex gap-4 items-center">
           <div className="rounded-full size-8 bg-primary" />
-          <span className="heading-sm">닉네임</span>
+          <span className="heading-sm">{roomName}</span>
         </div>
 
         <div className="rounded-full bg-container-primary p-2">
