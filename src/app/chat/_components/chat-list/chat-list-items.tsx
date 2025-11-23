@@ -47,26 +47,28 @@ function ChatListItem({
   isSelected,
 }: ChatListItemProps) {
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-    <li
-      className={cn(
-        'rounded-md px-4 py-5 flex gap-4 w-full items-center cursor-pointer',
-        isSelected && 'bg-container-primary',
-      )}
-      onClick={() => onSelectChat(chatListItem)}
-    >
-      <div className="size-9 rounded-full bg-primary shrink-0" />
-      <div className="w-full">
-        <div className="flex justify-between items-center">
-          <span className="body-lg-medium text-primary">
-            {chatListItem.roomName}
-          </span>
-          <span className="body-sm-regular text-subtle">
-            {getRelativeTime(chatListItem.lastMessageAt.toString())}
-          </span>
+    <li>
+      <button
+        type="button"
+        className={cn(
+          'rounded-md px-4 py-5 flex gap-4 w-full items-center text-left cursor-pointer',
+          isSelected && 'bg-container-primary',
+        )}
+        onClick={() => onSelectChat(chatListItem)}
+      >
+        <div className="size-9 rounded-full bg-primary shrink-0" />
+        <div className="w-full">
+          <div className="flex justify-between items-center">
+            <span className="body-lg-medium text-primary">
+              {chatListItem.roomName}
+            </span>
+            <span className="body-sm-regular text-subtle">
+              {getRelativeTime(chatListItem.lastMessageAt.toString())}
+            </span>
+          </div>
+          <p className="line-clamp-1">{chatListItem.lastMessage}</p>
         </div>
-        <p className="line-clamp-1">{chatListItem.lastMessage}</p>
-      </div>
+      </button>
     </li>
   );
 }
