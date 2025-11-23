@@ -58,6 +58,7 @@ function ChatListItem({
       >
         {/* 프로필 이미지 */}
         <div className="size-9 rounded-full bg-primary shrink-0" />
+
         {/* 채팅 정보 */}
         <div className="w-full min-w-0">
           <div className="flex justify-between items-center">
@@ -68,9 +69,18 @@ function ChatListItem({
               {getRelativeTime(chatListItem.lastMessageAt.toString())}
             </span>
           </div>
-          <p className="truncate">{chatListItem.lastMessage}</p>
+          <div className="w-full flex gap-2 items-center">
+            {/* 마지막 메시지 미리보기 */}
+            <p className="truncate">{chatListItem.lastMessage}</p>
+            {/* 안읽음 표시 */}
+            {chatListItem.unReadCount > 0 && <UnreadState />}
+          </div>
         </div>
       </button>
     </li>
   );
+}
+
+function UnreadState() {
+  return <div className="size-1.5 rounded-full bg-brand shrink-0" />;
 }
