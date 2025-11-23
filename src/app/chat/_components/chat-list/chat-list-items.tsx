@@ -3,19 +3,32 @@
 import { ChatListTabs } from '@/app/chat/_components/chat-list/chat-list-tabs';
 import useGetChatList from '@/hooks/chat/use-get-chat-list';
 import type { ChatListItemType } from '@/types/chat.type';
+import { getRelativeTime } from '@/utils/date.util';
+import { cn } from '@/utils/style.util';
 
 interface ChatListItemsProps {
   tabValue: 'ALL' | 'UNREAD';
+  onSelectChat: (chat: ChatListItemType) => void;
+  selectedChat: ChatListItemType | null;
 }
 
-export default function ChatListItems({ tabValue }: ChatListItemsProps) {
+export default function ChatListItems({
+  tabValue,
+  onSelectChat,
+  selectedChat,
+}: ChatListItemsProps) {
   const { data: chatList } = useGetChatList(tabValue);
 
   return (
     <ChatListTabs.Content value={tabValue}>
       <ul className="flex flex-col gap-6">
         {chatList?.map((chatListItem) => (
-          <ChatListItem key={chatListItem.roomId} chatListItem={chatListItem} />
+          <ChatListItem
+            key={chatListItem.roomId}
+            chatListItem={chatListItem}
+            onSelectChat={onSelectChat}
+            isSelected={selectedChat?.roomId === chatListItem.roomId}
+          />
         ))}
       </ul>
     </ChatListTabs.Content>
@@ -24,21 +37,35 @@ export default function ChatListItems({ tabValue }: ChatListItemsProps) {
 
 interface ChatListItemProps {
   chatListItem: ChatListItemType;
+  onSelectChat: (chat: ChatListItemType) => void;
+  isSelected: boolean;
 }
 
-function ChatListItem({ chatListItem }: ChatListItemProps) {
+function ChatListItem({
+  chatListItem,
+  onSelectChat,
+  isSelected,
+}: ChatListItemProps) {
   return (
-    // 선택된거면 bg-primary
-    <li className="rounded-md px-4 py-5 flex gap-4">
-      <div className="size-9 rounded-full bg-primary" />
-      <div>
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+    <li
+      className={cn(
+        'rounded-md px-4 py-5 flex gap-4 w-full items-center cursor-pointer',
+        isSelected && 'bg-container-primary',
+      )}
+      onClick={() => onSelectChat(chatListItem)}
+    >
+      <div className="size-9 rounded-full bg-primary shrink-0" />
+      <div className="w-full">
         <div className="flex justify-between items-center">
           <span className="body-lg-medium text-primary">
-            {chatListItem.leaderId}
+            {chatListItem.roomName}
           </span>
-          <span className="body-sm-regular text-subtle">{'2분'}</span>
+          <span className="body-sm-regular text-subtle">
+            {getRelativeTime(chatListItem.lastMessageAt.toString())}
+          </span>
         </div>
-        <p className="line-clamp-1">내용내용내용내용내용내용내용내용내용내용</p>
+        <p className="line-clamp-1">{chatListItem.lastMessage}</p>
       </div>
     </li>
   );

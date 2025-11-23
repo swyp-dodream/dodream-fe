@@ -8,7 +8,7 @@ const chatApi = {
   /** 채팅방 개설 또는 기존 roomId 조회 */
   createChatRoom: (postId: bigint) => {
     return authApi.post<CreateChatRoomResponseType>(`/api/chat/room/create`, {
-      postId,
+      postId: postId.toString(),
     });
   },
 
