@@ -1,5 +1,6 @@
 'use client';
 
+import ChatListEmpty from '@/app/chat/_components/chat-list/chat-list-empty';
 import { ChatListTabs } from '@/app/chat/_components/chat-list/chat-list-tabs';
 import useGetChatList from '@/hooks/chat/use-get-chat-list';
 import type { ChatListItemType } from '@/types/chat.type';
@@ -21,16 +22,20 @@ export default function ChatListItems({
 
   return (
     <ChatListTabs.Content value={tabValue}>
-      <ul className="flex flex-col gap-6">
-        {chatList?.map((chatListItem) => (
-          <ChatListItem
-            key={chatListItem.roomId}
-            chatListItem={chatListItem}
-            onSelectChat={onSelectChat}
-            isSelected={selectedChat?.roomId === chatListItem.roomId}
-          />
-        ))}
-      </ul>
+      {chatList && chatList.length > 0 ? (
+        <ul className="flex flex-col gap-6">
+          {chatList?.map((chatListItem) => (
+            <ChatListItem
+              key={chatListItem.roomId}
+              chatListItem={chatListItem}
+              onSelectChat={onSelectChat}
+              isSelected={selectedChat?.roomId === chatListItem.roomId}
+            />
+          ))}
+        </ul>
+      ) : (
+        <ChatListEmpty tabValue={tabValue} />
+      )}
     </ChatListTabs.Content>
   );
 }
