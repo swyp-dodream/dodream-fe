@@ -4,6 +4,7 @@ import { Client } from '@stomp/stompjs';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import useGetChatHistory from '@/hooks/chat/use-get-chat-history';
 import { queryClient } from '@/lib/query-client';
 import type {
   ChatListItemType,
@@ -13,7 +14,6 @@ import { tokenStorage } from '@/utils/auth.util';
 
 interface UseChatParams {
   postId?: string;
-  // onMessage?: (message: IMessage) => void;
 }
 
 export default function useChat({ postId }: UseChatParams) {
@@ -23,6 +23,7 @@ export default function useChat({ postId }: UseChatParams) {
     null,
   );
   const stompClientRef = useRef<Client | null>(null);
+  const { data: chatHistory } = useGetChatHistory(selectedChat?.roomId ?? '');
 
   /** 연결하는 함수 */
   const connectWebSoket = useCallback(() => {
@@ -100,21 +101,14 @@ export default function useChat({ postId }: UseChatParams) {
     return getMyId() === id;
   };
 
-  // clean up
+  // 페이지를 벗어날시 연결된 소켓을 정리한다.
   useEffect(() => {
     return () => {
       disconnect();
     };
   }, [disconnect]);
 
-  useEffect(() => {
-    if (!selectedChat?.topicId) {
-      return;
-    }
-
-    connectWebSoket();
-  }, [connectWebSoket, selectedChat]);
-
+  // 선택한 채팅의 topicId로 소켓을 연결한다.
   useEffect(() => {
     if (!selectedChat?.topicId) {
       return;
@@ -123,6 +117,15 @@ export default function useChat({ postId }: UseChatParams) {
     disconnect();
     connectWebSoket();
   }, [selectedChat, connectWebSoket, disconnect]);
+
+  // 채팅 히스토리가 있다면, 메시지 상태에 넣는다.
+  useEffect(() => {
+    if (!chatHistory) {
+      return;
+    }
+
+    setMessages([...chatHistory]);
+  }, [chatHistory]);
 
   return {
     roomId,
