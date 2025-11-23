@@ -56,8 +56,10 @@ function ChatListItem({
         )}
         onClick={() => onSelectChat(chatListItem)}
       >
+        {/* 프로필 이미지 */}
         <div className="size-9 rounded-full bg-primary shrink-0" />
-        <div className="w-full">
+        {/* 채팅 정보 */}
+        <div className="w-full min-w-0">
           <div className="flex justify-between items-center">
             <span className="body-lg-medium text-primary">
               {chatListItem.roomName}
@@ -66,7 +68,7 @@ function ChatListItem({
               {getRelativeTime(chatListItem.lastMessageAt.toString())}
             </span>
           </div>
-          <p className="line-clamp-1">{chatListItem.lastMessage}</p>
+          <p className="truncate">{chatListItem.lastMessage}</p>
         </div>
       </button>
     </li>
