@@ -40,7 +40,7 @@ export default function ChatRoom({
       messages.reduce(
         (dates, message) => {
           const createdAt = new Date(message.createdAt);
-          const dateLabel = formatLabel(createdAt); // 오늘/어제/2025년 11월 8일
+          const dateLabel = formatLabel(createdAt); // 오늘 / 어제 / 그 이전은 날짜
           const minuteLabel = format(createdAt, 'a hh:mm', { locale: ko }); // 오전 12:33
 
           if (!dates[dateLabel]) {
@@ -146,7 +146,7 @@ export default function ChatRoom({
                       >
                         {!item.isMyMessage && (
                           <span className="text-secondary body-sm-medium">
-                            닉네임
+                            {selectedChat?.roomName}
                           </span>
                         )}
                         <span className="body-sm-medium text-subtle">

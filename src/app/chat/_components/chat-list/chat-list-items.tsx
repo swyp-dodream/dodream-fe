@@ -74,7 +74,7 @@ function ChatListItem({
               {getRelativeTime(chatListItem.lastMessageAt.toString())}
             </span>
           </div>
-          <div className="w-full flex gap-2 items-center">
+          <div className="w-full flex gap-2 items-center justify-between">
             {/* 마지막 메시지 미리보기 */}
             <p className="truncate">{chatListItem.lastMessage}</p>
             {/* 안읽음 표시 */}
