@@ -10,7 +10,7 @@ import useToast from '@/hooks/use-toast';
 export default function MyPageLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const { data: profileExists, isLoading } = useGetProfileExists();
+  const { data: profileExists, isLoading, isSuccess } = useGetProfileExists();
   const [mounted, setMounted] = useState(false);
   const toast = useToast();
   const router = useRouter();
@@ -21,11 +21,11 @@ export default function MyPageLayout({
   }, []);
 
   useEffect(() => {
-    if (mounted && !isLoading && !profileExists?.exists) {
+    if (mounted && !isLoading && isSuccess && !profileExists?.exists) {
       toast({ title: '로그인이 필요합니다.' });
       router.replace('/');
     }
-  }, [profileExists, isLoading, mounted, router, toast]);
+  }, [profileExists, isLoading, isSuccess, mounted, router, toast]);
 
   if (!mounted || isLoading) {
     return (
