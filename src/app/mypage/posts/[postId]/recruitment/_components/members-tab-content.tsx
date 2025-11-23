@@ -14,7 +14,6 @@ interface MembersTabContentProps {
 
 export default function MembersTabContent({ postId }: MembersTabContentProps) {
   const { data: users } = useGetPostMembers(BigInt(postId));
-  console.log('users ➡️', users);
 
   if (!users || users?.users.length === 0) {
     return <RecruitmentEmptyState tab="members" />;
@@ -55,7 +54,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                             applicationType="received"
                           />
                           <MathcingCancelButton
-                            nickname={user.nickname}
+                            ownerNickname={user.nickname}
                             postId={BigInt(postId)}
                             // TODO: 아래 수정
                             matchingId={BigInt(user.matchedId)}

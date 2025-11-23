@@ -15,15 +15,17 @@ export function useGetPosts(query: string) {
 
 /** 게시물 상세 정보 */
 export function useGetPostDetail(postId: bigint) {
-  const { data: profileExists } = useGetProfileExists();
+  const { data: profileExists, isSuccess } = useGetProfileExists();
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
     queryFn: () => {
-      if (profileExists?.exists)
+      if (isSuccess && profileExists?.exists === true) {
         return postApi.getPostDetailAuth(BigInt(postId));
+      }
       return postApi.getPostDetail(BigInt(postId));
     },
+    enabled: isSuccess,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   });

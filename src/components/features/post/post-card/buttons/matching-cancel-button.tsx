@@ -10,14 +10,21 @@ interface MatchingCancelButtonProps
     ComponentPropsWithoutRef<typeof Button>,
     'onClick' | 'children'
   > {
-  nickname: string;
+  ownerNickname: string;
   postId: bigint;
   matchingId: bigint;
   matchedAt: Date;
 }
 
+/**
+ * 매칭 취소 버튼
+ * @param ownerNickname - 모집글 작성자 닉네임
+ * @param postId - 모집글 ID
+ * @param matchingId - 매칭 ID
+ * @param matchedAt - 매칭 시간
+ */
 export default function MathcingCancelButton({
-  nickname,
+  ownerNickname,
   postId,
   matchingId,
   matchedAt,
@@ -28,7 +35,7 @@ export default function MathcingCancelButton({
       <MatchingCancelModal
         isOpen={isOpen}
         onClose={close}
-        nickname={nickname}
+        nickname={ownerNickname}
         postId={postId}
         matchingId={matchingId}
         matchedAt={matchedAt}

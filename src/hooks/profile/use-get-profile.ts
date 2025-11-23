@@ -23,8 +23,12 @@ export function useGetProfileExists() {
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
-    queryFn: userApi.getProfileExists,
-    enabled: !!user,
+    queryFn: async () => {
+      if (!user) {
+        return { exists: false };
+      }
+      return userApi.getProfileExists();
+    },
     staleTime: 12 * 60 * 60 * 1000,
     gcTime: 12 * 60 * 60 * 1000,
   });
