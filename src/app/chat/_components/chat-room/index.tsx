@@ -2,10 +2,13 @@
 
 import { format, isToday, isYesterday } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { overlay } from 'overlay-kit';
 import { useState } from 'react';
-import ChatIcon from '@/assets/icons/log-out/16.svg';
+import LeaveChatRoomModal from '@/app/chat/_components/chat-room/leave-chat-room-modal';
+import LeaveChatIcon from '@/assets/icons/log-out/16.svg';
 import Input from '@/components/commons/text-fields/input';
 import type {
+  ChatListItemType,
   ChatSubscribeMessageType,
   GroupedChatType,
 } from '@/types/chat.type';
@@ -18,14 +21,14 @@ const formatLabel = (date: Date) => {
 };
 
 interface ChatRoomProps {
-  roomName: string;
+  selectedChat: ChatListItemType | null;
   onSendMessage: (message: string) => Promise<void> | void;
   messages: ChatSubscribeMessageType[];
   isMyMessage: (id: string) => boolean;
 }
 
 export default function ChatRoom({
-  roomName,
+  selectedChat,
   onSendMessage,
   messages,
   isMyMessage,
@@ -72,25 +75,39 @@ export default function ChatRoom({
 
   const groupedMessages = groupByDateAndTime(messages);
 
-  console.log(groupedMessages);
-
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
     onSendMessage(newMessage);
     setNewMessage('');
   };
 
+  const handleOpenLeaveChatRoomModal = () => {
+    overlay.open(({ isOpen, close }) => (
+      <LeaveChatRoomModal
+        isOpen={isOpen}
+        onClose={close}
+        roomId={selectedChat?.roomId}
+        oppositeName={selectedChat?.roomName}
+      />
+    ));
+  };
+
   return (
     <div className="col-span-5 flex flex-col min-h-0 h-full overflow-hidden">
       <header className="flex shrink-0 justify-between items-center sticky">
         <div className="flex gap-4 items-center">
+          {/* TODO: 프로필 이미지 교체 */}
           <div className="rounded-full size-8 bg-primary" />
-          <span className="heading-sm">{roomName}</span>
+          <span className="heading-sm">{selectedChat?.roomName}</span>
         </div>
 
-        <div className="rounded-full bg-container-primary p-2">
-          <ChatIcon />
-        </div>
+        <button
+          type="button"
+          className="rounded-full bg-container-primary p-2 cursor-pointer"
+          onClick={handleOpenLeaveChatRoomModal}
+        >
+          <LeaveChatIcon />
+        </button>
       </header>
 
       <section className="flex-1 overflow-y-auto space-y-8 py-4">

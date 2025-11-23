@@ -41,7 +41,7 @@ export default function ChatPage({
     <>
       <ChatList onSelectChat={setSelectedChat} selectedChat={selectedChat} />
       <ChatRoom
-        roomName={selectedChat?.roomName ?? ''}
+        selectedChat={selectedChat}
         onSendMessage={sendMessage}
         messages={messages}
         isMyMessage={isMyMessage}
