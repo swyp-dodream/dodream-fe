@@ -8,6 +8,7 @@ interface OfferButtonProps
     ComponentPropsWithoutRef<typeof Button>,
     'onClick' | 'children'
   > {
+  disabled?: boolean;
   postId: bigint;
   userId: bigint;
 }
@@ -16,6 +17,7 @@ interface OfferButtonProps
 export default function OfferButton({
   postId,
   userId,
+  disabled,
   ...props
 }: OfferButtonProps) {
   const { mutate: offer } = useOffer();
@@ -38,8 +40,14 @@ export default function OfferButton({
   };
 
   return (
-    <Button onClick={handleOffer} {...props} variant="outline" size="sm">
-      제안하기
+    <Button
+      disabled={disabled}
+      onClick={handleOffer}
+      {...props}
+      variant="outline"
+      size="sm"
+    >
+      {disabled ? '제안 완료' : '제안하기'}
     </Button>
   );
 }

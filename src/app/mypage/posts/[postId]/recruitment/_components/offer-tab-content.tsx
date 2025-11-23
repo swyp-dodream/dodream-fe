@@ -1,36 +1,26 @@
 'use client';
 
-import OfferButton from '@/components/features/mypage/my-posts/recruitments/buttons/offer-button';
 import OfferCancelButton from '@/components/features/mypage/my-posts/recruitments/buttons/offer-cancel-button';
 import RecruitmentEmptyState from '@/components/features/mypage/my-posts/recruitments/recruitment-empty-state';
 import RecruitmentUserRow from '@/components/features/mypage/my-posts/recruitments/recruitment-user-row';
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
+import useGetMyPostOffers from '@/hooks/my/use-get-my-post-offers';
 
 interface OfferTabContentProps {
   postId: bigint;
-  users: {
-    userId: bigint;
-    suggestionId: bigint;
-    profileImageCode: number;
-    nickname: string;
-    jobGroups: string[];
-    experience: string;
-    tags?: string[];
-  }[];
 }
 
-export default function OfferTabContent({
-  postId,
-  users,
-}: OfferTabContentProps) {
-  if (users.length === 0) {
+export default function OfferTabContent({ postId }: OfferTabContentProps) {
+  const { data: offers } = useGetMyPostOffers(postId);
+
+  if (!offers || offers.users.length === 0) {
     return <RecruitmentEmptyState tab="offers" />;
   }
 
   // users에 존재하는 역할만 추출
   const availableRoles = Array.from(
-    new Set(users.map((user) => user.jobGroups[0])),
+    new Set(offers.users.map((user) => user.jobGroups[0])),
   );
 
   return (
@@ -47,20 +37,21 @@ export default function OfferTabContent({
       {availableRoles.map((role) => (
         <RoleTabs.Content key={role} value={role} columns={8}>
           <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
-            {users
+            {offers.users
               .filter(({ jobGroups }) => jobGroups[0] === role)
               .map((user) => (
                 <RecruitmentUserRow
                   postId={BigInt(postId)}
+                  // TODO: 프로필 이미지 코드 수정
+                  profileImageCode={0}
                   key={user.userId}
                   {...user}
                   actions={
                     <UserActions>
-                      {user.suggestionId ? (
-                        <OfferCancelButton suggestionId={user.suggestionId} />
-                      ) : (
-                        <OfferButton postId={postId} userId={user.userId} />
-                      )}
+                      <OfferCancelButton
+                        postId={postId}
+                        suggestionId={user.suggestionId}
+                      />
                     </UserActions>
                   }
                 />

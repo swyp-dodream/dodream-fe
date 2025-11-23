@@ -64,7 +64,7 @@ export default function PostDetailPage() {
           />
 
           {/* 추천 회원 */}
-          {postData.owner && <RecommendedUsers postId={postData.id} />}
+          <RecommendedUsers postId={postData.id} />
         </div>
       </section>
 

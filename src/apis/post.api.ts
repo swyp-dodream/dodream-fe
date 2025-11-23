@@ -48,12 +48,14 @@ const postApi = {
       `/api/posts/${BigInt(postId)}/can-apply`,
     ),
 
-  /** 모집 지원 취소 */
   cancelApply: (applicationId: bigint) =>
     authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
+  /** 제안 취소 */
   cancelOffer: (suggestionId: bigint) => {
-    return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
+    return authApi.delete<void>(
+      `/api/my/suggestions/suggestions/${BigInt(suggestionId)}/cancel`,
+    );
   },
 
   createPost: (payload: PostCreateFormData) => {

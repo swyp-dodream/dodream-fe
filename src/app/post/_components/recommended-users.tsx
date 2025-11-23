@@ -5,6 +5,7 @@ import OfferButton from '@/components/features/mypage/my-posts/recruitments/butt
 import RecruitmentUserRow from '@/components/features/mypage/my-posts/recruitments/recruitment-user-row';
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
+import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import { useGetRecommendedUsers } from '@/hooks/post/use-get-recommended-users';
 
 interface RecommendedUsersProps {
@@ -14,8 +15,9 @@ interface RecommendedUsersProps {
 /** 추천 유저 탭 */
 export default function RecommendedUsers({ postId }: RecommendedUsersProps) {
   const { data } = useGetRecommendedUsers(postId);
+  const { data: postData } = useGetPostDetail(postId);
 
-  if (!data) return null;
+  if (!data || !postData?.owner) return null;
 
   const users = data.profiles.map((profile) => ({
     ...profile,
