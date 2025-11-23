@@ -33,6 +33,11 @@ const chatApi = {
       `/api/chat/rooms/${roomId}/read`,
     );
   },
+
+  /** 채팅방 나가기 */
+  leaveChatRoom: (roomId: string) => {
+    return authApi.delete(`/api/chat/rooms/${roomId}/leave`);
+  },
 };
 
 export default chatApi;
