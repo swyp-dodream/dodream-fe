@@ -54,3 +54,6 @@ export type ChatSubscribeMessageType = {
 export type GroupedChatType = ChatSubscribeMessageType & {
   isMyMessage: boolean;
 };
+
+/** 채팅방 히스토리 조회 응답 타입 */
+export type GetChatHistoryResponseType = ChatSubscribeMessageType[];
