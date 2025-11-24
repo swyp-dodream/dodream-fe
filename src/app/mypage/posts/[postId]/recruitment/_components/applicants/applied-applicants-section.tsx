@@ -11,6 +11,9 @@ interface AppliedApplicantsSectionProps {
   postId: bigint;
 }
 
+/**
+ * 지원자 내역 - 일반 지원자
+ */
 export default function AppliedApplicantsSection({
   postId,
 }: AppliedApplicantsSectionProps) {
@@ -25,6 +28,8 @@ export default function AppliedApplicantsSection({
 
   if (!applications) return null;
 
+  // 내가 제안하지 않은 지원자만 필터링
+  // TODO: 백엔드에 필터링 요청
   const appliedApplicants = applications.users.filter(
     (user) => !user.suggestionId,
   );
@@ -61,12 +66,10 @@ export default function AppliedApplicantsSection({
     // AI 추천이 있는 경우: 추천 지원자 변환
     const transformedRecommended: ApplicantRowUserType[] =
       recommendedApplicants.applicants.map((applicant) => ({
-        applicationId: applicant.applicationId,
+        ...applicant,
         userId: applicant.profileId,
-        nickname: applicant.nickname,
         profileImage: applicant.profileImageUrl,
         experience: applicant.career,
-        role: applicant.role,
       }));
 
     // 추천 지원자의 applicationId 목록
@@ -84,12 +87,7 @@ export default function AppliedApplicantsSection({
             !recommendedApplicationIds.has(applicant.applicationId.toString()),
         )
         .map((applicant) => ({
-          suggestionId: applicant.suggestionId,
-          applicationId: applicant.applicationId,
-          userId: applicant.userId,
-          nickname: applicant.nickname,
-          profileImage: applicant.profileImage,
-          experience: applicant.experience,
+          ...applicant,
           role: applicant.jobGroups[0],
         }));
 
@@ -101,12 +99,7 @@ export default function AppliedApplicantsSection({
   } else {
     // AI 추천이 없는 경우: 모든 일반 지원자
     allAppliedApplicants = appliedApplicants.map((applicant) => ({
-      suggestionId: applicant.suggestionId,
-      applicationId: applicant.applicationId,
-      userId: applicant.userId,
-      nickname: applicant.nickname,
-      profileImage: applicant.profileImage,
-      experience: applicant.experience,
+      ...applicant,
       role: applicant.jobGroups[0],
     }));
   }
@@ -134,6 +127,11 @@ interface AiRecommendHeaderProps {
   onClick: () => void;
 }
 
+/**
+ * 지원자 AI 추천 버튼
+ * @param isLoading - 로딩 여부
+ * @param onClick - 지원자 AI 추천 핸들러
+ */
 function AiRecommendHeader({ isLoading, onClick }: AiRecommendHeaderProps) {
   return (
     <div className="flex items-center gap-3 shrink-0">

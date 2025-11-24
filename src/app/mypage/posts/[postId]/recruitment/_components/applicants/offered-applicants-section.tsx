@@ -6,6 +6,9 @@ interface OfferedApplicantsSectionProps {
   postId: bigint;
 }
 
+/**
+ * 지원자 내역 - 내가 제안한 지원자
+ */
 export default function OfferedApplicantsSection({
   postId,
 }: OfferedApplicantsSectionProps) {
@@ -13,19 +16,16 @@ export default function OfferedApplicantsSection({
 
   if (!applications) return null;
 
-  const invitedApplicants = applications.users.filter(
+  // 내가 제안한 지원자만 필터링
+  // TODO: 백엔드에 필터링 요청
+  const offeredApplicants = applications.users.filter(
     (user) => user.suggestionId,
   );
 
   // 내가 제안한 지원자 변환
-  const transformedInvitedApplicants: ApplicantRowUserType[] =
-    invitedApplicants.map((applicant) => ({
-      suggestionId: applicant.suggestionId,
-      applicationId: applicant.applicationId,
-      userId: applicant.userId,
-      nickname: applicant.nickname,
-      profileImage: applicant.profileImage,
-      experience: applicant.experience,
+  const transformedOfferedApplicants: ApplicantRowUserType[] =
+    offeredApplicants.map((applicant) => ({
+      ...applicant,
       role: applicant.jobGroups[0],
     }));
 
@@ -34,7 +34,7 @@ export default function OfferedApplicantsSection({
       <h3 className="heading-sm text-primary">내가 제안한 지원자</h3>
       <ApplicantsRoleTabs
         postId={postId}
-        users={transformedInvitedApplicants}
+        users={transformedOfferedApplicants}
         emptyMessage="합류를 제안한 멤버가 아직 제안에 응답하지 않았습니다"
       />
     </div>
