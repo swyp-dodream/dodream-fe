@@ -143,3 +143,21 @@ export type MyPostOfferUserType = {
   experience: string;
   jobGroups: string[];
 };
+
+/** 내 모집글 추천 지원자 타입 */
+export type MyPostRecommendedApplications = {
+  applicants: MyPostRecommendedApplicant[];
+  totalCount: 3;
+};
+
+export type MyPostRecommendedApplicant = {
+  applicationId: bigint;
+  profileId: bigint;
+  nickname: string;
+  profileImageUrl: string;
+  role: string;
+  career: string;
+  applicationMessage: string;
+  similarity: number;
+  tags: string[];
+};

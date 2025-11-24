@@ -28,6 +28,7 @@ export const QUERY_KEY = {
   myPostApplicantDetail: 'myPostApplicantDetail',
   myPostApplicantProfile: 'myPostApplicantProfile',
   myPostRecommendedUsers: 'myPostRecommendedUsers',
+  myPostRecommendedApplicants: 'myPostRecommendedApplicants',
   myPostOffers: 'myPostOffers',
 
   /** 채팅 관련 */
