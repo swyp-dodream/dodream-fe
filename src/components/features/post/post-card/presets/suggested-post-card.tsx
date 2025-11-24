@@ -38,7 +38,7 @@ export default function SuggestedPostCard({
       />
 
       <PostCard.Actions>
-        <ChatButton />
+        <ChatButton postId={mySuggestedPost.postId} />
         <ApplyButton
           postId={mySuggestedPost.postId}
           variant="solid"

@@ -81,7 +81,7 @@ export default function ApplyDetailModal({
 
         <footer className="flex justify-end gap-5 border-t-1 border-border-primary pt-4">
           {/* TODO: 채팅페이지로 넘어가도록 구현 */}
-          <ChatButton />
+          <ChatButton postId={postId} />
           <Button variant="solid" size="xs" onClick={onClose}>
             확인
           </Button>
