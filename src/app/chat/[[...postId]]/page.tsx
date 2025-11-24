@@ -3,6 +3,7 @@
 import { use } from 'react';
 import ChatList from '@/app/chat/_components/chat-list';
 import ChatRoom from '@/app/chat/_components/chat-room';
+import PostDetail from '@/app/chat/_components/post-detail';
 import useChat from '@/hooks/chat/use-chat';
 
 export default function ChatPage({
@@ -28,6 +29,7 @@ export default function ChatPage({
           isMyMessage={isMyMessage}
         />
       )}
+      {selectedChat && <PostDetail postId={selectedChat.postId} />}
     </>
   );
 }
