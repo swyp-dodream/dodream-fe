@@ -4,6 +4,7 @@ import { ACTIVITY_MODE, TECH_STACK_MAP } from '@/constants/profile.constant';
 import type { DurationType, ProjectType } from '@/types/post.type';
 import type { ActivityModeType, TechStackType } from '@/types/profile.type';
 import { formatDate } from '@/utils/date.util';
+import { cn } from '@/utils/style.util';
 
 interface RecruitInfoProps {
   projectType: ProjectType;
@@ -12,6 +13,7 @@ interface RecruitInfoProps {
   interestKeywords: string[];
   duration: DurationType;
   techStacks: string[];
+  align?: 'vertical' | 'horizontal';
 }
 
 /**
@@ -22,6 +24,7 @@ interface RecruitInfoProps {
  * @param interestKeywords - 관심 분야 목록
  * @param duration - 활동 기간 (예: 1개월, 3개월)
  * @param techStacks - 사용 기술 스택 목록
+ * @param align - 배치 방법
  */
 export default function RecruitInfo({
   projectType,
@@ -30,7 +33,51 @@ export default function RecruitInfo({
   interestKeywords,
   duration,
   techStacks,
+  align = 'horizontal',
 }: RecruitInfoProps) {
+  if (align === 'vertical') {
+    return (
+      <div className="flex flex-col gap-6">
+        <h3 className="heading-md">모집 요약</h3>
+
+        <dl className="flex flex-col gap-4">
+          <RecruitInfoItem label="모집 유형" size="sm">
+            {PROJECT_MAP[projectType]}
+          </RecruitInfoItem>
+          <RecruitInfoItem label="관심 분야" size="sm">
+            <ul className="flex gap-4">
+              {interestKeywords.map((interest) => (
+                <li key={interest}>{interest}</li>
+              ))}
+            </ul>
+          </RecruitInfoItem>
+          <RecruitInfoItem label="모집 마감" size="sm">
+            <time>{formatDate(deadlineDate)}</time>
+          </RecruitInfoItem>
+          <RecruitInfoItem label="활동 기간" size="sm">
+            {DURATION_LABELS[duration]}
+          </RecruitInfoItem>
+          <RecruitInfoItem label="활동 방식" size="sm">
+            {ACTIVITY_MODE[activityMode]}
+          </RecruitInfoItem>
+          <RecruitInfoItem label="기술 스택" size="sm">
+            <ul className="flex flex-wrap gap-3">
+              {techStacks.map((stack) => (
+                <Image
+                  key={stack}
+                  src={`/logo/stacks/${TECH_STACK_MAP[stack as TechStackType]}/24.svg`}
+                  alt={`${stack}`}
+                  width={24}
+                  height={24}
+                />
+              ))}
+            </ul>
+          </RecruitInfoItem>
+        </dl>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <h3 className="heading-lg">모집 요약</h3>
@@ -61,7 +108,7 @@ export default function RecruitInfo({
           </div>
         </div>
         <RecruitInfoItem label="기술 스택">
-          <ul className="flex gap-3">
+          <ul className="flex flex-wrap gap-3">
             {techStacks.map((stack) => (
               <Image
                 key={stack}
@@ -80,17 +127,23 @@ export default function RecruitInfo({
 
 interface RecruitInfoItemProps {
   label: string;
+  size?: 'sm' | 'md';
   children: React.ReactNode;
 }
 
 /**
  * 모집 요약 요소
  * @param label - 모집 요약 종류 (모집 유형, 모집 마감 등)
+ * @param size - 글씨 크기
  */
-function RecruitInfoItem({ label, children }: RecruitInfoItemProps) {
+function RecruitInfoItem({
+  label,
+  size = 'md',
+  children,
+}: RecruitInfoItemProps) {
   return (
-    <div className="flex gap-7">
-      <dt className="text-subtle">{label}</dt>
+    <div className={cn('flex gap-7', size === 'sm' && 'gap-4')}>
+      <dt className="text-subtle w-[78px] shrink-0">{label}</dt>
       <dd>{children}</dd>
     </div>
   );
