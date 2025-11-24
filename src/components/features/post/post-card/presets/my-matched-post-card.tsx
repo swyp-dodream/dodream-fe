@@ -37,7 +37,7 @@ export default function MyMatchedPostCard({
 
       <PostCard.Actions>
         <MathcingCancelButton
-          nickname={myMatchedPost.leaderName}
+          ownerNickname={myMatchedPost.leaderName}
           postId={myMatchedPost.postId}
           matchingId={myMatchedPost.id}
           matchedAt={myMatchedPost.matchedAt}

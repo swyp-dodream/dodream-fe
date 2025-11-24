@@ -48,6 +48,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                   postId={BigInt(postId)}
                   key={user.userId}
                   {...user}
+                  role={user.jobGroups[0]}
                   // TODO: 프로필 이미지 방식 통일
                   profileImageCode={1}
                   actions={

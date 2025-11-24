@@ -14,19 +14,14 @@ interface RecommendedUsersProps {
 
 /** 추천 유저 탭 */
 export default function RecommendedUsers({ postId }: RecommendedUsersProps) {
-  const { data } = useGetRecommendedUsers(postId);
+  const { data: users } = useGetRecommendedUsers(postId);
   const { data: postData } = useGetPostDetail(postId);
 
-  if (!data || !postData?.owner) return null;
-
-  const users = data.profiles.map((profile) => ({
-    ...profile,
-    jobGroups: profile.roles,
-  }));
+  if (!users || !postData?.owner) return null;
 
   // users에 존재하는 역할만 추출
   const availableRoles = Array.from(
-    new Set(users.map((user) => user.jobGroups[0])),
+    new Set(users.profiles.map((profile) => profile.roles[0])),
   );
 
   return (
@@ -52,13 +47,14 @@ export default function RecommendedUsers({ postId }: RecommendedUsersProps) {
         {availableRoles.map((role) => (
           <RoleTabs.Content key={role} value={role} columns={8}>
             <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
-              {users
-                .filter(({ jobGroups }) => jobGroups[0] === role)
+              {users.profiles
+                .filter(({ roles }) => roles[0] === role)
                 .map((user) => (
                   <RecruitmentUserRow
                     postId={BigInt(postId)}
                     key={user.userId}
                     {...user}
+                    role={user.roles[0]}
                     actions={
                       <UserActions>
                         <OfferButton postId={postId} userId={user.userId} />
