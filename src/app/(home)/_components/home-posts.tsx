@@ -84,7 +84,7 @@ function HomePostCards({ posts }: HomePostCardsProps) {
               stacks={post.techs}
               roles={post.roles}
               // TODO: 북마크 상태 수정
-              isBookmarked={false}
+              isBookmarked={post.isBookmarked}
             />
           </li>
         );

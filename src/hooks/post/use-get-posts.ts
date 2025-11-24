@@ -6,7 +6,7 @@ import { useGetProfileExists } from '../profile/use-get-profile';
 /** 게시물 목록 */
 export function useGetPosts(query: string) {
   return useQuery({
-    queryKey: [QUERY_KEY.posts, query],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.posts, query],
     queryFn: () => postApi.getPosts(query),
     staleTime: 30 * 1000,
     gcTime: 10 * 60 * 1000,

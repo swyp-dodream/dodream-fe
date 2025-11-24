@@ -25,6 +25,7 @@ export type PostContentType = {
   status: string;
   activityMode: string;
   createdAt: string;
+  isBookmarked: boolean;
 };
 
 /** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
@@ -50,6 +51,7 @@ export type PostDetailType = {
     headcount: number;
   }[];
   owner: boolean;
+  isBookmarked: boolean;
 };
 
 /** 상세 페이지 멤버 내역 */

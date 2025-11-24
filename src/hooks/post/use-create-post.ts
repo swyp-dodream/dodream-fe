@@ -8,7 +8,9 @@ export default function useCreatePost() {
   return useMutation({
     mutationFn: (form: PostCreateFormData) => postApi.createPost(form),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.posts] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],
+      });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myPosts],
       });

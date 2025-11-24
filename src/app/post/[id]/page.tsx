@@ -1,4 +1,7 @@
-import postApi from '@/apis/post.api';
+'use client';
+
+import { useParams } from 'next/navigation';
+import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from '../_components/post-bookmark-button';
 import PostContent from '../_components/post-content';
@@ -8,13 +11,12 @@ import RecommendedUsers from '../_components/recommended-users';
 import RecruitInfo from '../_components/recruit-info';
 import RecruitStatus from '../_components/recruit-status';
 
-interface PostDetailPageProps {
-  params: { id: string };
-}
+export default function PostDetailPage() {
+  const params = useParams<{ id: string }>();
+  const postId = BigInt(params.id ?? 0);
+  const { data: postData } = useGetPostDetail(postId);
 
-export default async function PostDetailPage({ params }: PostDetailPageProps) {
-  const { id } = await params;
-  const postData = await postApi.getPostDetail(BigInt(id));
+  if (!postData) return null;
 
   const isClosed = new Date(postData.deadlineDate) < new Date();
 
@@ -32,7 +34,10 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
           <div className="flex ml-auto gap-7">
             {/* 북마크 버튼 */}
             {/* TODO: 북마크 버튼 수정 */}
-            <PostBookmarkButton isBookmarked={false} postId={BigInt(id)} />
+            <PostBookmarkButton
+              isBookmarked={postData.isBookmarked}
+              postId={BigInt(postData.id)}
+            />
             {/* 링크 복사 버튼 */}
             <PostLinkButton />
           </div>

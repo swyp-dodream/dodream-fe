@@ -19,7 +19,8 @@ const postApi = {
    * 게시글 목록
    * @parma query - 쿼리 스트링
    */
-  getPosts: (query: string) => api.get<PostType>(`/api/home?size=12&${query}`),
+  getPosts: (query: string) =>
+    authApi.get<PostType>(`/api/home?size=12&${query}`),
 
   /** AI 추천 게시글 */
   getRecommendedPosts: (projectType: ProjectType) =>

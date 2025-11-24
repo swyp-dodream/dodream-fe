@@ -8,7 +8,7 @@ export default function useToggleBookmark() {
     mutationFn: (postId: bigint) => bookmarkApi.toggleBookmark(postId),
     onSuccess: (_, postId) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.posts],
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],
         exact: false,
       });
       queryClient.invalidateQueries({
