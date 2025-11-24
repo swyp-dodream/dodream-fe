@@ -1,10 +1,9 @@
 'use client';
 
-import { use, useEffect } from 'react';
+import { use } from 'react';
 import ChatList from '@/app/chat/_components/chat-list';
 import ChatRoom from '@/app/chat/_components/chat-room';
 import useChat from '@/hooks/chat/use-chat';
-import useCreateChatRoom from '@/hooks/chat/use-create-chat-room';
 
 export default function ChatPage({
   params,
@@ -17,25 +16,6 @@ export default function ChatPage({
     useChat({
       postId: postIdValue,
     });
-  const { mutateAsync: createRoom } = useCreateChatRoom({
-    onSuccess: (res) => {
-      setSelectedChat({
-        ...res,
-        roomName: '',
-        unReadCount: 0,
-        lastMessage: '',
-        lastMessageAt: new Date(),
-      });
-    },
-  });
-
-  useEffect(() => {
-    if (!postIdValue) {
-      return;
-    }
-
-    createRoom(BigInt(postIdValue));
-  }, [postIdValue, createRoom]);
 
   return (
     <>
