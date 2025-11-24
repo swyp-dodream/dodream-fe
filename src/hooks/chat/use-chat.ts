@@ -196,6 +196,7 @@ export default function useChat({ postId }: UseChatParams) {
           leaderId: created.leaderId,
           memberId: created.memberId,
           myRole: created.myRole,
+          postId: BigInt(postId),
           roomName: '메시지를 보내면 새로운 채팅이 시작됩니다.',
           unReadCount: 0,
           lastMessage: lastHistory?.body ?? '',

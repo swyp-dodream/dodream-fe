@@ -34,6 +34,7 @@ export type ChatListItemType = {
   myRole: string;
   lastMessage: string;
   lastMessageAt: Date;
+  postId: bigint;
 };
 
 /** 내 채팅방 목록 조회 응답 타입 */
