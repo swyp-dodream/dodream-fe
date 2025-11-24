@@ -97,7 +97,7 @@ export default function ChatRoom({
 
   return (
     <div className="col-span-5 flex flex-col min-h-0 h-full overflow-hidden">
-      <header className="flex shrink-0 justify-between items-center sticky">
+      <header className="flex shrink-0 justify-between items-center sticky py-4">
         <div className="flex gap-4 items-center">
           {/* TODO: 프로필 이미지 교체 */}
           <div className="rounded-full size-8 bg-primary" />
