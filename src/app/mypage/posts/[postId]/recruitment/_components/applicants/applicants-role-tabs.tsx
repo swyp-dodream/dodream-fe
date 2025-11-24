@@ -7,19 +7,11 @@ import UserActions from '@/components/features/mypage/my-posts/recruitments/user
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
+import type { ApplicantRowUserType } from '@/types/my.type';
 
 type ApplicantsRoleTabsProps = {
   postId: bigint;
-  users: {
-    suggestionId?: bigint;
-    applicationId: bigint;
-    userId: bigint;
-    nickname: string;
-    profileImage: string;
-    experience: string;
-    role: string;
-    tags: string[];
-  }[];
+  users: ApplicantRowUserType[];
   headerRight?: React.ReactNode;
   emptyMessage: string;
 };

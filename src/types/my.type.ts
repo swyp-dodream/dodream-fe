@@ -161,3 +161,15 @@ export type MyPostRecommendedApplicant = {
   similarity: number;
   tags: string[];
 };
+
+/** ApplicantSection에서 사용할 지원자 타입 정의 */
+export type ApplicantRowUserType = {
+  suggestionId?: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  experience: string;
+  role: string;
+  tags?: string[];
+};

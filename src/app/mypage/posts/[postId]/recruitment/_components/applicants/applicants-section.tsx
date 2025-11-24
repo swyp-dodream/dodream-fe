@@ -1,19 +1,10 @@
-// applicants-section.tsx (수정됨)
+import type { ApplicantRowUserType } from '@/types/my.type';
 import ApplicantsRoleTabs from './applicants-role-tabs';
 
 interface ApplicantsSectionProps {
   title: string;
   postId: bigint;
-  users: {
-    suggestionId?: bigint;
-    applicationId: bigint;
-    userId: bigint;
-    nickname: string;
-    profileImage: string;
-    experience: string;
-    role: string;
-    tags: string[];
-  }[];
+  users: ApplicantRowUserType[];
   emptyMessage: string;
   headerRight?: React.ReactNode;
 }
