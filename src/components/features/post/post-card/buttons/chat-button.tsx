@@ -10,7 +10,7 @@ interface ChatButtonProps {
 export default function ChatButton({ postId }: ChatButtonProps) {
   return (
     <Link href={`/chat/${BigInt(postId)}`}>
-      <Button variant="outline" size="md">
+      <Button variant="outline" size="md" className="py-4">
         채팅하기
       </Button>
     </Link>
