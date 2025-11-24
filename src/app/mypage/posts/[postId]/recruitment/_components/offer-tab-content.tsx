@@ -46,6 +46,7 @@ export default function OfferTabContent({ postId }: OfferTabContentProps) {
                   profileImageCode={0}
                   key={user.userId}
                   {...user}
+                  role={user.jobGroups[0]}
                   actions={
                     <UserActions>
                       <OfferCancelButton

@@ -7,11 +7,19 @@ import UserActions from '@/components/features/mypage/my-posts/recruitments/user
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
-import type { MyPostApplicantType } from '@/types/my.type';
 
 type ApplicantsRoleTabsProps = {
   postId: bigint;
-  users: MyPostApplicantType[];
+  users: {
+    suggestionId?: bigint;
+    applicationId: bigint;
+    userId: bigint;
+    nickname: string;
+    profileImage: string;
+    experience: string;
+    role: string;
+    tags: string[];
+  }[];
   headerRight?: React.ReactNode;
   emptyMessage: string;
 };
@@ -50,7 +58,7 @@ export default function ApplicantsRoleTabs({
 
   // 역할별 유저 필터링
   const getUsersByRole = (roleName: string) => {
-    return users.filter(({ jobGroups }) => jobGroups[0] === roleName);
+    return users.filter(({ role }) => role === roleName);
   };
 
   if (!posts) return null;
@@ -74,7 +82,7 @@ export default function ApplicantsRoleTabs({
               <div className="grid grid-cols-subgrid col-span-full gap-6 divide-y divide-border-primary">
                 {roleUsers.map((user) => (
                   <RecruitmentUserRow
-                    key={user.suggestionId}
+                    key={user.userId}
                     postId={postId}
                     {...user}
                     // TODO: 프로필 이미지 방식 통일
@@ -90,7 +98,7 @@ export default function ApplicantsRoleTabs({
                         <ApplyAcceptButton
                           postId={BigInt(postId)}
                           isRecruitCompleted={posts.status === 'COMPLETED'}
-                          isRoleFull={isRoleFull(user.jobGroups[0])}
+                          isRoleFull={isRoleFull(user.role)}
                           applicationId={BigInt(user.applicationId)}
                         />
                       </UserActions>

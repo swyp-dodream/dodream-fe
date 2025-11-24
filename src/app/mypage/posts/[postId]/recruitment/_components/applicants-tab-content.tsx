@@ -2,6 +2,7 @@
 
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import useGetMyPostApplications from '@/hooks/my/use-get-my-post-applications';
+import useGetMyPostRecommendedApplicants from '@/hooks/my/use-get-my-post-recommended-applicants';
 import useToast from '@/hooks/use-toast';
 import ApplicantsSection from './applicants/applicants-section';
 
@@ -13,31 +14,86 @@ export default function ApplicantsTabContent({
   postId,
 }: ApplicantsTabContentProps) {
   const { data: applications } = useGetMyPostApplications(BigInt(postId));
+  const { data: recommendedApplicants } =
+    useGetMyPostRecommendedApplicants(postId);
 
-  if (!applications) return null;
+  if (!applications || !recommendedApplicants) return null;
 
-  const invitedApplicants = applications?.users.filter(
+  const invitedApplicants = applications.users.filter(
     (user) => user.suggestionId,
   );
 
-  const appliedApplicants = applications?.users.filter(
+  const appliedApplicants = applications.users.filter(
     (user) => !user.suggestionId,
   );
 
+  // 추천 지원자를 ApplicantsRoleTabs 타입에 맞게 변환
+  const transformedRecommended =
+    recommendedApplicants?.applicants.map((applicant) => ({
+      applicationId: applicant.applicationId,
+      userId: applicant.profileId,
+      nickname: applicant.nickname,
+      profileImage: applicant.profileImageUrl,
+      experience: applicant.career,
+      role: applicant.role,
+      tags: applicant.tags,
+    })) ?? [];
+
+  // 추천 지원자의 applicationId 목록
+  const recommendedApplicationIds = new Set(
+    recommendedApplicants?.applicants.map((applicant) =>
+      applicant.applicationId.toString(),
+    ) ?? [],
+  );
+
+  // 일반 지원자 중 추천 지원자와 겹치지 않는 것만 필터링
+  const transformedAppliedApplicants = appliedApplicants
+    .filter(
+      (applicant) =>
+        !recommendedApplicationIds.has(applicant.applicationId.toString()),
+    )
+    .map((applicant) => ({
+      suggestionId: applicant.suggestionId,
+      applicationId: applicant.applicationId,
+      userId: applicant.userId,
+      nickname: applicant.nickname,
+      profileImage: applicant.profileImage,
+      experience: applicant.experience,
+      role: applicant.status,
+      tags: applicant.jobGroups,
+    }));
+
+  // 내가 제안한 지원자 변환
+  const transformedInvitedApplicants = invitedApplicants.map((applicant) => ({
+    suggestionId: applicant.suggestionId,
+    applicationId: applicant.applicationId,
+    userId: applicant.userId,
+    nickname: applicant.nickname,
+    profileImage: applicant.profileImage,
+    experience: applicant.experience,
+    role: applicant.status,
+    tags: applicant.jobGroups,
+  }));
+
+  // 일반 지원자 = 추천 + 나머지
+  const allAppliedApplicants = [
+    ...transformedRecommended,
+    ...transformedAppliedApplicants,
+  ];
+
   return (
     <div className="col-span-full flex flex-col gap-11">
-      {/* TODO: 내가 제안한 지원자 */}
       <ApplicantsSection
         title="내가 제안한 지원자"
         postId={postId}
-        applicants={invitedApplicants}
+        users={transformedInvitedApplicants}
         emptyMessage={'합류를 제안한 멤버가 아직 제안에 응답하지 않았습니다'}
       />
 
       <ApplicantsSection
         title="일반 지원자"
         postId={postId}
-        applicants={appliedApplicants}
+        users={allAppliedApplicants}
         emptyMessage={'지원자가 없습니다'}
         headerRight={<AiRecommendHeader />}
       />

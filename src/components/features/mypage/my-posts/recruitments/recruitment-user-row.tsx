@@ -8,7 +8,7 @@ interface RecruitmentUserRowProps {
   nickname: string;
   profileImageCode: number;
   experience: string;
-  jobGroups: string[];
+  role: string;
   tags?: string[];
   actions?: React.ReactNode;
 }
@@ -19,7 +19,7 @@ export default function RecruitmentUserRow({
   nickname,
   profileImageCode,
   experience,
-  jobGroups,
+  role,
   tags,
   actions,
 }: RecruitmentUserRowProps) {
@@ -34,7 +34,7 @@ export default function RecruitmentUserRow({
           <div className="flex flex-col">
             <span className="body-lg-medium truncate">{nickname}</span>
             <div className="body-sm-regular text-secondary flex items-center gap-1">
-              <span>{jobGroups[0]}</span>
+              <span>{role}</span>
               <span>·</span>
               <span>
                 경력 {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
