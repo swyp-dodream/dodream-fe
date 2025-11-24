@@ -85,9 +85,14 @@ const postApi = {
   },
 
   /** 내가 북마크한 글 목록 조회 */
-  getMyBookmarkedPosts: (page?: number, size?: number) => {
+  getMyBookmarkedPosts: (
+    projectType: ProjectType,
+    page?: number,
+    size?: number,
+  ) => {
     const params = new URLSearchParams();
 
+    params.set('projectType', projectType);
     if (page) params.set('page', String(page));
     if (size) params.set('size', String(size));
 
