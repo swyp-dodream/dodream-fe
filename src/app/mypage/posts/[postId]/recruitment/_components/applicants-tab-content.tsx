@@ -1,6 +1,7 @@
 'use client';
 
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
+import useGetMyPostApplications from '@/hooks/my/use-get-my-post-applications';
 import useToast from '@/hooks/use-toast';
 import ApplicantsSection from './applicants/applicants-section';
 
@@ -11,23 +12,34 @@ interface ApplicantsTabContentProps {
 export default function ApplicantsTabContent({
   postId,
 }: ApplicantsTabContentProps) {
+  const { data: applications } = useGetMyPostApplications(BigInt(postId));
+
+  if (!applications) return null;
+
+  const invitedApplicants = applications?.users.filter(
+    (user) => user.suggestionId,
+  );
+
+  const appliedApplicants = applications?.users.filter(
+    (user) => !user.suggestionId,
+  );
+
   return (
     <div className="col-span-full flex flex-col gap-11">
       {/* TODO: 내가 제안한 지원자 */}
-      {/* <ApplicantsSection
+      <ApplicantsSection
         title="내가 제안한 지원자"
-        roles={appliedRoles}
-        users={users}
-        isEmpty={!hasApplicants}
+        postId={postId}
+        applicants={invitedApplicants}
         emptyMessage={'합류를 제안한 멤버가 아직 제안에 응답하지 않았습니다'}
-      /> */}
+      />
 
       <ApplicantsSection
         title="일반 지원자"
         postId={postId}
+        applicants={appliedApplicants}
         emptyMessage={'지원자가 없습니다'}
-        // TODO: AI 추천 지원자
-        // headerRight={<AiRecommendHeader />}
+        headerRight={<AiRecommendHeader />}
       />
     </div>
   );

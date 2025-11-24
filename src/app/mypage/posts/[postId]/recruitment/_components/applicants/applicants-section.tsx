@@ -1,9 +1,10 @@
-import useGetMyPostApplications from '@/hooks/my/use-get-my-post-applications';
+import type { MyPostApplicantType } from '@/types/my.type';
 import ApplicantsRoleTabs from './applicants-role-tabs';
 
 interface ApplicantsSectionProps {
   title: string;
   postId: bigint;
+  applicants: MyPostApplicantType[];
   emptyMessage: string;
   headerRight?: React.ReactNode;
 }
@@ -12,11 +13,10 @@ export default function ApplicantsSection({
   title,
   postId,
   emptyMessage,
+  applicants,
   headerRight,
 }: ApplicantsSectionProps) {
-  const { data: applications } = useGetMyPostApplications(BigInt(postId));
-
-  if (!applications) return null;
+  if (!applicants) return null;
 
   return (
     <div className="flex flex-col gap-6">
@@ -24,7 +24,7 @@ export default function ApplicantsSection({
 
       <ApplicantsRoleTabs
         postId={postId}
-        users={applications.users}
+        users={applicants}
         headerRight={headerRight}
         emptyMessage={emptyMessage}
       />
