@@ -32,7 +32,11 @@ export default function PostActionButton({
   }
 
   // 지원한 상태 (대기 중): 지원 취소 버튼
-  if (!isApplyAvailable?.canApply && !postData.matchedId) {
+  if (
+    !isApplyAvailable?.canApply &&
+    !postData.matchedId &&
+    postData.applicationId
+  ) {
     return (
       <ApplyCancelButton
         postId={postId}
