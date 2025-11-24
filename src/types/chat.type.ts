@@ -7,6 +7,7 @@ export type ChatHistoryType = {
   postId: string;
   senderId: string;
   receiverId: string;
+  senderNickname: string;
   body: string;
   createdAt: Date;
   messageType: ChatMessageType;
@@ -48,6 +49,7 @@ export type ChatSubscribeMessageType = {
   receiverId: string;
   roomId: string;
   senderId: string;
+  senderNickname: string;
 };
 
 /** 채팅방에서 사용할 메시지 타입 */

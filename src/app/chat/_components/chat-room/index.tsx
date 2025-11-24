@@ -20,6 +20,47 @@ const formatLabel = (date: Date) => {
   return format(date, 'yyyy년 M월 d일');
 };
 
+const groupByDateAndTime = (
+  messages: ChatSubscribeMessageType[],
+  isMyMessage: (id: string) => boolean,
+) =>
+  Object.values(
+    messages.reduce(
+      (dates, message) => {
+        const createdAt = new Date(message.createdAt);
+        const dateLabel = formatLabel(createdAt); // 오늘 / 어제 / 그 이전은 날짜
+        const minuteLabel = format(createdAt, 'a hh:mm', { locale: ko }); // 오전 12:33
+
+        if (!dates[dateLabel]) {
+          dates[dateLabel] = { label: dateLabel, groups: {} };
+        }
+        if (!dates[dateLabel].groups[minuteLabel]) {
+          dates[dateLabel].groups[minuteLabel] = {
+            minuteLabel,
+            items: [],
+          };
+        }
+
+        dates[dateLabel].groups[minuteLabel].items.push({
+          ...message,
+          isMyMessage: isMyMessage(message.senderId),
+        });
+
+        return dates;
+      },
+      {} as Record<
+        string,
+        {
+          label: string;
+          groups: Record<
+            string,
+            { minuteLabel: string; items: GroupedChatType[] }
+          >;
+        }
+      >,
+    ),
+  );
+
 interface ChatRoomProps {
   selectedChat: ChatListItemType | null;
   onSendMessage: (message: string) => Promise<void> | void;
@@ -35,45 +76,7 @@ export default function ChatRoom({
 }: ChatRoomProps) {
   const [newMessage, setNewMessage] = useState('');
 
-  const groupByDateAndTime = (messages: ChatSubscribeMessageType[]) =>
-    Object.values(
-      messages.reduce(
-        (dates, message) => {
-          const createdAt = new Date(message.createdAt);
-          const dateLabel = formatLabel(createdAt); // 오늘 / 어제 / 그 이전은 날짜
-          const minuteLabel = format(createdAt, 'a hh:mm', { locale: ko }); // 오전 12:33
-
-          if (!dates[dateLabel]) {
-            dates[dateLabel] = { label: dateLabel, groups: {} };
-          }
-          if (!dates[dateLabel].groups[minuteLabel]) {
-            dates[dateLabel].groups[minuteLabel] = {
-              minuteLabel,
-              items: [],
-            };
-          }
-
-          dates[dateLabel].groups[minuteLabel].items.push({
-            ...message,
-            isMyMessage: isMyMessage(message.senderId),
-          });
-
-          return dates;
-        },
-        {} as Record<
-          string,
-          {
-            label: string;
-            groups: Record<
-              string,
-              { minuteLabel: string; items: GroupedChatType[] }
-            >;
-          }
-        >,
-      ),
-    );
-
-  const groupedMessages = groupByDateAndTime(messages);
+  const groupedMessages = groupByDateAndTime(messages, isMyMessage);
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
@@ -146,7 +149,7 @@ export default function ChatRoom({
                       >
                         {!item.isMyMessage && (
                           <span className="text-secondary body-sm-medium">
-                            {selectedChat?.roomName}
+                            {item.senderNickname}
                           </span>
                         )}
                         <span className="body-sm-medium text-subtle">
