@@ -39,7 +39,7 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
 
   return (
     <div className="bg-surface shadow-card py-5 px-6 rounded-md">
-      <ul className="flex flex-col [&>li]:relative [&>li]:border-b [&>li]:border-border-primary [&>li:not(:first-child)]:pt-4 [&>li:not(:last-child)]:pb-4 [&>li:last-child]:border-none">
+      <ul className="flex flex-col [&>li]:relative [&>li]:border-b [&>li]:border-border-primary [&>li:not(:first-child)]:pt-4 @max-[50vw]/chatting:[&>li:not(:first-child)]:pt-3 [&>li:not(:last-child)]:pb-4 [&>li:last-child]:border-none">
         {visibleRoles.map((roleInfo) => {
           // 해당 직군을 가진 멤버들만 필터링
           const membersForRole = postMembers?.users.filter((member) =>
@@ -48,7 +48,9 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
 
           return (
             <li key={roleInfo.role} className="flex items-center">
-              <span className="w-[82px] body-lg-medium">{roleInfo.role}</span>
+              <span className="w-[82px] body-lg-medium @max-[50vw]/chatting:body-md-medium">
+                {roleInfo.role}
+              </span>
               <ul className="flex flex-row-reverse flex-1 justify-end [&>li]:relative [&>li:not(:last-child)]:-ml-3">
                 {membersForRole.map((member) => (
                   <MemberInfo
@@ -61,7 +63,7 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
                   />
                 ))}
               </ul>
-              <span>
+              <span className="@max-[50vw]/chatting:body-md-medium">
                 {membersForRole.length}/{roleInfo.headcount}명
               </span>
             </li>
@@ -108,7 +110,7 @@ function MemberInfo({ member }: MemberInfoProps) {
   return (
     <li className="relative group">
       <Link href="#">
-        <div className="bg-primary rounded-full w-8 h-8 border border-white" />
+        <div className="bg-primary rounded-full w-8 h-8 border border-white @max-[50vw]/chatting:border-3" />
         <span className="absolute hidden group-hover:block top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap z-50 body-sm-regular text-text-on-brand bg-toast-black-80 px-3 py-2 rounded-md">
           {member.nickname}
         </span>

@@ -1,17 +1,21 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Button from '@/components/commons/buttons/button';
-import useToast from '@/hooks/use-toast';
 
-export default function ChatButton() {
-  const toast = useToast();
+interface ChatButtonProps {
+  postId: bigint;
+}
+
+export default function ChatButton({ postId }: ChatButtonProps) {
+  const router = useRouter();
 
   const handleClick = () => {
-    toast({ title: '준비중입니다' });
+    router.push(`/chat/${BigInt(postId)}`);
   };
 
   return (
-    <Button variant="outline" size="sm" onClick={handleClick}>
+    <Button variant="outline" size="md" className="py-4" onClick={handleClick}>
       채팅하기
     </Button>
   );

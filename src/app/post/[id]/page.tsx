@@ -50,7 +50,7 @@ export default function PostDetailPage() {
         <div className="flex flex-col gap-12">
           <div className="whitespace-pre-line">
             <h3 className="heading-lg mb-8">모집 내용</h3>
-            <PostContent content={postData.content} />
+            <PostContent content={postData.content} maxHeight={480} />
           </div>
 
           {/* 모집 요약 */}
