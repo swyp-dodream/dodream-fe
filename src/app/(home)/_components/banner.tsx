@@ -3,9 +3,7 @@
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import LoginModal from '@/app/auth/_components/login-modal';
-import AlertCircleIcon from '@/assets/icons/alert-circle/16.svg';
 import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
-import RecommendTypes from './recommend-types';
 
 export default function Banner() {
   const { data: profileExists } = useGetProfileExists();
@@ -16,9 +14,14 @@ export default function Banner() {
     ));
   };
 
+  const bgImage =
+    profileExists?.exists === true
+      ? "bg-[url('/banner/authenticated.png')]"
+      : "bg-[url('/banner/unauthenticated.png')]";
+
   return (
     <aside
-      className="col-span-12 flex flex-col justify-between relative h-[202px] shadow-card bg-white border border-border-primary rounded-lg overflow-hidden"
+      className={`col-span-12 flex flex-col justify-between relative h-[204px] shadow-card bg-white border border-border-primary rounded-lg overflow-hidden ${bgImage} bg-cover`}
       aria-labelledby="banner-heading"
     >
       <div className="mt-8 ml-9">
@@ -53,68 +56,6 @@ export default function Banner() {
         >
           로그인하고 AI 추천 받아보기
         </button>
-      )}
-
-      {/* 추천 회원 영역 */}
-      {profileExists ? (
-        <div
-          className="w-[645px] h-[194px] bg-white border border-gray-300 rounded-md absolute top-3.5 left-[573px] py-6 px-9"
-          role="presentation"
-        >
-          <div className="flex gap-3 items-center">
-            <h3 className="body-lg-semibold text-secondary">
-              AI가 추천하는 회원을 탐색해보세요
-            </h3>
-            <AlertCircleIcon className="text-icon-light" />
-          </div>
-          <ul className="flex gap-4 body-md-medium mt-7 mb-6">
-            <li className="py-3 px-4 bg-container-primary rounded-full">
-              프론트엔드
-            </li>
-            <li className="py-3 px-4 bg-chip-selected text-on-brand rounded-full">
-              백엔드
-            </li>
-            <li className="py-3 px-4 bg-container-primary rounded-full">iOS</li>
-          </ul>
-          <div className="flex gap-3 items-center">
-            <div className="w-9 h-9 rounded-full bg-primary" />
-            <div className="flex flex-col w-[156px]">
-              <span className="body-lg-medium">두드림</span>
-              <span className="body-sm-regular text-secondary">
-                백엔드 · 경력 1~3년
-              </span>
-            </div>
-            <RecommendTypes labels={['나와맞는기술스택', '선호하는분야']} />
-          </div>
-        </div>
-      ) : (
-        <div
-          className="flex gap-4 absolute top-11 right-[-131px]"
-          role="presentation"
-        >
-          <div className="w-[282px] h-[157px] bg-white border border-gray-300 rounded-lg py-5 px-6 flex flex-col">
-            <RecommendTypes labels={['내직군모집중']} />
-            <p className="heading-sm my-5">
-              함께 스터디 하실 개발자분을 모집하고 있습니다
-            </p>
-            <time
-              dateTime="2026-01-24"
-              className="body-md-regular text-subtle mt-auto"
-            >
-              마감 2026.01.24
-            </time>
-          </div>
-          <div className="w-[282px] h-[157px] bg-white border border-gray-300 rounded-lg py-5 px-6 flex flex-col">
-            <RecommendTypes labels={['나와맞는활동방식']} />
-            <p className="heading-sm my-5">실제 서비스를 운영할</p>
-            <time
-              dateTime="2025-12-19"
-              className="body-md-regular text-subtle mt-auto"
-            >
-              마감 2025.12.19
-            </time>
-          </div>
-        </div>
       )}
     </aside>
   );
