@@ -77,6 +77,7 @@ export default function ChatRoom({
 }: ChatRoomProps) {
   const [newMessage, setNewMessage] = useState('');
 
+  const disabled = messages.at(-1)?.messageType === 'LEAVE';
   const groupedMessages = groupByDateAndTime(messages, isMyMessage);
 
   const handleSendMessage = async () => {
@@ -176,6 +177,7 @@ export default function ChatRoom({
           value={newMessage}
           onChange={(event) => setNewMessage(event.target.value)}
           onSend={handleSendMessage}
+          disabled={disabled}
         />
       </footer>
     </div>
