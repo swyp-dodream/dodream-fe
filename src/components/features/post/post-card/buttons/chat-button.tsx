@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/commons/buttons/button';
 
 interface ChatButtonProps {
@@ -8,11 +8,15 @@ interface ChatButtonProps {
 }
 
 export default function ChatButton({ postId }: ChatButtonProps) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/chat/${BigInt(postId)}`);
+  };
+
   return (
-    <Link href={`/chat/${BigInt(postId)}`}>
-      <Button variant="outline" size="md" className="py-4">
-        채팅하기
-      </Button>
-    </Link>
+    <Button variant="outline" size="md" className="py-4" onClick={handleClick}>
+      채팅하기
+    </Button>
   );
 }
