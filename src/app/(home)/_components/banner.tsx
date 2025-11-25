@@ -14,9 +14,14 @@ export default function Banner() {
     ));
   };
 
+  const bgImage =
+    profileExists?.exists === true
+      ? "bg-[url('/banner/authenticated.png')]"
+      : "bg-[url('/banner/unauthenticated.png')]";
+
   return (
     <aside
-      className={`col-span-12 flex flex-col justify-between relative h-[204px] shadow-card bg-white border border-border-primary rounded-lg overflow-hidden bg-[url('/banner/${profileExists?.exists === true ? 'authenticated' : 'unauthenticated'}.png')] bg-cover`}
+      className={`col-span-12 flex flex-col justify-between relative h-[204px] shadow-card bg-white border border-border-primary rounded-lg overflow-hidden ${bgImage} bg-cover`}
       aria-labelledby="banner-heading"
     >
       <div className="mt-8 ml-9">
