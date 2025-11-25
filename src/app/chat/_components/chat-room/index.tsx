@@ -4,9 +4,10 @@ import { format, isToday, isYesterday } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { overlay } from 'overlay-kit';
 import { useState } from 'react';
+import ChatInput from '@/app/chat/_components/chat-room/chat-input';
 import LeaveChatRoomModal from '@/app/chat/_components/chat-room/leave-chat-room-modal';
+import MessageBubble from '@/app/chat/_components/chat-room/message-bubble';
 import LeaveChatIcon from '@/assets/icons/log-out/16.svg';
-import Input from '@/components/commons/text-fields/input';
 import type {
   ChatListItemType,
   ChatSubscribeMessageType,
@@ -171,43 +172,12 @@ export default function ChatRoom({
       </section>
 
       <footer className="shrink-0">
-        <Input
-          placeholder="메시지 보내기"
+        <ChatInput
           value={newMessage}
-          className="w-full mt-3 mb-6"
           onChange={(event) => setNewMessage(event.target.value)}
-          onKeyDown={(event) => {
-            if (
-              event.key === 'Enter' &&
-              event.nativeEvent.isComposing === false
-            ) {
-              event.preventDefault();
-              handleSendMessage();
-            }
-          }}
+          onSend={handleSendMessage}
         />
       </footer>
-    </div>
-  );
-}
-
-interface MessageBubbleProps {
-  isMyMessage?: boolean;
-  message: string;
-  isLast: boolean;
-}
-
-function MessageBubble({ isMyMessage, message, isLast }: MessageBubbleProps) {
-  return (
-    <div
-      className={cn('rounded-lg px-4 py-3 w-fit', {
-        'bg-chip-selected text-on-brand ml-auto': isMyMessage,
-        'rounded-br-none': isMyMessage && isLast,
-        'bg-container-primary text-primary': !isMyMessage,
-        'rounded-bl-none': !isMyMessage && isLast,
-      })}
-    >
-      {message}
     </div>
   );
 }
