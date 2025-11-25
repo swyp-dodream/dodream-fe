@@ -57,7 +57,11 @@ export default function RecommendedUsers({ postId }: RecommendedUsersProps) {
                     role={user.roles[0]}
                     actions={
                       <UserActions>
-                        <OfferButton postId={postId} userId={user.userId} />
+                        <OfferButton
+                          postId={postId}
+                          userId={user.userId}
+                          disabled={!!user.suggestionId}
+                        />
                       </UserActions>
                     }
                   />
