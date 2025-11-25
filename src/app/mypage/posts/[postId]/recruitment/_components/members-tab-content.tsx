@@ -14,13 +14,19 @@ interface MembersTabContentProps {
 
 export default function MembersTabContent({ postId }: MembersTabContentProps) {
   const { data: users } = useGetPostMembers(BigInt(postId));
-  console.log('users ➡️', users);
 
   if (!users || users?.users.length === 0) {
     return <RecruitmentEmptyState tab="members" />;
   }
 
-  const roles = [...new Set(users.users.map((user) => user.jobGroups[0]))];
+  // const roles = [...new Set(users.users.map((user) => user.jobGroups[0]))];
+  const roles = [
+    ...new Set(
+      users.users
+        .filter((user) => !!user.jobGroups[0])
+        .map((user) => user.jobGroups[0]),
+    ),
+  ];
 
   return (
     <RoleTabs defaultValue={roles[0]}>
@@ -42,6 +48,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                   postId={BigInt(postId)}
                   key={user.userId}
                   {...user}
+                  role={user.jobGroups[0]}
                   // TODO: 프로필 이미지 방식 통일
                   profileImageCode={1}
                   actions={
@@ -55,7 +62,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                             applicationType="received"
                           />
                           <MathcingCancelButton
-                            nickname={user.nickname}
+                            ownerNickname={user.nickname}
                             postId={BigInt(postId)}
                             // TODO: 아래 수정
                             matchingId={BigInt(user.matchedId)}

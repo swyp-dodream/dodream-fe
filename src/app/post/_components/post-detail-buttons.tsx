@@ -14,8 +14,7 @@ interface PostDetailButtonsProps {
 
 /**
  * 모집글 상세 페이지 우측 상단의 버튼 그룹
- * @param owner - 작성자인지 여부
- * @param deadlineDate - 모집 마감일
+ * @param postId - 모집글 ID
  */
 export default function PostDetailButtons({ postId }: PostDetailButtonsProps) {
   const { data: postData } = useGetPostDetail(postId);

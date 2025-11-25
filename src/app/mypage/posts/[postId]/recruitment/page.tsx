@@ -2,9 +2,10 @@ import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
 import { RecruitmentTabs } from '@/components/features/mypage/my-posts/recruitments/recruitment-tabs';
 import ApplicantsTabContent from './_components/applicants-tab-content';
 import MembersTabContent from './_components/members-tab-content';
+import OfferTabContent from './_components/offer-tab-content';
 
 const RECRUITMENT_TABS = [
-  // { tabValue: 'offers', label: '제안한 내역', Content: OfferTabContent },
+  { tabValue: 'offers', label: '제안한 내역', Content: OfferTabContent },
   {
     tabValue: 'applicants',
     label: '지원자 내역',

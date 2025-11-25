@@ -123,3 +123,53 @@ export type MyPostApplicantProfileType = {
     url: string;
   }[];
 };
+
+/** 내 제안 내역 */
+export type MyPostOffersType = {
+  users: MyPostOfferUserType[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
+export type MyPostOfferUserType = {
+  matchedId: bigint;
+  suggestionId: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  jobGroups: string[];
+};
+
+/** 내 모집글 추천 지원자 타입 */
+export type MyPostRecommendedApplications = {
+  applicants: MyPostRecommendedApplicant[];
+  totalCount: 3;
+};
+
+export type MyPostRecommendedApplicant = {
+  applicationId: bigint;
+  profileId: bigint;
+  nickname: string;
+  profileImageUrl: string;
+  role: string;
+  career: string;
+  applicationMessage: string;
+  similarity: number;
+  tags: string[];
+};
+
+/** ApplicantSection에서 사용할 지원자 타입 정의 */
+export type ApplicantRowUserType = {
+  suggestionId?: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  experience: string;
+  role: string;
+  tags?: string[];
+};

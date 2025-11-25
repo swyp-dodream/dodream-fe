@@ -29,10 +29,8 @@ const postApi = {
     ),
 
   /** 모집글 상세 데이터 */
-  getPostDetailAuth: (id: bigint) =>
-    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
   getPostDetail: (id: bigint) =>
-    api.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
+    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
 
   /** 모집글 멤버 내역 */
   getPostMembers: (id: bigint) =>
@@ -48,12 +46,14 @@ const postApi = {
       `/api/posts/${BigInt(postId)}/can-apply`,
     ),
 
-  /** 모집 지원 취소 */
   cancelApply: (applicationId: bigint) =>
     authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
+  /** 제안 취소 */
   cancelOffer: (suggestionId: bigint) => {
-    return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
+    return authApi.delete<void>(
+      `/api/my/suggestions/suggestions/${BigInt(suggestionId)}/cancel`,
+    );
   },
 
   createPost: (payload: PostCreateFormData) => {

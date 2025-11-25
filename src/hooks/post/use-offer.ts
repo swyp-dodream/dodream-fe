@@ -23,7 +23,13 @@ export default function useOffer() {
           variables.postId.toString(),
         ],
       });
-      // TODO: 제안 내역 무효화
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEY.auth,
+          QUERY_KEY.myPostOffers,
+          variables.postId.toString(),
+        ],
+      });
     },
   });
 }
