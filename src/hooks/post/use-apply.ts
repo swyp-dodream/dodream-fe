@@ -43,6 +43,9 @@ export function useApply() {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts],
+      });
     },
   });
 }
