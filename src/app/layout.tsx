@@ -23,12 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko-KR" className={pretendard.variable}>
-      <body>
+    <html
+      lang="ko-KR"
+      className={`${pretendard.variable} max-w-screen min-w-[1200px]`}
+    >
+      <body className="max-w-screen min-w-[1200px] min-h-screen">
         <Providers>
-          <div className="flex flex-col h-full gap-12">
+          <div className="flex flex-col min-h-screen gap-12">
             <Header />
-            <main>{children}</main>
+            <main className="flex-1">{children}</main>
             <Footer />
           </div>
         </Providers>
