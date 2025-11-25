@@ -82,7 +82,7 @@ export default function useChat({ postId }: UseChatParams) {
             setRoomId(res.roomId);
           }
 
-          markChatAsRead(selectedChat.roomId);
+          markChatAsRead(res.roomId);
         });
       },
     });
