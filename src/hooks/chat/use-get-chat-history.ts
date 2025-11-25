@@ -9,6 +9,6 @@ export default function useGetChatHistory(roomId?: string) {
       if (!roomId) throw new Error('roomId is required');
       return chatApi.getChatHistory(roomId);
     },
-    enabled: Boolean(roomId),
+    enabled: !!roomId,
   });
 }

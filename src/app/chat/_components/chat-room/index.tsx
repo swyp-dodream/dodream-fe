@@ -67,6 +67,7 @@ interface ChatRoomProps {
   onSendMessage: (message: string) => Promise<void> | void;
   messages: ChatSubscribeMessageType[];
   isMyMessage: (id: string) => boolean;
+  onLeave: () => void;
 }
 
 export default function ChatRoom({
@@ -74,6 +75,7 @@ export default function ChatRoom({
   onSendMessage,
   messages,
   isMyMessage,
+  onLeave,
 }: ChatRoomProps) {
   const [newMessage, setNewMessage] = useState('');
 
@@ -93,6 +95,10 @@ export default function ChatRoom({
         onClose={close}
         roomId={selectedChat?.roomId}
         oppositeName={selectedChat?.roomName}
+        onLeave={() => {
+          onLeave();
+          close();
+        }}
       />
     ));
   };

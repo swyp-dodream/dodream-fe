@@ -7,6 +7,7 @@ import { QUERY_KEY } from '@/constants/query-key.constant';
 import useCreateChatRoom from '@/hooks/chat/use-create-chat-room';
 import useGetChatHistory from '@/hooks/chat/use-get-chat-history';
 import useGetChatList from '@/hooks/chat/use-get-chat-list';
+import useLeaveChatRoom from '@/hooks/chat/use-leave-chat-room';
 import useMarkAsRead from '@/hooks/chat/use-mark-as-read';
 import useToast from '@/hooks/use-toast';
 import { queryClient } from '@/lib/query-client';
@@ -28,9 +29,10 @@ export default function useChat({ postId }: UseChatParams) {
   );
   const toast = useToast();
   const { data: chatList } = useGetChatList('ALL');
-  const { data: chatHistory } = useGetChatHistory(selectedChat?.roomId ?? '');
+  const { data: chatHistory } = useGetChatHistory(selectedChat?.roomId);
   const { mutate: markChatAsRead } = useMarkAsRead();
   const { mutateAsync: createChatRoom } = useCreateChatRoom();
+  const { mutateAsync: leaveChatRoom } = useLeaveChatRoom();
   const stompClientRef = useRef<Client | null>(null);
   const chatListRef = useRef<ChatListItemType[] | undefined>(undefined);
 
@@ -127,6 +129,23 @@ export default function useChat({ postId }: UseChatParams) {
       });
     }
   };
+
+  /** 채팅방 나가는 함수 */
+  const handleLeaveRoom = useCallback(async () => {
+    if (!selectedChat?.roomId) return;
+    try {
+      disconnect();
+      await leaveChatRoom(selectedChat.roomId);
+      toast({ title: '채팅방을 나왔습니다' });
+      setSelectedChat(null);
+      setMessages([]);
+      setRoomId(null);
+    } catch {
+      toast({
+        title: '채팅방에서 나오지 못했습니다. 잠시 후 다시 시도해 주세요.',
+      });
+    }
+  }, [leaveChatRoom, selectedChat?.roomId, toast, disconnect]);
 
   /** 내 ID를 얻는 함수 */
   const getMyId = () => {
@@ -268,5 +287,6 @@ export default function useChat({ postId }: UseChatParams) {
     getMyId,
     isMyMessage,
     setRoomId,
+    handleLeaveRoom,
   };
 }

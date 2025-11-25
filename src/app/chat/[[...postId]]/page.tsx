@@ -13,10 +13,16 @@ export default function ChatPage({
 }) {
   const { postId } = use(params);
   const postIdValue = postId?.[0];
-  const { sendMessage, messages, selectedChat, setSelectedChat, isMyMessage } =
-    useChat({
-      postId: postIdValue,
-    });
+  const {
+    sendMessage,
+    messages,
+    selectedChat,
+    setSelectedChat,
+    isMyMessage,
+    handleLeaveRoom,
+  } = useChat({
+    postId: postIdValue,
+  });
 
   return (
     <>
@@ -27,6 +33,7 @@ export default function ChatPage({
           onSendMessage={sendMessage}
           messages={messages}
           isMyMessage={isMyMessage}
+          onLeave={handleLeaveRoom}
         />
       )}
       {selectedChat && <PostDetail postId={selectedChat.postId} />}

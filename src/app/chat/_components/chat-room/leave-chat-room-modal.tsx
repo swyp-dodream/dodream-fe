@@ -1,35 +1,20 @@
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import useLeaveChatRoom from '@/hooks/chat/use-leave-chat-room';
-import useToast from '@/hooks/use-toast';
 
 interface LeaveChatRoomModalProps {
   oppositeName?: string;
   roomId?: string;
   isOpen: boolean;
   onClose: () => void;
+  onLeave: () => void;
 }
 
 export default function LeaveChatRoomModal({
   oppositeName,
-  roomId,
   isOpen,
   onClose,
+  onLeave,
 }: LeaveChatRoomModalProps) {
-  const toast = useToast();
-  const { mutate: leaveChatRoom } = useLeaveChatRoom({
-    onSuccess: () => {
-      toast({ title: '채팅방을 나왔습니다' });
-      onClose();
-    },
-    onError: () => {
-      toast({
-        title: '채팅방에서 나오지 못했습니다. 잠시 후 다시 시도해 주세요.',
-      });
-      onClose();
-    },
-  });
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Overlay />
@@ -53,11 +38,7 @@ export default function LeaveChatRoomModal({
           <Button variant="outline" size="xs" onClick={onClose}>
             취소
           </Button>
-          <Button
-            variant="solid"
-            size="xs"
-            onClick={() => leaveChatRoom(roomId as string)}
-          >
+          <Button variant="solid" size="xs" onClick={onLeave}>
             나가기
           </Button>
         </footer>
