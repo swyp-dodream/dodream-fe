@@ -2,6 +2,7 @@
 
 import ChatListEmpty from '@/app/chat/_components/chat-list/chat-list-empty';
 import { ChatListTabs } from '@/app/chat/_components/chat-list/chat-list-tabs';
+import ProfileImage from '@/components/commons/profile-image';
 import useGetChatList from '@/hooks/chat/use-get-chat-list';
 import type { ChatListItemType } from '@/types/chat.type';
 import { getRelativeTime } from '@/utils/date.util';
@@ -62,7 +63,7 @@ function ChatListItem({
         onClick={() => onSelectChat(chatListItem)}
       >
         {/* 프로필 이미지 */}
-        <div className="size-9 rounded-full bg-primary shrink-0" />
+        <ProfileImage src={null} size={40} userName={chatListItem.roomName} />
 
         {/* 채팅 정보 */}
         <div className="w-full min-w-0">

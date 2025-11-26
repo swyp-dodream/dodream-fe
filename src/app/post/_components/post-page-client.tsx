@@ -1,5 +1,6 @@
 'use client';
 
+import ProfileImage from '@/components/commons/profile-image';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from './post-bookmark-button';
@@ -27,7 +28,11 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
         <div className="flex items-center body-lg-medium">
           {/* 프로필, 작성 시간 영역 */}
           {/* TODO: 프로필 이미지로 수정 */}
-          <div className="w-9 h-9 rounded-full bg-primary" />
+          <ProfileImage
+            src={null}
+            size={40}
+            userName={postData.ownerNickname}
+          />
           <span className="ml-4 mr-3">{postData.ownerNickname}</span>
           <time className="text-subtle" dateTime={postData.deadlineDate}>
             {getRelativeTime(postData.createdAt)}
