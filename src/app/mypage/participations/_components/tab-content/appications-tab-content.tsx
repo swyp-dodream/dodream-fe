@@ -19,9 +19,7 @@ export default function ApplicationsTabContent({
 
   const { data: myAppliedPosts } = useGetMyAppliedPosts(currentPage - 1);
 
-  if (!myAppliedPosts) return null;
-
-  if (myAppliedPosts.content.length === 0) {
+  if (!myAppliedPosts || myAppliedPosts.content.length === 0) {
     return (
       <MyPageEmptyState
         title="지원한 글이 없습니다"
@@ -38,7 +36,7 @@ export default function ApplicationsTabContent({
       paginationSlot={
         <Pagination
           currentPage={currentPage}
-          totalPages={myAppliedPosts?.totalPages}
+          totalPages={myAppliedPosts.totalPages}
           onPageChange={(page) => setParams({ page })}
           className="justify-center mt-[36px]"
         />

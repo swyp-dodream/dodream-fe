@@ -73,7 +73,7 @@ const postApi = {
   },
 
   /** 내가 제안 받은 글 목록 조회 */
-  getMySuggestedPosts: (page?: number, size?: number) => {
+  getMySuggestedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
