@@ -25,6 +25,9 @@ export default function useCancelApply(postId: bigint) {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts],
+      });
     },
   });
 }
