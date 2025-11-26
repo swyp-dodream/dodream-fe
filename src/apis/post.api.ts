@@ -88,7 +88,7 @@ const postApi = {
   getMyBookmarkedPosts: (
     projectType: ProjectType,
     page?: number,
-    size?: number,
+    size: number = 10,
   ) => {
     const params = new URLSearchParams();
 
