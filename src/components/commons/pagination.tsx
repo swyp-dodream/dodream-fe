@@ -6,6 +6,7 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }
 
 const ELLIPSIS = '···';
@@ -20,6 +21,7 @@ export default function Pagination({
   currentPage,
   totalPages,
   onPageChange,
+  className = '',
 }: PaginationProps) {
   const getPageNumbers = () => {
     // 6개 이하면 모두 표시
@@ -65,12 +67,13 @@ export default function Pagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <nav className="flex gap-5 items-center">
+    <nav className={`flex gap-5 items-center ${className}`}>
       {/* prev 버튼 */}
       <button
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        className="w-8 h-8 flex justify-center items-center"
       >
         <ArrowLeft className={clsx(currentPage === 1 && 'text-icon-disable')} />
       </button>
@@ -109,6 +112,7 @@ export default function Pagination({
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        className="w-8 h-8 flex justify-center items-center"
       >
         <ArrowRight
           className={clsx(currentPage === totalPages && 'text-icon-disable')}

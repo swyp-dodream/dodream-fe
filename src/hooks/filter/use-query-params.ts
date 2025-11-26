@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { INTERESTS, ROLE } from '@/constants/profile.constant';
+import { getValidPage } from '@/utils/filter.util';
 
 /** 파라미터 관리 훅 */
 export default function useQueryParams() {
@@ -88,7 +89,11 @@ export default function useQueryParams() {
 
   /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기, 프로젝트 타입 제외) */
   const filterParams = Object.entries(getParams()).filter(
-    ([key]) => key !== 'sort' && key !== 'onlyRecruiting' && key !== 'type',
+    ([key]) =>
+      key !== 'sort' &&
+      key !== 'onlyRecruiting' &&
+      key !== 'type' &&
+      key !== 'page',
   );
 
   /** 쿼리 스트링 생성 */
@@ -102,6 +107,8 @@ export default function useQueryParams() {
       } else if (key === 'interests') {
         const label = INTERESTS[value as keyof typeof INTERESTS];
         if (label) params.append(key, label);
+      } else if (key === 'page') {
+        params.append(key, String(getValidPage(value) - 1));
       } else {
         params.append(key, value);
       }

@@ -6,6 +6,8 @@ import type { ActivityModeType } from './profile.type';
 /** 게시글 데이터 타입 */
 export type PostType = {
   posts: {
+    totalPages: number;
+    number: number;
     content: PostContentType[];
   };
 };

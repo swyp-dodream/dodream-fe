@@ -1,5 +1,6 @@
 'use client';
 
+import Pagination from '@/components/commons/pagination';
 import { Tabs } from '@/components/commons/tabs';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import {
@@ -14,20 +15,29 @@ import type {
   PostStatusType,
   ProjectType,
 } from '@/types/post.type';
+import { getValidPage } from '@/utils/filter.util';
 import HomeFilters from './filters/home-filters';
 
 export default function HomePosts() {
   const { getParam, setParams, getApiQueryString } = useQueryParams();
   const { data: posts } = useGetPosts(getApiQueryString());
 
+  if (!posts) return null;
+
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
+  // 탭 클릭 핸들러
   const handleTabChange = (value: string) => {
     if (value === 'ALL') {
       setParams({ type: null }); // ALL이면 파라미터 제거
     } else {
       setParams({ type: value });
     }
+  };
+
+  // 페이지네이션 클릭 핸들러
+  const handlePageChange = (page: number) => {
+    setParams({ page: page });
   };
 
   // TODO: 탭 스타일 분리
@@ -57,6 +67,12 @@ export default function HomePosts() {
       </Tabs>
       <HomeFilters />
       <HomePostCards posts={posts?.posts.content ?? []} />
+      <Pagination
+        currentPage={getValidPage(getParam('page'), posts?.posts.totalPages)}
+        totalPages={posts.posts.totalPages}
+        onPageChange={handlePageChange}
+        className="mt-[28px] w-full justify-center"
+      />
     </section>
   );
 }
@@ -83,7 +99,6 @@ function HomePostCards({ posts }: HomePostCardsProps) {
               viewCount={post.viewCount}
               stacks={post.techs}
               roles={post.roles}
-              // TODO: 북마크 상태 수정
               isBookmarked={post.isBookmarked}
             />
           </li>
