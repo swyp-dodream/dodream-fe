@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/commons/buttons/button';
 import Pagination from '@/components/commons/pagination';
 import { Tabs } from '@/components/commons/tabs';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
@@ -19,7 +20,8 @@ import { getValidPage } from '@/utils/filter.util';
 import HomeFilters from './filters/home-filters';
 
 export default function HomePosts() {
-  const { getParam, setParams, getApiQueryString } = useQueryParams();
+  const { getParam, setParams, filterParams, getApiQueryString, clearParams } =
+    useQueryParams();
   const { data: posts } = useGetPosts(getApiQueryString());
 
   if (!posts) return null;
@@ -66,13 +68,50 @@ export default function HomePosts() {
         </Tabs.List>
       </Tabs>
       <HomeFilters />
-      <HomePostCards posts={posts?.posts.content ?? []} />
-      <Pagination
-        currentPage={getValidPage(getParam('page'), posts?.posts.totalPages)}
-        totalPages={posts.posts.totalPages}
-        onPageChange={handlePageChange}
-        className="mt-[28px] w-full justify-center"
-      />
+      {posts.posts.content.length === 0 ? (
+        Object.entries(filterParams).length === 0 ? (
+          <section
+            className="flex flex-col gap-2 items-center justify-center body-lg-medium pt-9 pb-44"
+            aria-label="게시물 없음"
+          >
+            <p>아직 등록된 글이 없습니다</p>
+            <p className="text-subtle">
+              첫 번째 모집 글을 작성하고 팀원을 찾아보세요
+            </p>
+          </section>
+        ) : (
+          <section
+            className="flex flex-col gap-2 items-center justify-center body-lg-medium pt-9 pb-[102px]"
+            aria-label="필터링 결과 없음"
+          >
+            <p>필터링 결과가 없습니다</p>
+            <p className="text-subtle">
+              필터 옵션을 변경하거나 검색어를 수정해 주세요
+            </p>
+            <Button
+              variant="solid"
+              size="md"
+              className="mt-8"
+              onClick={clearParams}
+            >
+              검색 및 필터 초기화
+            </Button>
+          </section>
+        )
+      ) : (
+        <>
+          <HomePostCards posts={posts.posts.content} />
+          <Pagination
+            currentPage={getValidPage(
+              getParam('page'),
+              posts?.posts.totalPages,
+            )}
+            totalPages={posts.posts.totalPages}
+            onPageChange={handlePageChange}
+            className="mt-[28px] w-full justify-center"
+          />
+        </>
+      )}
     </section>
   );
 }

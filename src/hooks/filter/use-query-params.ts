@@ -99,7 +99,7 @@ export default function useQueryParams() {
     });
   };
 
-  /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기, 프로젝트 타입 제외) */
+  /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기, 프로젝트 타입, 페이지 제외) */
   const filterParams = Object.entries(getParams()).filter(
     ([key]) => !(PRESERVE_PARAMS as readonly string[]).includes(key),
   );
