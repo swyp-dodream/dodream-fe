@@ -102,7 +102,7 @@ const postApi = {
   },
 
   /** 내가 매칭된 글 목록 조회 */
-  getMyMatchedPosts: (page?: number, size?: number) => {
+  getMyMatchedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
