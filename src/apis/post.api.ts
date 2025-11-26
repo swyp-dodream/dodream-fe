@@ -61,7 +61,7 @@ const postApi = {
   },
 
   /** 내가 지원한 글 목록 조회 */
-  getMyAppliedPosts: (page?: number, size?: number) => {
+  getMyAppliedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
