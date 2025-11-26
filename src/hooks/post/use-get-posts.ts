@@ -15,7 +15,7 @@ export function useGetPosts(query: string) {
 /** 게시물 상세 정보 */
 export function useGetPostDetail(postId: bigint) {
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, BigInt(postId).toString()],
     queryFn: () => postApi.getPostDetail(BigInt(postId)),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,

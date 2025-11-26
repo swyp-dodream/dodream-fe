@@ -9,10 +9,18 @@ export default function useCancelApply(postId: bigint) {
     mutationFn: (applicationId: bigint) => postApi.cancelApply(applicationId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId.toString()],
+        queryKey: [
+          QUERY_KEY.auth,
+          QUERY_KEY.canApply,
+          BigInt(postId).toString(),
+        ],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
+        queryKey: [
+          QUERY_KEY.auth,
+          QUERY_KEY.postDetail,
+          BigInt(postId).toString(),
+        ],
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts],

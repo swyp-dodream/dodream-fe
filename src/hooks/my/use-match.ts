@@ -18,11 +18,11 @@ export default function useMatch() {
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.myPostApplications,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.postMembers, variables.postId.toString()],
+        queryKey: [QUERY_KEY.postMembers, BigInt(variables.postId).toString()],
       });
     },
   });

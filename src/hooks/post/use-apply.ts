@@ -30,14 +30,14 @@ export function useApply() {
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.canApply,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
       queryClient.invalidateQueries({
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.postDetail,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
       queryClient.invalidateQueries({
@@ -55,7 +55,7 @@ export function useGetApplyAvailable(postId: bigint) {
   const { data: profileExists, isSuccess } = useGetProfileExists();
 
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId.toString()],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, BigInt(postId).toString()],
     queryFn: () => postApi.getApplyAvailable(postId),
     enabled: isSuccess && profileExists?.exists === true,
     staleTime: 0,

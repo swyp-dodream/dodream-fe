@@ -12,6 +12,13 @@ export default function useCancelOfferMutation(postId: bigint) {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myPostOffers, postId.toString()],
       });
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEY.auth,
+          QUERY_KEY.myPostRecommendedUsers,
+          postId.toString(),
+        ],
+      });
     },
   });
 }

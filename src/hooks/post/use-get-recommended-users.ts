@@ -10,7 +10,7 @@ export function useGetRecommendedUsers(postId: bigint) {
     queryKey: [
       QUERY_KEY.auth,
       QUERY_KEY.myPostRecommendedUsers,
-      postId.toString(),
+      BigInt(postId).toString(),
     ],
     queryFn: () => postApi.getMyPostRecommendedUsers(postId),
     enabled: isSuccess && profileExists.exists === true,
