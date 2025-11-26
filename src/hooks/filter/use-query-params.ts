@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { PRESERVE_PARAMS } from '@/constants/filter.constant';
 import { INTERESTS, ROLE } from '@/constants/profile.constant';
 import { getValidPage } from '@/utils/filter.util';
 
@@ -84,18 +85,24 @@ export default function useQueryParams() {
 
   /** 모든 파라미터 삭제 */
   const clearParams = () => {
-    router.push(pathname, { scroll: false });
+    const currentParams = getParams();
+
+    const preservedParams = Object.fromEntries(
+      Object.entries(currentParams).filter(([key]) =>
+        (PRESERVE_PARAMS as readonly string[]).includes(key),
+      ),
+    );
+
+    const queryString = new URLSearchParams(preservedParams).toString();
+    router.push(queryString ? `${pathname}?${queryString}` : pathname, {
+      scroll: false,
+    });
   };
 
   /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기, 프로젝트 타입 제외) */
   const filterParams = Object.entries(getParams()).filter(
-    ([key]) =>
-      key !== 'sort' &&
-      key !== 'onlyRecruiting' &&
-      key !== 'type' &&
-      key !== 'page',
+    ([key]) => !(PRESERVE_PARAMS as readonly string[]).includes(key),
   );
-
   /** 쿼리 스트링 생성 */
   const getApiQueryString = () => {
     const params = new URLSearchParams();
