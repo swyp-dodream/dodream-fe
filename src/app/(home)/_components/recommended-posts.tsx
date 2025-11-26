@@ -16,6 +16,8 @@ export default function RecommendedPosts() {
 
   const { data: posts } = useGetRecommendedPosts(activePostType);
 
+  if (!posts) return null;
+
   // TODO: 스켈레톤 추가
 
   return (

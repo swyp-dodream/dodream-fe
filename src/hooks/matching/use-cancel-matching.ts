@@ -23,10 +23,14 @@ export default function useCancelMatching(postId: bigint) {
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
+        queryKey: [
+          QUERY_KEY.auth,
+          QUERY_KEY.postDetail,
+          BigInt(postId).toString(),
+        ],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.postMembers, postId.toString()],
+        queryKey: [QUERY_KEY.postMembers, BigInt(postId).toString()],
       });
     },
   });

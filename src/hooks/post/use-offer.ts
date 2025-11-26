@@ -13,21 +13,21 @@ export default function useOffer() {
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.myPostRecommendedUsers,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
       queryClient.invalidateQueries({
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.myPostApplications,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
       queryClient.invalidateQueries({
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.myPostOffers,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
     },
