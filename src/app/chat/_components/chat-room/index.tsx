@@ -177,21 +177,26 @@ export default function ChatRoom({
                           'ml-9',
                       )}
                     >
-                      <p
-                        className={cn(
-                          'flex gap-3 pl-4 items-center',
-                          item.isMyMessage && 'self-end',
-                        )}
-                      >
-                        {!item.isMyMessage && (
-                          <span className="text-secondary body-sm-medium">
-                            {item.senderNickname}
+                      {index === 0 && (
+                        <p
+                          className={cn(
+                            'flex gap-3 items-center mt-3',
+                            item.isMyMessage && 'self-end pr-4',
+                            !item.isMyMessage && 'pl-4',
+                          )}
+                        >
+                          {!item.isMyMessage && (
+                            <span className="text-secondary body-sm-medium">
+                              {item.senderNickname}
+                            </span>
+                          )}
+
+                          <span className="body-sm-medium text-subtle">
+                            {minuteLabel}
                           </span>
-                        )}
-                        <span className="body-sm-medium text-subtle">
-                          {minuteLabel}
-                        </span>
-                      </p>
+                        </p>
+                      )}
+
                       <MessageBubble
                         isMyMessage={item.isMyMessage}
                         message={item.body}
