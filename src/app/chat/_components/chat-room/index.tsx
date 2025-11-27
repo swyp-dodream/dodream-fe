@@ -143,7 +143,7 @@ export default function ChatRoom({
 
       <section
         ref={messageContainerRef}
-        className="flex-1 overflow-y-auto space-y-8 py-4"
+        className="flex-1 overflow-y-auto space-y-8 py-4 scrollbar-thin"
       >
         {groupedMessages.map(({ groups, label }) => (
           <div key={label}>

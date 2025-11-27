@@ -39,7 +39,10 @@ function Content({
 }: ComponentPropsWithoutRef<typeof Tabs.Content>) {
   return (
     <Tabs.Content
-      className={cn('flex-1 min-h-0 overflow-y-auto p-4 pb-6', className)}
+      className={cn(
+        'flex-1 min-h-0 overflow-y-auto p-4 pb-6 scrollbar-thin',
+        className,
+      )}
       {...props}
     />
   );
