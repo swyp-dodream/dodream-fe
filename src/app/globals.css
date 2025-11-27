@@ -208,11 +208,6 @@ button:disabled {
   border-radius: var(--radius-sm);
 }
 
-.scrollbar-thin-dark::-webkit-scrollbar-thumb {
-  background-color: var(--color-gray-700);
-  border-radius: var(--radius-sm);
-}
-
 ::-webkit-scrollbar-thumb:hover,
 .scrollbar-thin::-webkit-scrollbar-thumb:hover,
 .scrollbar-thin-dark::-webkit-scrollbar-thumb:hover {
@@ -223,6 +218,11 @@ button:disabled {
 .scrollbar-thin::-webkit-scrollbar-track,
 .scrollbar-thin-dark::-webkit-scrollbar-track {
   background-color: var(--color-scrollbar-track);
+}
+
+.scrollbar-thin-dark::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray-700);
+  border-radius: var(--radius-sm);
 }
 
 main,
