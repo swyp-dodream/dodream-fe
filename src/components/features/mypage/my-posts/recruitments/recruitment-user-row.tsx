@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ProfileImage from '@/components/commons/profile-image';
 import { EXPERIENCE } from '@/constants/profile.constant';
 import { parseExperienceValue } from '@/utils/profile.util';
 
@@ -25,12 +26,9 @@ export default function RecruitmentUserRow({
 }: RecruitmentUserRowProps) {
   return (
     <div className="grid grid-cols-subgrid col-span-full pb-6">
-      <Link
-        href={`/profile/${BigInt(postId)}/${BigInt(userId)}`}
-        className="grid grid-cols-subgrid col-span-6"
-      >
+      <Link href="#" className="grid grid-cols-subgrid col-span-6">
         <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">
-          <div className="size-9 rounded-full bg-primary shrink-0" />
+          <ProfileImage src={null} size={40} userName={nickname} />
           <div className="flex flex-col">
             <span className="body-lg-medium truncate">{nickname}</span>
             <div className="body-sm-regular text-secondary flex items-center gap-1">

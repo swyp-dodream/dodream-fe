@@ -8,6 +8,7 @@ import ChatInput from '@/app/chat/_components/chat-room/chat-input';
 import LeaveChatRoomModal from '@/app/chat/_components/chat-room/leave-chat-room-modal';
 import MessageBubble from '@/app/chat/_components/chat-room/message-bubble';
 import LeaveChatIcon from '@/assets/icons/log-out/16.svg';
+import ProfileImage from '@/components/commons/profile-image';
 import type {
   ChatListItemType,
   ChatSubscribeMessageType,
@@ -108,7 +109,11 @@ export default function ChatRoom({
       <header className="flex shrink-0 justify-between items-center sticky py-4">
         <div className="flex gap-4 items-center">
           {/* TODO: 프로필 이미지 교체 */}
-          <div className="rounded-full size-8 bg-primary" />
+          <ProfileImage
+            src={null}
+            size={32}
+            userName={selectedChat?.roomName}
+          />
           <span className="heading-sm">{selectedChat?.roomName}</span>
         </div>
 
@@ -138,7 +143,12 @@ export default function ChatRoom({
                     )}
                   >
                     {!item.isMyMessage && index === items.length - 1 && (
-                      <div className="rounded-full bg-container-primary size-8 self-end" />
+                      <ProfileImage
+                        src={null}
+                        size={32}
+                        userName={item.senderNickname}
+                        className="self-end"
+                      />
                     )}
 
                     <div

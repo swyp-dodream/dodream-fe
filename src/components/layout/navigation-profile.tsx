@@ -1,12 +1,12 @@
 'use client';
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import Image from 'next/image';
 import Link from 'next/link';
 import userApi from '@/apis/user.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
 import useGetUser from '@/hooks/auth/use-get-user';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
+import ProfileImage from '../commons/profile-image';
 
 export default function NavigationProfile() {
   const { data: user } = useGetUser();
@@ -30,14 +30,9 @@ export default function NavigationProfile() {
         <button
           type="button"
           aria-label="프로필 메뉴"
-          className="flex h-8 w-8 relative rounded-full overflow-hidden focus:outline-none"
+          className="flex h-8 w-8 rounded-full overflow-hidden focus:outline-none"
         >
-          <Image
-            src="/avatar/default-avatar.png"
-            alt="프로필 이미지"
-            fill
-            sizes="32px"
-          />
+          <ProfileImage src={null} size={32} userName={profile.nickname} />
         </button>
       </DropdownMenu.Trigger>
 
