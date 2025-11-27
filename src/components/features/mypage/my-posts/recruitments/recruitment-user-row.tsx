@@ -26,10 +26,7 @@ export default function RecruitmentUserRow({
 }: RecruitmentUserRowProps) {
   return (
     <div className="grid grid-cols-subgrid col-span-full pb-6">
-      <Link
-        href={`/profile/${BigInt(postId)}/${BigInt(userId)}`}
-        className="grid grid-cols-subgrid col-span-6"
-      >
+      <Link href="#" className="grid grid-cols-subgrid col-span-6">
         <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">
           <ProfileImage src={null} size={40} userName={nickname} />
           <div className="flex flex-col">

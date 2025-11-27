@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import ArrowDownIcon from '@/assets/icons/chevron-down/14.svg';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
+import ProfileImage from '@/components/commons/profile-image';
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
 
 interface RecruitStatusProps {
@@ -110,7 +111,11 @@ function MemberInfo({ member }: MemberInfoProps) {
   return (
     <li className="relative group">
       <Link href="#">
-        <div className="bg-primary rounded-full w-8 h-8 border border-white @max-[50vw]/chatting:border-3" />
+        <ProfileImage
+          src={null}
+          size={32}
+          className="border border-white @max-[50vw]/chatting:border-3"
+        />
         <span className="absolute hidden group-hover:block top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap z-50 body-sm-regular text-text-on-brand bg-toast-black-80 px-3 py-2 rounded-md">
           {member.nickname}
         </span>
