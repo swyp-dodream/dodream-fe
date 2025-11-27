@@ -40,12 +40,6 @@ const postApi = {
   apply: (postId: bigint, data: { roleId: number; message: string }) =>
     authApi.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
-  /** 모집 지원 가능 여부 판단 */
-  getApplyAvailable: (postId: bigint) =>
-    authApi.get<{ canApply: boolean }>(
-      `/api/posts/${BigInt(postId)}/can-apply`,
-    ),
-
   cancelApply: (applicationId: bigint) =>
     authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
