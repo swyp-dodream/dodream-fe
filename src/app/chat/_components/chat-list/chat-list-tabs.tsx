@@ -6,7 +6,9 @@ function Root({
   className,
   ...props
 }: ComponentPropsWithoutRef<typeof Tabs.Root>) {
-  return <Tabs.Root className={cn(className)} {...props} />;
+  return (
+    <Tabs.Root className={cn('flex h-full flex-col', className)} {...props} />
+  );
 }
 
 function List({
@@ -35,7 +37,15 @@ function Content({
   className,
   ...props
 }: ComponentPropsWithoutRef<typeof Tabs.Content>) {
-  return <Tabs.Content className={cn('p-4 pb-6', className)} {...props} />;
+  return (
+    <Tabs.Content
+      className={cn(
+        'flex-1 min-h-0 overflow-y-auto p-4 pb-6 scrollbar-thin',
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 export const ChatListTabs = Object.assign(Root, { List, Trigger, Content });

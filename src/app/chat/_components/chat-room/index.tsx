@@ -3,7 +3,7 @@
 import { format, isToday, isYesterday } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { overlay } from 'overlay-kit';
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import ChatInput from '@/app/chat/_components/chat-room/chat-input';
 import LeaveChatRoomModal from '@/app/chat/_components/chat-room/leave-chat-room-modal';
 import MessageBubble from '@/app/chat/_components/chat-room/message-bubble';
@@ -79,6 +79,7 @@ export default function ChatRoom({
   onLeave,
 }: ChatRoomProps) {
   const [newMessage, setNewMessage] = useState('');
+  const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const disabled = messages.at(-1)?.messageType === 'LEAVE';
   const groupedMessages = groupByDateAndTime(messages, isMyMessage);
@@ -104,6 +105,20 @@ export default function ChatRoom({
     ));
   };
 
+  useLayoutEffect(() => {
+    const container = messageContainerRef.current;
+
+    if (!messages || messages.length === 0) {
+      return;
+    }
+
+    if (!container) {
+      return;
+    }
+
+    container.scrollTop = container.scrollHeight;
+  }, [messages]);
+
   return (
     <div className="col-span-5 flex flex-col min-h-0 h-full overflow-hidden">
       <header className="flex shrink-0 justify-between items-center sticky py-4">
@@ -126,62 +141,81 @@ export default function ChatRoom({
         </button>
       </header>
 
-      <section className="flex-1 overflow-y-auto space-y-8 py-4">
+      <section
+        ref={messageContainerRef}
+        className="flex-1 overflow-y-auto space-y-8 py-4 scrollbar-thin"
+      >
         {groupedMessages.map(({ groups, label }) => (
           <div key={label}>
             <p className="body-sm-medium text-primary text-center">{label}</p>
 
             {Object.values(groups).map(({ minuteLabel, items }) => (
               <div key={minuteLabel} className="flex flex-col gap-3">
-                {items.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className={cn(
-                      !item.isMyMessage &&
-                        index === items.length - 1 &&
-                        'flex gap-3',
-                    )}
-                  >
-                    {!item.isMyMessage && index === items.length - 1 && (
-                      <ProfileImage
-                        src={null}
-                        size={32}
-                        userName={item.senderNickname}
-                        className="self-end"
-                      />
-                    )}
+                {items.map((item, index) => {
+                  const prev = items[index - 1];
+                  const next = items[index + 1];
+                  const isPrevMine = prev?.isMyMessage ?? null;
+                  const isNextMine = next?.isMyMessage ?? null;
 
+                  const isShowProfileImage =
+                    !item.isMyMessage && (isNextMine || next == null);
+                  const isShowTime =
+                    isPrevMine === null || isPrevMine !== item.isMyMessage;
+                  const isShowNickname =
+                    !item.isMyMessage && (isPrevMine || prev == null);
+                  const isLastBubble =
+                    isNextMine === null || isNextMine !== item.isMyMessage;
+
+                  return (
                     <div
-                      className={cn(
-                        'flex flex-col gap-2',
-                        !item.isMyMessage &&
-                          index !== items.length - 1 &&
-                          'ml-9',
-                      )}
+                      key={item.id}
+                      className={cn(isShowProfileImage && 'flex gap-3')}
                     >
-                      <p
+                      {isShowProfileImage && (
+                        <ProfileImage
+                          src={null}
+                          size={32}
+                          userName={item.senderNickname}
+                          className="self-end"
+                        />
+                      )}
+
+                      <div
                         className={cn(
-                          'flex gap-3 pl-4 items-center',
-                          item.isMyMessage && 'self-end',
+                          'flex flex-col gap-2',
+                          !isShowProfileImage && 'ml-9',
                         )}
                       >
-                        {!item.isMyMessage && (
-                          <span className="text-secondary body-sm-medium">
-                            {item.senderNickname}
-                          </span>
-                        )}
-                        <span className="body-sm-medium text-subtle">
-                          {minuteLabel}
-                        </span>
-                      </p>
-                      <MessageBubble
-                        isMyMessage={item.isMyMessage}
-                        message={item.body}
-                        isLast={index === items.length - 1}
-                      />
+                        <p
+                          className={cn(
+                            'flex gap-3 items-center',
+                            item.isMyMessage && 'self-end pr-4',
+                            !item.isMyMessage && 'pl-4',
+                            (isShowNickname || isShowTime) && 'mt-3',
+                          )}
+                        >
+                          {isShowNickname && (
+                            <span className="text-secondary body-sm-medium">
+                              {item.senderNickname}
+                            </span>
+                          )}
+
+                          {isShowTime && (
+                            <span className="body-sm-medium text-subtle">
+                              {minuteLabel}
+                            </span>
+                          )}
+                        </p>
+
+                        <MessageBubble
+                          isMyMessage={item.isMyMessage}
+                          message={item.body}
+                          isLast={isLastBubble}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ))}
           </div>

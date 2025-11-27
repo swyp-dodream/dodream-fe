@@ -1,9 +1,8 @@
 'use client';
 
-import Button from '@/components/commons/buttons/button';
+import ChatButton from '@/components/features/post/post-card/buttons/chat-button';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
-import useToast from '@/hooks/use-toast';
 import { formatDeadlineAt } from '@/utils/date.util';
 import PostActionButton from './post-action-button';
 
@@ -19,13 +18,8 @@ interface PostDetailButtonsProps {
 export default function PostDetailButtons({ postId }: PostDetailButtonsProps) {
   const { data: postData } = useGetPostDetail(postId);
   const { data: profileExists } = useGetProfileExists();
-  const toast = useToast();
 
   if (!postData) return null;
-
-  const handleChat = () => {
-    toast({ title: '준비중입니다.' });
-  };
 
   // 작성자인 경우: 마감일만 표시
   if (postData.owner) {
@@ -39,9 +33,7 @@ export default function PostDetailButtons({ postId }: PostDetailButtonsProps) {
   // 작성자가 아닌 경우: 채팅하기 + 액션 버튼
   return (
     <div className="flex gap-4 h-[50px] body-lg-medium">
-      <Button onClick={handleChat} variant="outline" size="md">
-        채팅하기
-      </Button>
+      <ChatButton postId={postId} />
       <PostActionButton
         postId={postId}
         postData={postData}
