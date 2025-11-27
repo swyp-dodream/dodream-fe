@@ -12,7 +12,7 @@ export default function MyPageNavigation() {
       aria-label="마이페이지 메뉴"
       className="col-span-2 h-full border-r-1 border-border-primary"
     >
-      <ul className="flex flex-col gap-7 fixed">
+      <ul className="flex flex-col gap-7 sticky top-32">
         {MYPAGE_MENU_LIST.map(({ label, href, icon }) => {
           const isActive = pathname.startsWith(href);
           const Icon = icon.default;
