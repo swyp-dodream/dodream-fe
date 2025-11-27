@@ -21,10 +21,12 @@ import {
   type PostCreateFormData,
   postCreateFormSchema,
 } from '@/schemas/post.schema';
+import usePostCreateStore from '@/store/post-create-store';
 
 export default function PostCreatePage() {
   const router = useRouter();
   const { mutateAsync: createPost, isPending } = useCreatePost();
+  const resetPostCreateStore = usePostCreateStore((state) => state.reset);
   const methods = useForm<PostCreateFormData>({
     resolver: zodResolver(postCreateFormSchema),
     defaultValues: {
@@ -45,6 +47,8 @@ export default function PostCreatePage() {
   const onSubmit = methods.handleSubmit(async (values) => {
     try {
       const createdPost = await createPost(values);
+      resetPostCreateStore();
+      methods.reset();
       router.push(`/post/${BigInt(createdPost.id)}`);
     } catch (error) {
       console.error('모집글 생성 실패:', error);
