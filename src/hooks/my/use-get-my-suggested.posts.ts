@@ -5,7 +5,7 @@ import { tokenStorage } from '@/utils/auth.util';
 
 export default function useGetMySuggestedPosts(page?: number, size?: number) {
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts, page],
     queryFn: () => postApi.getMySuggestedPosts(page, size),
     enabled: tokenStorage.hasToken,
   });

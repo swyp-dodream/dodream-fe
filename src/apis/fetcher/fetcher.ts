@@ -1,4 +1,6 @@
 import { BASE_URL } from '@/constants/auth.constant';
+import type { ErrorType } from '@/types/error.type';
+import { isErrorType } from '@/utils/error.util';
 
 async function fetcher<T>(
   endpoint: string,
@@ -21,8 +23,11 @@ async function fetcher<T>(
     if (!contentType?.includes('application/json') && res.status !== 204) {
       // HTML 응답은 인증 에러로 간주
       if (contentType?.includes('text/html')) {
-        const error: Error & { status?: number } = new Error('인증되지 않음');
-        error.status = 401;
+        const error: ErrorType = {
+          code: 401,
+          error: 'UNAUTHORIZED',
+          message: '인증되지 않음',
+        };
         throw error;
       }
 
@@ -31,37 +36,68 @@ async function fetcher<T>(
         if (!res.ok) {
           const errorText = await res.text();
           console.error('에러 응답:', errorText);
-          const error: Error & { status?: number } = new Error(
-            errorText || `HTTP 에러 ${res.status}`,
-          );
-          error.status = res.status;
+          const error: ErrorType = {
+            code: res.status,
+            error: 'PLAIN_TEXT_ERROR',
+            message: errorText || `HTTP 에러 ${res.status}`,
+          };
           throw error;
         }
         // 성공 시 텍스트 반환
         return (await res.text()) as T;
       }
 
-      const error: Error & { status?: number } = new Error(
-        `지원하지 않는 응답 형식: ${contentType}`,
-      );
-      error.status = res.status;
+      const error: ErrorType = {
+        code: res.status || 500,
+        error: 'UNSUPPORTED_CONTENT_TYPE',
+        message: `지원하지 않는 응답 형식: ${contentType}`,
+      };
       throw error;
     }
 
     if (!res.ok) {
-      const errorText = await res.text();
-      console.error('에러 응답:', errorText);
-      const error: Error & { status?: number } = new Error(
-        errorText || `HTTP 에러 ${res.status}`,
-      );
-      error.status = res.status;
-      throw error;
+      try {
+        const errorData = await res.json();
+        const error: ErrorType = {
+          code: res.status,
+          error: errorData.error || 'UNKNOWN_ERROR',
+          message: errorData.message || `HTTP 에러 ${res.status}`,
+        };
+        throw error;
+      } catch (parseError) {
+        // JSON 파싱 실패 시
+        if ((parseError as ErrorType).code) {
+          throw parseError;
+        }
+
+        const errorText = await res.text();
+        const error: ErrorType = {
+          code: res.status,
+          error: 'PARSE_ERROR',
+          message: errorText || `HTTP 에러 ${res.status}`,
+        };
+        throw error;
+      }
     }
 
     return res.status === 204 ? ({} as T) : await res.json();
   } catch (error) {
-    console.error(`${endpoint} Fetch 요청 오류: ${error}`);
-    throw error;
+    if (isErrorType(error)) {
+      console.error(
+        `${endpoint} Fetch 요청 오류: [${error.code}] ${error.message}`,
+      );
+      throw error;
+    } else {
+      // ErrorType이 아닌 에러는 ErrorType으로 변환
+      console.error(`${endpoint} Fetch 요청 오류:`, error);
+
+      const wrappedError: ErrorType = {
+        code: 500,
+        error: 'NETWORK_ERROR',
+        message: error instanceof Error ? error.message : '네트워크 오류',
+      };
+      throw wrappedError;
+    }
   }
 }
 

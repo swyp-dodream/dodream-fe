@@ -1,41 +1,47 @@
 import MyPageEmptyState from '@/components/features/mypage/commons/mypage-empty-state';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
-import type { MyBookmarkedPostType, ProjectType } from '@/types/post.type';
+import { PROJECT_MAP } from '@/constants/post.constant';
+import type {
+  GetMyBookmarkedPostsResponseType,
+  ProjectType,
+} from '@/types/post.type';
 
 interface BookmarkedPageTabContentProps {
-  posts: MyBookmarkedPostType[];
   projectType: ProjectType;
+  bookmarkedPosts: GetMyBookmarkedPostsResponseType;
 }
 
 export default function BookmarkedPageTabContent({
-  posts,
   projectType,
+  bookmarkedPosts,
 }: BookmarkedPageTabContentProps) {
-  const projectTypeToKorean = projectType === 'PROJECT' ? '프로젝트' : '스터디';
-
-  if (posts.length === 0) {
+  if (bookmarkedPosts.totalElements === 0) {
     return (
       <MyPageEmptyState
         title="북마크한 글이 없습니다"
-        description={`관심 있는 ${projectTypeToKorean}를 북마크해 보세요`}
+        description={`관심 있는 ${PROJECT_MAP[projectType]}를 북마크해 보세요`}
       />
     );
   }
 
-  return posts?.map((post) => (
-    <DefaultPostCard
-      key={post.postId}
-      id={post.postId}
-      title={post.postTitle}
-      status={post.postStatus}
-      ownerNickname={post.leaderName}
-      ownerProfileImageCode={post.leaderProfileImageCode}
-      projectType={post.projectType}
-      createDate={post.postCreatedAt.toString()}
-      viewCount={post.viewCount}
-      stacks={post.stacks}
-      roles={post.roles}
-      isBookmarked={post.bookmarked}
-    />
-  ));
+  return (
+    <>
+      {bookmarkedPosts.content.map((bookmarkedPost) => (
+        <DefaultPostCard
+          key={bookmarkedPost.postId}
+          id={bookmarkedPost.postId}
+          title={bookmarkedPost.postTitle}
+          status={bookmarkedPost.postStatus}
+          ownerNickname={bookmarkedPost.leaderName}
+          ownerProfileImageCode={bookmarkedPost.leaderProfileImageCode}
+          projectType={bookmarkedPost.projectType}
+          createDate={bookmarkedPost.postCreatedAt.toString()}
+          viewCount={bookmarkedPost.viewCount}
+          stacks={bookmarkedPost.stacks}
+          roles={bookmarkedPost.roles}
+          isBookmarked={bookmarkedPost.bookmarked}
+        />
+      ))}
+    </>
+  );
 }

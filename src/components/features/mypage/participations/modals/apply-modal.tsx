@@ -5,9 +5,11 @@ import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import TextField from '@/components/commons/text-fields/text-field';
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
+import { ERROR_MESSAGES } from '@/constants/error.constant';
 import { ROLES } from '@/constants/role.constant';
 import { useApply } from '@/hooks/post/use-apply';
 import useToast from '@/hooks/use-toast';
+import type { ErrorType } from '@/types/error.type';
 
 interface ApplyModalProps {
   postId: bigint;
@@ -49,9 +51,11 @@ export default function ApplyModal({
           toast({ title: '지원이 전송 완료되었습니다' });
           onClose();
         },
-        onError: () => {
+        onError: (error: ErrorType) => {
           toast({
-            title: '지원 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+            title:
+              ERROR_MESSAGES.APPLY[error.error] ||
+              '지원 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.',
           });
         },
       },

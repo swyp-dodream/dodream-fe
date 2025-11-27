@@ -1,51 +1,41 @@
 import Link from 'next/link';
+import ProfileImage from '@/components/commons/profile-image';
 import { EXPERIENCE } from '@/constants/profile.constant';
 import { parseExperienceValue } from '@/utils/profile.util';
 
 interface RecruitmentUserRowProps {
   postId: bigint;
-  suggestionId: bigint;
-  applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
-  status: string;
-  createdAt: string;
+  profileImageCode: number;
   experience: string;
-  jobGroups: string[];
+  role: string;
   tags?: string[];
   actions?: React.ReactNode;
 }
 
 export default function RecruitmentUserRow({
   postId,
-  suggestionId,
-  applicationId,
   userId,
   nickname,
-  profileImage,
-  status,
-  createdAt,
+  profileImageCode,
   experience,
-  jobGroups,
+  role,
   tags,
   actions,
 }: RecruitmentUserRowProps) {
   return (
     <div className="grid grid-cols-subgrid col-span-full pb-6">
-      <Link
-        href={`/profile/${BigInt(postId)}/${BigInt(userId)}`}
-        className="grid grid-cols-subgrid col-span-6"
-      >
+      <Link href="#" className="grid grid-cols-subgrid col-span-6">
         <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">
-          <div className="size-9 rounded-full bg-primary shrink-0" />
+          <ProfileImage src={null} size={40} userName={nickname} />
           <div className="flex flex-col">
             <span className="body-lg-medium truncate">{nickname}</span>
             <div className="body-sm-regular text-secondary flex items-center gap-1">
-              <span>{jobGroups[0]}</span>
+              <span>{role}</span>
               <span>·</span>
               <span>
-                {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
+                경력 {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
               </span>
             </div>
           </div>

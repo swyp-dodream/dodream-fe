@@ -19,12 +19,17 @@ export function useGetProfile() {
 
 /** 유저의 프로필 존재 여부 */
 export function useGetProfileExists() {
-  const { data: user } = useGetUser();
+  const { data: user, isSuccess } = useGetUser();
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
-    queryFn: userApi.getProfileExists,
-    enabled: !!user,
+    queryFn: async () => {
+      if (!user) {
+        return { exists: false };
+      }
+      return userApi.getProfileExists();
+    },
+    enabled: isSuccess,
     staleTime: 12 * 60 * 60 * 1000,
     gcTime: 12 * 60 * 60 * 1000,
   });

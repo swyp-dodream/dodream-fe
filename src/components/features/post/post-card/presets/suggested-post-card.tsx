@@ -4,7 +4,7 @@ import { PostCard } from '@/components/features/post/post-card';
 import ApplyButton from '@/components/features/post/post-card/buttons/apply-button';
 import ChatButton from '@/components/features/post/post-card/buttons/chat-button';
 import type { MySuggestedPostType } from '@/types/post.type';
-import { formatDeadlineAt } from '@/utils/date.util';
+import { getRelativeTime } from '@/utils/date.util';
 
 interface SuggestedPostCardProps {
   mySuggestedPost: MySuggestedPostType;
@@ -18,7 +18,7 @@ export default function SuggestedPostCard({
       <PostCard.Header
         postId={mySuggestedPost.postId}
         nickname={mySuggestedPost.leaderName}
-        elapsedTime={formatDeadlineAt(mySuggestedPost.appliedAt)}
+        elapsedTime={getRelativeTime(mySuggestedPost.postCreatedAt)}
         projectType={mySuggestedPost.projectType}
         isBookmarked={mySuggestedPost.bookmarked}
       />
@@ -38,7 +38,7 @@ export default function SuggestedPostCard({
       />
 
       <PostCard.Actions>
-        <ChatButton />
+        <ChatButton postId={mySuggestedPost.postId} />
         <ApplyButton
           postId={mySuggestedPost.postId}
           variant="solid"

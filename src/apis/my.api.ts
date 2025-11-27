@@ -5,6 +5,8 @@ import type {
   MyPostApplicantDetailType,
   MyPostApplicantProfileType,
   MyPostApplicationsType,
+  MyPostOffersType,
+  MyPostRecommendedApplications,
   MyPostsResponseType,
 } from '@/types/my.type';
 
@@ -29,9 +31,11 @@ const myApi = {
   },
 
   /** 내가 쓴 글 목록 */
-  getMyPosts: (type: string) => {
+  getMyPosts: (type: string, page: number, size = 10) => {
     const tab = type === 'PROJECT' ? 'project' : 'study';
-    return authApi.get<MyPostsResponseType>(`/api/posts/my?tab=${tab}`);
+    return authApi.get<MyPostsResponseType>(
+      `/api/posts/my?size=${size}&tab=${tab}&page=${page}`,
+    );
   },
 
   /** 내 모집글 지원 목록 조회 */
@@ -50,6 +54,22 @@ const myApi = {
   getMyPostApplicantProfile: (postId: bigint, userId: bigint) =>
     authApi.get<MyPostApplicantProfileType>(
       `/api/profiles/applicant/${userId}/post/${postId}`,
+    ),
+
+  /** 지원 수락 */
+  match: (postId: bigint, applicationId: bigint) =>
+    authApi.post<void>(
+      `/api/matched/${postId}/applications/${applicationId}/accept`,
+    ),
+
+  /** 내 모집글 제안 내역 */
+  getMyPostOffers: (postId: bigint) =>
+    authApi.get<MyPostOffersType>(`/api/posts/${postId}/recruits/offers`),
+
+  /** 내 모집글 지원자 중 추천 */
+  generateMyPostRecommendedApplicants: (postId: bigint) =>
+    authApi.post<MyPostRecommendedApplications>(
+      `/api/recommendations/applicants/${postId}`,
     ),
 };
 

@@ -2,7 +2,7 @@ import { PostCard } from '@/components/features/post/post-card';
 import ApplyCancelButton from '@/components/features/post/post-card/buttons/apply-cancel-button';
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import type { MyAppliedPostType } from '@/types/post.type';
-import { formatDeadlineAt } from '@/utils/date.util';
+import { getRelativeTime } from '@/utils/date.util';
 
 interface MyApplicationPostCardProps {
   myAppliedPost: MyAppliedPostType;
@@ -16,7 +16,7 @@ export default function MyApplicationPostCard({
       <PostCard.Header
         postId={BigInt(myAppliedPost.postId)}
         nickname={myAppliedPost.leaderName}
-        elapsedTime={formatDeadlineAt(myAppliedPost.appliedAt)}
+        elapsedTime={getRelativeTime(myAppliedPost.postCreatedAt)}
         projectType={myAppliedPost.projectType}
         isBookmarked={myAppliedPost.bookmarked}
       />

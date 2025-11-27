@@ -1,12 +1,20 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
-import { useGetProfileExists } from '../profile/use-get-profile';
+import type { ErrorType } from '@/types/error.type';
 
 /** 지원 */
 export function useApply() {
-  return useMutation({
+  return useMutation<
+    void,
+    ErrorType,
+    {
+      postId: bigint;
+      roleId: number;
+      message?: string;
+    }
+  >({
     mutationFn: ({
       postId,
       roleId,
@@ -21,32 +29,22 @@ export function useApply() {
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.canApply,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
       queryClient.invalidateQueries({
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.postDetail,
-          variables.postId.toString(),
+          BigInt(variables.postId).toString(),
         ],
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts],
+      });
     },
-  });
-}
-
-/** 지원 가능 여부 판단 */
-export function useGetApplyAvailable(postId: bigint) {
-  const { data: profileExists } = useGetProfileExists();
-
-  return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, postId.toString()],
-    queryFn: () => postApi.getApplyAvailable(postId),
-    enabled: profileExists?.exists,
-    staleTime: 0,
-    gcTime: 1 * 60 * 1000,
   });
 }

@@ -5,6 +5,7 @@ import type {
   GetMyBookmarkedPostsResponseType,
   GetMyMatchedPostsResponseType,
   GetMySuggestedPostResponseType,
+  MyPostRecommendedUsersType,
   PostDetailType,
   PostMembersType,
   PostType,
@@ -18,7 +19,8 @@ const postApi = {
    * 게시글 목록
    * @parma query - 쿼리 스트링
    */
-  getPosts: (query: string) => api.get<PostType>(`/api/home?size=12&${query}`),
+  getPosts: (query: string) =>
+    authApi.get<PostType>(`/api/home?size=12&${query}`),
 
   /** AI 추천 게시글 */
   getRecommendedPosts: (projectType: ProjectType) =>
@@ -27,10 +29,8 @@ const postApi = {
     ),
 
   /** 모집글 상세 데이터 */
-  getPostDetailAuth: (id: bigint) =>
-    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
   getPostDetail: (id: bigint) =>
-    api.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
+    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
 
   /** 모집글 멤버 내역 */
   getPostMembers: (id: bigint) =>
@@ -38,20 +38,16 @@ const postApi = {
 
   /** 모집 지원 */
   apply: (postId: bigint, data: { roleId: number; message: string }) =>
-    authApi.post(`/api/posts/${BigInt(postId)}/apply`, data),
+    authApi.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
-  /** 모집 지원 가능 여부 판단 */
-  getApplyAvailable: (postId: bigint) =>
-    authApi.get<{ canApply: boolean }>(
-      `/api/posts/${BigInt(postId)}/can-apply`,
-    ),
-
-  /** 모집 지원 취소 */
   cancelApply: (applicationId: bigint) =>
     authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
+  /** 제안 취소 */
   cancelOffer: (suggestionId: bigint) => {
-    return api.delete<void>(`/posts/suggestions/${suggestionId}/cancel`);
+    return authApi.delete<void>(
+      `/api/my/suggestions/suggestions/${BigInt(suggestionId)}/cancel`,
+    );
   },
 
   createPost: (payload: PostCreateFormData) => {
@@ -59,7 +55,7 @@ const postApi = {
   },
 
   /** 내가 지원한 글 목록 조회 */
-  getMyAppliedPosts: (page?: number, size?: number) => {
+  getMyAppliedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
@@ -71,7 +67,7 @@ const postApi = {
   },
 
   /** 내가 제안 받은 글 목록 조회 */
-  getMySuggestedPosts: (page?: number, size?: number) => {
+  getMySuggestedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
@@ -83,9 +79,14 @@ const postApi = {
   },
 
   /** 내가 북마크한 글 목록 조회 */
-  getMyBookmarkedPosts: (page?: number, size?: number) => {
+  getMyBookmarkedPosts: (
+    projectType: ProjectType,
+    page?: number,
+    size: number = 10,
+  ) => {
     const params = new URLSearchParams();
 
+    params.set('projectType', projectType);
     if (page) params.set('page', String(page));
     if (size) params.set('size', String(size));
 
@@ -95,7 +96,7 @@ const postApi = {
   },
 
   /** 내가 매칭된 글 목록 조회 */
-  getMyMatchedPosts: (page?: number, size?: number) => {
+  getMyMatchedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
@@ -105,6 +106,19 @@ const postApi = {
       `/api/matched?${params.toString()}`,
     );
   },
+
+  /** 내 모집글 추천 유저 */
+  getMyPostRecommendedUsers: (postId: bigint) =>
+    authApi.get<MyPostRecommendedUsersType>(
+      `/api/recommendations/profiles/${BigInt(postId)}`,
+    ),
+
+  /** 멤버 제안 */
+  offer: (postId: bigint, userId: bigint) =>
+    authApi.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
+      toUserId: BigInt(userId).toString(),
+      suggestionMessage: '',
+    }),
 };
 
 export default postApi;

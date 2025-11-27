@@ -6,6 +6,8 @@ import type { ActivityModeType } from './profile.type';
 /** 게시글 데이터 타입 */
 export type PostType = {
   posts: {
+    totalPages: number;
+    number: number;
     content: PostContentType[];
   };
 };
@@ -25,12 +27,14 @@ export type PostContentType = {
   status: string;
   activityMode: string;
   createdAt: string;
+  isBookmarked: boolean;
 };
 
 /** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
 export type PostDetailType = {
   id: bigint;
   applicationId: bigint;
+  matchedId: bigint;
   title: string;
   content: string;
   status: PostStatusType;
@@ -49,23 +53,27 @@ export type PostDetailType = {
     headcount: number;
   }[];
   owner: boolean;
+  isBookmarked: boolean;
 };
 
 /** 상세 페이지 멤버 내역 */
 export type PostMembersType = {
-  users: {
-    suggestionId: number;
-    applicationId: number;
-    userId: number;
-    nickname: string;
-    profileImage: string;
-    status: string;
-    createdAt: string;
-    experience: string;
-    jobGroups: string[];
-  }[];
+  users: PostMemberUserType[];
   nextCursor: 0;
   hasNext: true;
+};
+
+export type PostMemberUserType = {
+  matchedId: bigint;
+  suggestionId: bigint;
+  applicationId: bigint;
+  userId: bigint;
+  nickname: string;
+  profileImage: string;
+  status: string;
+  createdAt: string;
+  experience: string;
+  jobGroups: string[];
 };
 
 /** AI 추천 게시글 타입 */
@@ -120,8 +128,27 @@ export type MyMatchedPostType = Omit<MyAppliedPostType, 'appliedAt'> & {
   applicationId: bigint;
   matchedAt: Date;
 };
+
 export type GetMyMatchedPostsResponseType = PaginationInfo & {
   content: MyMatchedPostType[];
+};
+
+/** 내 모집글 추천 유저 타입 */
+export type MyPostRecommendedUsersType = {
+  profiles: MyPostRecommendedUserProfileType[];
+  nextCursor: 0;
+  hasNext: true;
+};
+
+export type MyPostRecommendedUserProfileType = {
+  userId: bigint;
+  suggestionId: bigint;
+  nickname: string;
+  experience: string;
+  profileImageCode: number;
+  interestKeywords: string[];
+  roles: string[];
+  tags: string[];
 };
 
 /** 내가 북마크한 글 목록 타입 */

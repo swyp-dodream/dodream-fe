@@ -27,7 +27,7 @@ export default function Navigation() {
     <nav className="flex" aria-label="사용자 메뉴">
       <ul className="flex items-center gap-7">
         <li>
-          <Link href="/" aria-label="채팅">
+          <Link href="/chat" aria-label="채팅">
             <MessageCircleIcon className="text-icon-dark" />
           </Link>
         </li>

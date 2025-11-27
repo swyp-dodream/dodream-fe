@@ -45,6 +45,11 @@ export default function ApplyButton({
       return;
     }
 
+    if (postData.matchedId) {
+      toast({ title: '매칭이 취소된 공고는 다시 지원할 수 없습니다.' });
+      return;
+    }
+
     // 데드라인 날짜 이후일 경우 실패 처리
     if (
       isPast(new Date(postData.deadlineDate)) ||

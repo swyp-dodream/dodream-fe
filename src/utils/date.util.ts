@@ -35,15 +35,15 @@ export function formatDate(newDate: Date | string) {
 
 /**
  * 게시글 작성으로부터 지난 시간 구하는 함수
- * @param dateString - 현재 날짜
+ * @param date - 현재 날짜
  */
-export function getRelativeTime(dateString: string): string {
-  const date = new Date(dateString);
+export function getRelativeTime(date: string | Date): string {
+  const newDate = typeof date === 'string' ? new Date(date) : date;
   const now = new Date();
 
-  const minutes = differenceInMinutes(now, date);
-  const hours = differenceInHours(now, date);
-  const days = differenceInDays(now, date);
+  const minutes = differenceInMinutes(now, newDate);
+  const hours = differenceInHours(now, newDate);
+  const days = differenceInDays(now, newDate);
 
   if (minutes < 1) {
     return '1분';
@@ -51,12 +51,12 @@ export function getRelativeTime(dateString: string): string {
     return `${minutes}분`;
   } else if (hours < 24) {
     return `${hours}시간`;
-  } else if (isYesterday(date)) {
+  } else if (isYesterday(newDate)) {
     return '어제';
   } else if (days <= 7) {
     return `${days}일`;
   } else {
-    return format(date, 'yyyy.MM.dd');
+    return format(newDate, 'yyyy.MM.dd');
   }
 }
 

@@ -1,72 +1,12 @@
-import parse from 'html-react-parser';
-import postApi from '@/apis/post.api';
-import { getRelativeTime } from '@/utils/date.util';
-import PostBookmarkButton from '../_components/post-bookmark-button';
-import PostDetailButtons from '../_components/post-detail-buttons';
-import PostLinkButton from '../_components/post-link-button';
-import RecruitInfo from '../_components/recruit-info';
-import RecruitStatus from '../_components/recruit-status';
+import PostPageClient from '../_components/post-page-client';
 
-interface PostDetailPageProps {
-  params: { id: string };
-}
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
 
-export default async function PostDetailPage({ params }: PostDetailPageProps) {
+export default async function PostDetailPage({ params }: PageProps) {
   const { id } = await params;
-  const postData = await postApi.getPostDetail(BigInt(id));
+  const postId = BigInt(id);
 
-  const isClosed = new Date(postData.deadlineDate) < new Date();
-
-  return (
-    <article className="grid grid-cols-12 gap-x-7">
-      <section className="col-span-8">
-        <div className="flex items-center body-lg-medium">
-          {/* 프로필, 작성 시간 영역 */}
-          {/* TODO: 프로필 이미지로 수정 */}
-          <div className="w-9 h-9 rounded-full bg-primary" />
-          <span className="ml-4 mr-3">{postData.ownerNickname}</span>
-          <time className="text-subtle" dateTime={postData.deadlineDate}>
-            {getRelativeTime(postData.createdAt)}
-          </time>
-          <div className="flex ml-auto gap-7">
-            {/* 북마크 버튼 */}
-            {/* TODO: 북마크 버튼 수정 */}
-            <PostBookmarkButton isBookmarked={false} postId={BigInt(id)} />
-            {/* 링크 복사 버튼 */}
-            <PostLinkButton />
-          </div>
-        </div>
-
-        {/* 제목 */}
-        <h2 className="heading-xl mt-5">{postData.title}</h2>
-
-        {/* 내용 영역 */}
-        <div className="mt-9 mb-12 whitespace-pre-line">
-          <h3 className="heading-lg mb-8">모집 내용</h3>
-          {parse(postData.content)}
-        </div>
-        <RecruitInfo
-          projectType={postData.projectType}
-          deadlineDate={postData.deadlineDate}
-          activityMode={postData.activityMode}
-          interestKeywords={postData.interestKeywords}
-          duration={postData.duration}
-          techStacks={postData.stacks}
-        />
-      </section>
-
-      <aside className="col-start-10 col-span-3 flex flex-col gap-7">
-        {!isClosed ? (
-          <PostDetailButtons postId={postData.id} />
-        ) : (
-          <div className="flex items-center justify-center h-[50px] body-lg-medium bg-disabled text-text-on-brand p-3 w-full rounded-md">
-            모집 마감
-          </div>
-        )}
-
-        {/* 모집중인 직군 */}
-        <RecruitStatus roles={postData.roles} postId={postData.id} />
-      </aside>
-    </article>
-  );
+  return <PostPageClient postId={postId} />;
 }

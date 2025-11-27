@@ -10,7 +10,7 @@ export default async function AuthCallBackPage({
   const params = await searchParams;
 
   return (
-    <div>
+    <div className="w-full h-full">
       <AuthCallBackClient searchParams={params} />
     </div>
   );

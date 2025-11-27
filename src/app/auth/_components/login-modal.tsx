@@ -1,6 +1,5 @@
 import Modal from '@/components/commons/modal';
 import GoogleLoginButton from './buttons/google-login-button';
-import NaverLoginButton from './buttons/naver-login-button';
 
 interface LoginModal {
   isOpen: boolean;
@@ -25,7 +24,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModal) {
         </div>
         <div className="flex flex-col gap-5 w-full">
           <GoogleLoginButton onModalClose={onClose} />
-          <NaverLoginButton onModalClose={onClose} />
+          {/* <NaverLoginButton onModalClose={onClose} /> */}
         </div>
       </Modal.Content>
     </Modal>
