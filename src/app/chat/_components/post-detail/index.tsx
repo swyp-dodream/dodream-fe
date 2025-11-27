@@ -31,7 +31,7 @@ export default function PostDetail({ postId }: PostDetailProps) {
       </header>
 
       {/* 본문 */}
-      <section className="py-5 flex flex-col gap-7">
+      <section className="py-5 flex flex-col gap-7 overflow-y-auto">
         {/* 제목 */}
         <h1 className="heading-lg">{postDetail?.title}</h1>
 
