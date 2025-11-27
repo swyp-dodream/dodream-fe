@@ -151,60 +151,71 @@ export default function ChatRoom({
 
             {Object.values(groups).map(({ minuteLabel, items }) => (
               <div key={minuteLabel} className="flex flex-col gap-3">
-                {items.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className={cn(
-                      !item.isMyMessage &&
-                        index === items.length - 1 &&
-                        'flex gap-3',
-                    )}
-                  >
-                    {!item.isMyMessage && index === items.length - 1 && (
-                      <ProfileImage
-                        src={null}
-                        size={32}
-                        userName={item.senderNickname}
-                        className="self-end"
-                      />
-                    )}
+                {items.map((item, index) => {
+                  const prev = items[index - 1];
+                  const next = items[index + 1];
+                  const isPrevMine = prev?.isMyMessage ?? null;
+                  const isNextMine = next?.isMyMessage ?? null;
 
+                  const isShowProfileImage =
+                    !item.isMyMessage && (isNextMine || next == null);
+                  const isShowTime =
+                    isPrevMine === null || isPrevMine !== item.isMyMessage;
+                  const isShowNickname =
+                    !item.isMyMessage && (isPrevMine || prev == null);
+                  const isLastBubble =
+                    isNextMine === null || isNextMine !== item.isMyMessage;
+
+                  return (
                     <div
-                      className={cn(
-                        'flex flex-col gap-2',
-                        !item.isMyMessage &&
-                          index !== items.length - 1 &&
-                          'ml-9',
-                      )}
+                      key={item.id}
+                      className={cn(isShowProfileImage && 'flex gap-3')}
                     >
-                      {index === 0 && (
+                      {isShowProfileImage && (
+                        <ProfileImage
+                          src={null}
+                          size={32}
+                          userName={item.senderNickname}
+                          className="self-end"
+                        />
+                      )}
+
+                      <div
+                        className={cn(
+                          'flex flex-col gap-2',
+                          !isShowProfileImage && 'ml-9',
+                        )}
+                      >
                         <p
                           className={cn(
-                            'flex gap-3 items-center mt-3',
+                            'flex gap-3 items-center',
                             item.isMyMessage && 'self-end pr-4',
                             !item.isMyMessage && 'pl-4',
+                            (isShowNickname || isShowTime) && 'mt-3',
                           )}
                         >
-                          {!item.isMyMessage && (
+                          {isShowNickname && (
                             <span className="text-secondary body-sm-medium">
                               {item.senderNickname}
                             </span>
                           )}
 
-                          <span className="body-sm-medium text-subtle">
-                            {minuteLabel}
-                          </span>
+                          {isShowTime && (
+                            <span className="body-sm-medium text-subtle">
+                              {minuteLabel}
+                            </span>
+                          )}
                         </p>
-                      )}
 
-                      <MessageBubble
-                        isMyMessage={item.isMyMessage}
-                        message={item.body}
-                        isLast={index === items.length - 1}
-                      />
+                        <MessageBubble
+                          isMyMessage={item.isMyMessage}
+                          message={item.body}
+                          isLast={isLastBubble}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ))}
           </div>
