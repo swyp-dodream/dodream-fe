@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import profileApi from '@/apis/profile.api';
 import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
+import ProfileImage from '@/components/commons/profile-image';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
 import Toggle from '@/components/commons/toggle';
@@ -168,8 +169,7 @@ export default function ProfileContent() {
 
           {/* 유저 정보 - 프로필 이미지 및 닉네임 */}
           <section className="flex gap-8 py-8">
-            {/* TODO: 이미지 컴포넌트 분리 및 수정 */}
-            <div className="w-[120px] h-[120px] bg-primary rounded-full" />
+            <ProfileImage src={null} size={120} />
             <NicknameField
               value={watch('nickname')}
               {...register('nickname', {
