@@ -11,9 +11,6 @@ interface PostActionButtonProps {
   profileExists?: {
     exists: boolean;
   };
-  isApplyAvailable?: {
-    canApply: boolean;
-  };
 }
 
 /**
@@ -24,7 +21,6 @@ export default function PostActionButton({
   postId,
   postData,
   profileExists,
-  isApplyAvailable,
 }: PostActionButtonProps) {
   // 비로그인 상태: 지원하기 버튼
   if (!profileExists?.exists) {
@@ -32,11 +28,7 @@ export default function PostActionButton({
   }
 
   // 지원한 상태 (대기 중): 지원 취소 버튼
-  if (
-    !isApplyAvailable?.canApply &&
-    !postData.matchedId &&
-    postData.applicationId
-  ) {
+  if (!postData.matchedId && postData.applicationId) {
     return (
       <ApplyCancelButton
         postId={postId}
@@ -49,7 +41,7 @@ export default function PostActionButton({
   }
 
   // 매칭된 경우: 매칭 취소 버튼
-  if (postData.matchedId) {
+  if (postData.applicationId && postData.matchedId) {
     return (
       <MathcingCancelButton
         postId={postId}

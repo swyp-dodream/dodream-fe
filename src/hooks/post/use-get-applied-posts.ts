@@ -5,7 +5,7 @@ import { tokenStorage } from '@/utils/auth.util';
 
 export default function useGetMyAppliedPosts(page?: number, size?: number) {
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts, page],
     queryFn: () => postApi.getMyAppliedPosts(page, size),
     enabled: tokenStorage.hasToken,
     staleTime: 10 * 60 * 1000,

@@ -40,12 +40,6 @@ const postApi = {
   apply: (postId: bigint, data: { roleId: number; message: string }) =>
     authApi.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
-  /** 모집 지원 가능 여부 판단 */
-  getApplyAvailable: (postId: bigint) =>
-    authApi.get<{ canApply: boolean }>(
-      `/api/posts/${BigInt(postId)}/can-apply`,
-    ),
-
   cancelApply: (applicationId: bigint) =>
     authApi.delete(`/api/my/applications/${applicationId}/cancel`),
 
@@ -61,7 +55,7 @@ const postApi = {
   },
 
   /** 내가 지원한 글 목록 조회 */
-  getMyAppliedPosts: (page?: number, size?: number) => {
+  getMyAppliedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
@@ -73,7 +67,7 @@ const postApi = {
   },
 
   /** 내가 제안 받은 글 목록 조회 */
-  getMySuggestedPosts: (page?: number, size?: number) => {
+  getMySuggestedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));
@@ -88,7 +82,7 @@ const postApi = {
   getMyBookmarkedPosts: (
     projectType: ProjectType,
     page?: number,
-    size?: number,
+    size: number = 10,
   ) => {
     const params = new URLSearchParams();
 
@@ -102,7 +96,7 @@ const postApi = {
   },
 
   /** 내가 매칭된 글 목록 조회 */
-  getMyMatchedPosts: (page?: number, size?: number) => {
+  getMyMatchedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
 
     if (page) params.set('page', String(page));

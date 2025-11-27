@@ -31,9 +31,11 @@ const myApi = {
   },
 
   /** 내가 쓴 글 목록 */
-  getMyPosts: (type: string) => {
+  getMyPosts: (type: string, page: number, size = 10) => {
     const tab = type === 'PROJECT' ? 'project' : 'study';
-    return authApi.get<MyPostsResponseType>(`/api/posts/my?tab=${tab}`);
+    return authApi.get<MyPostsResponseType>(
+      `/api/posts/my?size=${size}&tab=${tab}&page=${page}`,
+    );
   },
 
   /** 내 모집글 지원 목록 조회 */

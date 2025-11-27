@@ -1,9 +1,8 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 import type { ErrorType } from '@/types/error.type';
-import { useGetProfileExists } from '../profile/use-get-profile';
 
 /** 지원 */
 export function useApply() {
@@ -47,18 +46,5 @@ export function useApply() {
         queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts],
       });
     },
-  });
-}
-
-/** 지원 가능 여부 판단 */
-export function useGetApplyAvailable(postId: bigint) {
-  const { data: profileExists, isSuccess } = useGetProfileExists();
-
-  return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.canApply, BigInt(postId).toString()],
-    queryFn: () => postApi.getApplyAvailable(postId),
-    enabled: isSuccess && profileExists?.exists === true,
-    staleTime: 0,
-    gcTime: 1 * 60 * 1000,
   });
 }

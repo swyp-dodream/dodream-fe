@@ -47,9 +47,13 @@ function Trigger({
 function Content({
   className,
   columns = 2,
+  showPagination = false,
+  paginationSlot,
   ...props
 }: ComponentPropsWithoutRef<typeof PrimitiveTabs.Content> & {
   columns?: number;
+  showPagination?: boolean;
+  paginationSlot?: React.ReactNode;
 }) {
   const GRID_COLUMNS: Record<number, string> = {
     1: 'grid-cols-1',
@@ -70,7 +74,14 @@ function Content({
     <PrimitiveTabs.Content
       className={clsx('grid gap-7', GRID_COLUMNS[columns], className)}
       {...props}
-    />
+    >
+      {props.children}
+
+      {/* 페이지네이션을 그리드의 마지막에 전체 너비로 배치 */}
+      {showPagination && paginationSlot && (
+        <div className="col-span-full">{paginationSlot}</div>
+      )}
+    </PrimitiveTabs.Content>
   );
 }
 

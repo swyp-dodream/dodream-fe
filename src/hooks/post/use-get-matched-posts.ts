@@ -5,7 +5,7 @@ import { tokenStorage } from '@/utils/auth.util';
 
 export default function useGetMatchedPosts(page?: number, size?: number) {
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts],
+    queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts, page],
     queryFn: () => postApi.getMyMatchedPosts(page, size),
     enabled: tokenStorage.hasToken,
   });
