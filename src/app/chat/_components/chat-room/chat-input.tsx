@@ -32,17 +32,24 @@ export default function ChatInput({
     const textarea = textareaRef.current;
     if (!textarea) return;
 
-    const isEmpty = value.length === 0;
+    const parentHeight = textarea.parentElement?.clientHeight ?? Infinity;
+    const hasValue = value.trim().length > 0;
 
     textarea.style.height = 'auto';
 
-    if (!isEmpty) {
-      textarea.style.height = `${textarea.scrollHeight}px`;
+    if (!hasValue) {
+      textarea.style.overflowY = 'hidden';
+      return;
     }
+
+    const nextHeight = Math.min(textarea.scrollHeight, parentHeight);
+    textarea.style.height = `${nextHeight}px`;
+    textarea.style.overflowY =
+      textarea.scrollHeight > parentHeight ? 'auto' : 'hidden';
   }, [value]);
 
   return (
-    <div className="w-full rounded-lg border-1 border-border-primary px-4 py-3 flex gap-4 items-end">
+    <div className="w-full h-full rounded-lg border-1 border-border-primary px-4 py-3 flex gap-4 items-end">
       <textarea
         ref={textareaRef}
         placeholder={placeholder}
@@ -50,7 +57,7 @@ export default function ChatInput({
         onChange={onChange}
         onKeyDown={handleKeyDown}
         disabled={disabled}
-        className="w-full h-auto placeholder-text-placeholder body-md-regular focus:outline-0 resize-none overflow-hidden"
+        className="w-full h-auto max-h-32 placeholder-text-placeholder body-md-regular focus:outline-0 resize-none overflow-y-hidden scrollbar-thin"
         rows={1}
       />
       {value.length > 0 && (
