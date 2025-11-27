@@ -32,7 +32,7 @@ export default function BookmarkPage() {
     <>
       <MyPageHeader title="북마크" />
 
-      <Tabs defaultValue={currentProjectType} onValueChange={handleTabChange}>
+      <Tabs value={currentProjectType} onValueChange={handleTabChange}>
         <Tabs.List>
           {PROJECT_TAB_VALUES.map((value) => (
             <Tabs.Trigger key={value} value={value}>

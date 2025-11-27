@@ -30,7 +30,7 @@ export default function MyPostsPage() {
     <>
       <MyPageHeader title="내가 쓴 글" />
 
-      <Tabs defaultValue={currentProjectType} onValueChange={handleTabChange}>
+      <Tabs value={currentProjectType} onValueChange={handleTabChange}>
         <Tabs.List>
           {PROJECT_TAB_VALUES.map((value) => (
             <Tabs.Trigger key={value} value={value}>
