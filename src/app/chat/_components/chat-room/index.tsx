@@ -3,7 +3,7 @@
 import { format, isToday, isYesterday } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { overlay } from 'overlay-kit';
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import ChatInput from '@/app/chat/_components/chat-room/chat-input';
 import LeaveChatRoomModal from '@/app/chat/_components/chat-room/leave-chat-room-modal';
 import MessageBubble from '@/app/chat/_components/chat-room/message-bubble';
@@ -79,6 +79,7 @@ export default function ChatRoom({
   onLeave,
 }: ChatRoomProps) {
   const [newMessage, setNewMessage] = useState('');
+  const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const disabled = messages.at(-1)?.messageType === 'LEAVE';
   const groupedMessages = groupByDateAndTime(messages, isMyMessage);
@@ -104,6 +105,20 @@ export default function ChatRoom({
     ));
   };
 
+  useLayoutEffect(() => {
+    const container = messageContainerRef.current;
+
+    if (!messages || messages.length === 0) {
+      return;
+    }
+
+    if (!container) {
+      return;
+    }
+
+    container.scrollTop = container.scrollHeight;
+  }, [messages]);
+
   return (
     <div className="col-span-5 flex flex-col min-h-0 h-full overflow-hidden">
       <header className="flex shrink-0 justify-between items-center sticky py-4">
@@ -126,7 +141,10 @@ export default function ChatRoom({
         </button>
       </header>
 
-      <section className="flex-1 overflow-y-auto space-y-8 py-4">
+      <section
+        ref={messageContainerRef}
+        className="flex-1 overflow-y-auto space-y-8 py-4"
+      >
         {groupedMessages.map(({ groups, label }) => (
           <div key={label}>
             <p className="body-sm-medium text-primary text-center">{label}</p>
