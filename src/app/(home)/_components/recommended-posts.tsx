@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Tabs } from 'radix-ui';
 import { useState } from 'react';
 import useGetRecommendedPosts from '@/hooks/post/use-get-recommended-posts';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import type {
   ProjectType,
   RecommendedPostContentType,
@@ -14,11 +15,11 @@ import RecommendTypes from './recommend-types';
 export default function RecommendedPosts() {
   const [activePostType, setActivePostType] = useState<ProjectType>('PROJECT');
 
+  const { data: profileExists } = useGetProfileExists();
   const { data: posts } = useGetRecommendedPosts(activePostType);
 
-  if (!posts) return null;
-
   // TODO: 스켈레톤 추가
+  if (!profileExists || profileExists?.exists === false || !posts) return null;
 
   return (
     <section className="col-span-12 flex flex-col gap-8">
