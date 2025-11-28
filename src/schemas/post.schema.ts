@@ -86,5 +86,7 @@ export const postCreateFormSchema = z.discriminatedUnion('projectType', [
   projectSchema,
   studySchema,
 ]);
+export const postUpdateFormSchema = postCreateFormSchema;
 
 export type PostCreateFormData = z.infer<typeof postCreateFormSchema>;
+export type PostUpdateFormData = PostCreateFormData;

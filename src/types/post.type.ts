@@ -97,6 +97,9 @@ export type RecommendedPostContentType = {
 /** 모집글 생성 응답 타입 */
 export type CreatePostResponseType = PostContentType;
 
+/** 모집글 수정 응답 타입 */
+export type UpdatePostResponseType = PostContentType;
+
 /** 내가 지원한 글 목록 타입 */
 export type MyAppliedPostType = {
   id: bigint;
