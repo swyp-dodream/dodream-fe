@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
 interface ProfileImageProps {
-  src: string | null;
+  src?: string | null | undefined;
+  code?: number | undefined;
   size: number;
   userName?: string;
   className?: string;
@@ -15,18 +16,19 @@ interface ProfileImageProps {
  */
 export default function ProfileImage({
   src,
+  code,
   size,
   userName,
   className = '',
 }: ProfileImageProps) {
   return (
     <Image
-      src={src ?? '/avatar/default-avatar.png'}
+      src={src ?? `/avatar/${code}.png`}
       alt={userName ? `${userName}님의 프로필 이미지` : '프로필 이미지'}
       width={size}
       height={size}
       style={{ width: size, height: size }}
-      className={className}
+      className={`bg-surface ${className}`}
     />
   );
 }
