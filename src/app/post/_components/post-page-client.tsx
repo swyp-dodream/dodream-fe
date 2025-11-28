@@ -1,5 +1,7 @@
 'use client';
 
+import PostDeleteButton from '@/app/post/_components/post-delete-button';
+import PostEditButton from '@/app/post/_components/post-edit-button';
 import ProfileImage from '@/components/commons/profile-image';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import { getRelativeTime } from '@/utils/date.util';
@@ -38,14 +40,25 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
             {getRelativeTime(postData.createdAt)}
           </time>
           <div className="flex ml-auto gap-7">
-            {/* 북마크 버튼 */}
-            {/* TODO: 북마크 버튼 수정 */}
-            <PostBookmarkButton
-              isBookmarked={postData.isBookmarked}
-              postId={BigInt(postData.id)}
-            />
-            {/* 링크 복사 버튼 */}
-            <PostLinkButton />
+            {postData.owner ? (
+              <>
+                {/* 모집글 수정 버튼 */}
+                <PostEditButton postId={postData.id} />
+                {/* 모집글 삭제 버튼 */}
+                <PostDeleteButton postId={postData.id} />
+              </>
+            ) : (
+              <>
+                {/* 북마크 버튼 */}
+                {/* TODO: 북마크 버튼 수정 */}
+                <PostBookmarkButton
+                  isBookmarked={postData.isBookmarked}
+                  postId={BigInt(postData.id)}
+                />
+                {/* 링크 복사 버튼 */}
+                <PostLinkButton />
+              </>
+            )}
           </div>
         </div>
 
