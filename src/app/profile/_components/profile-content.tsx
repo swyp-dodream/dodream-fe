@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
+import ProfileImage from '@/components/commons/profile-image';
 import TechCategories from '@/components/commons/tech-categories';
 import { EXPERIENCE } from '@/constants/profile.constant';
 import { parseExperienceValue } from '@/utils/profile.util';
@@ -11,6 +11,7 @@ import ProfileLinks from './profile-link';
 
 interface ProfileContentProps {
   nickname: string;
+  profileImageCode: number;
   controller: React.ReactNode;
   role: string;
   experience: string;
@@ -31,6 +32,7 @@ interface ProfileContentProps {
 /** 프로필 내용 컴포넌트 */
 export default function ProfileContent({
   nickname,
+  profileImageCode,
   controller,
   role,
   experience,
@@ -41,17 +43,10 @@ export default function ProfileContent({
   techSkills,
 }: ProfileContentProps) {
   return (
-    <div className="h-full grid grid-cols-12 gap-x-7 gap-y-5">
+    <div className="grid grid-cols-12 gap-x-7 gap-y-5">
       {/* 프로필 이미지/수정 버튼 */}
       <section className="col-span-12 flex justify-between">
-        {/* TODO: 이미지 수정 */}
-        <Image
-          src="/avatar/default-avatar.png"
-          alt={`${nickname}님의 프로필 이미지`}
-          width={120}
-          height={120}
-          className="rounded-full bg-primary shrink-0 w-[120px] h-[120px]"
-        />
+        <ProfileImage userName={nickname} code={profileImageCode} size={120} />
         {controller}
       </section>
       <div className="col-span-6">

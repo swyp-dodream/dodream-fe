@@ -43,7 +43,7 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
           {/* 프로필, 작성 시간 영역 */}
           {/* TODO: 프로필 이미지로 수정 */}
           <ProfileImage
-            src={null}
+            // code={postData.ownerProfileImageUrl}
             size={40}
             userName={postData.ownerNickname}
           />

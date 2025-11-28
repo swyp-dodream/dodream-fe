@@ -21,6 +21,7 @@ export default function ProfilePage() {
           수정하기
         </Link>
       }
+      profileImageCode={profile.profileImageCode}
       role={profile.roles[0].name}
       experience={profile.experience}
       introText={profile.introText}

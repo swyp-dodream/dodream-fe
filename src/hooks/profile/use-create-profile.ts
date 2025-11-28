@@ -19,7 +19,7 @@ export default function useCreateProfile() {
       // 데이터 변환
       const requestData: CreateProfileRequestType = {
         nickname: data.nickname,
-        profileImageCode: Math.floor(Math.random() * 15) + 1,
+        profileImageCode: data.profileImageCode,
         ageBand: convertAgeValue(data.age),
         gender: convertGenderValue(data.gender),
         roleNames: [ROLE[data.role as RoleType]],

@@ -118,6 +118,7 @@ export const profileFormSchema = z.object({
   links: linksSchema,
   intro: introSchema,
   acceptOffers: z.boolean(),
+  profileImageCode: z.number(),
 });
 
 /** 프로필 폼 데이터 타입 */
