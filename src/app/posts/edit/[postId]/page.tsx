@@ -29,6 +29,7 @@ export default function PostEditPage() {
   const { mutateAsync: updatePost, isPending: updatePending } = useUpdatePost();
   const setInterests = usePostCreateStore((state) => state.setInterests);
   const setStacks = usePostCreateStore((state) => state.setStacks);
+  const resetForm = usePostCreateStore((state) => state.reset);
 
   useEffect(() => {
     if (!postDetail) return;
@@ -81,6 +82,7 @@ export default function PostEditPage() {
         onSubmit={async (values) => {
           try {
             await updatePost({ postId: BigInt(params.postId), form: values });
+            resetForm();
             router.push(`/post/${BigInt(params.postId)}`);
           } catch (_error) {
             toast({ title: '수정에 실패했습니다. 잠시 후 다시 시도해주세요.' });

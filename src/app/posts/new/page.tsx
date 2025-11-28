@@ -1,12 +1,16 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import PostForm from '@/app/posts/_components/post-form';
 import useCreatePost from '@/hooks/post/use-create-post';
-import { useRouter } from 'next/navigation';
+import useToast from '@/hooks/use-toast';
+import usePostCreateStore from '@/store/post-create-store';
 
 export default function PostCreatePage() {
+  const toast = useToast();
   const router = useRouter();
   const { mutateAsync: createPost, isPending } = useCreatePost();
+  const resetForm = usePostCreateStore((state) => state.reset);
 
   return (
     <section className="w-[792px] flex flex-col gap-9">
@@ -29,8 +33,15 @@ export default function PostCreatePage() {
         submitLabel="게시"
         isSubmitting={isPending}
         onSubmit={async (values) => {
-          const createdPost = await createPost(values);
-          router.push(`/post/${BigInt(createdPost.id)}`);
+          try {
+            const createdPost = await createPost(values);
+            resetForm();
+            router.push(`/post/${BigInt(createdPost.id)}`);
+          } catch (_error) {
+            toast({
+              title: '모집글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.',
+            });
+          }
         }}
       />
     </section>
