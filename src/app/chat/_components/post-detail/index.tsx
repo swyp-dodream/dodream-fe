@@ -13,7 +13,11 @@ export default function PostDetail({ postId }: PostDetailProps) {
   const { data: postDetail, isPending } = useGetPostDetail(postId);
 
   if (isPending || !postDetail) {
-    return null;
+    return (
+      <span className="w-full h-full col-span-4 flex justify-center items-center text-">
+        찾을 수 없는 모집글입니다.
+      </span>
+    );
   }
 
   return (
