@@ -1,4 +1,7 @@
-import type { PostCreateFormData } from '@/schemas/post.schema';
+import type {
+  PostCreateFormData,
+  PostUpdateFormData,
+} from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
   GetMyAppliedPostsResponseType,
@@ -11,6 +14,7 @@ import type {
   PostType,
   ProjectType,
   RecommendedPostsType,
+  UpdatePostResponseType,
 } from '@/types/post.type';
 import { api, authApi } from './fetcher/api';
 
@@ -50,8 +54,22 @@ const postApi = {
     );
   },
 
+  /** 모집글 생성 */
   createPost: (payload: PostCreateFormData) => {
     return authApi.post<CreatePostResponseType>(`/api/posts`, payload);
+  },
+
+  /** 모집글 수정 */
+  updatePost: (postId: bigint, payload: PostUpdateFormData) => {
+    return authApi.put<UpdatePostResponseType>(
+      `/api/posts/${postId.toString()}`,
+      payload,
+    );
+  },
+
+  /** 모집글 삭제 */
+  deletePost: (postId: bigint) => {
+    return authApi.delete(`/api/posts/${postId.toString()}`);
   },
 
   /** 내가 지원한 글 목록 조회 */

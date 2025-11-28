@@ -1,7 +1,13 @@
 'use client';
 
+import { notFound, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import PostDeleteButton from '@/app/post/_components/post-delete-button';
+import PostEditButton from '@/app/post/_components/post-edit-button';
 import ProfileImage from '@/components/commons/profile-image';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
+import useToast from '@/hooks/use-toast';
+import type { ErrorType } from '@/types/error.type';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from './post-bookmark-button';
 import PostContent from './post-content';
@@ -16,7 +22,22 @@ interface PostPageClientProps {
 }
 
 export default function PostPageClient({ postId }: PostPageClientProps) {
-  const { data: postData } = useGetPostDetail(postId);
+  const toast = useToast();
+  const router = useRouter();
+  const { data: postData, isError, error } = useGetPostDetail(postId);
+
+  useEffect(() => {
+    if (isError) {
+      const customError = error as unknown as ErrorType;
+
+      if (customError.code === 404) {
+        notFound();
+      }
+
+      toast({ title: error.message });
+      router.replace('/');
+    }
+  }, [error, isError, router, toast]);
 
   if (!postData) return null;
 
@@ -38,14 +59,25 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
             {getRelativeTime(postData.createdAt)}
           </time>
           <div className="flex ml-auto gap-7">
-            {/* 북마크 버튼 */}
-            {/* TODO: 북마크 버튼 수정 */}
-            <PostBookmarkButton
-              isBookmarked={postData.isBookmarked}
-              postId={BigInt(postData.id)}
-            />
-            {/* 링크 복사 버튼 */}
-            <PostLinkButton />
+            {postData.owner ? (
+              <>
+                {/* 모집글 수정 버튼 */}
+                <PostEditButton postId={postData.id} />
+                {/* 모집글 삭제 버튼 */}
+                <PostDeleteButton postId={postData.id} />
+              </>
+            ) : (
+              <>
+                {/* 북마크 버튼 */}
+                {/* TODO: 북마크 버튼 수정 */}
+                <PostBookmarkButton
+                  isBookmarked={postData.isBookmarked}
+                  postId={BigInt(postData.id)}
+                />
+                {/* 링크 복사 버튼 */}
+                <PostLinkButton />
+              </>
+            )}
           </div>
         </div>
 

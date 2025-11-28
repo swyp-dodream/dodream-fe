@@ -12,6 +12,7 @@ type PostCreateActions = {
   removeStacks: (stack: TechSkill) => void;
   setInterests: (interests: InterestKeyword[]) => void;
   removeInterests: (interest: InterestKeyword) => void;
+  reset: () => void;
 };
 
 const usePostCreateStore = create<PostCreateState & PostCreateActions>(
@@ -29,6 +30,7 @@ const usePostCreateStore = create<PostCreateState & PostCreateActions>(
       set((state) => ({
         interests: state.interests.filter(({ id }) => id !== interest.id),
       })),
+    reset: () => set({ techStacks: [], interests: [] }),
   }),
 );
 
