@@ -10,10 +10,10 @@ export default function Footer() {
           <nav aria-label="약관 및 정책">
             <ul className="flex gap-10 text-body-md">
               <li>
-                <Link href="/">이용약관</Link>
+                <Link href="/legal/terms">이용약관</Link>
               </li>
               <li>
-                <Link href="/" rel="nofollow">
+                <Link href="/legal/privacy" rel="nofollow">
                   개인정보처리방침
                 </Link>
               </li>
