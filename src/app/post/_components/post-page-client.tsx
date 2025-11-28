@@ -1,9 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import PostDeleteButton from '@/app/post/_components/post-delete-button';
 import PostEditButton from '@/app/post/_components/post-edit-button';
 import ProfileImage from '@/components/commons/profile-image';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
+import useToast from '@/hooks/use-toast';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from './post-bookmark-button';
 import PostContent from './post-content';
@@ -18,7 +21,16 @@ interface PostPageClientProps {
 }
 
 export default function PostPageClient({ postId }: PostPageClientProps) {
-  const { data: postData } = useGetPostDetail(postId);
+  const toast = useToast();
+  const router = useRouter();
+  const { data: postData, isError, error } = useGetPostDetail(postId);
+
+  useEffect(() => {
+    if (isError) {
+      toast({ title: error.message });
+      router.replace('/');
+    }
+  }, [error, isError, router, toast]);
 
   if (!postData) return null;
 
