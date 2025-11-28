@@ -67,6 +67,11 @@ const postApi = {
     );
   },
 
+  /** 모집글 삭제 */
+  deletePost: (postId: bigint) => {
+    return authApi.delete(`/api/posts/${postId.toString()}`);
+  },
+
   /** 내가 지원한 글 목록 조회 */
   getMyAppliedPosts: (page?: number, size: number = 10) => {
     const params = new URLSearchParams();
