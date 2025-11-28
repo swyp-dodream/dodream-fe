@@ -8,6 +8,7 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: STALE_TIME,
       gcTime: GC_TIME,
+      retry: false,
     },
   },
 });
