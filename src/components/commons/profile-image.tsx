@@ -23,7 +23,7 @@ export default function ProfileImage({
 }: ProfileImageProps) {
   return (
     <Image
-      src={src ?? `/avatar/${code}.png`}
+      src={src ?? `/avatar/${code}.svg`}
       alt={userName ? `${userName}님의 프로필 이미지` : '프로필 이미지'}
       width={size}
       height={size}
