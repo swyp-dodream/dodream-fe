@@ -30,7 +30,10 @@ export default function DefaultPostCard({
   isBookmarked,
 }: DefaultPostCardProps) {
   return (
-    <PostCard href={`/post/${BigInt(id)}`}>
+    <PostCard
+      href={`/post/${BigInt(id)}`}
+      ownerProfileImageCode={ownerProfileImageCode}
+    >
       <PostCard.Header
         nickname={ownerNickname}
         elapsedTime={getRelativeTime(createDate)}

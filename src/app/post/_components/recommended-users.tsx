@@ -24,6 +24,8 @@ export default function RecommendedUsers({ postId }: RecommendedUsersProps) {
     new Set(users.profiles.map((profile) => profile.roles[0])),
   );
 
+  if (!availableRoles[0]) return null;
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex gap-3 items-center">

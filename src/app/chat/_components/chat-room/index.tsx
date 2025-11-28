@@ -84,6 +84,12 @@ export default function ChatRoom({
   const disabled = messages.at(-1)?.messageType === 'LEAVE';
   const groupedMessages = groupByDateAndTime(messages, isMyMessage);
 
+  const myRole = selectedChat?.myRole;
+  const leaderProfileImageCode = selectedChat?.leaderProfileImageCode;
+  const memberProfileImageCode = selectedChat?.memberProfileImageCode;
+  const oppositeProfileImageCode =
+    myRole === 'LEADER' ? memberProfileImageCode : leaderProfileImageCode;
+
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
     onSendMessage(newMessage);
@@ -123,9 +129,8 @@ export default function ChatRoom({
     <div className="col-span-5 flex flex-col min-h-0 h-full overflow-hidden">
       <header className="flex shrink-0 justify-between items-center sticky py-4">
         <div className="flex gap-4 items-center">
-          {/* TODO: 프로필 이미지 교체 */}
           <ProfileImage
-            src={null}
+            code={oppositeProfileImageCode}
             size={32}
             userName={selectedChat?.roomName}
           />
@@ -173,7 +178,7 @@ export default function ChatRoom({
                     >
                       {isShowProfileImage && (
                         <ProfileImage
-                          src={null}
+                          code={oppositeProfileImageCode}
                           size={32}
                           userName={item.senderNickname}
                           className="self-end"

@@ -37,6 +37,7 @@ export default function ApplicantProfile({
           제안하기
         </Button>
       }
+      profileImageCode={profile.profileImageCode}
       role={profile.roles[0].name}
       experience={profile.experience}
       introText={profile.introText}

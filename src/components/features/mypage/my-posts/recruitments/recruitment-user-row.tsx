@@ -28,7 +28,7 @@ export default function RecruitmentUserRow({
     <div className="grid grid-cols-subgrid col-span-full pb-6">
       <Link href="#" className="grid grid-cols-subgrid col-span-6">
         <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">
-          <ProfileImage src={null} size={40} userName={nickname} />
+          <ProfileImage code={profileImageCode} size={40} userName={nickname} />
           <div className="flex flex-col">
             <span className="body-lg-medium truncate">{nickname}</span>
             <div className="body-sm-regular text-secondary flex items-center gap-1">
