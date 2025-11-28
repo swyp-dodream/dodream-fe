@@ -20,6 +20,11 @@ export default function DeadlineField() {
       if (inputRef.current) {
         inputRef.current.value = format(twoWeeksLater, 'yyyy-MM-dd');
       }
+      return;
+    }
+
+    if (inputRef.current) {
+      inputRef.current.value = format(deadlineAt, 'yyyy-MM-dd');
     }
   }, [deadlineAt, setValue]);
 
