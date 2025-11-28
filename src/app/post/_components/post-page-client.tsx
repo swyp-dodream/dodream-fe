@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import PostDeleteButton from '@/app/post/_components/post-delete-button';
 import PostEditButton from '@/app/post/_components/post-edit-button';
 import ProfileImage from '@/components/commons/profile-image';
 import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import useToast from '@/hooks/use-toast';
+import type { ErrorType } from '@/types/error.type';
 import { getRelativeTime } from '@/utils/date.util';
 import PostBookmarkButton from './post-bookmark-button';
 import PostContent from './post-content';
@@ -27,6 +28,12 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
 
   useEffect(() => {
     if (isError) {
+      const customError = error as unknown as ErrorType;
+
+      if (customError.code === 404) {
+        notFound();
+      }
+
       toast({ title: error.message });
       router.replace('/');
     }
