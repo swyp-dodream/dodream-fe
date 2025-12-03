@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { overlay } from 'overlay-kit';
 import LoginModal from '@/app/auth/_components/login-modal';
-import BellIcon from '@/assets/icons/bell/20.svg';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
 import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import Button from '../commons/buttons/button';
+import NotificationDropdown from '../features/notifications/notification-dropdown';
 import NavigationProfile from './navigation-profile';
 
 /**
@@ -33,9 +33,7 @@ export default function Navigation() {
         </li>
 
         <li className="flex items-center">
-          <button type="button" aria-label="알림">
-            <BellIcon className="text-icon-dark" />
-          </button>
+          <NotificationDropdown />
         </li>
 
         <li>
