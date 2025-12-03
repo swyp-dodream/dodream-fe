@@ -5,6 +5,7 @@ import {
   differenceInHours,
   differenceInMinutes,
   format,
+  isToday,
   isYesterday,
   startOfDay,
 } from 'date-fns';
@@ -57,6 +58,23 @@ export function getRelativeTime(date: string | Date): string {
     return `${days}일`;
   } else {
     return format(newDate, 'yyyy.MM.dd');
+  }
+}
+
+/**
+ * 날짜를 오늘/어제/이전으로 구분하는 함수
+ * @param date - 확인할 날짜
+ * @returns '오늘' | '어제' | '이전'
+ */
+export function getDateCategory(date: string | Date): '오늘' | '어제' | '이전' {
+  const newDate = typeof date === 'string' ? new Date(date) : date;
+
+  if (isToday(newDate)) {
+    return '오늘';
+  } else if (isYesterday(newDate)) {
+    return '어제';
+  } else {
+    return '이전';
   }
 }
 
