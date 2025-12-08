@@ -84,9 +84,14 @@ async function fetcher<T>(
     return res.status === 204 ? ({} as T) : await res.json();
   } catch (error) {
     if (isErrorType(error)) {
-      console.error(
-        `${endpoint} Fetch 요청 오류: [${error.code}] ${error.message}`,
-      );
+      if (error.code === 401 || error.code === 403) {
+        console.log(`[${error.code}] ${error.message}`);
+      } else {
+        console.error(
+          `${endpoint} Fetch 요청 오류: [${error.code}] ${error.message}`,
+        );
+      }
+
       throw error;
     } else {
       // ErrorType이 아닌 에러는 ErrorType으로 변환

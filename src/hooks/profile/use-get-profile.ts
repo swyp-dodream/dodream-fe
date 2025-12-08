@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import userApi from '@/apis/user.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import useGetUser from '../auth/use-get-user';
 
 /** 유저의 프로필 데이터 */
 export function useGetProfile() {
@@ -19,18 +18,10 @@ export function useGetProfile() {
 
 /** 유저의 프로필 존재 여부 */
 export function useGetProfileExists() {
-  const { data: user, isSuccess } = useGetUser();
-
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
-    queryFn: async () => {
-      if (!user) {
-        return { exists: false };
-      }
-      return userApi.getProfileExists();
-    },
-    enabled: isSuccess,
-    staleTime: 12 * 60 * 60 * 1000,
-    gcTime: 12 * 60 * 60 * 1000,
+    queryFn: userApi.getProfileExists,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 }

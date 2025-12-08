@@ -13,8 +13,14 @@ const userApi = {
   deleteUser: () => api.delete<void>('/api/users/withdraw'),
 
   /** 유저 프로필 존재 여부 */
-  getProfileExists: () =>
-    api.get<{ exists: boolean }>('/api/profiles/me/exists'),
+  getProfileExists: async (): Promise<{ exists: boolean }> => {
+    try {
+      return await api.get<{ exists: boolean }>('/api/profiles/me/exists');
+    } catch {
+      // 401 등 에러 시 프로필 없음으로 처리
+      return { exists: false };
+    }
+  },
 
   /** 유저 프로필 */
   getProfile: () => api.get<ProfileType>('/api/profiles/me'),
