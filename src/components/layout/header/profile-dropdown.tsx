@@ -4,15 +4,20 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
 import userApi from '@/apis/user.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
-import useGetUser from '@/hooks/auth/use-get-user';
-import { useGetProfile } from '@/hooks/profile/use-get-profile';
-import ProfileImage from '../commons/profile-image';
+import type { UserType } from '@/types/auth.type';
+import type { ProfileType } from '@/types/profile.type';
+import ProfileImage from '../../commons/profile-image';
 
-export default function NavigationProfile() {
-  const { data: user } = useGetUser();
-  const { data: profile } = useGetProfile();
+interface ProfileDropdownProps {
+  user: UserType;
+  profile: ProfileType;
+}
 
-  if (!profile || !user) return null;
+export default function ProfileDropdown({
+  user,
+  profile,
+}: ProfileDropdownProps) {
+  if (!profile) return null;
 
   /** 로그아웃 함수 */
   const handleLogout = async () => {

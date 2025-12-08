@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import LoadingSpinner from '@/components/commons/loading-spinner';
-import MyPageNavigation from '@/components/layout/mypage-navigation';
+import MyPageNavigation from '@/components/layout/header/mypage-navigation';
 import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import useToast from '@/hooks/use-toast';
 
