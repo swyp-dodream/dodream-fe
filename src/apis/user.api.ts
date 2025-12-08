@@ -1,6 +1,5 @@
 import type { UserType } from '@/types/auth.type';
 import type { ProfileType } from '@/types/profile.type';
-import { tokenStorage } from '@/utils/auth.util';
 import { api } from './fetcher/api';
 
 const userApi = {
@@ -8,17 +7,7 @@ const userApi = {
   getUser: () => api.get<UserType>('/api/auth/me'),
 
   /** 로그아웃 */
-  logout: async () => {
-    try {
-      await api.post('/api/auth/logout');
-      console.log('로그아웃 성공');
-    } catch (error) {
-      console.error('로그아웃 실패:', error);
-    } finally {
-      // TODO: 삭제
-      tokenStorage.clearAll();
-    }
-  },
+  logout: () => api.post('/api/auth/logout'),
 
   /** 회원탈퇴 */
   deleteUser: () => api.delete<void>('/api/users/withdraw'),
