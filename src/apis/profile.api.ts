@@ -5,7 +5,7 @@ import type {
   GetProfileSettingsResponseType,
   UpdateProfileRequestType,
 } from '@/types/profile.type';
-import { api } from './fetcher/api';
+import { api } from './fetcher/fetcher';
 
 const profileApi = {
   /** 닉네임 중복 여부 체크 */

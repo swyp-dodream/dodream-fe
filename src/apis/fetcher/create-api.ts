@@ -1,9 +1,12 @@
-import fetcher from './fetcher';
+type FetcherFunction = <T>(
+  endpoint: string,
+  options?: RequestInit,
+) => Promise<T>;
 
 /**
- * HTTP 메서드 공통 함수
+ * HTTP 메서드 공통 함수 유틸
  */
-function createApiMethods(fetchFn: typeof fetcher) {
+export function createApiMethods(fetchFn: FetcherFunction) {
   return {
     get: <T>(endpoint: string, options?: RequestInit) =>
       fetchFn<T>(endpoint, { ...options, method: 'GET' }),
@@ -33,10 +36,3 @@ function createApiMethods(fetchFn: typeof fetcher) {
       fetchFn<T>(endpoint, { ...options, method: 'DELETE' }),
   };
 }
-
-/**
- * API Wrapper
- * @example
- * await api.get('/api/posts');
- */
-export const api = createApiMethods(fetcher);

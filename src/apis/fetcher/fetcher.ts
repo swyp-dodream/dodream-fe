@@ -1,8 +1,9 @@
 import { BASE_URL } from '@/constants/auth.constant';
 import type { ErrorType } from '@/types/error.type';
 import { isErrorType } from '@/utils/error.util';
+import { createApiMethods } from './create-api';
 
-async function fetcher<T>(
+export async function fetcher<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
@@ -11,7 +12,7 @@ async function fetcher<T>(
 
     const res = await fetch(url, {
       ...options,
-      credentials: 'include',
+      credentials: options.credentials || 'include',
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,
@@ -107,4 +108,12 @@ async function fetcher<T>(
   }
 }
 
-export default fetcher;
+/**
+ * 클라이언트 API
+ * 브라우저 쿠키 자동 전송
+ *
+ * @example
+ * await api.get('/api/posts');
+ * await api.post('/api/posts', { title: 'Hello' });
+ */
+export const api = createApiMethods(fetcher);

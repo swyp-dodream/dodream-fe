@@ -8,7 +8,7 @@ import type {
   MyPostRecommendedApplications,
   MyPostsResponseType,
 } from '@/types/my.type';
-import { api } from './fetcher/api';
+import { api } from './fetcher/fetcher';
 
 const myApi = {
   /** 내 지원 상세 조회 */

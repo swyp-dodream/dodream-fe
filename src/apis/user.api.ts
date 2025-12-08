@@ -1,6 +1,6 @@
 import type { UserType } from '@/types/auth.type';
 import type { ProfileType } from '@/types/profile.type';
-import { api } from './fetcher/api';
+import { api } from './fetcher/fetcher';
 
 const userApi = {
   /** 유저 정보 */
