@@ -1,3 +1,5 @@
+'use client';
+
 import { overlay } from 'overlay-kit';
 import LoginModal from '@/app/auth/_components/login-modal';
 import Button from '@/components/commons/buttons/button';
