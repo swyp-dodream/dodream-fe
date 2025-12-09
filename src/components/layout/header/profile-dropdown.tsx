@@ -2,6 +2,7 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import userApi from '@/apis/user.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
 import type { UserType } from '@/types/auth.type';
@@ -17,12 +18,13 @@ export default function ProfileDropdown({
   user,
   profile,
 }: ProfileDropdownProps) {
-  if (!profile) return null;
+  const router = useRouter();
 
   /** 로그아웃 함수 */
   const handleLogout = async () => {
     try {
       await userApi.logout();
+      router.refresh();
     } catch {
       console.error('로그아웃 실패');
     }

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import userApi from '@/apis/user.api';
+import { clientApis } from '@/apis/client.api';
 import LoadingSpinner from '@/components/commons/loading-spinner';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import useToast from '@/hooks/use-toast';
@@ -33,10 +33,7 @@ export default function AuthCallBackClient({
           return;
         }
 
-        // URL 파라미터 정리
-        window.history.replaceState({}, '', '/auth/callback');
-
-        const { exists } = await userApi.getProfileExists();
+        const { exists } = await clientApis.user.getProfileExists();
 
         // 프로필 쿼리 무효화
         await queryClient.invalidateQueries({

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { serverApis } from '@/apis/server-api';
+import { serverApis } from '@/apis/server.api';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
 import NotificationDropdown from '@/components/features/notifications/notification-dropdown';
