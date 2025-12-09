@@ -1,14 +1,25 @@
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import Link from 'next/link';
 import { serverApis } from '@/apis/server.api';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
 import NotificationDropdown from '@/components/features/notifications/notification-dropdown';
+import { QUERY_KEY } from '@/constants/query-key.constant';
+import { queryClient } from '@/lib/query-client';
 import ProfileDropdown from './profile-dropdown';
 
 /** 헤더의 네비게이션 컴포넌트 */
 export default async function Navigation() {
-  const user = await serverApis.user.getUser();
-  const profile = await serverApis.user.getProfile();
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: [QUERY_KEY.user],
+      queryFn: () => serverApis.user.getUser(),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: [QUERY_KEY.auth, QUERY_KEY.profile],
+      queryFn: () => serverApis.user.getProfile(),
+    }),
+  ]);
 
   return (
     <nav className="flex" aria-label="사용자 메뉴">
@@ -33,7 +44,9 @@ export default async function Navigation() {
 
         {/* 프로필 드롭다운 */}
         <li className="ml-2">
-          <ProfileDropdown user={user} profile={profile} />
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <ProfileDropdown />
+          </HydrationBoundary>
         </li>
       </ul>
     </nav>

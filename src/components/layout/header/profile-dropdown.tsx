@@ -3,27 +3,21 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import userApi from '@/apis/user.api';
+import { clientApis } from '@/apis/client.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
-import type { UserType } from '@/types/auth.type';
-import type { ProfileType } from '@/types/profile.type';
+import useGetUser from '@/hooks/auth/use-get-user';
+import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import ProfileImage from '../../commons/profile-image';
 
-interface ProfileDropdownProps {
-  user: UserType;
-  profile: ProfileType;
-}
-
-export default function ProfileDropdown({
-  user,
-  profile,
-}: ProfileDropdownProps) {
+export default function ProfileDropdown() {
   const router = useRouter();
+  const { data: user } = useGetUser();
+  const { data: profile } = useGetProfile();
 
   /** 로그아웃 함수 */
   const handleLogout = async () => {
     try {
-      await userApi.logout();
+      await clientApis.user.logout();
       router.refresh();
     } catch {
       console.error('로그아웃 실패');
@@ -39,7 +33,7 @@ export default function ProfileDropdown({
           aria-label="프로필 메뉴"
           className="flex h-8 w-8 rounded-full overflow-hidden focus:outline-none"
         >
-          <ProfileImage src={null} size={32} userName={profile.nickname} />
+          <ProfileImage src={null} size={32} userName={profile?.nickname} />
         </button>
       </DropdownMenu.Trigger>
 
@@ -55,8 +49,8 @@ export default function ProfileDropdown({
               사용자 정보
             </h2>
             <div className="flex flex-col">
-              <strong className="body-md-medium">{profile.nickname}</strong>
-              <span className="body-sm-regular text-subtle">{user.email}</span>
+              <strong className="body-md-medium">{profile?.nickname}</strong>
+              <span className="body-sm-regular text-subtle">{user?.email}</span>
               <DropdownMenu.Item asChild>
                 <Link
                   href={`/profile/me`}
