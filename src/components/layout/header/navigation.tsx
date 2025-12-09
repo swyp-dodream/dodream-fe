@@ -4,19 +4,22 @@ import { serverApis } from '@/apis/server.api';
 import EditIcon from '@/assets/icons/edit/20.svg';
 import MessageCircleIcon from '@/assets/icons/message-circle/20.svg';
 import NotificationDropdown from '@/components/features/notifications/notification-dropdown';
-import { QUERY_KEY } from '@/constants/query-key.constant';
-import { queryClient } from '@/lib/query-client';
+import { userQueryOptions } from '@/hooks/auth/use-get-user';
+import { profileQueryOptions } from '@/hooks/profile/use-get-profile';
+import { getQueryClient } from '@/lib/query-client';
 import ProfileDropdown from './profile-dropdown';
 
 /** 헤더의 네비게이션 컴포넌트 */
 export default async function Navigation() {
+  const queryClient = getQueryClient();
+
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: [QUERY_KEY.user],
+      ...userQueryOptions,
       queryFn: () => serverApis.user.getUser(),
     }),
     queryClient.prefetchQuery({
-      queryKey: [QUERY_KEY.auth, QUERY_KEY.profile],
+      ...profileQueryOptions,
       queryFn: () => serverApis.user.getProfile(),
     }),
   ]);
