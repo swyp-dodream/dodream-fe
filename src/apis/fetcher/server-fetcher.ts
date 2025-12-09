@@ -46,8 +46,5 @@ async function serverFetcher<T>(
  * 서버 API
  * Next.js cookies()를 사용하여 쿠키 전달
  * 서버 컴포넌트/Server Actions에서만 사용
- *
- * @example
- * await serverApi.get('/api/auth/me');
  */
 export const serverApi = createApiMethods(serverFetcher);

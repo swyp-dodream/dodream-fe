@@ -111,9 +111,5 @@ export async function fetcher<T>(
 /**
  * 클라이언트 API
  * 브라우저 쿠키 자동 전송
- *
- * @example
- * await api.get('/api/posts');
- * await api.post('/api/posts', { title: 'Hello' });
  */
 export const api = createApiMethods(fetcher);
