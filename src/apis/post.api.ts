@@ -16,25 +16,24 @@ import type {
   RecommendedPostsType,
   UpdatePostResponseType,
 } from '@/types/post.type';
-import { api, authApi } from './fetcher/api';
+import { api } from './fetcher/fetcher';
 
 const postApi = {
   /**
    * 게시글 목록
    * @parma query - 쿼리 스트링
    */
-  getPosts: (query: string) =>
-    authApi.get<PostType>(`/api/home?size=12&${query}`),
+  getPosts: (query: string) => api.get<PostType>(`/api/home?size=12&${query}`),
 
   /** AI 추천 게시글 */
   getRecommendedPosts: (projectType: ProjectType) =>
-    authApi.get<RecommendedPostsType>(
+    api.get<RecommendedPostsType>(
       `/api/recommendations?projectType=${projectType}`,
     ),
 
   /** 모집글 상세 데이터 */
   getPostDetail: (id: bigint) =>
-    authApi.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
+    api.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
 
   /** 모집글 멤버 내역 */
   getPostMembers: (id: bigint) =>
@@ -42,26 +41,26 @@ const postApi = {
 
   /** 모집 지원 */
   apply: (postId: bigint, data: { roleId: number; message: string }) =>
-    authApi.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
+    api.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
   cancelApply: (applicationId: bigint) =>
-    authApi.delete(`/api/my/applications/${applicationId}/cancel`),
+    api.delete(`/api/my/applications/${applicationId}/cancel`),
 
   /** 제안 취소 */
   cancelOffer: (suggestionId: bigint) => {
-    return authApi.delete<void>(
+    return api.delete<void>(
       `/api/my/suggestions/suggestions/${BigInt(suggestionId)}/cancel`,
     );
   },
 
   /** 모집글 생성 */
   createPost: (payload: PostCreateFormData) => {
-    return authApi.post<CreatePostResponseType>(`/api/posts`, payload);
+    return api.post<CreatePostResponseType>(`/api/posts`, payload);
   },
 
   /** 모집글 수정 */
   updatePost: (postId: bigint, payload: PostUpdateFormData) => {
-    return authApi.put<UpdatePostResponseType>(
+    return api.put<UpdatePostResponseType>(
       `/api/posts/${postId.toString()}`,
       payload,
     );
@@ -69,7 +68,7 @@ const postApi = {
 
   /** 모집글 삭제 */
   deletePost: (postId: bigint) => {
-    return authApi.delete(`/api/posts/${postId.toString()}`);
+    return api.delete(`/api/posts/${postId.toString()}`);
   },
 
   /** 내가 지원한 글 목록 조회 */
@@ -79,7 +78,7 @@ const postApi = {
     if (page) params.set('page', String(page));
     if (size) params.set('size', String(size));
 
-    return authApi.get<GetMyAppliedPostsResponseType>(
+    return api.get<GetMyAppliedPostsResponseType>(
       `/api/my/applications?${params.toString()}`,
     );
   },
@@ -91,7 +90,7 @@ const postApi = {
     if (page) params.set('page', String(page));
     if (size) params.set('size', String(size));
 
-    return authApi.get<GetMySuggestedPostResponseType>(
+    return api.get<GetMySuggestedPostResponseType>(
       `/api/my/suggestions?${params.toString()}`,
     );
   },
@@ -108,7 +107,7 @@ const postApi = {
     if (page) params.set('page', String(page));
     if (size) params.set('size', String(size));
 
-    return authApi.get<GetMyBookmarkedPostsResponseType>(
+    return api.get<GetMyBookmarkedPostsResponseType>(
       `/api/bookmarks?${params.toString()}`,
     );
   },
@@ -120,20 +119,20 @@ const postApi = {
     if (page) params.set('page', String(page));
     if (size) params.set('size', String(size));
 
-    return authApi.get<GetMyMatchedPostsResponseType>(
+    return api.get<GetMyMatchedPostsResponseType>(
       `/api/matched?${params.toString()}`,
     );
   },
 
   /** 내 모집글 추천 유저 */
   getMyPostRecommendedUsers: (postId: bigint) =>
-    authApi.get<MyPostRecommendedUsersType>(
+    api.get<MyPostRecommendedUsersType>(
       `/api/recommendations/profiles/${BigInt(postId)}`,
     ),
 
   /** 멤버 제안 */
   offer: (postId: bigint, userId: bigint) =>
-    authApi.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
+    api.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
       toUserId: BigInt(userId).toString(),
       suggestionMessage: '',
     }),

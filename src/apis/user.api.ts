@@ -1,34 +1,34 @@
 import type { UserType } from '@/types/auth.type';
 import type { ProfileType } from '@/types/profile.type';
-import { tokenStorage } from '@/utils/auth.util';
-import { authApi } from './fetcher/api';
+import type { createApiMethods } from './fetcher/create-api';
+import { api } from './fetcher/fetcher';
 
-const userApi = {
-  /** 유저 정보 */
-  getUser: () => authApi.get<UserType>('/api/auth/me'),
+export function createUserApi(apiClient: ReturnType<typeof createApiMethods>) {
+  return {
+    /** 유저 정보 */
+    getUser: () => apiClient.get<UserType>('/api/auth/me'),
 
-  /** 로그아웃 */
-  logout: async () => {
-    try {
-      await authApi.post('/api/auth/logout');
-      console.log('로그아웃 성공');
-    } catch (error) {
-      console.error('로그아웃 실패:', error);
-    } finally {
-      // API 성공/실패 관계없이 로컬 정리
-      tokenStorage.clearAll();
-    }
-  },
+    /** 로그아웃 */
+    logout: () => apiClient.post('/api/auth/logout'),
 
-  /** 회원탈퇴 */
-  deleteUser: () => authApi.delete<void>('/api/users/withdraw'),
+    /** 회원탈퇴 */
+    deleteUser: () => apiClient.delete<void>('/api/users/withdraw'),
 
-  /** 유저 프로필 존재 여부 */
-  getProfileExists: () =>
-    authApi.get<{ exists: boolean }>('/api/profiles/me/exists'),
+    /** 유저 프로필 존재 여부 */
+    getProfileExists: async (): Promise<{ exists: boolean }> => {
+      try {
+        return await apiClient.get<{ exists: boolean }>(
+          '/api/profiles/me/exists',
+        );
+      } catch {
+        return { exists: false };
+      }
+    },
 
-  /** 유저 프로필 */
-  getProfile: () => authApi.get<ProfileType>('/api/profiles/me'),
-};
+    /** 유저 프로필 */
+    getProfile: () => apiClient.get<ProfileType>('/api/profiles/me'),
+  };
+}
 
+const userApi = createUserApi(api);
 export default userApi;

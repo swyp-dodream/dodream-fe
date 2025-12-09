@@ -2,22 +2,23 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
-import userApi from '@/apis/user.api';
+import { useRouter } from 'next/navigation';
+import { clientApis } from '@/apis/client.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
 import useGetUser from '@/hooks/auth/use-get-user';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
-import ProfileImage from '../commons/profile-image';
+import ProfileImage from '../../commons/profile-image';
 
-export default function NavigationProfile() {
+export default function ProfileDropdown() {
+  const router = useRouter();
   const { data: user } = useGetUser();
   const { data: profile } = useGetProfile();
-
-  if (!profile || !user) return null;
 
   /** 로그아웃 함수 */
   const handleLogout = async () => {
     try {
-      await userApi.logout();
+      await clientApis.user.logout();
+      router.refresh();
     } catch {
       console.error('로그아웃 실패');
     }
@@ -32,7 +33,7 @@ export default function NavigationProfile() {
           aria-label="프로필 메뉴"
           className="flex h-8 w-8 rounded-full overflow-hidden focus:outline-none"
         >
-          <ProfileImage src={null} size={32} userName={profile.nickname} />
+          <ProfileImage src={null} size={32} userName={profile?.nickname} />
         </button>
       </DropdownMenu.Trigger>
 
@@ -48,8 +49,8 @@ export default function NavigationProfile() {
               사용자 정보
             </h2>
             <div className="flex flex-col">
-              <strong className="body-md-medium">{profile.nickname}</strong>
-              <span className="body-sm-regular text-subtle">{user.email}</span>
+              <strong className="body-md-medium">{profile?.nickname}</strong>
+              <span className="body-sm-regular text-subtle">{user?.email}</span>
               <DropdownMenu.Item asChild>
                 <Link
                   href={`/profile/me`}
