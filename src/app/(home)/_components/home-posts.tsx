@@ -130,8 +130,7 @@ function HomePostCards({ posts }: HomePostCardsProps) {
               id={BigInt(post.id)}
               title={post.title}
               status={post.status as PostStatusType}
-              // TODO: 프로필 이미지 코드로 수정
-              ownerProfileImageCode={0}
+              ownerProfileImageCode={post.authorProfileImageCode}
               ownerNickname={post.author}
               projectType={post.projectType as ProjectType}
               createDate={post.createdAt}

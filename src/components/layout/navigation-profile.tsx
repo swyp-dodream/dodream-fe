@@ -32,7 +32,11 @@ export default function NavigationProfile() {
           aria-label="프로필 메뉴"
           className="flex h-8 w-8 rounded-full overflow-hidden focus:outline-none"
         >
-          <ProfileImage src={null} size={32} userName={profile.nickname} />
+          <ProfileImage
+            code={profile.profileImageCode}
+            size={32}
+            userName={profile.nickname}
+          />
         </button>
       </DropdownMenu.Trigger>
 

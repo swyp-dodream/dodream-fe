@@ -77,6 +77,7 @@ export default function ProfileContent() {
       activityMode: null,
       intro: '',
       acceptOffers: true,
+      profileImageCode: Math.floor(Math.random() * 15) + 1,
     },
   });
 
@@ -169,7 +170,7 @@ export default function ProfileContent() {
 
           {/* 유저 정보 - 프로필 이미지 및 닉네임 */}
           <section className="flex gap-8 py-8">
-            <ProfileImage src={null} size={120} />
+            <ProfileImage code={watch('profileImageCode')} size={120} />
             <NicknameField
               value={watch('nickname')}
               {...register('nickname', {

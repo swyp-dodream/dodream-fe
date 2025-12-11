@@ -220,6 +220,8 @@ export default function useChat({ postId }: UseChatParams) {
           unReadCount: 0,
           lastMessage: lastHistory?.body ?? '',
           lastMessageAt: new Date(lastHistory?.createdAt ?? Date.now()),
+          leaderProfileImageCode: created.leaderProfileImageCode,
+          memberProfileImageCode: created.memberProfileImageCode,
         };
 
         if (created.roomId) {

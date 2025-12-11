@@ -14,11 +14,11 @@ import type { PostStatusType, ProjectType } from '@/types/post.type';
  */
 function Root({
   children,
-  avatarUrl,
+  ownerProfileImageCode,
   href = '#',
 }: {
   children: React.ReactNode;
-  avatarUrl?: string;
+  ownerProfileImageCode?: number;
   href?: string;
 }) {
   const childArray = React.Children.toArray(children);
@@ -33,7 +33,7 @@ function Root({
     <article className="rounded-lg border-1 border-border-primary p-7 bg-surface">
       <Link href={href} className="flex gap-4">
         {/* 왼쪽 아바타 영역 */}
-        <ProfileImage src={null} size={36} />
+        <ProfileImage code={ownerProfileImageCode} size={36} />
 
         {/* 오른쪽 영역 */}
         <div className="flex flex-col w-full gap-4">{contents}</div>

@@ -19,7 +19,6 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
     return <RecruitmentEmptyState tab="members" />;
   }
 
-  // const roles = [...new Set(users.users.map((user) => user.jobGroups[0]))];
   const roles = [
     ...new Set(
       users.users
