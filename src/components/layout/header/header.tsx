@@ -1,12 +1,11 @@
-import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { serverApis } from '@/apis/server.api';
 import Logo from '@/assets/logo/logo.svg';
 import LoginButton from './login-button';
 import Navigation from './navigation';
 
 export default async function Header() {
-  const cookieStore = await cookies();
-  const hasAuth = cookieStore.has('accessToken');
+  const profileExists = await serverApis.user.getProfileExists();
 
   return (
     <header className="h-13 sticky top-0 flex items-center shrink-0 bg-surface border-b border-border-primary z-50">
@@ -17,7 +16,7 @@ export default async function Header() {
             <span className="sr-only">두드림</span>
           </Link>
         </h1>
-        {hasAuth ? (
+        {profileExists.exists ? (
           // 로그인 상태: 네비게이션 바 노출
           <Navigation />
         ) : (
