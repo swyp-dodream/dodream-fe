@@ -13,7 +13,7 @@ import ProfileDropdown from './profile-dropdown';
 export default async function Navigation() {
   const queryClient = getQueryClient();
 
-  await Promise.all([
+  await Promise.allSettled([
     queryClient.prefetchQuery({
       ...userQueryOptions,
       queryFn: () => serverApis.user.getUser(),
