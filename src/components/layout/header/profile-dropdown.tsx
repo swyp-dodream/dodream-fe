@@ -2,27 +2,16 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { clientApis } from '@/apis/client.api';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
 import useGetUser from '@/hooks/auth/use-get-user';
+import { useLogout } from '@/hooks/auth/use-logout';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import ProfileImage from '../../commons/profile-image';
 
 export default function ProfileDropdown() {
-  const router = useRouter();
   const { data: user } = useGetUser();
   const { data: profile } = useGetProfile();
-
-  /** 로그아웃 함수 */
-  const handleLogout = async () => {
-    try {
-      await clientApis.user.logout();
-      router.refresh();
-    } catch {
-      console.error('로그아웃 실패');
-    }
-  };
+  const { logout } = useLogout();
 
   return (
     <DropdownMenu.Root>
@@ -77,7 +66,7 @@ export default function ProfileDropdown() {
                         <button
                           type="button"
                           className="flex items-center body-md-medium gap-4 p-2 outline-none w-full text-left"
-                          onClick={handleLogout}
+                          onClick={logout}
                         >
                           <Icon aria-hidden className="text-white" />
                           <span className="text-white">{label}</span>
