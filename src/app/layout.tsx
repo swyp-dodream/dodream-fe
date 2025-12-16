@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
+import Header from '@/components/layout/header/header';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   title: '두드림',
   description: '두드림',
 };
+
+export const dynamic = 'force-dynamic';
 
 export default function RootLayout({
   children,
