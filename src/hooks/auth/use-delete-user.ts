@@ -4,7 +4,7 @@ import { logout } from '@/utils/auth.util';
 
 export default function useDeleteUser() {
   return useMutation({
-    mutationFn: () => clientApis.user.deleteUser(),
+    mutationFn: () => clientApis.auth.deleteUser(),
     onSuccess: () => {
       logout();
     },

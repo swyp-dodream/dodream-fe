@@ -11,7 +11,7 @@ export const useLogout = () => {
 
   const logout = async () => {
     try {
-      await clientApis.user.logout();
+      await clientApis.auth.logout();
 
       queryClient.removeQueries({ queryKey: [QUERY_KEY.user] });
       queryClient.removeQueries({ queryKey: [QUERY_KEY.auth] });

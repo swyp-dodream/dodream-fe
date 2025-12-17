@@ -4,7 +4,7 @@ import { clientApis } from '@/services/client.api';
 
 export const userQueryOptions = queryOptions({
   queryKey: [QUERY_KEY.user],
-  queryFn: clientApis.user.getUser,
+  queryFn: clientApis.auth.getUser,
   retry: false,
 });
 

@@ -1,7 +1,7 @@
 import type { UserType } from '@/types/auth.type';
 import type { createApiMethods } from '../fetcher/create-api';
 
-export function createUserApi(apiClient: ReturnType<typeof createApiMethods>) {
+export function createAuthApi(apiClient: ReturnType<typeof createApiMethods>) {
   return {
     /** 유저 정보 */
     getUser: () => apiClient.get<UserType>('/api/auth/me'),

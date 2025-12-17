@@ -16,7 +16,7 @@ export default async function Navigation() {
   await Promise.allSettled([
     queryClient.prefetchQuery({
       ...userQueryOptions,
-      queryFn: () => serverApis.user.getUser(),
+      queryFn: () => serverApis.auth.getUser(),
     }),
     queryClient.prefetchQuery({
       ...profileQueryOptions,

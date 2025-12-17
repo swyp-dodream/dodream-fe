@@ -6,6 +6,6 @@ import { clientApis } from '@/services/client.api';
  */
 export const logout = () => {
   // 비동기 API 호출은 백그라운드에서 실해
-  clientApis.user.logout().catch(console.error);
+  clientApis.auth.logout().catch(console.error);
   window.location.href = '/';
 };
