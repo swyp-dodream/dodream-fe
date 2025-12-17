@@ -16,7 +16,7 @@ import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
 import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
-import profileApi from '@/services/profile.api';
+import profileApi from '@/services/apis/profile.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,

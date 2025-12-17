@@ -3,7 +3,7 @@ import type {
   GetChatHistoryResponseType,
   GetChatListResponseType,
 } from '@/types/chat.type';
-import { api } from './fetcher/fetcher';
+import { api } from '../fetcher/fetcher';
 
 const chatApi = {
   /** 채팅방 개설 또는 기존 roomId 조회 */

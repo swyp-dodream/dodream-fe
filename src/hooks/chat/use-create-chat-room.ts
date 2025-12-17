@@ -1,6 +1,6 @@
 import type { UseMutationOptions } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
-import chatApi from '@/services/chat.api';
+import chatApi from '@/services/apis/chat.api';
 import type { CreateChatRoomResponseType } from '@/types/chat.type';
 
 export default function useCreateChatRoom(

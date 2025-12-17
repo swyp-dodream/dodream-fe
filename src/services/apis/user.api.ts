@@ -1,7 +1,7 @@
 import type { UserType } from '@/types/auth.type';
 import type { ProfileType } from '@/types/profile.type';
-import type { createApiMethods } from './fetcher/create-api';
-import { api } from './fetcher/fetcher';
+import type { createApiMethods } from '../fetcher/create-api';
+import { api } from '../fetcher/fetcher';
 
 export function createUserApi(apiClient: ReturnType<typeof createApiMethods>) {
   return {

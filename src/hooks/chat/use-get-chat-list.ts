@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import chatApi from '@/services/chat.api';
+import chatApi from '@/services/apis/chat.api';
 
 export default function useGetChatList(filter: 'ALL' | 'UNREAD') {
   return useQuery({

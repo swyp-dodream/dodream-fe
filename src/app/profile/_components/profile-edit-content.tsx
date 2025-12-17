@@ -22,7 +22,7 @@ import {
   type ProfileEditFormData,
   profileEditFormSchema,
 } from '@/schemas/user.schema';
-import profileApi from '@/services/profile.api';
+import profileApi from '@/services/apis/profile.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,

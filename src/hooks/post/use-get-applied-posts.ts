@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import postApi from '@/services/post.api';
+import postApi from '@/services/apis/post.api';
 
 export default function useGetMyAppliedPosts(page?: number, size?: number) {
   return useQuery({

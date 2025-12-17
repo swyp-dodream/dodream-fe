@@ -16,7 +16,7 @@ import type {
   RecommendedPostsType,
   UpdatePostResponseType,
 } from '@/types/post.type';
-import { api } from './fetcher/fetcher';
+import { api } from '../fetcher/fetcher';
 
 const postApi = {
   /**

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import postApi from '@/services/post.api';
+import postApi from '@/services/apis/post.api';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
 /** 내 모집글 추천 회원 */

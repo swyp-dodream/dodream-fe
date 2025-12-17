@@ -3,7 +3,7 @@ import { QUERY_KEY } from '@/constants/query-key.constant';
 import useToast from '@/hooks/use-toast';
 import { queryClient } from '@/lib/query-client';
 import type { UpdateProfileSettingsFormData } from '@/schemas/profile.schema';
-import profileApi from '@/services/profile.api';
+import profileApi from '@/services/apis/profile.api';
 
 export default function useUpdateProfileSettings() {
   const toast = useToast();

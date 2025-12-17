@@ -1,4 +1,4 @@
-import { api } from './fetcher/fetcher';
+import { api } from '../fetcher/fetcher';
 
 const bookmarkApi = {
   /** 북마크 토글 */

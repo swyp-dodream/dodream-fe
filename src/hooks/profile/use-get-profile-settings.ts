@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import profileApi from '@/services/profile.api';
+import profileApi from '@/services/apis/profile.api';
 import type { GetProfileSettingsResponseType } from '@/types/profile.type';
 
 export default function useGetProfileSettings() {
