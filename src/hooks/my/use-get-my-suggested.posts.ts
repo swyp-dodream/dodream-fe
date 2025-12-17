@@ -5,6 +5,6 @@ import { clientApis } from '@/services/client.api';
 export default function useGetMySuggestedPosts(page?: number, size?: number) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts, page],
-    queryFn: () => clientApis.post.getMySuggestedPosts(page, size),
+    queryFn: () => clientApis.my.getMySuggestedPosts(page, size),
   });
 }

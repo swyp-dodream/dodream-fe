@@ -7,7 +7,7 @@ import { clientApis } from '@/services/client.api';
 export default function useOffer() {
   return useMutation({
     mutationFn: ({ postId, userId }: { postId: bigint; userId: bigint }) =>
-      clientApis.post.offer(postId, userId),
+      clientApis.my.offer(postId, userId),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: [

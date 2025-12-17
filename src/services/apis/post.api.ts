@@ -4,10 +4,8 @@ import type {
 } from '@/schemas/post.schema';
 import type {
   CreatePostResponseType,
-  GetMyAppliedPostsResponseType,
   GetMyBookmarkedPostsResponseType,
   GetMyMatchedPostsResponseType,
-  GetMySuggestedPostResponseType,
   MyPostRecommendedUsersType,
   PostDetailType,
   PostMembersType,
@@ -47,16 +45,6 @@ export function createPostApi(apiClient: ReturnType<typeof createApiMethods>) {
     apply: (postId: bigint, data: { roleId: number; message: string }) =>
       apiClient.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
-    /** 지원 취소 */
-    cancelApply: (applicationId: bigint) =>
-      apiClient.delete(`/api/my/applications/${applicationId}/cancel`),
-
-    /** 제안 취소 */
-    cancelOffer: (suggestionId: bigint) =>
-      apiClient.delete<void>(
-        `/api/my/suggestions/suggestions/${BigInt(suggestionId)}/cancel`,
-      ),
-
     /** 모집글 생성 */
     createPost: (payload: PostCreateFormData) =>
       apiClient.post<CreatePostResponseType>('/api/posts', payload),
@@ -71,30 +59,6 @@ export function createPostApi(apiClient: ReturnType<typeof createApiMethods>) {
     /** 모집글 삭제 */
     deletePost: (postId: bigint) =>
       apiClient.delete(`/api/posts/${postId.toString()}`),
-
-    /** 내가 지원한 글 목록 조회 */
-    getMyAppliedPosts: (page?: number, size: number = 10) => {
-      const params = new URLSearchParams();
-
-      if (page) params.set('page', String(page));
-      if (size) params.set('size', String(size));
-
-      return apiClient.get<GetMyAppliedPostsResponseType>(
-        `/api/my/applications?${params.toString()}`,
-      );
-    },
-
-    /** 내가 제안 받은 글 목록 조회 */
-    getMySuggestedPosts: (page?: number, size: number = 10) => {
-      const params = new URLSearchParams();
-
-      if (page) params.set('page', String(page));
-      if (size) params.set('size', String(size));
-
-      return apiClient.get<GetMySuggestedPostResponseType>(
-        `/api/my/suggestions?${params.toString()}`,
-      );
-    },
 
     /** 내가 북마크한 글 목록 조회 */
     getMyBookmarkedPosts: (
@@ -130,12 +94,5 @@ export function createPostApi(apiClient: ReturnType<typeof createApiMethods>) {
       apiClient.get<MyPostRecommendedUsersType>(
         `/api/recommendations/profiles/${BigInt(postId)}`,
       ),
-
-    /** 멤버 제안 */
-    offer: (postId: bigint, userId: bigint) =>
-      apiClient.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
-        toUserId: BigInt(userId).toString(),
-        suggestionMessage: '',
-      }),
   };
 }

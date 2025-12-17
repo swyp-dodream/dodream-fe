@@ -7,7 +7,7 @@ import { clientApis } from '@/services/client.api';
 export default function useCancelApply(postId: bigint) {
   return useMutation({
     mutationFn: (applicationId: bigint) =>
-      clientApis.post.cancelApply(applicationId),
+      clientApis.my.cancelApply(applicationId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [

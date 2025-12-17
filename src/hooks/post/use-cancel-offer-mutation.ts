@@ -8,7 +8,7 @@ import { clientApis } from '@/services/client.api';
 export default function useCancelOfferMutation(postId: bigint) {
   return useMutation({
     mutationFn: (suggestionId: bigint) =>
-      clientApis.post.cancelOffer(suggestionId),
+      clientApis.my.cancelOffer(suggestionId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myPostOffers, postId.toString()],

@@ -5,7 +5,7 @@ import { clientApis } from '@/services/client.api';
 export default function useGetMyAppliedPosts(page?: number, size?: number) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myAppliedPosts, page],
-    queryFn: () => clientApis.post.getMyAppliedPosts(page, size),
+    queryFn: () => clientApis.my.getMyAppliedPosts(page, size),
     staleTime: 10 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
