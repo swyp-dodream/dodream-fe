@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
-import postApi from '@/services/apis/post.api';
+import { clientApis } from '@/services/client.api';
 
 export default function useDeletePost(postId: bigint) {
   return useMutation({
-    mutationFn: () => postApi.deletePost(postId),
+    mutationFn: () => clientApis.post.deletePost(postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],

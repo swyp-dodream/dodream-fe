@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 import type { PostUpdateFormData } from '@/schemas/post.schema';
-import postApi from '@/services/apis/post.api';
+import { clientApis } from '@/services/client.api';
 
 export default function useUpdatePost() {
   return useMutation({
@@ -12,7 +12,7 @@ export default function useUpdatePost() {
     }: {
       postId: bigint;
       form: PostUpdateFormData;
-    }) => postApi.updatePost(postId, form),
+    }) => clientApis.post.updatePost(postId, form),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],

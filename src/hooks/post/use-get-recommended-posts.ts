@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import postApi from '@/services/apis/post.api';
+import { clientApis } from '@/services/client.api';
 import type { ProjectType } from '@/types/post.type';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
@@ -10,7 +10,7 @@ export default function useGetRecommendedPosts(projectType: ProjectType) {
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.aiPost, projectType],
-    queryFn: () => postApi.getRecommendedPosts(projectType),
+    queryFn: () => clientApis.post.getRecommendedPosts(projectType),
     enabled: isSuccess && profileExists?.exists === true,
     staleTime: 10 * 60 * 1000,
     gcTime: 30 * 60 * 1000,

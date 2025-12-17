@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
-import myApi from '@/services/apis/my.api';
+import { clientApis } from '@/services/client.api';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
 interface UseGetMyApplicationDetailOptions {
@@ -19,7 +19,7 @@ export default function useGetMyApplicationDetail(
       QUERY_KEY.myApplicationDetail,
       applicationId.toString(),
     ],
-    queryFn: () => myApi.getMyApplicationDetail(applicationId),
+    queryFn: () => clientApis.my.getMyApplicationDetail(applicationId),
     enabled: profileExists?.exists && (options?.enabled ?? true),
   });
 }

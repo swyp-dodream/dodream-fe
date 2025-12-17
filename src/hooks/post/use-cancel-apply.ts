@@ -1,12 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
-import postApi from '@/services/apis/post.api';
+import { clientApis } from '@/services/client.api';
 
 /** 지원 취소 */
 export default function useCancelApply(postId: bigint) {
   return useMutation({
-    mutationFn: (applicationId: bigint) => postApi.cancelApply(applicationId),
+    mutationFn: (applicationId: bigint) =>
+      clientApis.post.cancelApply(applicationId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [

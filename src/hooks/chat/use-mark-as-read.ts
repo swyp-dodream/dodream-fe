@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
-import chatApi from '@/services/apis/chat.api';
+import { clientApis } from '@/services/client.api';
 
 export default function useMarkAsRead() {
   return useMutation({
-    mutationFn: (roomId: string) => chatApi.markChatAsRead(roomId),
+    mutationFn: (roomId: string) => clientApis.chat.markChatAsRead(roomId),
     onSuccess: (_, roomId) => {
       // 채팅방 리스트에서 해당 방의 unread count를 0으로 반영한다.
       queryClient.invalidateQueries({

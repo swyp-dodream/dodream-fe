@@ -22,7 +22,7 @@ import {
   type ProfileEditFormData,
   profileEditFormSchema,
 } from '@/schemas/user.schema';
-import profileApi from '@/services/apis/profile.api';
+import { clientApis } from '@/services/client.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
@@ -134,7 +134,9 @@ export default function ProfileEditContent() {
   const handleProfileSubmit = async (data: ProfileEditFormData) => {
     // 닉네임 중복 체크
     try {
-      const { available } = await profileApi.checkNickname(data.nickname);
+      const { available } = await clientApis.profile.checkNickname(
+        data.nickname,
+      );
       if (!available) {
         setError('nickname', {
           type: 'server',

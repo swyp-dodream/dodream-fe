@@ -16,7 +16,7 @@ import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
 import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
-import profileApi from '@/services/apis/profile.api';
+import { clientApis } from '@/services/client.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
@@ -115,7 +115,9 @@ export default function ProfileContent() {
 
     // 닉네임 중복 체크
     try {
-      const { available } = await profileApi.checkNickname(watch('nickname'));
+      const { available } = await clientApis.profile.checkNickname(
+        watch('nickname'),
+      );
       if (!available) {
         setError('nickname', {
           type: 'server',

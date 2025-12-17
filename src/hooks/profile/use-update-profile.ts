@@ -3,7 +3,7 @@ import { INTERESTS, ROLE } from '@/constants/profile.constant';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 import type { ProfileEditFormData } from '@/schemas/user.schema';
-import profileApi from '@/services/apis/profile.api';
+import { clientApis } from '@/services/client.api';
 import type { RoleType, UpdateProfileRequestType } from '@/types/profile.type';
 import {
   convertActivityModeValue,
@@ -37,7 +37,7 @@ export default function useUpdateProfile() {
         introText: data.intro,
       };
 
-      return profileApi.updateProfile(requestData);
+      return clientApis.profile.updateProfile(requestData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
