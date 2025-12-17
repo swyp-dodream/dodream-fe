@@ -9,7 +9,7 @@ export default function useGetMyPostApplications(postId: bigint) {
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myPostApplications, postId.toString()],
-    queryFn: () => clientApis.my.getMyPostApplications(BigInt(postId)),
+    queryFn: () => clientApis.posts.getMyPostApplications(BigInt(postId)),
     enabled: !!postId && profileExists?.exists,
   });
 }

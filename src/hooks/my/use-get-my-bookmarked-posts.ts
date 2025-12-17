@@ -14,7 +14,7 @@ export default function useGetMyBookmarkedPosts(
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myBookmarkedPosts, projectType, page],
     queryFn: () =>
-      clientApis.post.getMyBookmarkedPosts(projectType, page, size),
+      clientApis.posts.getMyBookmarkedPosts(projectType, page, size),
     enabled: isSuccess && profileExists.exists === true,
   });
 }

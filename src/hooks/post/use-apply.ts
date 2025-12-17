@@ -23,7 +23,7 @@ export function useApply() {
       postId: bigint;
       roleId: number;
       message?: string;
-    }) => clientApis.post.apply(postId, { roleId, message }),
+    }) => clientApis.posts.apply(postId, { roleId, message }),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: [

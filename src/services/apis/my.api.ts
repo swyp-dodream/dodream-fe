@@ -1,10 +1,4 @@
-import type {
-  GetMyApplicationDetailResponseType,
-  MyPostApplicantDetailType,
-  MyPostApplicationsType,
-  MyPostOffersType,
-  MyPostsResponseType,
-} from '@/types/my.type';
+import type { GetMyApplicationDetailResponseType } from '@/types/my.type';
 import type {
   GetMyAppliedPostsResponseType,
   GetMySuggestedPostResponseType,
@@ -63,29 +57,5 @@ export function createMyApi(apiClient: ReturnType<typeof createApiMethods>) {
     /** 지원 취소 */
     cancelApply: (applicationId: bigint) =>
       apiClient.delete(`/api/my/applications/${applicationId}/cancel`),
-
-    /** 내가 쓴 글 목록 */
-    getMyPosts: (type: string, page: number, size = 10) => {
-      const tab = type === 'PROJECT' ? 'project' : 'study';
-      return apiClient.get<MyPostsResponseType>(
-        `/api/posts/my?size=${size}&tab=${tab}&page=${page}`,
-      );
-    },
-
-    /** 내 모집글 지원 목록 조회 */
-    getMyPostApplications: (postId: bigint) =>
-      apiClient.get<MyPostApplicationsType>(
-        `/api/posts/${BigInt(postId)}/recruits/applications`,
-      ),
-
-    /** 내 모집글 지원자 상세 정보 */
-    getMyPostApplicantDetail: (postId: bigint, applicationId: bigint) =>
-      apiClient.get<MyPostApplicantDetailType>(
-        `/api/posts/${postId}/recruits/applications/${applicationId}`,
-      ),
-
-    /** 내 모집글 제안 내역 */
-    getMyPostOffers: (postId: bigint) =>
-      apiClient.get<MyPostOffersType>(`/api/posts/${postId}/recruits/offers`),
   };
 }

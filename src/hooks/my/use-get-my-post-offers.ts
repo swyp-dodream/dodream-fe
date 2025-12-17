@@ -6,6 +6,6 @@ import { clientApis } from '@/services/client.api';
 export default function useGetMyPostOffers(postId: bigint) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myPostOffers, postId.toString()],
-    queryFn: () => clientApis.my.getMyPostOffers(postId),
+    queryFn: () => clientApis.posts.getMyPostOffers(postId),
   });
 }

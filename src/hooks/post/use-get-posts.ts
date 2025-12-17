@@ -6,7 +6,7 @@ import { clientApis } from '@/services/client.api';
 export function useGetPosts(query: string) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.posts, query],
-    queryFn: () => clientApis.post.getPosts(query),
+    queryFn: () => clientApis.posts.getPosts(query),
     staleTime: 30 * 1000,
     gcTime: 10 * 60 * 1000,
   });
@@ -16,7 +16,7 @@ export function useGetPosts(query: string) {
 export function useGetPostDetail(postId: bigint) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, BigInt(postId).toString()],
-    queryFn: () => clientApis.post.getPostDetail(BigInt(postId)),
+    queryFn: () => clientApis.posts.getPostDetail(BigInt(postId)),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     retry: false,

@@ -12,7 +12,7 @@ export default function useUpdatePost() {
     }: {
       postId: bigint;
       form: PostUpdateFormData;
-    }) => clientApis.post.updatePost(postId, form),
+    }) => clientApis.posts.updatePost(postId, form),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],

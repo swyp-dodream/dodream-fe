@@ -5,7 +5,7 @@ import { clientApis } from '@/services/client.api';
 
 export default function useDeletePost(postId: bigint) {
   return useMutation({
-    mutationFn: () => clientApis.post.deletePost(postId),
+    mutationFn: () => clientApis.posts.deletePost(postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],

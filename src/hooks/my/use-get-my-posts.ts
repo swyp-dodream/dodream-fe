@@ -13,7 +13,7 @@ export default function useGetMyPosts(
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myPosts, type, page],
-    queryFn: () => clientApis.my.getMyPosts(type, page, size),
+    queryFn: () => clientApis.posts.getMyPosts(type, page, size),
     enabled: profileExists?.exists,
   });
 }

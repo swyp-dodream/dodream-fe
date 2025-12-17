@@ -6,7 +6,7 @@ import { clientApis } from '@/services/client.api';
 
 export default function useCreatePost() {
   return useMutation({
-    mutationFn: (form: PostCreateFormData) => clientApis.post.createPost(form),
+    mutationFn: (form: PostCreateFormData) => clientApis.posts.createPost(form),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],

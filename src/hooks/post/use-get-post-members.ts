@@ -6,7 +6,7 @@ import { clientApis } from '@/services/client.api';
 export default function useGetPostMembers(postId: bigint) {
   return useQuery({
     queryKey: [QUERY_KEY.postMembers, BigInt(postId).toString()],
-    queryFn: () => clientApis.post.getPostMembers(postId),
+    queryFn: () => clientApis.posts.getPostMembers(postId),
     staleTime: 60 * 1000,
     gcTime: 10 * 60 * 1000,
   });

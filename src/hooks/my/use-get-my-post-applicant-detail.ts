@@ -23,7 +23,7 @@ export default function useGetMyPostApplicantDetail(
       applicationId.toString(),
     ],
     queryFn: () =>
-      clientApis.my.getMyPostApplicantDetail(postId, applicationId),
+      clientApis.posts.getMyPostApplicantDetail(postId, applicationId),
     enabled: profileExists?.exists && (options?.enabled ?? true),
   });
 }
