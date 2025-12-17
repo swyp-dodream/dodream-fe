@@ -1,4 +1,3 @@
-import type { MatchingCancelReasonCode } from '@/constants/matching.constant';
 import type {
   GetMyApplicationDetailResponseType,
   MyPostApplicantDetailType,
@@ -67,17 +66,6 @@ export function createMyApi(apiClient: ReturnType<typeof createApiMethods>) {
     cancelApply: (applicationId: bigint) =>
       apiClient.delete(`/api/my/applications/${applicationId}/cancel`),
 
-    /** 매칭 취소 */
-    cancelMatching: (
-      matchingId: bigint,
-      reasonCode: MatchingCancelReasonCode,
-      reasonText: string,
-    ) =>
-      apiClient.post(`/api/matched/${BigInt(matchingId)}/cancel`, {
-        reasonCode,
-        reasonText,
-      }),
-
     /** 내가 쓴 글 목록 */
     getMyPosts: (type: string, page: number, size = 10) => {
       const tab = type === 'PROJECT' ? 'project' : 'study';
@@ -102,12 +90,6 @@ export function createMyApi(apiClient: ReturnType<typeof createApiMethods>) {
     getMyPostApplicantProfile: (postId: bigint, userId: bigint) =>
       apiClient.get<MyPostApplicantProfileType>(
         `/api/profiles/applicant/${userId}/post/${postId}`,
-      ),
-
-    /** 지원 수락 */
-    match: (postId: bigint, applicationId: bigint) =>
-      apiClient.post<void>(
-        `/api/matched/${postId}/applications/${applicationId}/accept`,
       ),
 
     /** 내 모집글 제안 내역 */

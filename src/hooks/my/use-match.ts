@@ -12,7 +12,7 @@ export default function useMatch() {
     }: {
       postId: bigint;
       applicationId: bigint;
-    }) => clientApis.my.match(postId, applicationId),
+    }) => clientApis.matched.match(postId, applicationId),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: [

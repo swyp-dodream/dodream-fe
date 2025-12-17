@@ -5,6 +5,6 @@ import { clientApis } from '@/services/client.api';
 export default function useGetMatchedPosts(page?: number, size?: number) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts, page],
-    queryFn: () => clientApis.post.getMyMatchedPosts(page, size),
+    queryFn: () => clientApis.matched.getMyMatchedPosts(page, size),
   });
 }

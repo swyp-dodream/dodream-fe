@@ -5,7 +5,6 @@ import type {
 import type {
   CreatePostResponseType,
   GetMyBookmarkedPostsResponseType,
-  GetMyMatchedPostsResponseType,
   MyPostRecommendedUsersType,
   PostDetailType,
   PostMembersType,
@@ -74,18 +73,6 @@ export function createPostApi(apiClient: ReturnType<typeof createApiMethods>) {
 
       return apiClient.get<GetMyBookmarkedPostsResponseType>(
         `/api/bookmarks?${params.toString()}`,
-      );
-    },
-
-    /** 내가 매칭된 글 목록 조회 */
-    getMyMatchedPosts: (page?: number, size: number = 10) => {
-      const params = new URLSearchParams();
-
-      if (page) params.set('page', String(page));
-      if (size) params.set('size', String(size));
-
-      return apiClient.get<GetMyMatchedPostsResponseType>(
-        `/api/matched?${params.toString()}`,
       );
     },
 

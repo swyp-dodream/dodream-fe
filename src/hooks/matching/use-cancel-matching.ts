@@ -17,7 +17,7 @@ export default function useCancelMatching(postId: bigint) {
       reasonCode,
       reasonText = '',
     }: CancelMatchingVariables) =>
-      clientApis.my.cancelMatching(matchingId, reasonCode, reasonText),
+      clientApis.matched.cancelMatching(matchingId, reasonCode, reasonText),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts],
