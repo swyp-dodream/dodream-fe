@@ -5,7 +5,7 @@ import { clientApis } from '@/services/client.api';
 
 export default function useToggleBookmark() {
   return useMutation({
-    mutationFn: (postId: bigint) => clientApis.bookmark.toggleBookmark(postId),
+    mutationFn: (postId: bigint) => clientApis.bookmarks.toggleBookmark(postId),
     onSuccess: (_, postId) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],

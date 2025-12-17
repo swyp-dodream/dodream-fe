@@ -1,4 +1,4 @@
-import { createBookmarkApi } from './apis/bookmark.api';
+import { createBookmarksApi } from './apis/bookmarks.api';
 import { createChatApi } from './apis/chat.api';
 import { createMatchedApi } from './apis/matched.api';
 import { createMyApi } from './apis/my.api';
@@ -16,7 +16,7 @@ import { api } from './fetcher/fetcher';
  */
 export const clientApis = {
   user: createUserApi(api),
-  bookmark: createBookmarkApi(api),
+  bookmarks: createBookmarksApi(api),
   matched: createMatchedApi(api),
   chat: createChatApi(api),
   my: createMyApi(api),

@@ -1,4 +1,4 @@
-import { createBookmarkApi } from './apis/bookmark.api';
+import { createBookmarksApi } from './apis/bookmarks.api';
 import { createChatApi } from './apis/chat.api';
 import { createMatchedApi } from './apis/matched.api';
 import { createMyApi } from './apis/my.api';
@@ -16,7 +16,7 @@ import { serverApi } from './fetcher/server-fetcher';
  */
 export const serverApis = {
   user: createUserApi(serverApi),
-  bookmark: createBookmarkApi(serverApi),
+  bookmarks: createBookmarksApi(serverApi),
   matched: createMatchedApi(serverApi),
   chat: createChatApi(serverApi),
   my: createMyApi(serverApi),
