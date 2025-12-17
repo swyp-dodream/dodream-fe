@@ -5,12 +5,10 @@ import type {
 import type {
   CreatePostResponseType,
   GetMyBookmarkedPostsResponseType,
-  MyPostRecommendedUsersType,
   PostDetailType,
   PostMembersType,
   PostType,
   ProjectType,
-  RecommendedPostsType,
   UpdatePostResponseType,
 } from '@/types/post.type';
 import type { createApiMethods } from '../fetcher/create-api';
@@ -23,12 +21,6 @@ export function createPostApi(apiClient: ReturnType<typeof createApiMethods>) {
      */
     getPosts: (query: string) =>
       apiClient.get<PostType>(`/api/home?size=12&${query}`),
-
-    /** AI 추천 게시글 */
-    getRecommendedPosts: (projectType: ProjectType) =>
-      apiClient.get<RecommendedPostsType>(
-        `/api/recommendations?projectType=${projectType}`,
-      ),
 
     /** 모집글 상세 데이터 */
     getPostDetail: (id: bigint) =>
@@ -75,11 +67,5 @@ export function createPostApi(apiClient: ReturnType<typeof createApiMethods>) {
         `/api/bookmarks?${params.toString()}`,
       );
     },
-
-    /** 내 모집글 추천 유저 */
-    getMyPostRecommendedUsers: (postId: bigint) =>
-      apiClient.get<MyPostRecommendedUsersType>(
-        `/api/recommendations/profiles/${BigInt(postId)}`,
-      ),
   };
 }

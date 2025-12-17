@@ -4,6 +4,7 @@ import { createMatchedApi } from './apis/matched.api';
 import { createMyApi } from './apis/my.api';
 import { createPostApi } from './apis/post.api';
 import { createProfileApi } from './apis/profile.api';
+import { createRecommendationsApi } from './apis/recommendations.api';
 import { createUserApi } from './apis/user.api';
 import { api } from './fetcher/fetcher';
 
@@ -21,4 +22,5 @@ export const clientApis = {
   my: createMyApi(api),
   post: createPostApi(api),
   profile: createProfileApi(api),
+  recommendations: createRecommendationsApi(api),
 };

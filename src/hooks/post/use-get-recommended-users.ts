@@ -12,7 +12,7 @@ export function useGetRecommendedUsers(postId: bigint) {
       QUERY_KEY.myPostRecommendedUsers,
       BigInt(postId).toString(),
     ],
-    queryFn: () => clientApis.post.getMyPostRecommendedUsers(postId),
+    queryFn: () => clientApis.recommendations.getMyPostRecommendedUsers(postId),
     enabled: isSuccess && profileExists.exists === true,
   });
 }

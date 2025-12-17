@@ -3,7 +3,6 @@ import type {
   MyPostApplicantDetailType,
   MyPostApplicationsType,
   MyPostOffersType,
-  MyPostRecommendedApplications,
   MyPostsResponseType,
 } from '@/types/my.type';
 import type {
@@ -88,11 +87,5 @@ export function createMyApi(apiClient: ReturnType<typeof createApiMethods>) {
     /** 내 모집글 제안 내역 */
     getMyPostOffers: (postId: bigint) =>
       apiClient.get<MyPostOffersType>(`/api/posts/${postId}/recruits/offers`),
-
-    /** 내 모집글 지원자 중 추천 */
-    generateMyPostRecommendedApplicants: (postId: bigint) =>
-      apiClient.post<MyPostRecommendedApplications>(
-        `/api/recommendations/applicants/${postId}`,
-      ),
   };
 }
