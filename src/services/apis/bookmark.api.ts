@@ -1,10 +1,11 @@
-import { api } from '../fetcher/fetcher';
+import type { createApiMethods } from '../fetcher/create-api';
 
-const bookmarkApi = {
-  /** 북마크 토글 */
-  toggleBookmark: (postId: bigint) => {
-    return api.post(`/api/bookmarks/${BigInt(postId)}`);
-  },
-};
-
-export default bookmarkApi;
+export function createBookmarkApi(
+  apiClient: ReturnType<typeof createApiMethods>,
+) {
+  return {
+    /** 북마크 토글 */
+    toggleBookmark: (postId: bigint) =>
+      apiClient.post(`/api/bookmarks/${BigInt(postId)}`),
+  };
+}

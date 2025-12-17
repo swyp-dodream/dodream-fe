@@ -16,126 +16,126 @@ import type {
   RecommendedPostsType,
   UpdatePostResponseType,
 } from '@/types/post.type';
-import { api } from '../fetcher/fetcher';
+import type { createApiMethods } from '../fetcher/create-api';
 
-const postApi = {
-  /**
-   * 게시글 목록
-   * @parma query - 쿼리 스트링
-   */
-  getPosts: (query: string) => api.get<PostType>(`/api/home?size=12&${query}`),
+export function createPostApi(apiClient: ReturnType<typeof createApiMethods>) {
+  return {
+    /**
+     * 게시글 목록
+     * @param query - 쿼리 스트링
+     */
+    getPosts: (query: string) =>
+      apiClient.get<PostType>(`/api/home?size=12&${query}`),
 
-  /** AI 추천 게시글 */
-  getRecommendedPosts: (projectType: ProjectType) =>
-    api.get<RecommendedPostsType>(
-      `/api/recommendations?projectType=${projectType}`,
-    ),
+    /** AI 추천 게시글 */
+    getRecommendedPosts: (projectType: ProjectType) =>
+      apiClient.get<RecommendedPostsType>(
+        `/api/recommendations?projectType=${projectType}`,
+      ),
 
-  /** 모집글 상세 데이터 */
-  getPostDetail: (id: bigint) =>
-    api.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
+    /** 모집글 상세 데이터 */
+    getPostDetail: (id: bigint) =>
+      apiClient.get<PostDetailType>(`/api/posts/${BigInt(id)}`),
 
-  /** 모집글 멤버 내역 */
-  getPostMembers: (id: bigint) =>
-    api.get<PostMembersType>(`/api/posts/${BigInt(id)}/recruits/members`),
+    /** 모집글 멤버 내역 */
+    getPostMembers: (id: bigint) =>
+      apiClient.get<PostMembersType>(
+        `/api/posts/${BigInt(id)}/recruits/members`,
+      ),
 
-  /** 모집 지원 */
-  apply: (postId: bigint, data: { roleId: number; message: string }) =>
-    api.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
+    /** 모집 지원 */
+    apply: (postId: bigint, data: { roleId: number; message: string }) =>
+      apiClient.post<void>(`/api/posts/${BigInt(postId)}/apply`, data),
 
-  cancelApply: (applicationId: bigint) =>
-    api.delete(`/api/my/applications/${applicationId}/cancel`),
+    /** 지원 취소 */
+    cancelApply: (applicationId: bigint) =>
+      apiClient.delete(`/api/my/applications/${applicationId}/cancel`),
 
-  /** 제안 취소 */
-  cancelOffer: (suggestionId: bigint) => {
-    return api.delete<void>(
-      `/api/my/suggestions/suggestions/${BigInt(suggestionId)}/cancel`,
-    );
-  },
+    /** 제안 취소 */
+    cancelOffer: (suggestionId: bigint) =>
+      apiClient.delete<void>(
+        `/api/my/suggestions/suggestions/${BigInt(suggestionId)}/cancel`,
+      ),
 
-  /** 모집글 생성 */
-  createPost: (payload: PostCreateFormData) => {
-    return api.post<CreatePostResponseType>(`/api/posts`, payload);
-  },
+    /** 모집글 생성 */
+    createPost: (payload: PostCreateFormData) =>
+      apiClient.post<CreatePostResponseType>('/api/posts', payload),
 
-  /** 모집글 수정 */
-  updatePost: (postId: bigint, payload: PostUpdateFormData) => {
-    return api.put<UpdatePostResponseType>(
-      `/api/posts/${postId.toString()}`,
-      payload,
-    );
-  },
+    /** 모집글 수정 */
+    updatePost: (postId: bigint, payload: PostUpdateFormData) =>
+      apiClient.put<UpdatePostResponseType>(
+        `/api/posts/${postId.toString()}`,
+        payload,
+      ),
 
-  /** 모집글 삭제 */
-  deletePost: (postId: bigint) => {
-    return api.delete(`/api/posts/${postId.toString()}`);
-  },
+    /** 모집글 삭제 */
+    deletePost: (postId: bigint) =>
+      apiClient.delete(`/api/posts/${postId.toString()}`),
 
-  /** 내가 지원한 글 목록 조회 */
-  getMyAppliedPosts: (page?: number, size: number = 10) => {
-    const params = new URLSearchParams();
+    /** 내가 지원한 글 목록 조회 */
+    getMyAppliedPosts: (page?: number, size: number = 10) => {
+      const params = new URLSearchParams();
 
-    if (page) params.set('page', String(page));
-    if (size) params.set('size', String(size));
+      if (page) params.set('page', String(page));
+      if (size) params.set('size', String(size));
 
-    return api.get<GetMyAppliedPostsResponseType>(
-      `/api/my/applications?${params.toString()}`,
-    );
-  },
+      return apiClient.get<GetMyAppliedPostsResponseType>(
+        `/api/my/applications?${params.toString()}`,
+      );
+    },
 
-  /** 내가 제안 받은 글 목록 조회 */
-  getMySuggestedPosts: (page?: number, size: number = 10) => {
-    const params = new URLSearchParams();
+    /** 내가 제안 받은 글 목록 조회 */
+    getMySuggestedPosts: (page?: number, size: number = 10) => {
+      const params = new URLSearchParams();
 
-    if (page) params.set('page', String(page));
-    if (size) params.set('size', String(size));
+      if (page) params.set('page', String(page));
+      if (size) params.set('size', String(size));
 
-    return api.get<GetMySuggestedPostResponseType>(
-      `/api/my/suggestions?${params.toString()}`,
-    );
-  },
+      return apiClient.get<GetMySuggestedPostResponseType>(
+        `/api/my/suggestions?${params.toString()}`,
+      );
+    },
 
-  /** 내가 북마크한 글 목록 조회 */
-  getMyBookmarkedPosts: (
-    projectType: ProjectType,
-    page?: number,
-    size: number = 10,
-  ) => {
-    const params = new URLSearchParams();
+    /** 내가 북마크한 글 목록 조회 */
+    getMyBookmarkedPosts: (
+      projectType: ProjectType,
+      page?: number,
+      size: number = 10,
+    ) => {
+      const params = new URLSearchParams();
 
-    params.set('projectType', projectType);
-    if (page) params.set('page', String(page));
-    if (size) params.set('size', String(size));
+      params.set('projectType', projectType);
+      if (page) params.set('page', String(page));
+      if (size) params.set('size', String(size));
 
-    return api.get<GetMyBookmarkedPostsResponseType>(
-      `/api/bookmarks?${params.toString()}`,
-    );
-  },
+      return apiClient.get<GetMyBookmarkedPostsResponseType>(
+        `/api/bookmarks?${params.toString()}`,
+      );
+    },
 
-  /** 내가 매칭된 글 목록 조회 */
-  getMyMatchedPosts: (page?: number, size: number = 10) => {
-    const params = new URLSearchParams();
+    /** 내가 매칭된 글 목록 조회 */
+    getMyMatchedPosts: (page?: number, size: number = 10) => {
+      const params = new URLSearchParams();
 
-    if (page) params.set('page', String(page));
-    if (size) params.set('size', String(size));
+      if (page) params.set('page', String(page));
+      if (size) params.set('size', String(size));
 
-    return api.get<GetMyMatchedPostsResponseType>(
-      `/api/matched?${params.toString()}`,
-    );
-  },
+      return apiClient.get<GetMyMatchedPostsResponseType>(
+        `/api/matched?${params.toString()}`,
+      );
+    },
 
-  /** 내 모집글 추천 유저 */
-  getMyPostRecommendedUsers: (postId: bigint) =>
-    api.get<MyPostRecommendedUsersType>(
-      `/api/recommendations/profiles/${BigInt(postId)}`,
-    ),
+    /** 내 모집글 추천 유저 */
+    getMyPostRecommendedUsers: (postId: bigint) =>
+      apiClient.get<MyPostRecommendedUsersType>(
+        `/api/recommendations/profiles/${BigInt(postId)}`,
+      ),
 
-  /** 멤버 제안 */
-  offer: (postId: bigint, userId: bigint) =>
-    api.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
-      toUserId: BigInt(userId).toString(),
-      suggestionMessage: '',
-    }),
-};
-
-export default postApi;
+    /** 멤버 제안 */
+    offer: (postId: bigint, userId: bigint) =>
+      apiClient.post(`/api/my/suggestions/${BigInt(postId)}/suggestions`, {
+        toUserId: BigInt(userId).toString(),
+        suggestionMessage: '',
+      }),
+  };
+}
