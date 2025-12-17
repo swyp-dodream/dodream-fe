@@ -5,7 +5,7 @@ import LoginButton from './login-button';
 import Navigation from './navigation';
 
 export default async function Header() {
-  const profileExists = await serverApis.user.getProfileExists();
+  const profileExists = await serverApis.profile.getProfileExists();
 
   return (
     <header className="h-13 sticky top-0 flex items-center shrink-0 bg-surface border-b border-border-primary z-50">

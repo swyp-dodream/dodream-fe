@@ -1,7 +1,6 @@
 import type {
   GetMyApplicationDetailResponseType,
   MyPostApplicantDetailType,
-  MyPostApplicantProfileType,
   MyPostApplicationsType,
   MyPostOffersType,
   MyPostRecommendedApplications,
@@ -84,12 +83,6 @@ export function createMyApi(apiClient: ReturnType<typeof createApiMethods>) {
     getMyPostApplicantDetail: (postId: bigint, applicationId: bigint) =>
       apiClient.get<MyPostApplicantDetailType>(
         `/api/posts/${postId}/recruits/applications/${applicationId}`,
-      ),
-
-    /** 내 모집글 지원자 프로필 조회 */
-    getMyPostApplicantProfile: (postId: bigint, userId: bigint) =>
-      apiClient.get<MyPostApplicantProfileType>(
-        `/api/profiles/applicant/${userId}/post/${postId}`,
       ),
 
     /** 내 모집글 제안 내역 */

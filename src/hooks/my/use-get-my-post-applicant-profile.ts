@@ -18,7 +18,10 @@ export default function useGetMyPostApplicantProfile(
       userId.toString(),
     ],
     queryFn: () =>
-      clientApis.my.getMyPostApplicantProfile(BigInt(postId), BigInt(userId)),
+      clientApis.profile.getMyPostApplicantProfile(
+        BigInt(postId),
+        BigInt(userId),
+      ),
     enabled: isSuccess && profileExists.exists === true,
   });
 }

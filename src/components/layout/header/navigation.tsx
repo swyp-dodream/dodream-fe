@@ -20,7 +20,7 @@ export default async function Navigation() {
     }),
     queryClient.prefetchQuery({
       ...profileQueryOptions,
-      queryFn: () => serverApis.user.getProfile(),
+      queryFn: () => serverApis.profile.getProfile(),
     }),
   ]);
 

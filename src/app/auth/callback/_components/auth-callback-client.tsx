@@ -33,7 +33,7 @@ export default function AuthCallBackClient({
           return;
         }
 
-        const { exists } = await clientApis.user.getProfileExists();
+        const { exists } = await clientApis.profile.getProfileExists();
 
         // 프로필 쿼리 무효화
         await queryClient.invalidateQueries({

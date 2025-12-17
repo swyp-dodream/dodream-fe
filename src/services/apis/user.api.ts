@@ -1,5 +1,4 @@
 import type { UserType } from '@/types/auth.type';
-import type { ProfileType } from '@/types/profile.type';
 import type { createApiMethods } from '../fetcher/create-api';
 
 export function createUserApi(apiClient: ReturnType<typeof createApiMethods>) {
@@ -12,19 +11,5 @@ export function createUserApi(apiClient: ReturnType<typeof createApiMethods>) {
 
     /** 회원탈퇴 */
     deleteUser: () => apiClient.delete<void>('/api/users/withdraw'),
-
-    /** 유저 프로필 존재 여부 */
-    getProfileExists: async (): Promise<{ exists: boolean }> => {
-      try {
-        return await apiClient.get<{ exists: boolean }>(
-          '/api/profiles/me/exists',
-        );
-      } catch {
-        return { exists: false };
-      }
-    },
-
-    /** 유저 프로필 */
-    getProfile: () => apiClient.get<ProfileType>('/api/profiles/me'),
   };
 }

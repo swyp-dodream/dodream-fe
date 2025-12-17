@@ -5,7 +5,7 @@ import { serverApis } from '@/services/server.api';
 export default async function MyPageLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const profileExists = await serverApis.user.getProfileExists();
+  const profileExists = await serverApis.profile.getProfileExists();
 
   if (!profileExists.exists) {
     redirect('/');
