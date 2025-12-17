@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
-import { serverApis } from '@/apis/server.api';
 import MyPageNavigation from '@/components/layout/header/mypage-navigation';
+import { serverApis } from '@/services/server.api';
 
 export default async function MyPageLayout({
   children,

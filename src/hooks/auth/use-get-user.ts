@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
-import { clientApis } from '@/apis/client.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import { clientApis } from '@/services/client.api';
 
 export const userQueryOptions = queryOptions({
   queryKey: [QUERY_KEY.user],

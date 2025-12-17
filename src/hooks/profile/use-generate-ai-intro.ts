@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import profileApi from '@/apis/profile.api';
+import profileApi from '@/services/profile.api';
 import type { AiRequestType } from '@/types/profile.type';
 
 /** AI 자기소개 생성 */

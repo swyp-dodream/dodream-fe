@@ -2,8 +2,8 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { clientApis } from '@/apis/client.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import { clientApis } from '@/services/client.api';
 
 export const useLogout = () => {
   const router = useRouter();

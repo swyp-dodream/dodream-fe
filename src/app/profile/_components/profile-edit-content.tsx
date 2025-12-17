@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import profileApi from '@/apis/profile.api';
 import CreateIntroButton from '@/app/create-profile/_components/intro/create-intro-button';
 import ActivityModeField from '@/app/create-profile/_components/profile-fields/activity-mode-field';
 import ExperienceField from '@/app/create-profile/_components/profile-fields/experience-field';
@@ -23,6 +22,7 @@ import {
   type ProfileEditFormData,
   profileEditFormSchema,
 } from '@/schemas/user.schema';
+import profileApi from '@/services/profile.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,

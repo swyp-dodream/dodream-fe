@@ -1,4 +1,4 @@
-import userApi from '@/apis/user.api';
+import userApi from '@/services/user.api';
 
 /**
  * 로그아웃 함수

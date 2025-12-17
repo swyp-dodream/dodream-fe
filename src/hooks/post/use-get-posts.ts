@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import postApi from '@/services/post.api';
 
 /** 게시물 목록 */
 export function useGetPosts(query: string) {

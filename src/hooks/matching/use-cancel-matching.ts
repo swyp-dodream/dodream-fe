@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import myApi from '@/apis/my.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
+import myApi from '@/services/my.api';
 import type { MatchingCancelReasonCode } from '@/types/my.type';
 
 type CancelMatchingVariables = {

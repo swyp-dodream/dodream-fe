@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import profileApi from '@/apis/profile.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import useToast from '@/hooks/use-toast';
 import { queryClient } from '@/lib/query-client';
 import type { UpdateProfileSettingsFormData } from '@/schemas/profile.schema';
+import profileApi from '@/services/profile.api';
 
 export default function useUpdateProfileSettings() {
   const toast = useToast();

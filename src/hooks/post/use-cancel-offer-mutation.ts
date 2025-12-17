@@ -1,9 +1,9 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
+import postApi from '@/services/post.api';
 
 export default function useCancelOfferMutation(postId: bigint) {
   return useMutation({

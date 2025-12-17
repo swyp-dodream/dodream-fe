@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { serverApis } from '@/apis/server.api';
 import Logo from '@/assets/logo/logo.svg';
+import { serverApis } from '@/services/server.api';
 import LoginButton from './login-button';
 import Navigation from './navigation';
 

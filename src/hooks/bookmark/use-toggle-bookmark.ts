@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import bookmarkApi from '@/apis/bookmark.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
+import bookmarkApi from '@/services/bookmark.api';
 
 export default function useToggleBookmark() {
   return useMutation({

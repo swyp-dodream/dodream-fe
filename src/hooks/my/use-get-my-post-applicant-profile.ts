@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import myApi from '@/apis/my.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import myApi from '@/services/my.api';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
 /** 내 모집글 지원자 프로필 */

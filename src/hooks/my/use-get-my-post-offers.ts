@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import myApi from '@/apis/my.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import myApi from '@/services/my.api';
 
 /** 내 모집글 제안 내역 */
 export default function useGetMyPostOffers(postId: bigint) {
