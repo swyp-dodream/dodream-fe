@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import { clientApis } from '@/services/client.api';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
 /** 내 모집글 추천 회원 */
@@ -12,7 +12,7 @@ export function useGetRecommendedUsers(postId: bigint) {
       QUERY_KEY.myPostRecommendedUsers,
       BigInt(postId).toString(),
     ],
-    queryFn: () => postApi.getMyPostRecommendedUsers(postId),
+    queryFn: () => clientApis.recommendations.getMyPostRecommendedUsers(postId),
     enabled: isSuccess && profileExists.exists === true,
   });
 }

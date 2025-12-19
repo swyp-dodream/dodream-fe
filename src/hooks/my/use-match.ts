@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import myApi from '@/apis/my.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
+import { clientApis } from '@/services/client.api';
 
 /** 매칭 (지원 수락) */
 export default function useMatch() {
@@ -12,7 +12,7 @@ export default function useMatch() {
     }: {
       postId: bigint;
       applicationId: bigint;
-    }) => myApi.match(postId, applicationId),
+    }) => clientApis.matched.match(postId, applicationId),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: [

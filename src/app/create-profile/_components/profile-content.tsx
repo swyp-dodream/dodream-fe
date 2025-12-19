@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import profileApi from '@/apis/profile.api';
 import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
 import ProfileImage from '@/components/commons/profile-image';
@@ -17,6 +16,7 @@ import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
 import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
+import { clientApis } from '@/services/client.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
@@ -115,7 +115,9 @@ export default function ProfileContent() {
 
     // 닉네임 중복 체크
     try {
-      const { available } = await profileApi.checkNickname(watch('nickname'));
+      const { available } = await clientApis.profile.checkNickname(
+        watch('nickname'),
+      );
       if (!available) {
         setError('nickname', {
           type: 'server',

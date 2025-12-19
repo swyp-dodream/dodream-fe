@@ -1,16 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
-import profileApi from '@/apis/profile.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import useToast from '@/hooks/use-toast';
 import { queryClient } from '@/lib/query-client';
 import type { UpdateProfileSettingsFormData } from '@/schemas/profile.schema';
+import { clientApis } from '@/services/client.api';
 
 export default function useUpdateProfileSettings() {
   const toast = useToast();
 
   return useMutation({
     mutationFn: (form: UpdateProfileSettingsFormData) =>
-      profileApi.updateProfileSettings(form),
+      clientApis.profile.updateProfileSettings(form),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.profileSettings] });
       toast({ title: '변경사항이 저장되었습니다 ' });

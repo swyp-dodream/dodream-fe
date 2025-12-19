@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import postApi from '@/apis/post.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import { clientApis } from '@/services/client.api';
 import type { ProjectType } from '@/types/post.type';
 import { useGetProfileExists } from '../profile/use-get-profile';
 
@@ -13,7 +13,8 @@ export default function useGetMyBookmarkedPosts(
 
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myBookmarkedPosts, projectType, page],
-    queryFn: () => postApi.getMyBookmarkedPosts(projectType, page, size),
+    queryFn: () =>
+      clientApis.bookmarks.getMyBookmarkedPosts(projectType, page, size),
     enabled: isSuccess && profileExists.exists === true,
   });
 }

@@ -1,10 +1,10 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
-import { clientApis } from '@/apis/client.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
+import { clientApis } from '@/services/client.api';
 
 export const profileQueryOptions = queryOptions({
   queryKey: [QUERY_KEY.auth, QUERY_KEY.profile],
-  queryFn: clientApis.user.getProfile,
+  queryFn: clientApis.profile.getProfile,
 });
 
 /** 유저의 프로필 데이터 */
@@ -21,6 +21,6 @@ export function useGetProfile() {
 export function useGetProfileExists() {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
-    queryFn: clientApis.user.getProfileExists,
+    queryFn: clientApis.profile.getProfileExists,
   });
 }

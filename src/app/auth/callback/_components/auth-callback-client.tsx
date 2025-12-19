@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { clientApis } from '@/apis/client.api';
 import LoadingSpinner from '@/components/commons/loading-spinner';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import useToast from '@/hooks/use-toast';
 import { queryClient } from '@/lib/query-client';
+import { clientApis } from '@/services/client.api';
 
 interface AuthCallBackClientProps {
   searchParams: {
@@ -33,7 +33,7 @@ export default function AuthCallBackClient({
           return;
         }
 
-        const { exists } = await clientApis.user.getProfileExists();
+        const { exists } = await clientApis.profile.getProfileExists();
 
         // 프로필 쿼리 무효화
         await queryClient.invalidateQueries({
