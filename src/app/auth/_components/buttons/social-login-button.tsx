@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { PROVIDER_CONFIG } from '@/constants/auth.constant';
+import type { ProviderType } from '@/types/auth.type';
 
 interface SocialLoginButtonProps {
-  provider: 'google' | 'naver';
+  provider: ProviderType;
   onClick?: () => void;
 }
 
