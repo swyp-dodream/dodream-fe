@@ -12,5 +12,14 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/mypage/:path*', '/chat/:path*', '/create-profile'],
+  matcher: [
+    '/mypage/:path*',
+    '/chat/:path*',
+    '/posts/:path*',
+
+    '/create-profile',
+
+    '/profile/edit',
+    '/profile/me',
+  ],
 };
