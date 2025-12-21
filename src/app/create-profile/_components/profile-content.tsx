@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -48,6 +48,7 @@ export default function ProfileContent() {
   const { preventLogout } = useLogoutOnLeave();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // 프로필 생성 뮤테이션
   const { mutate: createProfile } = useCreateProfile();
@@ -150,8 +151,10 @@ export default function ProfileContent() {
         // 로그아웃 방지
         preventLogout();
 
-        // 성공 시 홈으로 리다이렉트
-        router.replace('/');
+        // 성공 시 원래 페이지로 리다이렉트
+        const redirectPath = searchParams.get('redirect');
+        router.replace(redirectPath || '/');
+
         overlay.open(({ isOpen, close }) => (
           <WelcomeModal isOpen={isOpen} onClose={close} />
         ));
