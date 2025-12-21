@@ -1,6 +1,14 @@
+import { redirect } from 'next/navigation';
+import { serverApis } from '@/services/server.api';
 import ProfileContent from './_components/profile-content';
 
-export default function CreateProfilePage() {
+export default async function CreateProfilePage() {
+  const { exists } = await serverApis.profile.getProfileExists();
+
+  if (exists) {
+    redirect('/');
+  }
+
   return (
     <div className="col-start-2 col-span-10">
       <header className="flex flex-col gap-2 pb-7 mb-9 border-b-1 border-b-border-primary">
