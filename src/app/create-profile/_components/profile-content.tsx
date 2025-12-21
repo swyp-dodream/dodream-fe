@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
+import LoadingSpinner from '@/components/commons/loading-spinner';
 import ProfileImage from '@/components/commons/profile-image';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
@@ -51,7 +52,7 @@ export default function ProfileContent() {
   const searchParams = useSearchParams();
 
   // 프로필 생성 뮤테이션
-  const { mutate: createProfile } = useCreateProfile();
+  const { mutate: createProfile, isPending } = useCreateProfile();
 
   // React Hook Form 설정
   const {
@@ -154,6 +155,7 @@ export default function ProfileContent() {
         // 성공 시 원래 페이지로 리다이렉트
         const redirectPath = searchParams.get('redirect');
         router.replace(redirectPath || '/');
+        router.refresh();
 
         overlay.open(({ isOpen, close }) => (
           <WelcomeModal isOpen={isOpen} onClose={close} />
@@ -341,8 +343,17 @@ export default function ProfileContent() {
               >
                 이전
               </Button>
-              <Button type="submit" variant="solid" size="sm">
-                저장
+              <Button
+                type="submit"
+                variant="solid"
+                size="sm"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <LoadingSpinner variant="sm" className="m-auto" />
+                ) : (
+                  '저장'
+                )}
               </Button>
             </div>
           )}
