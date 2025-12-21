@@ -1,5 +1,5 @@
 import Modal from '@/components/commons/modal';
-import GoogleLoginButton from './buttons/google-login-button';
+import SocialLoginButton from './buttons/social-login-button';
 
 interface LoginModal {
   isOpen: boolean;
@@ -23,8 +23,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModal) {
           </p>
         </div>
         <div className="flex flex-col gap-5 w-full">
-          <GoogleLoginButton onModalClose={onClose} />
-          {/* <NaverLoginButton onModalClose={onClose} /> */}
+          <SocialLoginButton provider="google" onModalClose={onClose} />
+          <SocialLoginButton provider="naver" onModalClose={onClose} />
         </div>
       </Modal.Content>
     </Modal>
