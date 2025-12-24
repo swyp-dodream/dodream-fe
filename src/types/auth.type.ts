@@ -4,8 +4,8 @@ export type UserType = {
   email: string;
   name: string;
   profileImageUrl: string;
-  provider: ProviderType;
+  // provider: ProviderType;
   lastLoginAt: string;
 };
 
-export type ProviderType = 'GOOGLE' | 'NAVER';
+export type ProviderType = 'google' | 'naver';

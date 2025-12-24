@@ -9,41 +9,32 @@ import { queryClient } from '@/lib/query-client';
 import { clientApis } from '@/services/client.api';
 
 interface AuthCallBackClientProps {
-  searchParams: {
-    userId?: string;
-    email?: string;
-    name?: string;
-  };
+  redirectPath?: string | null;
 }
 
 export default function AuthCallBackClient({
-  searchParams,
+  redirectPath = '/',
 }: AuthCallBackClientProps) {
   const router = useRouter();
   const toast = useToast();
-  const { userId, email, name } = searchParams;
 
   useEffect(() => {
     const handleNewLogin = async () => {
       try {
-        // 사용자 정보가 없으면 홈으로 리다이렉트
-        if (!userId || !email || !name) {
-          router.replace('/');
-          toast({ title: '로그인에 실패했습니다.' });
-          return;
-        }
-
         const { exists } = await clientApis.profile.getProfileExists();
 
-        // 프로필 쿼리 무효화
-        await queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY.user],
-        });
-        await queryClient.invalidateQueries({
-          queryKey: [QUERY_KEY.auth],
-        });
+        await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
+        await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.auth] });
 
-        router.replace(`${exists ? '/' : '/create-profile'}`);
+        if (exists) {
+          router.replace(redirectPath || '/');
+        } else {
+          // 프로필 생성 페이지 이동 시에도 redirect 경로 저장
+          const createProfileUrl = redirectPath
+            ? `/create-profile?redirect=${encodeURIComponent(redirectPath)}`
+            : '/create-profile';
+          router.replace(createProfileUrl);
+        }
       } catch (err) {
         console.error(err);
         toast({ title: '로그인에 실패했습니다.' });
@@ -52,7 +43,7 @@ export default function AuthCallBackClient({
     };
 
     handleNewLogin();
-  }, [router, userId, email, name, toast]);
+  }, [router, redirectPath, toast]);
 
   return (
     <div className="w-full h-full flex items-center justify-center">
