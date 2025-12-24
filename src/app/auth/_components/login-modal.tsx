@@ -1,3 +1,5 @@
+'use client';
+
 import Modal from '@/components/commons/modal';
 import SocialLoginButton from './buttons/social-login-button';
 
