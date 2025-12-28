@@ -46,11 +46,8 @@ export default function useCreateProfile() {
       return await clientApis.profile.createProfile(requestData);
     },
     onSuccess: () => {
-      // 성공 시 프로필 여부 쿼리 무효화
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.user] });
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
-      });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.auth] });
     },
     onError: () => {
       console.error('프로필 생성 실패:');
