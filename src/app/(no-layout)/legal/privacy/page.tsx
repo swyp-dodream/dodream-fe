@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { LegalArticle } from '@/app/legal/_components/legal-article';
-import { LegalOrderedList } from '@/app/legal/_components/legal-ordered-list';
+import { LegalArticle } from '@/app/(no-layout)/legal/_components/legal-article';
+import { LegalOrderedList } from '@/app/(no-layout)/legal/_components/legal-ordered-list';
 
 const LEGAL_ARTICLES: { title: string; content: ReactNode }[] = [
   {
