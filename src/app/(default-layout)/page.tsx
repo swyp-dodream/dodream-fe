@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
-import Banner from '@/app/(home)/_components/banner';
-import RecommendedPosts from '@/app/(home)/_components/recommended-posts';
-import HomePosts from './(home)/_components/home-posts';
+import Banner from '@/app/(default-layout)/(home)/_components/banner';
+import HomePosts from '@/app/(default-layout)/(home)/_components/home-posts';
+import RecommendedPosts from '@/app/(default-layout)/(home)/_components/recommended-posts';
 
 export default function Home() {
   return (
