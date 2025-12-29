@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import myApi from '@/apis/my.api';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
+import { clientApis } from '@/services/client.api';
 import type { MatchingCancelReasonCode } from '@/types/my.type';
 
 type CancelMatchingVariables = {
@@ -17,7 +17,7 @@ export default function useCancelMatching(postId: bigint) {
       reasonCode,
       reasonText = '',
     }: CancelMatchingVariables) =>
-      myApi.cancelMatching(matchingId, reasonCode, reasonText),
+      clientApis.matched.cancelMatching(matchingId, reasonCode, reasonText),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts],

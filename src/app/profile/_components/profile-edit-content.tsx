@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import profileApi from '@/apis/profile.api';
 import CreateIntroButton from '@/app/create-profile/_components/intro/create-intro-button';
 import ActivityModeField from '@/app/create-profile/_components/profile-fields/activity-mode-field';
 import ExperienceField from '@/app/create-profile/_components/profile-fields/experience-field';
@@ -23,6 +22,7 @@ import {
   type ProfileEditFormData,
   profileEditFormSchema,
 } from '@/schemas/user.schema';
+import { clientApis } from '@/services/client.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
@@ -134,7 +134,9 @@ export default function ProfileEditContent() {
   const handleProfileSubmit = async (data: ProfileEditFormData) => {
     // 닉네임 중복 체크
     try {
-      const { available } = await profileApi.checkNickname(data.nickname);
+      const { available } = await clientApis.profile.checkNickname(
+        data.nickname,
+      );
       if (!available) {
         setError('nickname', {
           type: 'server',

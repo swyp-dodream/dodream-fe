@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MYPAGE_MENU_LIST } from '@/constants/menus/mypage';
-import { logout } from '@/utils/auth.util';
+import { useLogout } from '@/hooks/auth/use-logout';
 
 export default function MyPageNavigation() {
   const pathname = usePathname();
+  const { logout } = useLogout();
 
   return (
     <nav
@@ -24,7 +25,7 @@ export default function MyPageNavigation() {
                 <button
                   type="button"
                   className="flex items-center gap-4 heading-md text-subtle"
-                  onClick={() => logout()}
+                  onClick={logout}
                 >
                   <Icon aria-hidden className="text-icon-light" />
                   <span>{label}</span>

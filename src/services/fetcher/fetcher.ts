@@ -1,8 +1,9 @@
 import { BASE_URL } from '@/constants/auth.constant';
 import type { ErrorType } from '@/types/error.type';
 import { isErrorType } from '@/utils/error.util';
+import { createApiMethods } from './create-api';
 
-async function fetcher<T>(
+export async function fetcher<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
@@ -11,6 +12,7 @@ async function fetcher<T>(
 
     const res = await fetch(url, {
       ...options,
+      credentials: options.credentials || 'include',
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,
@@ -83,9 +85,14 @@ async function fetcher<T>(
     return res.status === 204 ? ({} as T) : await res.json();
   } catch (error) {
     if (isErrorType(error)) {
-      console.error(
-        `${endpoint} Fetch 요청 오류: [${error.code}] ${error.message}`,
-      );
+      if (error.code === 401 || error.code === 403) {
+        console.log(`[${error.code}] ${error.message}`);
+      } else {
+        console.error(
+          `${endpoint} Fetch 요청 오류: [${error.code}] ${error.message}`,
+        );
+      }
+
       throw error;
     } else {
       // ErrorType이 아닌 에러는 ErrorType으로 변환
@@ -101,4 +108,8 @@ async function fetcher<T>(
   }
 }
 
-export default fetcher;
+/**
+ * 클라이언트 API
+ * 브라우저 쿠키 자동 전송
+ */
+export const api = createApiMethods(fetcher);

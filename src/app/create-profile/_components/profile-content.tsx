@@ -1,13 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import profileApi from '@/apis/profile.api';
 import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
+import LoadingSpinner from '@/components/commons/loading-spinner';
 import ProfileImage from '@/components/commons/profile-image';
 import ProgressBar from '@/components/commons/progress-bar';
 import TextField from '@/components/commons/text-fields/text-field';
@@ -17,6 +17,7 @@ import { StaticTooltip } from '@/components/commons/tooltip/static-tooltip';
 import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
+import { clientApis } from '@/services/client.api';
 import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
@@ -48,9 +49,10 @@ export default function ProfileContent() {
   const { preventLogout } = useLogoutOnLeave();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // 프로필 생성 뮤테이션
-  const { mutate: createProfile } = useCreateProfile();
+  const { mutate: createProfile, isPending } = useCreateProfile();
 
   // React Hook Form 설정
   const {
@@ -115,7 +117,9 @@ export default function ProfileContent() {
 
     // 닉네임 중복 체크
     try {
-      const { available } = await profileApi.checkNickname(watch('nickname'));
+      const { available } = await clientApis.profile.checkNickname(
+        watch('nickname'),
+      );
       if (!available) {
         setError('nickname', {
           type: 'server',
@@ -148,8 +152,11 @@ export default function ProfileContent() {
         // 로그아웃 방지
         preventLogout();
 
-        // 성공 시 홈으로 리다이렉트
-        router.replace('/');
+        // 성공 시 원래 페이지로 리다이렉트
+        const redirectPath = searchParams.get('redirect');
+        router.replace(redirectPath || '/');
+        router.refresh();
+
         overlay.open(({ isOpen, close }) => (
           <WelcomeModal isOpen={isOpen} onClose={close} />
         ));
@@ -336,8 +343,17 @@ export default function ProfileContent() {
               >
                 이전
               </Button>
-              <Button type="submit" variant="solid" size="sm">
-                저장
+              <Button
+                type="submit"
+                variant="solid"
+                size="sm"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <LoadingSpinner variant="sm" className="m-auto" />
+                ) : (
+                  '저장'
+                )}
               </Button>
             </div>
           )}

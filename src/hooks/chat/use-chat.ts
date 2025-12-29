@@ -15,7 +15,6 @@ import type {
   ChatListItemType,
   ChatSubscribeMessageType,
 } from '@/types/chat.type';
-import { tokenStorage } from '@/utils/auth.util';
 
 interface UseChatParams {
   postId?: string;
@@ -47,7 +46,6 @@ export default function useChat({ postId }: UseChatParams) {
     const socket = new SockJS(socketUrl ?? '');
     const client = new Client({
       webSocketFactory: () => socket,
-      connectHeaders: { Authorization: `Bearer ${tokenStorage.getToken()}` },
       reconnectDelay: 5000,
       onConnect: () => {
         // 만약 선택한 채팅방이 없으면 sub 하지 않는다.
@@ -117,7 +115,6 @@ export default function useChat({ postId }: UseChatParams) {
     stompClientRef.current.publish({
       destination: '/publish/chat/message',
       body: JSON.stringify(payload),
-      headers: { Authorization: `Bearer ${tokenStorage.getToken()}` },
     });
 
     if (isFirst) {

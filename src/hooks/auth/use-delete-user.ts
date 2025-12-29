@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import userApi from '@/apis/user.api';
+import { clientApis } from '@/services/client.api';
 import { logout } from '@/utils/auth.util';
 
 export default function useDeleteUser() {
   return useMutation({
-    mutationFn: () => userApi.deleteUser(),
+    mutationFn: () => clientApis.auth.deleteUser(),
     onSuccess: () => {
       logout();
     },
