@@ -1,7 +1,7 @@
 'use client';
 
-import ProfileContent from '@/app/profile/_components/profile-content';
 import Button from '@/components/commons/buttons/button';
+import ProfileContent from '@/components/features/profile/profile-content';
 import useGetMyPostApplicantProfile from '@/hooks/my/use-get-my-post-applicant-profile';
 import useToast from '@/hooks/use-toast';
 

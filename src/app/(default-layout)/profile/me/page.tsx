@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import ProfileContent from '@/components/features/profile/profile-content';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
-import ProfileContent from '../_components/profile-content';
 
 export default function ProfilePage() {
   const { data: profile } = useGetProfile();

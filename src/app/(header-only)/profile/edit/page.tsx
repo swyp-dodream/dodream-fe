@@ -1,4 +1,4 @@
-import ProfileEditContent from '../_components/profile-edit-content';
+import ProfileEditContent from '@/components/features/profile/profile-edit-content';
 
 export default function ProfileEditPage() {
   return (
