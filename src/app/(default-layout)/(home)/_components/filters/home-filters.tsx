@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { overlay } from 'overlay-kit';
 import { useState } from 'react';
-import InterestSelectModal from '@/app/create-profile/_components/interests-modal/interest-select-modal';
-import TechStackSelectModal from '@/app/create-profile/_components/tech-stack-modal/tech-stack-select-modal';
+import InterestSelectModal from '@/app/(header-only)/create-profile/_components/interests-modal/interest-select-modal';
+import TechStackSelectModal from '@/app/(header-only)/create-profile/_components/tech-stack-modal/tech-stack-select-modal';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import RotateIcon from '@/assets/icons/rotate/14.svg';
 import Dropdown from '@/components/commons/dropdown';

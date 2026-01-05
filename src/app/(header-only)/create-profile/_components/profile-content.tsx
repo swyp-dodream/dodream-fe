@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { type Resolver, useForm } from 'react-hook-form';
 import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
 import LoadingSpinner from '@/components/commons/loading-spinner';
@@ -66,7 +66,9 @@ export default function ProfileContent() {
     clearErrors, // 에러 후 재입력하면 에러 제거
     setValue, // 드롭다운 값 설정용
   } = useForm<ProfileFormData>({
-    resolver: zodResolver(profileFormSchema),
+    resolver: zodResolver(
+      profileFormSchema,
+    ) as unknown as Resolver<ProfileFormData>,
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     // 디폴트 값
