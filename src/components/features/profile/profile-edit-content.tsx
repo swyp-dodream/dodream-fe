@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import CreateIntroButton from '@/app/(header-only)/create-profile/_components/intro/create-intro-button';
 import ActivityModeField from '@/app/(header-only)/create-profile/_components/profile-fields/activity-mode-field';
 import ExperienceField from '@/app/(header-only)/create-profile/_components/profile-fields/experience-field';
@@ -20,6 +20,7 @@ import useUpdateProfile from '@/hooks/profile/use-update-profile';
 import useToast from '@/hooks/use-toast';
 import {
   type ProfileEditFormData,
+  type ProfileEditFormInput,
   profileEditFormSchema,
 } from '@/schemas/user.schema';
 import { clientApis } from '@/services/client.api';
@@ -62,16 +63,16 @@ export default function ProfileEditContent() {
     setFocus,
     clearErrors, // 에러 후 재입력하면 에러 제거
     setValue, // 드롭다운 값 설정용
-  } = useForm<ProfileEditFormData>({
+  } = useForm<ProfileEditFormInput, any, ProfileEditFormData>({
     resolver: zodResolver(profileEditFormSchema),
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     // 디폴트 값
     defaultValues: {
       nickname: '',
-      role: null,
-      experience: null,
-      activityMode: null,
+      role: undefined,
+      experience: undefined,
+      activityMode: undefined,
       intro: '',
     },
   });
@@ -81,9 +82,15 @@ export default function ProfileEditContent() {
     if (profile) {
       // 폼 값 설정
       setValue('nickname', profile.nickname);
-      setValue('role', parseRoleValue(profile.roles[0].name));
-      setValue('experience', parseExperienceValue(profile.experience));
-      setValue('activityMode', parseActivityModeValue(profile.activityMode));
+      setValue('role', parseRoleValue(profile.roles[0].name) as RoleType);
+      setValue(
+        'experience',
+        parseExperienceValue(profile.experience) as ExperienceType,
+      );
+      setValue(
+        'activityMode',
+        parseActivityModeValue(profile.activityMode) as ActivityModeType,
+      );
       setValue('intro', profile.introText || '');
 
       // 링크 설정
@@ -131,7 +138,9 @@ export default function ProfileEditContent() {
 
   if (!profile) return null;
 
-  const handleProfileSubmit = async (data: ProfileEditFormData) => {
+  const handleProfileSubmit: SubmitHandler<ProfileEditFormData> = async (
+    data,
+  ) => {
     // 닉네임 중복 체크
     try {
       const { available } = await clientApis.profile.checkNickname(
@@ -175,7 +184,7 @@ export default function ProfileEditContent() {
         {/* 유저 정보 - 프로필 이미지 및 닉네임 */}
         <section className="flex gap-8 py-8">
           {/* TODO: 이미지 컴포넌트 분리 및 수정 */}
-          <div className="w-[120px] h-[120px] bg-primary rounded-full" />
+          <div className="size-30 bg-primary rounded-full" />
           <NicknameField
             value={watch('nickname')}
             {...register('nickname', {
