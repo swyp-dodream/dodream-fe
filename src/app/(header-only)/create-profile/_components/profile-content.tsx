@@ -74,11 +74,11 @@ export default function ProfileContent() {
     // 디폴트 값
     defaultValues: {
       nickname: '',
-      age: null,
-      gender: null,
-      role: null,
-      experience: null,
-      activityMode: null,
+      age: undefined,
+      gender: undefined,
+      role: undefined,
+      experience: undefined,
+      activityMode: undefined,
       intro: '',
       acceptOffers: true,
     },
