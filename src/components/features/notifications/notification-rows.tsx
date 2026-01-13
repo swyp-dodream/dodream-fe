@@ -33,7 +33,7 @@ export default function NotificationRows() {
         <section key={date}>
           <h3
             id={`notification-${date}`}
-            className="body-sm-medium text-subtle"
+            className="body-sm-medium text-subtle px-4"
           >
             {date}
           </h3>
@@ -88,12 +88,12 @@ function NotificationRow({ notification }: NotificationRowProps) {
     <article>
       <button
         type="button"
-        className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover"
+        className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover rounded-md px-4"
         aria-label={`${notification.read ? '' : '읽지 않음 - '}${notification.message} - ${getRelativeTime(notification.updatedAt)}`}
         aria-describedby={`notification-time-${notification.id}`}
         onClick={handleClickNotification}
       >
-        <div className="relative">
+        <div className="relative shrink-0">
           <ProfileImage src={null} size={44} />
           <div className="absolute bg-surface w-7 h-7 rounded-full top-6 left-6 flex items-center justify-center">
             <NotificationIcon className="text-icon-dark" aria-hidden="true" />

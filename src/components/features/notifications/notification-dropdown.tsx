@@ -25,7 +25,7 @@ export default function NotificationDropdown() {
 
           <DropdownMenu.Separator className="h-px bg-border-primary" />
 
-          <section className="px-4 py-5 bg-container-secondary overflow-y-auto">
+          <section className="py-5 bg-container-secondary overflow-y-auto">
             <NotificationRows />
           </section>
         </DropdownMenu.Content>
