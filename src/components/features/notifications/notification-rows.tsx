@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { DropdownMenu } from 'radix-ui';
 import ProfileImage from '@/components/commons/profile-image';
 import { NOTIFICATION_ICON } from '@/constants/notification.constant';
 import useGetMyNotifications from '@/hooks/notification/use-get-my-notifications';
@@ -94,10 +95,10 @@ function NotificationRow({ notification }: NotificationRowProps) {
   };
 
   return (
-    <article>
+    <DropdownMenu.Item asChild>
       <button
         type="button"
-        className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover rounded-md px-4"
+        className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover rounded-md px-4 focus:outline-none"
         aria-label={`${notification.read ? '' : '읽지 않음 - '}${notification.message} - ${getRelativeTime(notification.updatedAt)}`}
         aria-describedby={`notification-time-${notification.id}`}
         onClick={handleClickNotification}
@@ -109,7 +110,7 @@ function NotificationRow({ notification }: NotificationRowProps) {
           </div>
         </div>
         <div className="w-full">
-          <div className="flex w-full justify-between">
+          <div className="flex w-full justify-between gap-4">
             <p
               className={`body-sm-medium text-start ${notification.read && 'text-subtle'}`}
             >
@@ -117,7 +118,7 @@ function NotificationRow({ notification }: NotificationRowProps) {
             </p>
             {!notification.read && (
               <span
-                className="w-1.75 h-1.75 bg-brand rounded-full shrink-0 mt-2"
+                className="w-1.75 h-1.75 bg-brand rounded-full shrink-0 mt-1.25"
                 aria-hidden="true"
               />
             )}
@@ -131,6 +132,6 @@ function NotificationRow({ notification }: NotificationRowProps) {
           </time>
         </div>
       </button>
-    </article>
+    </DropdownMenu.Item>
   );
 }
