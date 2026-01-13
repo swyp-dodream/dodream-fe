@@ -4,9 +4,14 @@ import { type ReactNode, useEffect } from 'react';
 import { BASE_URL } from '@/constants/auth.constant';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
+import { useGetProfile } from '../profile/use-get-profile';
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
+  const { data: profile } = useGetProfile();
+
   useEffect(() => {
+    if (!profile) return;
+
     const eventSource = new EventSource(
       `${BASE_URL}/api/v1/notifications/stream`,
       {
@@ -33,7 +38,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       eventSource.close();
     };
-  }, []);
+  }, [profile]);
 
   return children;
 };
