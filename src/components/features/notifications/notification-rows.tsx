@@ -14,6 +14,15 @@ import { getDateCategory, getRelativeTime } from '@/utils/date.util';
 export default function NotificationRows() {
   const { data: notifications = [] } = useGetMyNotifications();
 
+  if (notifications.length === 0) {
+    return (
+      <div className="flex flex-col items-center body-sm-medium text-subtle pt-3 pb-7">
+        <p>확인할 알림이 없습니다</p>
+        <p>이곳에 활동에 대한 알림이 표시됩니다</p>
+      </div>
+    );
+  }
+
   // 날짜별로 그룹화
   const groupedByDate = notifications.reduce(
     (acc, notification) => {
