@@ -3,6 +3,7 @@ import { createBookmarksApi } from './apis/bookmarks.api';
 import { createChatApi } from './apis/chat.api';
 import { createMatchedApi } from './apis/matched.api';
 import { createMyApi } from './apis/my.api';
+import { createNotificationApi } from './apis/notification.api';
 import { createPostsApi } from './apis/posts.api';
 import { createProfileApi } from './apis/profile.api';
 import { createRecommendationsApi } from './apis/recommendations.api';
@@ -23,4 +24,5 @@ export const clientApis = {
   posts: createPostsApi(api),
   profile: createProfileApi(api),
   recommendations: createRecommendationsApi(api),
+  notification: createNotificationApi(api),
 };
