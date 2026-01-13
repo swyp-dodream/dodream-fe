@@ -8,5 +8,9 @@ export function createNotificationApi(
     /** 알림 목록 */
     getNotifications: () =>
       apiClient.get<NotificationResponseType[]>('/api/v1/notifications'),
+
+    /** 알림 읽기 */
+    readNotification: (id: bigint) =>
+      apiClient.post(`/api/v1/notifications/${id}/read`),
   };
 }

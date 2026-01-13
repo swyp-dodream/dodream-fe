@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import ProfileImage from '@/components/commons/profile-image';
 import { NOTIFICATION_ICON } from '@/constants/notification.constant';
 import useGetMyNotifications from '@/hooks/notification/use-get-my-notifications';
+import useReadNotifications from '@/hooks/notification/use-read-notification';
 import type { NotificationResponseType } from '@/types/notification.type';
 import { getDateCategory, getRelativeTime } from '@/utils/date.util';
 
@@ -58,11 +59,12 @@ interface NotificationRowProps {
  * @param notification - 알림 데이터 1개
  */
 function NotificationRow({ notification }: NotificationRowProps) {
-  const NotificationIcon = NOTIFICATION_ICON[notification.type];
   const router = useRouter();
+  const { mutate: readNotification } = useReadNotifications();
+  const NotificationIcon = NOTIFICATION_ICON[notification.type];
 
   const handleClickNotification = () => {
-    // 읽음 처리
+    readNotification(BigInt(notification.id));
 
     if (
       notification.type === 'PROPOSAL_SENT' ||
