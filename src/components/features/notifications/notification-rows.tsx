@@ -39,7 +39,7 @@ export default function NotificationRows() {
           </h3>
           <ul>
             {items.map((notification) => (
-              <li key={notification.id}>
+              <li key={`notification-${notification.id}`}>
                 <NotificationRow notification={notification} />
               </li>
             ))}
@@ -76,7 +76,7 @@ function NotificationRow({ notification }: NotificationRowProps) {
         `/mypage/posts/${BigInt(notification.targetPostId)}/recruitment`,
       );
     } else if (notification.type === 'APPLICATION_ACCEPTED') {
-      router.push('/mypage/participations');
+      router.push('/mypage/participations?tab=matched');
     } else if (notification.type === 'REVIEW_ACTIVATED') {
       // TODO - 후기 작성 활성화 -> 매칭 내역 후기 남기기 모달 띄우기
     } else if (notification.type === 'FEEDBACK_WRITTEN') {

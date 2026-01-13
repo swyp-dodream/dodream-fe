@@ -28,7 +28,7 @@ export default function ProfileDropdown() {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="w-[200px] flex flex-col gap-4 bg-dropdown-black-90 text-text-on-brand shadow-card rounded-lg overflow-hidden z-50 p-5"
+          className="w-50 flex flex-col gap-4 bg-dropdown-black-90 text-text-on-brand shadow-card rounded-lg overflow-hidden z-50 p-5"
           sideOffset={8}
           align="end"
         >
