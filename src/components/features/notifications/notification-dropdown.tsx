@@ -17,7 +17,7 @@ export default function NotificationDropdown() {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="w-[380px] max-h-[520px] flex flex-col bg-surface shadow-card rounded-lg overflow-hidden z-50"
+          className="w-95 max-h-130 flex flex-col bg-surface shadow-card rounded-lg overflow-hidden z-50"
           sideOffset={8}
           align="end"
         >

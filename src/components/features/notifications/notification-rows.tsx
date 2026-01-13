@@ -1,6 +1,9 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import ProfileImage from '@/components/commons/profile-image';
 import { NOTIFICATION_ICON } from '@/constants/notification.constant';
-import { mockNotifications } from '@/mocks/notification.mock';
+import useGetMyNotifications from '@/hooks/notification/use-get-my-notifications';
 import type { NotificationResponseType } from '@/types/notification.type';
 import { getDateCategory, getRelativeTime } from '@/utils/date.util';
 
@@ -8,7 +11,7 @@ import { getDateCategory, getRelativeTime } from '@/utils/date.util';
  * 알림 행 전체 컴포넌트
  */
 export default function NotificationRows() {
-  const notifications = mockNotifications;
+  const { data: notifications = [] } = useGetMyNotifications();
 
   // 날짜별로 그룹화
   const groupedByDate = notifications.reduce(
@@ -56,6 +59,28 @@ interface NotificationRowProps {
  */
 function NotificationRow({ notification }: NotificationRowProps) {
   const NotificationIcon = NOTIFICATION_ICON[notification.type];
+  const router = useRouter();
+
+  const handleClickNotification = () => {
+    // 읽음 처리
+
+    if (
+      notification.type === 'PROPOSAL_SENT' ||
+      notification.type === 'BOOKMARK_DEADLINE'
+    ) {
+      router.push(`/post/${BigInt(notification.targetPostId)}`);
+    } else if (notification.type === 'PROPOSAL_APPLIED') {
+      router.push(
+        `/mypage/posts/${BigInt(notification.targetPostId)}/recruitment`,
+      );
+    } else if (notification.type === 'APPLICATION_ACCEPTED') {
+      router.push('/mypage/participations');
+    } else if (notification.type === 'REVIEW_ACTIVATED') {
+      // TODO - 후기 작성 활성화 -> 매칭 내역 후기 남기기 모달 띄우기
+    } else if (notification.type === 'FEEDBACK_WRITTEN') {
+      // TODO - 후기 등록 -> 매칭 내역 후기 확인 모달 띄우기
+    }
+  };
 
   return (
     <article>
@@ -64,6 +89,7 @@ function NotificationRow({ notification }: NotificationRowProps) {
         className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover"
         aria-label={`${notification.read ? '' : '읽지 않음 - '}${notification.message} - ${getRelativeTime(notification.updatedAt)}`}
         aria-describedby={`notification-time-${notification.id}`}
+        onClick={handleClickNotification}
       >
         <div className="relative">
           <ProfileImage src={null} size={44} />
@@ -72,15 +98,15 @@ function NotificationRow({ notification }: NotificationRowProps) {
           </div>
         </div>
         <div className="w-full">
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full justify-between">
             <p
-              className={`body-sm-medium ${notification.read && 'text-subtle'}`}
+              className={`body-sm-medium text-start ${notification.read && 'text-subtle'}`}
             >
               {notification.message}
             </p>
             {!notification.read && (
               <span
-                className="w-[7px] h-[7px] bg-brand rounded-full"
+                className="w-1.75 h-1.75 bg-brand rounded-full shrink-0 mt-2"
                 aria-hidden="true"
               />
             )}
