@@ -21,7 +21,11 @@ export default function RecommendedUsers({ postId }: RecommendedUsersProps) {
 
   // users에 존재하는 역할만 추출
   const availableRoles = Array.from(
-    new Set(users.profiles.map((profile) => profile.roles[0])),
+    new Set(
+      users.profiles
+        .map((profile) => profile.roles[0])
+        .filter((role) => role !== undefined),
+    ),
   );
 
   return (

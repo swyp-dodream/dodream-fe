@@ -25,9 +25,9 @@ export default function RootLayout({
   return (
     <html
       lang="ko-KR"
-      className={`${pretendard.variable} max-w-screen min-w-[1200px]`}
+      className={`${pretendard.variable} max-w-screen min-w-300`}
     >
-      <body className="max-w-screen min-w-[1200px] min-h-screen">
+      <body className="max-w-screen min-w-300 min-h-screen">
         <Providers>{children}</Providers>
       </body>
     </html>
