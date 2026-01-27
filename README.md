@@ -111,6 +111,8 @@
 
 <img src="https://github.com/user-attachments/assets/2c2e6a27-fd17-46cf-9b98-d0cde3128c06" alt="아키텍처" />
 
+<br />
+
 ## 👥 FE 팀 소개
 
 <table>
