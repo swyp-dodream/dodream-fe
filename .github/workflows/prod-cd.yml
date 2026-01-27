@@ -1,9 +1,7 @@
 name: CD - Prod Server
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # 수동 실행만 가능
 
 jobs:
   deploy:
