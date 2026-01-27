@@ -104,15 +104,24 @@ export const profileFormSchema = z.object({
   gender: genderSchema.nullable().refine((val) => val !== null, {
     message: '필수 선택 항목입니다',
   }),
-  role: roleSchema.nullable().refine((val) => val !== null, {
-    message: '필수 선택 항목입니다',
-  }),
-  experience: experienceSchema.nullable().refine((val) => val !== null, {
-    message: '필수 선택 항목입니다',
-  }),
-  activityMode: activityModeSchema.nullable().refine((val) => val !== null, {
-    message: '필수 선택 항목입니다',
-  }),
+  role: roleSchema
+    .nullable()
+    .refine((val) => val !== null, {
+      message: '필수 선택 항목입니다',
+    })
+    .transform((val) => val!),
+  experience: experienceSchema
+    .nullable()
+    .refine((val) => val !== null, {
+      message: '필수 선택 항목입니다',
+    })
+    .transform((val) => val!),
+  activityMode: activityModeSchema
+    .nullable()
+    .refine((val) => val !== null, {
+      message: '필수 선택 항목입니다',
+    })
+    .transform((val) => val!),
   techStacks: techStacksSchema,
   interests: interestsSchema,
   links: linksSchema,
@@ -132,3 +141,4 @@ export const profileEditFormSchema = profileFormSchema.omit({
 
 /** 프로필 수정 폼 데이터 타입 */
 export type ProfileEditFormData = z.infer<typeof profileEditFormSchema>;
+export type ProfileEditFormInput = z.input<typeof profileEditFormSchema>;

@@ -34,4 +34,7 @@ export const QUERY_KEY = {
   /** 채팅 관련 */
   chatList: 'chatList',
   chatHistory: 'chatHisory',
+
+  /** 알림 관련 */
+  notifications: 'notifications',
 };

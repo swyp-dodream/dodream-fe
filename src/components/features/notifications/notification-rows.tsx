@@ -1,6 +1,11 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { DropdownMenu } from 'radix-ui';
 import ProfileImage from '@/components/commons/profile-image';
 import { NOTIFICATION_ICON } from '@/constants/notification.constant';
-import { mockNotifications } from '@/mocks/notification.mock';
+import useGetMyNotifications from '@/hooks/notification/use-get-my-notifications';
+import useReadNotifications from '@/hooks/notification/use-read-notification';
 import type { NotificationResponseType } from '@/types/notification.type';
 import { getDateCategory, getRelativeTime } from '@/utils/date.util';
 
@@ -8,7 +13,16 @@ import { getDateCategory, getRelativeTime } from '@/utils/date.util';
  * 알림 행 전체 컴포넌트
  */
 export default function NotificationRows() {
-  const notifications = mockNotifications;
+  const { data: notifications = [] } = useGetMyNotifications();
+
+  if (notifications.length === 0) {
+    return (
+      <div className="flex flex-col items-center body-sm-medium text-subtle pt-3 pb-7">
+        <p>확인할 알림이 없습니다</p>
+        <p>이곳에 활동에 대한 알림이 표시됩니다</p>
+      </div>
+    );
+  }
 
   // 날짜별로 그룹화
   const groupedByDate = notifications.reduce(
@@ -29,13 +43,13 @@ export default function NotificationRows() {
         <section key={date}>
           <h3
             id={`notification-${date}`}
-            className="body-sm-medium text-subtle"
+            className="body-sm-medium text-subtle px-4"
           >
             {date}
           </h3>
           <ul>
             {items.map((notification) => (
-              <li key={notification.id}>
+              <li key={`notification-${notification.id}`}>
                 <NotificationRow notification={notification} />
               </li>
             ))}
@@ -55,32 +69,56 @@ interface NotificationRowProps {
  * @param notification - 알림 데이터 1개
  */
 function NotificationRow({ notification }: NotificationRowProps) {
+  const router = useRouter();
+  const { mutate: readNotification } = useReadNotifications();
   const NotificationIcon = NOTIFICATION_ICON[notification.type];
 
+  const handleClickNotification = () => {
+    readNotification(BigInt(notification.id));
+
+    if (
+      notification.type === 'PROPOSAL_SENT' ||
+      notification.type === 'BOOKMARK_DEADLINE'
+    ) {
+      router.push(`/post/${BigInt(notification.targetPostId)}`);
+    } else if (notification.type === 'PROPOSAL_APPLIED') {
+      router.push(
+        `/mypage/posts/${BigInt(notification.targetPostId)}/recruitment`,
+      );
+    } else if (notification.type === 'APPLICATION_ACCEPTED') {
+      router.push('/mypage/participations?tab=matched');
+    } else if (notification.type === 'REVIEW_ACTIVATED') {
+      // TODO - 후기 작성 활성화 -> 매칭 내역 후기 남기기 모달 띄우기
+    } else if (notification.type === 'FEEDBACK_WRITTEN') {
+      // TODO - 후기 등록 -> 매칭 내역 후기 확인 모달 띄우기
+    }
+  };
+
   return (
-    <article>
+    <DropdownMenu.Item asChild>
       <button
         type="button"
-        className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover"
+        className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover rounded-md px-4 focus:outline-none"
         aria-label={`${notification.read ? '' : '읽지 않음 - '}${notification.message} - ${getRelativeTime(notification.updatedAt)}`}
         aria-describedby={`notification-time-${notification.id}`}
+        onClick={handleClickNotification}
       >
-        <div className="relative">
+        <div className="relative shrink-0">
           <ProfileImage src={null} size={44} />
           <div className="absolute bg-surface w-7 h-7 rounded-full top-6 left-6 flex items-center justify-center">
             <NotificationIcon className="text-icon-dark" aria-hidden="true" />
           </div>
         </div>
         <div className="w-full">
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full justify-between gap-4">
             <p
-              className={`body-sm-medium ${notification.read && 'text-subtle'}`}
+              className={`body-sm-medium text-start ${notification.read && 'text-subtle'}`}
             >
               {notification.message}
             </p>
             {!notification.read && (
               <span
-                className="w-[7px] h-[7px] bg-brand rounded-full"
+                className="w-1.75 h-1.75 bg-brand rounded-full shrink-0 mt-1.25"
                 aria-hidden="true"
               />
             )}
@@ -94,6 +132,6 @@ function NotificationRow({ notification }: NotificationRowProps) {
           </time>
         </div>
       </button>
-    </article>
+    </DropdownMenu.Item>
   );
 }

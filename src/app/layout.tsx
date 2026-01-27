@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header/header';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -27,16 +25,10 @@ export default function RootLayout({
   return (
     <html
       lang="ko-KR"
-      className={`${pretendard.variable} max-w-screen min-w-[1200px]`}
+      className={`${pretendard.variable} max-w-screen min-w-300`}
     >
-      <body className="max-w-screen min-w-[1200px] min-h-screen">
-        <Providers>
-          <div className="flex flex-col min-h-screen gap-12">
-            <Header />
-            <main className="flex-1 relative">{children}</main>
-            <Footer />
-          </div>
-        </Providers>
+      <body className="max-w-screen min-w-300 min-h-screen">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

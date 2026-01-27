@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import PostBookmarkButton from '@/app/post/_components/post-bookmark-button';
+import PostBookmarkButton from '@/app/(default-layout)/post/_components/post-bookmark-button';
 import ProfileImage from '@/components/commons/profile-image';
 import TechCategories from '@/components/commons/tech-categories';
 import PostCardProjectType from '@/components/features/post/post-card/post-card-project-type';
