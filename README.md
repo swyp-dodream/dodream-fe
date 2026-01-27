@@ -109,7 +109,7 @@
 
 ## ⚙️ **시스템 아키텍처**
 
-<img src="https://github.com/user-attachments/assets/2c2e6a27-fd17-46cf-9b98-d0cde3128c06" alt="아키텍처" />
+<img src="https://github.com/user-attachments/assets/2c2e6a27-fd17-46cf-9b98-d0cde3128c06" width="700px" alt="아키텍처" />
 
 <br />
 
@@ -120,7 +120,7 @@
     <tr>
       <td align="center">
         <a href="https://github.com/mj0107">
-        <img src="https://avatars.githubusercontent.com/u/61671704?v=4" alt="김민준"/>
+        <img src="https://avatars.githubusercontent.com/u/61671704?v=4" width="100px" alt="김민준"/>
         <br />
         <sub><b>김민준</b></sub>
         </a>
@@ -128,7 +128,7 @@
       </td>
       <td align="center">
         <a href="https://github.com/sohxxny">
-        <img src="https://avatars.githubusercontent.com/u/119118662?v=4" alt="이소흔"/>
+        <img src="https://avatars.githubusercontent.com/u/119118662?v=4" width="100px" alt="이소흔"/>
         <br />
         <sub><b>이소흔</b></sub>
         </a>
