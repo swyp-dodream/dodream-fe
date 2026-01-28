@@ -8,7 +8,7 @@
 
 ### 📆 프로젝트 기간
 
-- `2025.11.` - `2025.12.`
+`2025.11` - `2025.12`
 
 ### 💡 프로젝트 계기
 
@@ -120,7 +120,7 @@
     <tr>
       <td align="center">
         <a href="https://github.com/mj0107">
-        <img src="https://avatars.githubusercontent.com/u/61671704?v=4" width="100px" alt="김민준"/>
+        <img src="https://avatars.githubusercontent.com/u/61671704?v=4" width="150px" alt="김민준"/>
         <br />
         <sub><b>김민준</b></sub>
         </a>
@@ -128,7 +128,7 @@
       </td>
       <td align="center">
         <a href="https://github.com/sohxxny">
-        <img src="https://avatars.githubusercontent.com/u/119118662?v=4" width="100px" alt="이소흔"/>
+        <img src="https://avatars.githubusercontent.com/u/119118662?v=4" width="150px" alt="이소흔"/>
         <br />
         <sub><b>이소흔</b></sub>
         </a>
