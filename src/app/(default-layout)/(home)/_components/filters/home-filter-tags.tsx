@@ -9,13 +9,6 @@ export default function HomeFilterTags() {
   const { filterParams, getArrayParam, removeParam, setParams } =
     useQueryParams();
 
-  // 모든 파라미터 평탄화
-  const allParamPairs = filterParams.flatMap(([key]) => {
-    const values = getArrayParam(key);
-    return values.map((value) => [key, value] as const);
-  });
-
-  /** 파라미터 제거 함수 */
   const removeParamValue = (key: string, valueToRemove: string) => {
     const allValues = getArrayParam(key);
     const newValues = allValues.filter((v) => v !== valueToRemove);
@@ -29,7 +22,7 @@ export default function HomeFilterTags() {
 
   return (
     <ul className="flex gap-x-4 gap-y-3 flex-wrap">
-      {allParamPairs.map(([param, value]) => (
+      {filterParams.map(([param, value]) => (
         <li
           key={`${param}-${value}`}
           className="body-md-regular px-2 flex gap-2 bg-primary rounded-sm"
