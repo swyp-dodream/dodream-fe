@@ -37,6 +37,7 @@ export default function HomeFilters() {
           items={ROLE_LIST.map((role) => ({
             label: role.label,
             onSelect: () => setParams({ roles: role.value }),
+            isSelected: role.value === params.roles,
           }))}
         >
           <HomeFilterButton>직군</HomeFilterButton>
@@ -80,6 +81,7 @@ export default function HomeFilters() {
           items={ACTIVITY_MODE_LIST.map((mode) => ({
             label: mode.label,
             onSelect: () => setParams({ activityMode: mode.value }),
+            isSelected: mode.value === params.activityMode,
           }))}
         >
           <HomeFilterButton>활동 방식</HomeFilterButton>
@@ -91,6 +93,7 @@ export default function HomeFilters() {
           items={SORT_LABEL_LIST.map((sortType) => ({
             label: sortType.label,
             onSelect: () => setParams({ sort: sortType.value }),
+            isSelected: sortType.value === params.sort,
           }))}
         >
           <HomeFilterButton>

@@ -7,6 +7,7 @@ import DropdownButton from './buttons/dropdown-button';
 interface DropdownItem {
   label: string;
   onSelect?: () => void;
+  isSelected?: boolean;
 }
 
 interface DropdownProps {
@@ -27,7 +28,7 @@ interface DropdownProps {
  * <Dropdown
  *   label="메뉴 선택"
  *   items={[
- *     { label: '프로필', onSelect: () => console.log('프로필') },
+ *     { label: '프로필', onSelect: () => console.log('프로필'), isSelected: true },
  *     { label: '설정', onSelect: () => console.log('설정') },
  *     { label: '로그아웃', onSelect: () => console.log('로그아웃') },
  *   ]}
@@ -56,7 +57,7 @@ export default function Dropdown({
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           className={clsx(
-            'bg-surface rounded-md shadow-card p-3 w-[180px] space-y-2 body-md-medium',
+            'bg-surface rounded-md shadow-card p-3 w-45 space-y-2 body-md-medium',
             className,
           )}
         >
@@ -64,7 +65,10 @@ export default function Dropdown({
             <DropdownMenu.Item
               key={item.label}
               onSelect={item.onSelect}
-              className="px-2 py-2 cursor-pointer hover:bg-primary rounded outline-none"
+              className={clsx(
+                'px-2 py-2 cursor-pointer rounded outline-none',
+                item.isSelected ? 'bg-primary' : 'hover:bg-primary',
+              )}
             >
               {item.label}
             </DropdownMenu.Item>
