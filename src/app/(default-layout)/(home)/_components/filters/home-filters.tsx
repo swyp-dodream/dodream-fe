@@ -20,16 +20,18 @@ export default function HomeFilters() {
   const [isFilterOpen, setFilterOpen] = useState(true);
   // const [keyword, setKeyword] = useState('');
   const {
-    params,
-    filterParams,
-    setParams,
+    getParam,
     getArrayParam,
+    setParams,
     clearParams,
+    filterParams,
     getBoolParam,
     setBoolParam,
   } = useQueryParams();
 
   const currentRoles = getArrayParam('roles');
+  const currentSort = getParam('sort');
+  const currentMode = getParam('activityMode');
 
   return (
     <div>
@@ -89,7 +91,7 @@ export default function HomeFilters() {
           items={ACTIVITY_MODE_LIST.map((mode) => ({
             label: mode.label,
             onSelect: () => setParams({ activityMode: mode.value }),
-            isSelected: mode.value === params.activityMode,
+            isSelected: mode.value === currentMode,
           }))}
         >
           <HomeFilterButton>활동 방식</HomeFilterButton>
@@ -97,15 +99,15 @@ export default function HomeFilters() {
 
         {/* 정렬 기준 필터링 */}
         <Dropdown
-          label={params.sort}
+          label={currentSort as SortType}
           items={SORT_LABEL_LIST.map((sortType) => ({
             label: sortType.label,
             onSelect: () => setParams({ sort: sortType.value }),
-            isSelected: sortType.value === params.sort,
+            isSelected: sortType.value === currentSort,
           }))}
         >
           <HomeFilterButton>
-            {SORT_LABELS[(params.sort ?? 'LATEST') as SortType]}
+            {SORT_LABELS[(currentSort ?? 'LATEST') as SortType]}
           </HomeFilterButton>
         </Dropdown>
 
