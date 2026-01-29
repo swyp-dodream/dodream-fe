@@ -23,10 +23,13 @@ export default function HomeFilters() {
     params,
     filterParams,
     setParams,
+    getArrayParam,
     clearParams,
     getBoolParam,
     setBoolParam,
   } = useQueryParams();
+
+  const currentRoles = getArrayParam('roles');
 
   return (
     <div>
@@ -36,8 +39,13 @@ export default function HomeFilters() {
           label="직군"
           items={ROLE_LIST.map((role) => ({
             label: role.label,
-            onSelect: () => setParams({ roles: role.value }),
-            isSelected: role.value === params.roles,
+            onSelect: () => {
+              const newRoles = currentRoles.includes(role.value)
+                ? currentRoles.filter((r) => r !== role.value)
+                : [...currentRoles, role.value];
+              setParams({ roles: newRoles.length > 0 ? newRoles : null });
+            },
+            isSelected: currentRoles.includes(role.value),
           }))}
         >
           <HomeFilterButton>직군</HomeFilterButton>
