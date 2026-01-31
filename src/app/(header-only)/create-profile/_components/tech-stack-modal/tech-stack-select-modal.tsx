@@ -26,26 +26,25 @@ export default function TechStackSelectModal({
 }: TechStackSelectModalProps) {
   const { setParams } = useQueryParams();
 
-  const [draftStacks, setDraftStacks] =
-    useState<TechStackType[]>(initialStacks);
+  const [stacks, setStacks] = useState<TechStackType[]>(initialStacks);
 
   /**
    * 기술 스택 토글 함수
    * @param stack - 기술 스택
    */
   const toggleStacks = (stack: TechStackType) => {
-    if (draftStacks.includes(stack)) {
-      const newStacks = draftStacks.filter((element) => element !== stack);
-      setDraftStacks(newStacks);
+    if (stacks.includes(stack)) {
+      const newStacks = stacks.filter((element) => element !== stack);
+      setStacks(newStacks);
 
       if (isFilter) {
         setParams({ techs: newStacks.length > 0 ? newStacks : null });
       }
     } else {
-      if (!isFilter && draftStacks.length >= 5) return;
+      if (!isFilter && stacks.length >= 5) return;
 
-      const newStacks = [...draftStacks, stack];
-      setDraftStacks(newStacks);
+      const newStacks = [...stacks, stack];
+      setStacks(newStacks);
 
       if (isFilter) {
         setParams({ techs: newStacks });
@@ -55,7 +54,7 @@ export default function TechStackSelectModal({
 
   // 저장 버튼 클릭 시 실제 기술 스택 리스트 세팅
   const handleSave = () => {
-    onSave?.(draftStacks);
+    onSave?.(stacks);
     onClose();
   };
 
@@ -73,23 +72,23 @@ export default function TechStackSelectModal({
         </header>
 
         {/* 기술 스택 선택 탭 */}
-        <TechStackTabs draftStacks={draftStacks} toggleStacks={toggleStacks} />
+        <TechStackTabs draftStacks={stacks} toggleStacks={toggleStacks} />
 
         {/* 현재 선택된 태그 */}
         <div className="py-4 mr-auto">
-          {draftStacks.length === 0 ? (
+          {stacks.length === 0 ? (
             <span className="text-subtle body-md-regular">
               선택된 태그가 없습니다.
             </span>
           ) : (
-            <TechStackTags stacks={draftStacks} removeStacks={toggleStacks} />
+            <TechStackTags stacks={stacks} removeStacks={toggleStacks} />
           )}
         </div>
 
         {/* 저장 버튼 */}
         {!isFilter && (
           <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
-            <span>{draftStacks.length}/5 선택됨</span>
+            <span>{stacks.length}/5 선택됨</span>
             <Button variant="solid" size="xs" onClick={handleSave}>
               저장
             </Button>
