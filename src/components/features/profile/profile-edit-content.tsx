@@ -44,8 +44,7 @@ export default function ProfileEditContent() {
   const { data: profile } = useGetProfile(); // 프로필
   const { mutate: updateProfile } = useUpdateProfile();
 
-  const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
-  const setStacks = useProfileStore((state) => state.setStacks);
+  const [techStacks, setTechStacks] = useState<TechStackType[]>([]);
   const interests = useProfileStore((state) => state.interests); // 관심 분야
   const setInterests = useProfileStore((state) => state.setInterests);
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
@@ -104,7 +103,7 @@ export default function ProfileEditContent() {
 
       // 기술 스택 설정
       if (profile.techSkills && profile.techSkills.length > 0) {
-        setStacks(
+        setTechStacks(
           profile.techSkills.map((skill) => skill.name as TechStackType),
         );
       }
@@ -118,7 +117,7 @@ export default function ProfileEditContent() {
         );
       }
     }
-  }, [profile, setValue, setStacks, setInterests]);
+  }, [profile, setValue, setInterests]);
 
   // interests 변경 시 폼에 자동 동기화
   useEffect(() => {
@@ -229,7 +228,7 @@ export default function ProfileEditContent() {
           />
 
           {/* 기술 스택 선택 */}
-          <TechStacksField />
+          <TechStacksField stacks={techStacks} onChange={setTechStacks} />
 
           {/* 관심 분야 선택 */}
           <InterestsField error={errors.interests?.message} />
