@@ -60,7 +60,7 @@ export default function TechStackTabs({
           <Tabs.Content
             value={role}
             key={role}
-            className="flex-1 overflow-y-auto max-h-[206px]"
+            className="flex-1 overflow-y-auto max-h-51.5"
           >
             {filteredStacks.length === 0 ? (
               <output className="flex flex-col gap-2 items-center my-6">

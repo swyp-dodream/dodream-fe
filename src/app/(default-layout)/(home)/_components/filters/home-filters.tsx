@@ -10,6 +10,7 @@ import { SORT_LABEL_LIST, SORT_LABELS } from '@/constants/filter.constant';
 import { ACTIVITY_MODE_LIST, ROLE_LIST } from '@/constants/profile.constant';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import type { SortType } from '@/types/filter.type';
+import type { TechStackType } from '@/types/profile.type';
 import HomeFilterButton from './home-filter-button';
 import HomeFilterTags from './home-filter-tags';
 
@@ -56,11 +57,13 @@ export default function HomeFilters() {
         {/* 기술 스택 필터링 */}
         <HomeFilterButton
           onClick={() => {
+            const currentTechs = getArrayParam('techs') as TechStackType[];
             overlay.open(({ isOpen, close }) => (
               <TechStackSelectModal
                 isOpen={isOpen}
                 onClose={close}
                 isFilter={true}
+                initialStacks={currentTechs}
               />
             ));
           }}

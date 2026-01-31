@@ -26,6 +26,7 @@ import type {
   GenderType,
   LinkItemType,
   RoleType,
+  TechStackType,
 } from '@/types/profile.type';
 import CreateIntroButton from './intro/create-intro-button';
 import ActivityModeField from './profile-fields/activity-mode-field';
@@ -41,7 +42,7 @@ import NicknameField from './profile-fields/user-info/nickname-field';
 export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
-  const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
+  const [techStacks, setTechStacks] = useState<TechStackType[]>([]); // 기술 스택
   const interests = useProfileStore((state) => state.interests); // 관심 분야
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
@@ -245,7 +246,7 @@ export default function ProfileContent() {
             />
 
             {/* 기술 스택 선택 */}
-            <TechStacksField />
+            <TechStacksField stacks={techStacks} onChange={setTechStacks} />
 
             {/* 관심 분야 선택 */}
             <InterestsField error={errors.interests?.message} />

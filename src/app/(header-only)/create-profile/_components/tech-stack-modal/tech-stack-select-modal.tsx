@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import useQueryParams from '@/hooks/filter/use-query-params';
-import useProfileStore from '@/store/profile-store';
 import type { TechStackType } from '@/types/profile.type';
 import TechStackTabs from './tech-stack-tabs';
 import TechStackTags from './tech-stack-tags';
@@ -11,6 +10,8 @@ interface TechStackSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
   isFilter?: boolean;
+  initialStacks: TechStackType[];
+  onSave?: (stacks: TechStackType[]) => void; // 저장 시 콜백
 }
 
 /**
@@ -20,18 +21,13 @@ export default function TechStackSelectModal({
   isOpen,
   onClose,
   isFilter = false,
+  initialStacks,
+  onSave,
 }: TechStackSelectModalProps) {
-  const stacks = useProfileStore((state) => state.techStacks);
-  const setStacks = useProfileStore((state) => state.setStacks);
-  const { getArrayParam, setParams } = useQueryParams();
+  const { setParams } = useQueryParams();
 
-  const [draftStacks, setDraftStacks] = useState<TechStackType[]>(() => {
-    // 필터링 모달이 아닌 경우
-    if (!isFilter) return stacks;
-
-    // 필터링 모달인 경우
-    return getArrayParam('techs') as TechStackType[];
-  });
+  const [draftStacks, setDraftStacks] =
+    useState<TechStackType[]>(initialStacks);
 
   /**
    * 기술 스택 토글 함수
@@ -46,9 +42,9 @@ export default function TechStackSelectModal({
         setParams({ techs: newStacks.length > 0 ? newStacks : null });
       }
     } else {
-      const newStacks = [...draftStacks, stack];
       if (!isFilter && draftStacks.length >= 5) return;
 
+      const newStacks = [...draftStacks, stack];
       setDraftStacks(newStacks);
 
       if (isFilter) {
@@ -59,7 +55,7 @@ export default function TechStackSelectModal({
 
   // 저장 버튼 클릭 시 실제 기술 스택 리스트 세팅
   const handleSave = () => {
-    setStacks(draftStacks);
+    onSave?.(draftStacks);
     onClose();
   };
 
@@ -67,7 +63,7 @@ export default function TechStackSelectModal({
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Overlay />
       <Modal.Content
-        className="flex flex-col items-center py-5 px-7 h-[480px]"
+        className="flex flex-col items-center py-5 px-7 h-120"
         size="lg"
       >
         <Modal.Title>기술 스택 선택</Modal.Title>
