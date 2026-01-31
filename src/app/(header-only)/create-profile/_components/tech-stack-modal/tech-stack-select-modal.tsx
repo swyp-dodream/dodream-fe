@@ -33,22 +33,18 @@ export default function TechStackSelectModal({
    * @param stack - 기술 스택
    */
   const toggleStacks = (stack: TechStackType) => {
-    if (stacks.includes(stack)) {
-      const newStacks = stacks.filter((element) => element !== stack);
-      setStacks(newStacks);
+    const newStacks = stacks.includes(stack)
+      ? stacks.filter((element) => element !== stack)
+      : isFilter
+        ? [...stacks, stack]
+        : stacks.length >= 5
+          ? stacks
+          : [...stacks, stack];
 
-      if (isFilter) {
-        setParams({ techs: newStacks.length > 0 ? newStacks : null });
-      }
-    } else {
-      if (!isFilter && stacks.length >= 5) return;
+    setStacks(newStacks);
 
-      const newStacks = [...stacks, stack];
-      setStacks(newStacks);
-
-      if (isFilter) {
-        setParams({ techs: newStacks });
-      }
+    if (isFilter) {
+      setParams({ techs: newStacks.length > 0 ? newStacks : null });
     }
   };
 

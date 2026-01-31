@@ -32,24 +32,18 @@ export default function InterestSelectModal({
    * @param interest - 관심 분야
    */
   const toggleInterests = (interest: InterestsType) => {
-    if (interests.includes(interest)) {
-      const newInterests = interests.filter((element) => element !== interest);
-      setInterests(newInterests);
+    const newInterests = interests.includes(interest)
+      ? interests.filter((element) => element !== interest)
+      : isFilter
+        ? [...interests, interest]
+        : interests.length >= 5
+          ? interests
+          : [...interests, interest];
 
-      if (isFilter) {
-        setParams({ interests: newInterests.length > 0 ? newInterests : null });
-      }
-    } else {
-      if (!isFilter && interests.length >= 5) return;
+    setInterests(newInterests);
 
-      const newInterests = [...interests, interest];
-      setInterests(newInterests);
-
-      if (isFilter) {
-        setParams({
-          interests: newInterests,
-        });
-      }
+    if (isFilter) {
+      setParams({ interests: newInterests.length > 0 ? newInterests : null });
     }
   };
 
