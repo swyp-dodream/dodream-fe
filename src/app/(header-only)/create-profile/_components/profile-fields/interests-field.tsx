@@ -1,11 +1,13 @@
 import { overlay } from 'overlay-kit';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from '@/components/commons/buttons/dropdown-button';
-import useProfileStore from '@/store/profile-store';
+import type { InterestsType } from '@/types/profile.type';
 import InterestSelectModal from '../interests-modal/interest-select-modal';
 import InterestTags from '../interests-modal/interest-tags';
 
 interface InterestsFieldProps {
+  interests: InterestsType[];
+  onChange: (interests: InterestsType[]) => void;
   error?: string;
 }
 
@@ -13,9 +15,14 @@ interface InterestsFieldProps {
  * 관심 분야 선택 컴포넌트
  * @param error - 검증 에러 메시지
  */
-export default function InterestsField({ error }: InterestsFieldProps) {
-  const interests = useProfileStore((state) => state.interests);
-  const removeInterests = useProfileStore((state) => state.removeInterests);
+export default function InterestsField({
+  interests,
+  onChange,
+  error,
+}: InterestsFieldProps) {
+  const removeInterest = (interest: InterestsType) => {
+    onChange(interests.filter((i) => i !== interest));
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -26,7 +33,12 @@ export default function InterestsField({ error }: InterestsFieldProps) {
             label="관심 분야 선택"
             onClick={() => {
               overlay.open(({ isOpen, close }) => (
-                <InterestSelectModal isOpen={isOpen} onClose={close} />
+                <InterestSelectModal
+                  isOpen={isOpen}
+                  onClose={close}
+                  initialInterests={interests}
+                  onSave={onChange}
+                />
               ));
             }}
             isError={!!error}
@@ -41,7 +53,7 @@ export default function InterestsField({ error }: InterestsFieldProps) {
           <InterestTags
             variant="light"
             interests={interests}
-            removeInterest={removeInterests}
+            removeInterest={removeInterest}
           />
         </div>
       )}

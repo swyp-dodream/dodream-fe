@@ -18,12 +18,12 @@ import { useLogoutOnLeave } from '@/hooks/auth/use-logout-on-leave';
 import useCreateProfile from '@/hooks/profile/use-create-profile';
 import { type ProfileFormData, profileFormSchema } from '@/schemas/user.schema';
 import { clientApis } from '@/services/client.api';
-import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
   AgeRangeType,
   ExperienceType,
   GenderType,
+  InterestsType,
   LinkItemType,
   RoleType,
   TechStackType,
@@ -43,7 +43,7 @@ export default function ProfileContent() {
   // 현재 페이지
   const [step, setStep] = useState(1);
   const [techStacks, setTechStacks] = useState<TechStackType[]>([]); // 기술 스택
-  const interests = useProfileStore((state) => state.interests); // 관심 분야
+  const [interests, setInterests] = useState<InterestsType[]>([]); // 관심 분야
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
   // 생성하지 않고 벗어나면 로그아웃 처리
@@ -200,7 +200,6 @@ export default function ProfileContent() {
               }}
               error={errors.age?.message}
             />
-
             {/* 성별 선택 */}
             <GenderField
               ref={register('gender').ref}
@@ -211,7 +210,6 @@ export default function ProfileContent() {
               }}
               error={errors.gender?.message}
             />
-
             {/* 직군 선택 */}
             <RoleField
               ref={register('role').ref}
@@ -222,7 +220,6 @@ export default function ProfileContent() {
               }}
               error={errors.role?.message}
             />
-
             {/* 경력 선택 */}
             <ExperienceField
               ref={register('experience').ref}
@@ -233,7 +230,6 @@ export default function ProfileContent() {
               }}
               error={errors.experience?.message}
             />
-
             {/* 선호 방식 선택 */}
             <ActivityModeField
               ref={register('activityMode').ref}
@@ -244,13 +240,14 @@ export default function ProfileContent() {
               }}
               error={errors.activityMode?.message}
             />
-
             {/* 기술 스택 선택 */}
             <TechStacksField stacks={techStacks} onChange={setTechStacks} />
-
-            {/* 관심 분야 선택 */}
-            <InterestsField error={errors.interests?.message} />
-
+            {/* 관심 분야 선택 */}+{' '}
+            <InterestsField
+              interests={interests}
+              onChange={setInterests}
+              error={errors.interests?.message}
+            />
             {/* 링크 선택 */}
             <LinkField links={links} onLinksChange={setLinks} />
           </div>

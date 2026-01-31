@@ -10,7 +10,7 @@ import { SORT_LABEL_LIST, SORT_LABELS } from '@/constants/filter.constant';
 import { ACTIVITY_MODE_LIST, ROLE_LIST } from '@/constants/profile.constant';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import type { SortType } from '@/types/filter.type';
-import type { TechStackType } from '@/types/profile.type';
+import type { InterestsType, TechStackType } from '@/types/profile.type';
 import HomeFilterButton from './home-filter-button';
 import HomeFilterTags from './home-filter-tags';
 
@@ -75,11 +75,16 @@ export default function HomeFilters() {
         {/* 관심 분야 필터링 */}
         <HomeFilterButton
           onClick={() => {
+            const currentInterests = getArrayParam(
+              'interests',
+            ) as InterestsType[];
+
             overlay.open(({ isOpen, close }) => (
               <InterestSelectModal
                 isOpen={isOpen}
                 onClose={close}
                 isFilter={true}
+                initialInterests={currentInterests}
               />
             ));
           }}

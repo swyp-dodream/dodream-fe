@@ -24,7 +24,6 @@ import {
   profileEditFormSchema,
 } from '@/schemas/user.schema';
 import { clientApis } from '@/services/client.api';
-import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
   ExperienceType,
@@ -45,8 +44,7 @@ export default function ProfileEditContent() {
   const { mutate: updateProfile } = useUpdateProfile();
 
   const [techStacks, setTechStacks] = useState<TechStackType[]>([]);
-  const interests = useProfileStore((state) => state.interests); // 관심 분야
-  const setInterests = useProfileStore((state) => state.setInterests);
+  const [interests, setInterests] = useState<InterestsType[]>([]);
   const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
 
   const router = useRouter();
@@ -117,7 +115,7 @@ export default function ProfileEditContent() {
         );
       }
     }
-  }, [profile, setValue, setInterests]);
+  }, [profile, setValue]);
 
   // interests 변경 시 폼에 자동 동기화
   useEffect(() => {
@@ -231,7 +229,11 @@ export default function ProfileEditContent() {
           <TechStacksField stacks={techStacks} onChange={setTechStacks} />
 
           {/* 관심 분야 선택 */}
-          <InterestsField error={errors.interests?.message} />
+          <InterestsField
+            interests={interests}
+            onChange={setInterests}
+            error={errors.interests?.message}
+          />
 
           {/* 링크 선택 */}
           <LinkField links={links} onLinksChange={setLinks} />
@@ -250,6 +252,7 @@ export default function ProfileEditContent() {
                 작성해 주는 서비스예요. 현재까지 입력해 주신 기본정보와 자기소개
                 내용이 반영되어 작성돼요."
             />
+
             {/* AI 초안 생성 버튼 */}
             <CreateIntroButton
               nickname={watch('nickname')}

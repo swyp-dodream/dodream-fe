@@ -45,7 +45,7 @@ export default function InterestTabs({
           <Tabs.Content
             value={category}
             key={category}
-            className="flex-1 overflow-y-auto max-h-[206px]"
+            className="flex-1 overflow-y-auto max-h-51.5"
           >
             <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
               {INTERESTS_BY_CATEGORY[category].map((interest) => (
