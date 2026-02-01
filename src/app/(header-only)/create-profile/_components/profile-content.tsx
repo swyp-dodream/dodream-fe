@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
 import { useEffect, useState } from 'react';
 import { type Resolver, useForm } from 'react-hook-form';
+import { ulid } from 'ulid';
 import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
 import LoadingSpinner from '@/components/commons/loading-spinner';
@@ -23,10 +24,7 @@ import type {
   AgeRangeType,
   ExperienceType,
   GenderType,
-  InterestsType,
-  LinkItemType,
   RoleType,
-  TechStackType,
 } from '@/types/profile.type';
 import CreateIntroButton from './intro/create-intro-button';
 import ActivityModeField from './profile-fields/activity-mode-field';
@@ -40,22 +38,14 @@ import TechStacksField from './profile-fields/tech-stack-field';
 import NicknameField from './profile-fields/user-info/nickname-field';
 
 export default function ProfileContent() {
-  // 현재 페이지
-  const [step, setStep] = useState(1);
-  const [techStacks, setTechStacks] = useState<TechStackType[]>([]); // 기술 스택
-  const [interests, setInterests] = useState<InterestsType[]>([]); // 관심 분야
-  const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [step, setStep] = useState(1); // 현재 페이지
+  const { mutate: createProfile, isPending } = useCreateProfile();
 
   // 생성하지 않고 벗어나면 로그아웃 처리
   const { preventLogout } = useLogoutOnLeave();
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  // 프로필 생성 뮤테이션
-  const { mutate: createProfile, isPending } = useCreateProfile();
-
-  // React Hook Form 설정
   const {
     register,
     handleSubmit,
@@ -80,6 +70,9 @@ export default function ProfileContent() {
       role: undefined,
       experience: undefined,
       activityMode: undefined,
+      techStacks: [],
+      interests: [],
+      links: [{ id: ulid(), value: '' }],
       intro: '',
       acceptOffers: true,
     },
@@ -88,17 +81,12 @@ export default function ProfileContent() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: 관심분야 변경시에 에러 제거
   useEffect(() => {
     clearErrors('interests');
-  }, [interests, clearErrors]);
+  }, [watch('interests'), clearErrors]);
 
   /**
    * 다음 페이지 이동 핸들러
    */
   const handleNextStep = async () => {
-    // 관심 분야, 링크 폼에 설정
-    setValue('techStacks', techStacks);
-    setValue('interests', interests);
-    setValue('links', links);
-
     // 1페이지 필드 검증
     const isValid = await trigger(
       [
@@ -241,15 +229,21 @@ export default function ProfileContent() {
               error={errors.activityMode?.message}
             />
             {/* 기술 스택 선택 */}
-            <TechStacksField stacks={techStacks} onChange={setTechStacks} />
-            {/* 관심 분야 선택 */}+{' '}
+            <TechStacksField
+              stacks={watch('techStacks')}
+              onChange={(stacks) => setValue('techStacks', stacks)}
+            />
+            {/* 관심 분야 선택 */}
             <InterestsField
-              interests={interests}
-              onChange={setInterests}
+              interests={watch('interests')}
+              onChange={(interests) => setValue('interests', interests)}
               error={errors.interests?.message}
             />
             {/* 링크 선택 */}
-            <LinkField links={links} onLinksChange={setLinks} />
+            <LinkField
+              links={watch('links')}
+              onLinksChange={(links) => setValue('links', links)}
+            />
           </div>
         </fieldset>
       )}
@@ -273,10 +267,10 @@ export default function ProfileContent() {
                 age={watch('age') as AgeRangeType}
                 experience={watch('experience') as ExperienceType}
                 activityMode={watch('activityMode') as ActivityModeType}
-                links={links}
+                links={watch('links') || []}
                 role={watch('role') as RoleType}
-                interests={interests}
-                techStacks={techStacks}
+                interests={watch('interests') || []}
+                techStacks={watch('techStacks') || []}
                 intro={watch('intro') || ''}
                 setIntro={(text) => setValue('intro', text)}
               />
