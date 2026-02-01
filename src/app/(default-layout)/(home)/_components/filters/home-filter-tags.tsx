@@ -1,6 +1,8 @@
 import XIcon from '@/assets/icons/x/12.svg';
 import useQueryParams from '@/hooks/filter/use-query-params';
+import type { TechStackType } from '@/types/profile.type';
 import { getLabel } from '@/utils/filter.util';
+import { convertTechStackToId } from '@/utils/profile.util';
 
 /**
  * 적용된 필터 태그 리스트
@@ -16,7 +18,14 @@ export default function HomeFilterTags() {
     if (newValues.length === 0) {
       removeParam(key);
     } else {
-      setParams({ [key]: newValues });
+      if (key === 'techs') {
+        const techIds = newValues
+          .map((techName) => convertTechStackToId(techName as TechStackType))
+          .filter((id): id is number => id !== null);
+        setParams({ [key]: techIds });
+      } else {
+        setParams({ [key]: newValues });
+      }
     }
   };
 

@@ -2,6 +2,7 @@ import { overlay } from 'overlay-kit';
 import TechStackSelectModal from '@/app/(header-only)/create-profile/_components/tech-stack-modal/tech-stack-select-modal';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import type { TechStackType } from '@/types/profile.type';
+import { convertTechStackToId } from '@/utils/profile.util';
 import HomeFilterButton from './home-filter-button';
 
 export default function TechStackFilterButton() {
@@ -10,12 +11,16 @@ export default function TechStackFilterButton() {
   const handleClick = () => {
     const currentTechs = getArrayParam('techs') as TechStackType[];
 
+    const techIds = currentTechs
+      .map(convertTechStackToId)
+      .filter((id): id is number => id !== null);
+
     overlay.open(({ isOpen, close }) => (
       <TechStackSelectModal
         isOpen={isOpen}
         onClose={close}
         isFilter={true}
-        initialStacks={currentTechs}
+        initialStacks={techIds}
       />
     ));
   };

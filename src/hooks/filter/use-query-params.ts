@@ -2,7 +2,11 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PRESERVE_PARAMS } from '@/constants/filter.constant';
-import { INTERESTS, ROLE } from '@/constants/profile.constant';
+import {
+  INTERESTS,
+  ROLE,
+  TECH_STACK_ID_MAP,
+} from '@/constants/profile.constant';
 import { getValidPage } from '@/utils/filter.util';
 
 /** 파라미터 관리 훅 */
@@ -49,6 +53,18 @@ export default function useQueryParams() {
       params.delete(key);
 
       if (value === null || value === undefined || value === '') {
+        return;
+      }
+
+      // techs의 경우 number[] -> TechStackType[] 변환
+      if (key === 'techs' && Array.isArray(value)) {
+        const techNames = (value as number[])
+          .map((id) => TECH_STACK_ID_MAP[id])
+          .filter(Boolean);
+
+        techNames.forEach((tech) => {
+          params.append(key, tech);
+        });
         return;
       }
 
