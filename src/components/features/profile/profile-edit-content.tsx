@@ -2,8 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
+import { ulid } from 'ulid';
 import CreateIntroButton from '@/app/(header-only)/create-profile/_components/intro/create-intro-button';
 import ActivityModeField from '@/app/(header-only)/create-profile/_components/profile-fields/activity-mode-field';
 import ExperienceField from '@/app/(header-only)/create-profile/_components/profile-fields/experience-field';
@@ -28,7 +29,6 @@ import type {
   ActivityModeType,
   ExperienceType,
   InterestsType,
-  LinkItemType,
   RoleType,
   TechStackType,
 } from '@/types/profile.type';
@@ -40,15 +40,10 @@ import {
 } from '@/utils/profile.util';
 
 export default function ProfileEditContent() {
-  const { data: profile } = useGetProfile(); // 프로필
-  const { mutate: updateProfile } = useUpdateProfile();
-
-  const [techStacks, setTechStacks] = useState<TechStackType[]>([]);
-  const [interests, setInterests] = useState<InterestsType[]>([]);
-  const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
-
   const router = useRouter();
   const toast = useToast();
+  const { data: profile } = useGetProfile();
+  const { mutate: updateProfile } = useUpdateProfile();
 
   // React Hook Form 설정
   const {
@@ -60,7 +55,7 @@ export default function ProfileEditContent() {
     setFocus,
     clearErrors, // 에러 후 재입력하면 에러 제거
     setValue, // 드롭다운 값 설정용
-  } = useForm<ProfileEditFormInput, any, ProfileEditFormData>({
+  } = useForm<ProfileEditFormInput, unknown, ProfileEditFormData>({
     resolver: zodResolver(profileEditFormSchema),
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
@@ -70,6 +65,9 @@ export default function ProfileEditContent() {
       role: undefined,
       experience: undefined,
       activityMode: undefined,
+      techStacks: [],
+      interests: [],
+      links: [{ id: ulid(), value: '' }],
       intro: '',
     },
   });
@@ -77,7 +75,6 @@ export default function ProfileEditContent() {
   // profile 데이터 로드 시 폼 값 설정
   useEffect(() => {
     if (profile) {
-      // 폼 값 설정
       setValue('nickname', profile.nickname);
       setValue('role', parseRoleValue(profile.roles[0].name) as RoleType);
       setValue(
@@ -96,42 +93,31 @@ export default function ProfileEditContent() {
           id: url.id.toString(),
           value: url.url,
         }));
-        setLinks(convertedLinks);
+        setValue('links', convertedLinks);
       }
 
       // 기술 스택 설정
       if (profile.techSkills && profile.techSkills.length > 0) {
-        setTechStacks(
+        setValue(
+          'techStacks',
           profile.techSkills.map((skill) => skill.name as TechStackType),
         );
       }
 
       // 관심 분야 설정
       if (profile.interestKeywords && profile.interestKeywords.length > 0) {
-        setInterests(
-          profile.interestKeywords
-            .map((interest) => parseInterestsValue(interest.name))
-            .filter((interest): interest is InterestsType => interest !== null),
-        );
+        const parsedInterests = profile.interestKeywords
+          .map((interest) => parseInterestsValue(interest.name))
+          .filter((interest): interest is InterestsType => interest !== null);
+        setValue('interests', parsedInterests);
       }
     }
   }, [profile, setValue]);
 
-  // interests 변경 시 폼에 자동 동기화
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 관심분야 변경시에 에러 제거
   useEffect(() => {
-    setValue('interests', interests);
     clearErrors('interests');
-  }, [interests, setValue, clearErrors]);
-
-  // techStacks 변경 시 폼에 자동 동기화
-  useEffect(() => {
-    setValue('techStacks', techStacks);
-  }, [techStacks, setValue]);
-
-  // links 변경 시 폼에 자동 동기화
-  useEffect(() => {
-    setValue('links', links);
-  }, [links, setValue]);
+  }, [watch('interests'), clearErrors]);
 
   if (!profile) return null;
 
@@ -226,17 +212,23 @@ export default function ProfileEditContent() {
           />
 
           {/* 기술 스택 선택 */}
-          <TechStacksField stacks={techStacks} onChange={setTechStacks} />
+          <TechStacksField
+            stacks={watch('techStacks')}
+            onChange={(stacks) => setValue('techStacks', stacks)}
+          />
 
           {/* 관심 분야 선택 */}
           <InterestsField
-            interests={interests}
-            onChange={setInterests}
+            interests={watch('interests')}
+            onChange={(interests) => setValue('interests', interests)}
             error={errors.interests?.message}
           />
 
           {/* 링크 선택 */}
-          <LinkField links={links} onLinksChange={setLinks} />
+          <LinkField
+            links={watch('links')}
+            onLinksChange={(links) => setValue('links', links)}
+          />
         </div>
       </fieldset>
 
@@ -259,10 +251,10 @@ export default function ProfileEditContent() {
               age={null}
               experience={watch('experience') as ExperienceType}
               activityMode={watch('activityMode') as ActivityModeType}
-              links={links}
+              links={watch('links')}
               role={watch('role') as RoleType}
-              interests={interests}
-              techStacks={techStacks}
+              interests={watch('interests')}
+              techStacks={watch('techStacks')}
               intro={watch('intro') || ''}
               setIntro={(text) => setValue('intro', text)}
             />
