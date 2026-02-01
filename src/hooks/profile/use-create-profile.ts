@@ -25,7 +25,7 @@ export default function useCreateProfile() {
         roleNames: [ROLE[data.role as RoleType]],
         experience: convertExperienceValue(data.experience),
         activityMode: convertActivityModeValue(data.activityMode),
-        techSkillNames: data.techStacks,
+        techSkillIds: data.techStacks,
         interestKeywordNames: data.interests.map(
           (interest) => INTERESTS[interest],
         ),

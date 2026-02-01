@@ -1,13 +1,12 @@
 import { overlay } from 'overlay-kit';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from '@/components/commons/buttons/dropdown-button';
-import type { TechStackType } from '@/types/profile.type';
 import TechStackSelectModal from '../tech-stack-modal/tech-stack-select-modal';
 import TechStackTags from '../tech-stack-modal/tech-stack-tags';
 
 interface TechStacksFieldProps {
-  stacks: TechStackType[];
-  onChange: (stacks: TechStackType[]) => void;
+  stacks: number[];
+  onChange: (stacks: number[]) => void;
 }
 
 /**
@@ -17,7 +16,7 @@ export default function TechStacksField({
   stacks,
   onChange,
 }: TechStacksFieldProps) {
-  const removeStack = (stack: TechStackType) => {
+  const removeStack = (stack: number) => {
     onChange(stacks.filter((s) => s !== stack));
   };
 

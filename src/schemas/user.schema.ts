@@ -7,9 +7,8 @@ import {
   INTERESTS,
   NICKNAME_REGEX,
   ROLE,
-  TECH_STACK_MAP,
 } from '@/constants/profile.constant';
-import type { InterestsType, TechStackType } from '@/types/profile.type';
+import type { InterestsType } from '@/types/profile.type';
 
 /** URL 정규식 */
 const URL_PATTERN =
@@ -62,9 +61,7 @@ export const activityModeSchema = z.enum(
 );
 
 /** 기술 스택 스키마 */
-export const techStacksSchema = z.array(
-  z.enum(Object.keys(TECH_STACK_MAP) as [TechStackType, ...TechStackType[]]),
-);
+export const techStacksSchema = z.array(z.number());
 
 /** 관심 분야 스키마 */
 export const interestsSchema = z

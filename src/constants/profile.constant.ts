@@ -121,6 +121,39 @@ export const TECH_STACK_MAP: Record<TechStackType, string> = {
   Sketch: 'sketch',
 };
 
+// ID 매핑 (ID -> TechStackType)
+export const TECH_STACK_ID_MAP: Record<number, TechStackType> = {
+  1: 'JavaScript',
+  2: 'TypeScript',
+  3: 'React',
+  4: 'Vue',
+  5: 'Svelte',
+  6: 'Nextjs',
+  7: 'Java',
+  8: 'Spring',
+  9: 'Nodejs',
+  10: 'Nestjs',
+  11: 'Go',
+  12: 'Express',
+  13: 'MySQL',
+  14: 'MongoDB',
+  15: 'Ruby',
+  16: 'Python',
+  17: 'Django',
+  18: 'php',
+  19: 'GraphQL',
+  20: 'Firebase',
+  21: 'Swift',
+  22: 'Objective-C',
+  23: 'Kotlin',
+  24: 'Flutter',
+  25: 'ReactNative',
+  26: 'Zeplin',
+  27: 'Figma',
+  28: 'Sketch',
+  29: 'Adobe',
+};
+
 export const TECH_STACKS_BY_ROLE: Record<string, TechStackType[]> = {
   프론트엔드: ['JavaScript', 'TypeScript', 'React', 'Vue', 'Svelte', 'Nextjs'],
   백엔드: [

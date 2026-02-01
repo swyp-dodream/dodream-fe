@@ -124,7 +124,7 @@ export type CreateProfileRequestType = {
   profileImageCode: number;
   roleNames: string[];
   interestKeywordNames: string[];
-  techSkillNames: string[];
+  techSkillIds: number[];
   introText: string;
   projectProposalEnabled: boolean;
   studyProposalEnabled: boolean;

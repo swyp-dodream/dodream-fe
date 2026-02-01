@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import useQueryParams from '@/hooks/filter/use-query-params';
-import type { TechStackType } from '@/types/profile.type';
 import TechStackTabs from './tech-stack-tabs';
 import TechStackTags from './tech-stack-tags';
 
@@ -10,8 +9,8 @@ interface TechStackSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
   isFilter?: boolean;
-  initialStacks: TechStackType[];
-  onSave?: (stacks: TechStackType[]) => void; // 저장 시 콜백
+  initialStacks: number[];
+  onSave?: (stacks: number[]) => void;
 }
 
 /**
@@ -26,13 +25,12 @@ export default function TechStackSelectModal({
 }: TechStackSelectModalProps) {
   const { setParams } = useQueryParams();
 
-  const [stacks, setStacks] = useState<TechStackType[]>(initialStacks);
+  const [stacks, setStacks] = useState<number[]>(initialStacks);
 
   /**
    * 기술 스택 토글 함수
-   * @param stack - 기술 스택
    */
-  const toggleStacks = (stack: TechStackType) => {
+  const toggleStacks = (stack: number) => {
     const newStacks = stacks.includes(stack)
       ? stacks.filter((element) => element !== stack)
       : isFilter

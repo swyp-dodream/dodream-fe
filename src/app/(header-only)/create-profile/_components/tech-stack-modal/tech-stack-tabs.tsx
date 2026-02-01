@@ -5,17 +5,17 @@ import {
   TECH_STACKS_BY_ROLE,
   TECH_STACKS_BY_ROLE_KEYS,
 } from '@/constants/profile.constant';
-import type { TechStackType } from '@/types/profile.type';
+import { convertTechStackToId } from '@/utils/profile.util';
 import TechStackSelect from './tech-stack-select';
 
 interface TechStackTabsProps {
-  draftStacks: TechStackType[];
-  toggleStacks: (stack: TechStackType) => void;
+  draftStacks: number[];
+  toggleStacks: (stackId: number) => void;
 }
 
 /**
  * 기술 스택 탭 컴포넌트 (프론트엔드/백엔드/모바일/디자인)
- * @param draftStacks - 모달에서 선택된 스택
+ * @param draftStacks - 모달에서 선택된 스택 (ID 배열)
  * @param toggleStacks - 기술 스택 토글 함수
  */
 export default function TechStackTabs({
@@ -71,14 +71,19 @@ export default function TechStackTabs({
               </output>
             ) : (
               <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
-                {filteredStacks.map((stack) => (
-                  <TechStackSelect
-                    key={stack}
-                    stack={stack}
-                    toggleStacks={() => toggleStacks(stack)}
-                    checked={draftStacks.includes(stack)}
-                  />
-                ))}
+                {filteredStacks.map((stack) => {
+                  const stackId = convertTechStackToId(stack);
+                  if (stackId === null) return null; // 변환 실패시 스킵
+
+                  return (
+                    <TechStackSelect
+                      key={stack}
+                      stack={stack}
+                      toggleStacks={() => toggleStacks(stackId)}
+                      checked={draftStacks.includes(stackId)}
+                    />
+                  );
+                })}
               </ul>
             )}
           </Tabs.Content>

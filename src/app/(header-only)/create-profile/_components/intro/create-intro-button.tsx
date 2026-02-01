@@ -1,5 +1,5 @@
 import { overlay } from 'overlay-kit';
-import { INTERESTS } from '@/constants/profile.constant';
+import { INTERESTS, TECH_STACK_ID_MAP } from '@/constants/profile.constant';
 import type {
   ActivityModeType,
   AgeRangeType,
@@ -8,7 +8,6 @@ import type {
   InterestsType,
   LinkItemType,
   RoleType,
-  TechStackType,
 } from '@/types/profile.type';
 import {
   convertActivityModeValue,
@@ -25,7 +24,7 @@ interface CreateIntroButtonProps {
   links: LinkItemType[];
   role: RoleType;
   interests: InterestsType[];
-  techStacks: TechStackType[];
+  techStacks: number[];
   intro: string;
   setIntro: (text: string) => void;
 }
@@ -67,7 +66,7 @@ export default function CreateIntroButton({
       .map((url) => url.value),
     roles: [role],
     interestKeywords: interests.map((interest) => INTERESTS[interest]),
-    techSkills: techStacks,
+    techSkills: techStacks.map((id) => TECH_STACK_ID_MAP[id]),
   };
 
   return (
@@ -82,7 +81,7 @@ export default function CreateIntroButton({
           />
         ));
       }}
-      className="border border-border-brand text-brand body-lg-medium h-[34px] w-[140px] rounded-md bg-surface py-2 ml-3 hover:bg-button-ai"
+      className="border border-border-brand text-brand body-lg-medium h-8.5 w-35 rounded-md bg-surface py-2 ml-3 hover:bg-button-ai"
       type="button"
     >
       AI로 초안 작성

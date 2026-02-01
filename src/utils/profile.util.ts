@@ -5,8 +5,9 @@ import {
   type GENDER,
   INTERESTS,
   ROLE,
+  TECH_STACK_ID_MAP,
 } from '@/constants/profile.constant';
-import type { InterestsType } from '@/types/profile.type';
+import type { InterestsType, TechStackType } from '@/types/profile.type';
 import { createReverseMap } from '@/utils/transform.util';
 
 /** 연령대 변환 */
@@ -134,4 +135,12 @@ export const parseInterestsValue = (
 ): InterestsType | null => {
   if (!label) return null;
   return INTERESTS_VALUE_REVERSE_MAP[label] ?? null;
+};
+
+/** 기술 스택 변환 (TechStackType -> ID) */
+const TECH_STACK_ID_REVERSE_MAP = createReverseMap(TECH_STACK_ID_MAP);
+
+export const convertTechStackToId = (stack: TechStackType): number | null => {
+  const id = TECH_STACK_ID_REVERSE_MAP[stack];
+  return id ? Number(id) : null;
 };
