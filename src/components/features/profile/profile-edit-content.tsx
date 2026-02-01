@@ -30,7 +30,6 @@ import type {
   ExperienceType,
   InterestsType,
   RoleType,
-  TechStackType,
 } from '@/types/profile.type';
 import {
   parseActivityModeValue,
@@ -100,7 +99,7 @@ export default function ProfileEditContent() {
       if (profile.techSkills && profile.techSkills.length > 0) {
         setValue(
           'techStacks',
-          profile.techSkills.map((skill) => skill.name as TechStackType),
+          profile.techSkills.map((skill) => skill.id),
         );
       }
 

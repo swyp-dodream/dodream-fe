@@ -139,7 +139,7 @@ export type UpdateProfileRequestType = {
   introText: string;
   profileImageCode: number;
   roleNames: string[];
-  techSkillNames: string[];
+  techSkillIds: number[];
   interestKeywordNames: string[];
   profileUrls: Record<string, string>;
 };
