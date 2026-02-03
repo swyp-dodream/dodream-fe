@@ -208,6 +208,28 @@ export const INTERESTS: Record<InterestsType, string> = {
   'art-performance': '예술&공연',
 };
 
+// ID 매핑 (ID -> InterestsType)
+export const INTERESTS_ID_MAP: Record<number, InterestsType> = {
+  1: 'ai',
+  2: 'mobility',
+  3: 'data',
+  4: 'ecommerce',
+  5: 'o2o',
+  6: 'finance',
+  7: 'environment',
+  8: 'local',
+  9: 'education',
+  10: 'fnb',
+  11: 'fashion-beauty',
+  12: 'health',
+  13: 'travel',
+  14: 'sports',
+  15: 'pet',
+  16: 'game',
+  17: 'media',
+  18: 'art-performance',
+};
+
 export const INTERESTS_BY_CATEGORY: Record<string, InterestsType[]> = {
   기술: ['ai', 'mobility', 'data'],
   비즈니스: ['ecommerce', 'o2o', 'finance'],
