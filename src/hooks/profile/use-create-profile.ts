@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { INTERESTS, ROLE } from '@/constants/profile.constant';
+import { ROLE } from '@/constants/profile.constant';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 import type { ProfileFormData } from '@/schemas/user.schema';
@@ -26,9 +26,7 @@ export default function useCreateProfile() {
         experience: convertExperienceValue(data.experience),
         activityMode: convertActivityModeValue(data.activityMode),
         techSkillIds: data.techStacks,
-        interestKeywordNames: data.interests.map(
-          (interest) => INTERESTS[interest],
-        ),
+        interestKeywordIds: data.interests,
         profileUrls: data.links
           .filter((link) => link.value)
           .reduce(

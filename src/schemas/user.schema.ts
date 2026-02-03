@@ -4,11 +4,9 @@ import {
   AGE_RANGES,
   EXPERIENCE,
   GENDER,
-  INTERESTS,
   NICKNAME_REGEX,
   ROLE,
 } from '@/constants/profile.constant';
-import type { InterestsType } from '@/types/profile.type';
 
 /** URL 정규식 */
 const URL_PATTERN =
@@ -65,7 +63,7 @@ export const techStacksSchema = z.array(z.number());
 
 /** 관심 분야 스키마 */
 export const interestsSchema = z
-  .array(z.enum(Object.keys(INTERESTS) as [InterestsType, ...InterestsType[]]))
+  .array(z.number())
   .min(1, '필수 선택 항목입니다');
 
 /** 링크 스키마 */

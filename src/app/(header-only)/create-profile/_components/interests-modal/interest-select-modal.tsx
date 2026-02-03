@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import useQueryParams from '@/hooks/filter/use-query-params';
-import type { InterestsType } from '@/types/profile.type';
 import InterestTabs from './interest-tabs';
 import InterestTags from './interest-tags';
 
@@ -10,8 +9,8 @@ interface InterestSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
   isFilter?: boolean;
-  initialInterests: InterestsType[];
-  onSave?: (interests: InterestsType[]) => void;
+  initialInterests: number[];
+  onSave?: (interests: number[]) => void;
 }
 
 /**
@@ -24,21 +23,21 @@ export default function InterestSelectModal({
   initialInterests,
   onSave,
 }: InterestSelectModalProps) {
-  const [interests, setInterests] = useState<InterestsType[]>(initialInterests);
+  const [interests, setInterests] = useState<number[]>(initialInterests);
   const { setParams } = useQueryParams();
 
   /**
    * 관심 분야 토글 함수
    * @param interest - 관심 분야
    */
-  const toggleInterests = (interest: InterestsType) => {
-    const newInterests = interests.includes(interest)
-      ? interests.filter((element) => element !== interest)
+  const toggleInterests = (interestId: number) => {
+    const newInterests = interests.includes(interestId)
+      ? interests.filter((id) => id !== interestId)
       : isFilter
-        ? [...interests, interest]
+        ? [...interests, interestId]
         : interests.length >= 5
           ? interests
-          : [...interests, interest];
+          : [...interests, interestId];
 
     setInterests(newInterests);
 

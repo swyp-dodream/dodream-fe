@@ -123,7 +123,7 @@ export type CreateProfileRequestType = {
   activityMode: string;
   profileImageCode: number;
   roleNames: string[];
-  interestKeywordNames: string[];
+  interestKeywordIds: number[];
   techSkillIds: number[];
   introText: string;
   projectProposalEnabled: boolean;
@@ -140,7 +140,7 @@ export type UpdateProfileRequestType = {
   profileImageCode: number;
   roleNames: string[];
   techSkillIds: number[];
-  interestKeywordNames: string[];
+  interestKeywordIds: number[];
   profileUrls: Record<string, string>;
 };
 

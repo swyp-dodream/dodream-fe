@@ -269,8 +269,8 @@ export default function ProfileContent() {
                 activityMode={watch('activityMode') as ActivityModeType}
                 links={watch('links') || []}
                 role={watch('role') as RoleType}
-                interests={watch('interests') || []}
-                techStacks={watch('techStacks') || []}
+                interests={watch('interests')}
+                techStacks={watch('techStacks')}
                 intro={watch('intro') || ''}
                 setIntro={(text) => setValue('intro', text)}
               />

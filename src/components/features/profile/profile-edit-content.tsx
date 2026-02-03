@@ -28,13 +28,11 @@ import { clientApis } from '@/services/client.api';
 import type {
   ActivityModeType,
   ExperienceType,
-  InterestsType,
   RoleType,
 } from '@/types/profile.type';
 import {
   parseActivityModeValue,
   parseExperienceValue,
-  parseInterestsValue,
   parseRoleValue,
 } from '@/utils/profile.util';
 
@@ -105,10 +103,10 @@ export default function ProfileEditContent() {
 
       // 관심 분야 설정
       if (profile.interestKeywords && profile.interestKeywords.length > 0) {
-        const parsedInterests = profile.interestKeywords
-          .map((interest) => parseInterestsValue(interest.name))
-          .filter((interest): interest is InterestsType => interest !== null);
-        setValue('interests', parsedInterests);
+        setValue(
+          'interests',
+          profile.interestKeywords.map((interest) => interest.id),
+        );
       }
     }
   }, [profile, setValue]);

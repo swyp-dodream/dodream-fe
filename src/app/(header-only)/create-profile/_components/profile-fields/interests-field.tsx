@@ -1,13 +1,12 @@
 import { overlay } from 'overlay-kit';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from '@/components/commons/buttons/dropdown-button';
-import type { InterestsType } from '@/types/profile.type';
 import InterestSelectModal from '../interests-modal/interest-select-modal';
 import InterestTags from '../interests-modal/interest-tags';
 
 interface InterestsFieldProps {
-  interests: InterestsType[];
-  onChange: (interests: InterestsType[]) => void;
+  interests: number[];
+  onChange: (interests: number[]) => void;
   error?: string;
 }
 
@@ -20,8 +19,8 @@ export default function InterestsField({
   onChange,
   error,
 }: InterestsFieldProps) {
-  const removeInterest = (interest: InterestsType) => {
-    onChange(interests.filter((i) => i !== interest));
+  const removeInterest = (interestId: number) => {
+    onChange(interests.filter((id) => id !== interestId));
   };
 
   return (

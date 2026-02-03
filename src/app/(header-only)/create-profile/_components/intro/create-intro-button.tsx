@@ -1,11 +1,14 @@
 import { overlay } from 'overlay-kit';
-import { INTERESTS, TECH_STACK_ID_MAP } from '@/constants/profile.constant';
+import {
+  INTERESTS,
+  INTERESTS_ID_MAP,
+  TECH_STACK_ID_MAP,
+} from '@/constants/profile.constant';
 import type {
   ActivityModeType,
   AgeRangeType,
   AiRequestType,
   ExperienceType,
-  InterestsType,
   LinkItemType,
   RoleType,
 } from '@/types/profile.type';
@@ -23,7 +26,7 @@ interface CreateIntroButtonProps {
   activityMode: ActivityModeType;
   links: LinkItemType[];
   role: RoleType;
-  interests: InterestsType[];
+  interests: number[];
   techStacks: number[];
   intro: string;
   setIntro: (text: string) => void;
@@ -65,7 +68,7 @@ export default function CreateIntroButton({
       .filter((url) => url.value !== '')
       .map((url) => url.value),
     roles: [role],
-    interestKeywords: interests.map((interest) => INTERESTS[interest]),
+    interestKeywords: interests.map((id) => INTERESTS[INTERESTS_ID_MAP[id]]),
     techSkills: techStacks.map((id) => TECH_STACK_ID_MAP[id]),
   };
 
