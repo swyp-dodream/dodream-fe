@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PRESERVE_PARAMS } from '@/constants/filter.constant';
 import {
   INTERESTS,
+  INTERESTS_ID_MAP,
   ROLE,
   TECH_STACK_ID_MAP,
 } from '@/constants/profile.constant';
@@ -64,6 +65,17 @@ export default function useQueryParams() {
 
         techNames.forEach((tech) => {
           params.append(key, tech);
+        });
+        return;
+      }
+
+      if (key === 'interests' && Array.isArray(value)) {
+        const interestTypes = (value as number[])
+          .map((id) => INTERESTS_ID_MAP[id])
+          .filter(Boolean);
+
+        interestTypes.forEach((interest) => {
+          params.append(key, interest);
         });
         return;
       }

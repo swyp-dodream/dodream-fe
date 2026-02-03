@@ -2,6 +2,7 @@ import { overlay } from 'overlay-kit';
 import InterestSelectModal from '@/app/(header-only)/create-profile/_components/interests-modal/interest-select-modal';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import type { InterestsType } from '@/types/profile.type';
+import { convertInterestToId } from '@/utils/profile.util';
 import HomeFilterButton from './home-filter-button';
 
 export default function InterestFilterButton() {
@@ -10,12 +11,16 @@ export default function InterestFilterButton() {
   const handleClick = () => {
     const currentInterests = getArrayParam('interests') as InterestsType[];
 
+    const interestIds = currentInterests
+      .map(convertInterestToId)
+      .filter((id): id is number => id !== null);
+
     overlay.open(({ isOpen, close }) => (
       <InterestSelectModal
         isOpen={isOpen}
         onClose={close}
         isFilter={true}
-        initialInterests={currentInterests}
+        initialInterests={interestIds}
       />
     ));
   };

@@ -3,7 +3,7 @@ import {
   type AGE_RANGES,
   type EXPERIENCE,
   type GENDER,
-  INTERESTS,
+  INTERESTS_ID_MAP,
   ROLE,
   TECH_STACK_ID_MAP,
 } from '@/constants/profile.constant';
@@ -119,28 +119,18 @@ export const parseRoleValue = (
   return ROLE_VALUE_REVERSE_MAP[label] ?? null;
 };
 
-/** 관심 분야 변환 */
-const INTERESTS_VALUE_REVERSE_MAP = createReverseMap(INTERESTS);
-
-export const convertInterestsValue = (
-  interest: InterestsType | null,
-): string => {
-  if (interest === null) return '';
-
-  return INTERESTS[interest] || '';
-};
-
-export const parseInterestsValue = (
-  label: string | null,
-): InterestsType | null => {
-  if (!label) return null;
-  return INTERESTS_VALUE_REVERSE_MAP[label] ?? null;
-};
-
 /** 기술 스택 변환 (TechStackType -> ID) */
 const TECH_STACK_ID_REVERSE_MAP = createReverseMap(TECH_STACK_ID_MAP);
 
 export const convertTechStackToId = (stack: TechStackType): number | null => {
   const id = TECH_STACK_ID_REVERSE_MAP[stack];
+  return id ? Number(id) : null;
+};
+
+/** 관심 분야 변환 (InterestType -> ID) */
+const INTERESTS_ID_REVERSE_MAP = createReverseMap(INTERESTS_ID_MAP);
+
+export const convertInterestToId = (interest: InterestsType): number | null => {
+  const id = INTERESTS_ID_REVERSE_MAP[interest];
   return id ? Number(id) : null;
 };

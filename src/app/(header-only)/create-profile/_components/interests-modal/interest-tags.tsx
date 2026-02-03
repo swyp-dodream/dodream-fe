@@ -30,7 +30,7 @@ export default function InterestTags({
           key={interestId}
           index={index + 1}
           variant={variant}
-          interestId={interestId} // ← ID로 변경
+          interestId={interestId}
           onRemove={() => removeInterest(interestId)}
         />
       ))}
