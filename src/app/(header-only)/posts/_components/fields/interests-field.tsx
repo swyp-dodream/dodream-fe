@@ -3,49 +3,30 @@
 import { overlay } from 'overlay-kit';
 import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
+import InterestSelectModal from '@/app/(header-only)/create-profile/_components/interests-modal/interest-select-modal';
+import InterestTags from '@/app/(header-only)/create-profile/_components/interests-modal/interest-tags';
 import FieldErrorMessage from '@/app/(header-only)/posts/_components/field-error-message';
-import InterestSelectModal from '@/app/(header-only)/posts/_components/interests-modal/interest-select-modal';
-import InterestTags from '@/app/(header-only)/posts/_components/interests-modal/interest-tags';
 import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from '@/components/commons/buttons/dropdown-button';
 import type { PostCreateFormData } from '@/schemas/post.schema';
-import usePostCreateStore from '@/store/post-create-store';
 
 export default function InterestsField() {
   const {
     watch,
     register,
     setValue,
-    getValues,
     clearErrors,
     trigger,
     formState: { errors },
   } = useFormContext<PostCreateFormData>();
+
   const isMounted = useRef(false);
   const projectType = watch('projectType');
-  const interests = usePostCreateStore((state) => state.interests);
-  const removeInterests = usePostCreateStore((state) => state.removeInterests);
+  const interestIds = watch('interestIds');
 
   useEffect(() => {
     register('interestIds');
   }, [register]);
-
-  useEffect(() => {
-    const prevIds = getValues('interestIds');
-    const nextIds = interests.map((interest) => interest.id);
-    const hasChanged =
-      prevIds.length !== nextIds.length ||
-      prevIds.some((id, index) => id !== nextIds[index]);
-
-    if (!hasChanged) {
-      return;
-    }
-
-    setValue('interestIds', nextIds, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  }, [getValues, interests, setValue]);
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -59,6 +40,14 @@ export default function InterestsField() {
     }
     void trigger('interestIds');
   }, [projectType, clearErrors, trigger]);
+
+  const removeInterest = (interestId: number) => {
+    setValue(
+      'interestIds',
+      interestIds.filter((id) => id !== interestId),
+      { shouldDirty: true, shouldValidate: true },
+    );
+  };
 
   return (
     <div>
@@ -75,7 +64,19 @@ export default function InterestsField() {
             label="관심 분야 선택"
             onClick={() => {
               overlay.open(({ isOpen, close }) => (
-                <InterestSelectModal isOpen={isOpen} onClose={close} />
+                <InterestSelectModal
+                  isOpen={isOpen}
+                  onClose={close}
+                  initialInterests={interestIds}
+                  onSave={(newInterestIds) => {
+                    setValue('interestIds', newInterestIds, {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    });
+                  }}
+                  maxCount={2}
+                  tagVariant="sm"
+                />
               ));
             }}
             isError={!!errors.interestIds}
@@ -84,12 +85,13 @@ export default function InterestsField() {
           </DropdownButton>
         </div>
 
-        {interests.length !== 0 && (
+        {interestIds.length !== 0 && (
           <div className="ml-auto">
             <InterestTags
               variant="light"
-              interests={interests}
-              removeInterest={removeInterests}
+              interests={interestIds}
+              removeInterest={removeInterest}
+              showIndex={false}
             />
           </div>
         )}

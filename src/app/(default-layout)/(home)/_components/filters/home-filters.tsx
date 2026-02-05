@@ -1,8 +1,5 @@
 import clsx from 'clsx';
-import { overlay } from 'overlay-kit';
 import { useState } from 'react';
-import InterestSelectModal from '@/app/(header-only)/create-profile/_components/interests-modal/interest-select-modal';
-import TechStackSelectModal from '@/app/(header-only)/create-profile/_components/tech-stack-modal/tech-stack-select-modal';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import RotateIcon from '@/assets/icons/rotate/14.svg';
 import Dropdown from '@/components/commons/dropdown';
@@ -12,6 +9,8 @@ import useQueryParams from '@/hooks/filter/use-query-params';
 import type { SortType } from '@/types/filter.type';
 import HomeFilterButton from './home-filter-button';
 import HomeFilterTags from './home-filter-tags';
+import InterestFilterButton from './interest-filter-button';
+import TechStackFilterButton from './tech-stack-filter-button';
 
 /**
  * 홈 게시글의 필터링
@@ -54,36 +53,10 @@ export default function HomeFilters() {
         </Dropdown>
 
         {/* 기술 스택 필터링 */}
-        <HomeFilterButton
-          onClick={() => {
-            overlay.open(({ isOpen, close }) => (
-              <TechStackSelectModal
-                isOpen={isOpen}
-                onClose={close}
-                isFilter={true}
-              />
-            ));
-          }}
-          className="hover:bg-primary"
-        >
-          기술 스택
-        </HomeFilterButton>
+        <TechStackFilterButton />
 
         {/* 관심 분야 필터링 */}
-        <HomeFilterButton
-          onClick={() => {
-            overlay.open(({ isOpen, close }) => (
-              <InterestSelectModal
-                isOpen={isOpen}
-                onClose={close}
-                isFilter={true}
-              />
-            ));
-          }}
-          className="hover:bg-primary"
-        >
-          관심 분야
-        </HomeFilterButton>
+        <InterestFilterButton />
 
         {/* 활동 방식 필터링 */}
         <Dropdown

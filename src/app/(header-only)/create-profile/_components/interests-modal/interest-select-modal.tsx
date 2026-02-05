@@ -2,8 +2,6 @@ import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import useQueryParams from '@/hooks/filter/use-query-params';
-import useProfileStore from '@/store/profile-store';
-import type { InterestsType } from '@/types/profile.type';
 import InterestTabs from './interest-tabs';
 import InterestTags from './interest-tags';
 
@@ -11,6 +9,10 @@ interface InterestSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
   isFilter?: boolean;
+  initialInterests: number[];
+  onSave?: (interests: number[]) => void;
+  maxCount?: number;
+  tagVariant?: 'light' | 'dark' | 'sm';
 }
 
 /**
@@ -20,50 +22,37 @@ export default function InterestSelectModal({
   isOpen,
   onClose,
   isFilter = false,
+  initialInterests,
+  onSave,
+  maxCount = 5,
+  tagVariant = 'dark',
 }: InterestSelectModalProps) {
-  const interests = useProfileStore((state) => state.interests);
-  const setInterests = useProfileStore((state) => state.setInterests);
-  const { getArrayParam, setParams } = useQueryParams();
-
-  const [draftInterests, setDraftInterests] = useState<InterestsType[]>(() => {
-    // 필터링 모달이 아닌 경우
-    if (!isFilter) return interests;
-
-    // 필터링 모달인 경우
-    return getArrayParam('interests') as InterestsType[];
-  });
+  const [interests, setInterests] = useState<number[]>(initialInterests);
+  const { setParams } = useQueryParams();
 
   /**
    * 관심 분야 토글 함수
    * @param interest - 관심 분야
    */
-  const toggleInterests = (interest: InterestsType) => {
-    if (draftInterests.includes(interest)) {
-      const newInterests = draftInterests.filter(
-        (element) => element !== interest,
-      );
-      setDraftInterests(newInterests);
+  const toggleInterests = (interestId: number) => {
+    const newInterests = interests.includes(interestId)
+      ? interests.filter((id) => id !== interestId)
+      : isFilter
+        ? [...interests, interestId]
+        : interests.length >= maxCount
+          ? interests
+          : [...interests, interestId];
 
-      if (isFilter) {
-        setParams({ interests: newInterests.length > 0 ? newInterests : null });
-      }
-    } else {
-      const newInterests = [...draftInterests, interest];
-      if (!isFilter && draftInterests.length >= 5) return;
+    setInterests(newInterests);
 
-      setDraftInterests(newInterests);
-
-      if (isFilter) {
-        setParams({
-          interests: newInterests.map((interest) => interest),
-        });
-      }
+    if (isFilter) {
+      setParams({ interests: newInterests.length > 0 ? newInterests : null });
     }
   };
 
   // 저장 버튼 클릭 시 실제 관심분야 리스트 세팅
   const handleSave = () => {
-    setInterests(draftInterests);
+    onSave?.(interests);
     onClose();
   };
 
@@ -71,7 +60,7 @@ export default function InterestSelectModal({
     <Modal isOpen={isOpen} onClose={onClose}>
       <Modal.Overlay />
       <Modal.Content
-        className="flex flex-col items-center py-5 px-7 h-[480px]"
+        className="flex flex-col items-center py-5 px-7 h-120"
         size="lg"
       >
         <Modal.Title>관심 분야 선택</Modal.Title>
@@ -82,23 +71,23 @@ export default function InterestSelectModal({
 
         {/* 관심 분야 선택 탭 */}
         <InterestTabs
-          draftInterests={draftInterests}
+          draftInterests={interests}
           toggleInterests={toggleInterests}
         />
 
         {/* 현재 선택된 태그 */}
         <div className="py-6 mr-auto">
-          {draftInterests.length === 0 ? (
+          {interests.length === 0 ? (
             <span className="text-subtle body-md-regular">
               {isFilter
                 ? '선택된 태그가 없습니다'
-                : '가장 관심 있는 분야부터 순서대로 최대 5개까지 선택해주세요.'}
+                : `가장 관심 있는 분야부터 순서대로 최대 ${maxCount}개까지 선택해주세요.`}
             </span>
           ) : (
             <InterestTags
-              interests={draftInterests}
+              interests={interests}
               removeInterest={toggleInterests}
-              variant={isFilter ? 'filter' : 'dark'}
+              variant={tagVariant}
             />
           )}
         </div>
@@ -106,13 +95,15 @@ export default function InterestSelectModal({
         {/* 저장 버튼 */}
         {!isFilter && (
           <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
-            <span>{draftInterests.length}/5 선택됨</span>
+            <span>
+              {interests.length}/{maxCount} 선택됨
+            </span>
             {/* 아무것도 선택하지 않았을 경우 버튼 비활성화 */}
             <Button
               variant="solid"
               size="xs"
               onClick={handleSave}
-              disabled={draftInterests.length === 0}
+              disabled={interests.length === 0}
             >
               저장
             </Button>

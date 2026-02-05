@@ -11,7 +11,7 @@ interface TechStackSelectProps {
 
 /**
  * 기술 스택 개별 선택 컴포넌트 (체크박스, 기술 스택 이름 포함)
- * @param stack - 기술 스택
+ * @param stack - 기술 스택 이름
  * @param toggleStacks - 기술 스택 선택 토글 함수
  * @param checked - 체크 여부
  */
@@ -34,7 +34,7 @@ export default function TechStackSelect({
         {/* 기술 스택 이미지 */}
         <Image
           src={`/logo/stacks/${TECH_STACK_MAP[stack]}/24.svg`}
-          alt={`${stack}`}
+          alt={stack}
           width={24}
           height={24}
           className="ml-4 mr-3"
