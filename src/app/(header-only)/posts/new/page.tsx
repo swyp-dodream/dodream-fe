@@ -4,13 +4,11 @@ import { useRouter } from 'next/navigation';
 import PostForm from '@/app/(header-only)/posts/_components/post-form';
 import useCreatePost from '@/hooks/post/use-create-post';
 import useToast from '@/hooks/use-toast';
-import usePostCreateStore from '@/store/post-create-store';
 
 export default function PostCreatePage() {
   const toast = useToast();
   const router = useRouter();
   const { mutateAsync: createPost, isPending } = useCreatePost();
-  const resetForm = usePostCreateStore((state) => state.reset);
 
   return (
     <section className="w-198 flex flex-col gap-9">
@@ -35,7 +33,6 @@ export default function PostCreatePage() {
         onSubmit={async (values) => {
           try {
             const createdPost = await createPost(values);
-            resetForm();
             router.push(`/post/${BigInt(createdPost.id)}`);
           } catch (_error) {
             toast({
