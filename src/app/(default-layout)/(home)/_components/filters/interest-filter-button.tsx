@@ -21,6 +21,7 @@ export default function InterestFilterButton() {
         onClose={close}
         isFilter={true}
         initialInterests={interestIds}
+        tagVariant="sm"
       />
     ));
   };

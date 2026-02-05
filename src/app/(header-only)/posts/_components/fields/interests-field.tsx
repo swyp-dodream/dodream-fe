@@ -75,6 +75,7 @@ export default function InterestsField() {
                     });
                   }}
                   maxCount={2}
+                  tagVariant="sm"
                 />
               ));
             }}

@@ -9,7 +9,7 @@ import {
 interface InterestTagsProps {
   interests: number[];
   removeInterest: (interest: number) => void;
-  variant?: 'light' | 'dark' | 'filter';
+  variant?: 'light' | 'dark' | 'sm';
   showIndex?: boolean;
 }
 
@@ -45,7 +45,7 @@ export default function InterestTags({
 interface InterestTagProps {
   interestId: number;
   index: number;
-  variant?: 'light' | 'dark' | 'filter';
+  variant?: 'light' | 'dark' | 'sm';
   showIndex?: boolean;
   onRemove: () => void;
 }
@@ -75,10 +75,10 @@ function InterestTag({
         'bg-surface text-primary border border-border-primary px-4 py-3':
           variant === 'light',
         'bg-container-primary px-2 rounded-sm body-md-regular':
-          variant === 'filter',
+          variant === 'sm',
       })}
     >
-      {showIndex && variant !== 'filter' && `${INDEX_LABEL[index]} `}
+      {showIndex && variant !== 'sm' && `${INDEX_LABEL[index]} `}
       {interestLabel}
       <button type="button" onClick={onRemove}>
         <XIcon className="text-icon-light" />

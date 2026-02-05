@@ -12,6 +12,7 @@ interface InterestSelectModalProps {
   initialInterests: number[];
   onSave?: (interests: number[]) => void;
   maxCount?: number;
+  tagVariant?: 'light' | 'dark' | 'sm';
 }
 
 /**
@@ -24,6 +25,7 @@ export default function InterestSelectModal({
   initialInterests,
   onSave,
   maxCount = 5,
+  tagVariant = 'dark',
 }: InterestSelectModalProps) {
   const [interests, setInterests] = useState<number[]>(initialInterests);
   const { setParams } = useQueryParams();
@@ -85,7 +87,7 @@ export default function InterestSelectModal({
             <InterestTags
               interests={interests}
               removeInterest={toggleInterests}
-              variant={isFilter ? 'filter' : 'dark'}
+              variant={tagVariant}
             />
           )}
         </div>
