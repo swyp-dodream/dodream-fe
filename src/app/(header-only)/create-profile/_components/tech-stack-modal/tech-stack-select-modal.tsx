@@ -11,6 +11,7 @@ interface TechStackSelectModalProps {
   isFilter?: boolean;
   initialStacks: number[];
   onSave?: (stacks: number[]) => void;
+  maxCount?: number;
 }
 
 /**
@@ -22,6 +23,7 @@ export default function TechStackSelectModal({
   isFilter = false,
   initialStacks,
   onSave,
+  maxCount = 5,
 }: TechStackSelectModalProps) {
   const { setParams } = useQueryParams();
 
@@ -35,7 +37,7 @@ export default function TechStackSelectModal({
       ? stacks.filter((element) => element !== stack)
       : isFilter
         ? [...stacks, stack]
-        : stacks.length >= 5
+        : stacks.length >= maxCount
           ? stacks
           : [...stacks, stack];
 
@@ -72,7 +74,9 @@ export default function TechStackSelectModal({
         <div className="py-4 mr-auto">
           {stacks.length === 0 ? (
             <span className="text-subtle body-md-regular">
-              선택된 태그가 없습니다.
+              {isFilter
+                ? '선택된 태그가 없습니다.'
+                : `최대 ${maxCount}개까지 선택해주세요.`}
             </span>
           ) : (
             <TechStackTags stacks={stacks} removeStacks={toggleStacks} />
@@ -82,7 +86,9 @@ export default function TechStackSelectModal({
         {/* 저장 버튼 */}
         {!isFilter && (
           <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
-            <span>{stacks.length}/5 선택됨</span>
+            <span>
+              {stacks.length}/{maxCount} 선택됨
+            </span>
             <Button variant="solid" size="xs" onClick={handleSave}>
               저장
             </Button>

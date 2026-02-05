@@ -11,6 +11,7 @@ interface InterestSelectModalProps {
   isFilter?: boolean;
   initialInterests: number[];
   onSave?: (interests: number[]) => void;
+  maxCount?: number;
 }
 
 /**
@@ -22,6 +23,7 @@ export default function InterestSelectModal({
   isFilter = false,
   initialInterests,
   onSave,
+  maxCount = 5,
 }: InterestSelectModalProps) {
   const [interests, setInterests] = useState<number[]>(initialInterests);
   const { setParams } = useQueryParams();
@@ -35,7 +37,7 @@ export default function InterestSelectModal({
       ? interests.filter((id) => id !== interestId)
       : isFilter
         ? [...interests, interestId]
-        : interests.length >= 5
+        : interests.length >= maxCount
           ? interests
           : [...interests, interestId];
 
@@ -77,7 +79,7 @@ export default function InterestSelectModal({
             <span className="text-subtle body-md-regular">
               {isFilter
                 ? '선택된 태그가 없습니다'
-                : '가장 관심 있는 분야부터 순서대로 최대 5개까지 선택해주세요.'}
+                : `가장 관심 있는 분야부터 순서대로 최대 ${maxCount}개까지 선택해주세요.`}
             </span>
           ) : (
             <InterestTags
@@ -91,7 +93,9 @@ export default function InterestSelectModal({
         {/* 저장 버튼 */}
         {!isFilter && (
           <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
-            <span>{interests.length}/5 선택됨</span>
+            <span>
+              {interests.length}/{maxCount} 선택됨
+            </span>
             {/* 아무것도 선택하지 않았을 경우 버튼 비활성화 */}
             <Button
               variant="solid"

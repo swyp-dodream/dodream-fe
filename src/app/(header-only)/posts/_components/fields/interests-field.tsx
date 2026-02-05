@@ -74,6 +74,7 @@ export default function InterestsField() {
                       shouldValidate: true,
                     });
                   }}
+                  maxCount={2}
                 />
               ));
             }}
@@ -89,6 +90,7 @@ export default function InterestsField() {
               variant="light"
               interests={interestIds}
               removeInterest={removeInterest}
+              showIndex={false}
             />
           </div>
         )}

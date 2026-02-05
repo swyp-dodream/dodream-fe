@@ -54,6 +54,7 @@ export default function TechStacksField() {
                       shouldValidate: true,
                     });
                   }}
+                  maxCount={10}
                 />
               ));
             }}
@@ -64,12 +65,27 @@ export default function TechStacksField() {
         </div>
 
         {stackIds.length > 0 && (
-          <div className="ml-auto mt-4">
-            <TechStackTags
-              variant="md"
-              stacks={stackIds}
-              removeStacks={removeStack}
-            />
+          <div className="ml-auto mt-4 flex flex-col gap-4 items-end">
+            {stackIds.length <= 5 ? (
+              <TechStackTags
+                variant="md"
+                stacks={stackIds}
+                removeStacks={removeStack}
+              />
+            ) : (
+              <>
+                <TechStackTags
+                  variant="md"
+                  stacks={stackIds.slice(0, 5)}
+                  removeStacks={removeStack}
+                />
+                <TechStackTags
+                  variant="md"
+                  stacks={stackIds.slice(5)}
+                  removeStacks={removeStack}
+                />
+              </>
+            )}
           </div>
         )}
       </div>

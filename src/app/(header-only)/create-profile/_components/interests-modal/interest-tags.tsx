@@ -10,6 +10,7 @@ interface InterestTagsProps {
   interests: number[];
   removeInterest: (interest: number) => void;
   variant?: 'light' | 'dark' | 'filter';
+  showIndex?: boolean;
 }
 
 /**
@@ -17,11 +18,13 @@ interface InterestTagsProps {
  * @param interests - 관심분야 ID 리스트
  * @param removeInterest - 관심분야 삭제 함수
  * @param variant - 스타일
+ * @param showIndex - 번호 표시 여부 (기본값: true)
  */
 export default function InterestTags({
   interests,
   removeInterest,
   variant,
+  showIndex = true,
 }: InterestTagsProps) {
   return (
     <ul className="flex gap-x-4 gap-y-3 flex-wrap">
@@ -30,6 +33,7 @@ export default function InterestTags({
           key={interestId}
           index={index + 1}
           variant={variant}
+          showIndex={showIndex}
           interestId={interestId}
           onRemove={() => removeInterest(interestId)}
         />
@@ -42,6 +46,7 @@ interface InterestTagProps {
   interestId: number;
   index: number;
   variant?: 'light' | 'dark' | 'filter';
+  showIndex?: boolean;
   onRemove: () => void;
 }
 
@@ -50,12 +55,14 @@ interface InterestTagProps {
  * @param interestId - 관심 분야 ID
  * @param index - 순서
  * @param variant - 스타일
+ * @param showIndex - 번호 표시 여부
  * @param onRemove - 선택 삭제 함수
  */
 function InterestTag({
   interestId,
   index,
   variant = 'dark',
+  showIndex = true,
   onRemove,
 }: InterestTagProps) {
   const interestType = INTERESTS_ID_MAP[interestId];
@@ -71,7 +78,8 @@ function InterestTag({
           variant === 'filter',
       })}
     >
-      {`${`${variant === 'filter' ? '' : INDEX_LABEL[index]} `}${interestLabel}`}
+      {showIndex && variant !== 'filter' && `${INDEX_LABEL[index]} `}
+      {interestLabel}
       <button type="button" onClick={onRemove}>
         <XIcon className="text-icon-light" />
       </button>
