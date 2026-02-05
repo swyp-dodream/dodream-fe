@@ -29,7 +29,10 @@ export default function TechStackTabs({
       defaultValue={TECH_STACKS_BY_ROLE_KEYS[0]}
       className="w-full h-full flex flex-col"
     >
-      <Tabs.List className="flex gap-4" aria-label="역할별 기술 스택 탭">
+      <Tabs.List
+        className="flex gap-4 shrink-0"
+        aria-label="역할별 기술 스택 탭"
+      >
         {TECH_STACKS_BY_ROLE_KEYS.map((role) => (
           <Tabs.Trigger
             key={role}
@@ -40,7 +43,7 @@ export default function TechStackTabs({
           </Tabs.Trigger>
         ))}
       </Tabs.List>
-      <div className="pt-4 pb-3">
+      <div className="pt-4 pb-3 shrink-0">
         <SearchInput
           placeholder="찾고 싶은 기술 스택을 검색하세요"
           variant="dark"
@@ -60,7 +63,7 @@ export default function TechStackTabs({
           <Tabs.Content
             value={role}
             key={role}
-            className="flex-1 overflow-y-auto max-h-51.5"
+            className="flex-1 overflow-y-auto max-h-43.75"
           >
             {filteredStacks.length === 0 ? (
               <output className="flex flex-col gap-2 items-center my-6">
