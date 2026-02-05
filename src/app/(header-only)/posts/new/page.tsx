@@ -13,7 +13,7 @@ export default function PostCreatePage() {
   const resetForm = usePostCreateStore((state) => state.reset);
 
   return (
-    <section className="w-[792px] flex flex-col gap-9">
+    <section className="w-198 flex flex-col gap-9">
       <header className="pb-7 border-b-1 border-border-primary">
         <h1 className="heading-xl text-primary">모집글</h1>
       </header>
