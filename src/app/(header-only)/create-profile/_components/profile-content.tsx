@@ -180,7 +180,10 @@ export default function ProfileContent() {
                 <AgeField
                   ref={field.ref}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    if (fieldState.error) clearErrors('age');
+                  }}
                   error={fieldState.error?.message}
                 />
               )}
@@ -194,7 +197,10 @@ export default function ProfileContent() {
                 <GenderField
                   ref={field.ref}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    if (fieldState.error) clearErrors('gender');
+                  }}
                   error={fieldState.error?.message}
                 />
               )}
@@ -208,7 +214,10 @@ export default function ProfileContent() {
                 <RoleField
                   ref={field.ref}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    if (fieldState.error) clearErrors('role');
+                  }}
                   error={fieldState.error?.message}
                 />
               )}
@@ -222,7 +231,10 @@ export default function ProfileContent() {
                 <ExperienceField
                   ref={field.ref}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    if (fieldState.error) clearErrors('experience');
+                  }}
                   error={fieldState.error?.message}
                 />
               )}
@@ -236,7 +248,10 @@ export default function ProfileContent() {
                 <ActivityModeField
                   ref={field.ref}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    if (fieldState.error) clearErrors('activityMode');
+                  }}
                   error={fieldState.error?.message}
                 />
               )}
@@ -255,11 +270,15 @@ export default function ProfileContent() {
               render={({ field, fieldState }) => (
                 <InterestsField
                   interests={field.value}
-                  onChange={field.onChange}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    if (fieldState.error) clearErrors('interests');
+                  }}
                   error={fieldState.error?.message}
                 />
               )}
             />
+
             {/* 링크 선택 */}
             <LinkField
               links={watch('links')}
