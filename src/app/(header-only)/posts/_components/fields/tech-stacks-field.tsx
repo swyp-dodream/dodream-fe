@@ -10,6 +10,8 @@ import ArrowIcon from '@/assets/icons/chevron-down/16.svg';
 import DropdownButton from '@/components/commons/buttons/dropdown-button';
 import type { PostCreateFormData } from '@/schemas/post.schema';
 
+const MAX_STACKS_PER_ROW = 5;
+
 export default function TechStacksField() {
   const {
     watch,
@@ -66,7 +68,7 @@ export default function TechStacksField() {
 
         {stackIds.length > 0 && (
           <div className="ml-auto mt-4 flex flex-col gap-4 items-end">
-            {stackIds.length <= 5 ? (
+            {stackIds.length <= MAX_STACKS_PER_ROW ? (
               <TechStackTags
                 variant="md"
                 stacks={stackIds}
@@ -76,12 +78,12 @@ export default function TechStacksField() {
               <>
                 <TechStackTags
                   variant="md"
-                  stacks={stackIds.slice(0, 5)}
+                  stacks={stackIds.slice(0, MAX_STACKS_PER_ROW)}
                   removeStacks={removeStack}
                 />
                 <TechStackTags
                   variant="md"
-                  stacks={stackIds.slice(5)}
+                  stacks={stackIds.slice(MAX_STACKS_PER_ROW)}
                   removeStacks={removeStack}
                 />
               </>
