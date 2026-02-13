@@ -4,7 +4,7 @@ import { AGE_RANGE_LIST, AGE_RANGES } from '@/constants/profile.constant';
 import type { AgeRangeType } from '@/types/profile.type';
 
 interface AgeFieldProps {
-  value: AgeRangeType | null;
+  value: AgeRangeType | undefined;
   onChange: (value: AgeRangeType) => void;
   error?: string;
   ref?: Ref<HTMLButtonElement>;

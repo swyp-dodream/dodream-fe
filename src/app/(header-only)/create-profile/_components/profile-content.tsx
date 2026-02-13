@@ -3,8 +3,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
-import { useEffect, useState } from 'react';
-import { type Resolver, useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { Controller, type Resolver, useForm } from 'react-hook-form';
 import { ulid } from 'ulid';
 import WelcomeModal from '@/app/auth/_components/welcome-modal';
 import Button from '@/components/commons/buttons/button';
@@ -23,7 +23,6 @@ import type {
   ActivityModeType,
   AgeRangeType,
   ExperienceType,
-  GenderType,
   RoleType,
 } from '@/types/profile.type';
 import CreateIntroButton from './intro/create-intro-button';
@@ -48,6 +47,7 @@ export default function ProfileContent() {
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     trigger,
@@ -61,7 +61,6 @@ export default function ProfileContent() {
       profileFormSchema,
     ) as unknown as Resolver<ProfileFormData>,
     mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
     // 디폴트 값
     defaultValues: {
       nickname: '',
@@ -77,11 +76,6 @@ export default function ProfileContent() {
       acceptOffers: true,
     },
   });
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 관심분야 변경시에 에러 제거
-  useEffect(() => {
-    clearErrors('interests');
-  }, [watch('interests'), clearErrors]);
 
   /**
    * 다음 페이지 이동 핸들러
@@ -179,65 +173,92 @@ export default function ProfileContent() {
 
           <div className="flex flex-col gap-8">
             {/* 연령대 선택 */}
-            <AgeField
-              ref={register('age').ref}
-              value={watch('age') as AgeRangeType | null}
-              onChange={(value: string) => {
-                setValue('age', value as AgeRangeType);
-                clearErrors('age'); // 선택하면 에러 지우기
-              }}
-              error={errors.age?.message}
+            <Controller
+              name="age"
+              control={control}
+              render={({ field, fieldState }) => (
+                <AgeField
+                  ref={field.ref}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
+
             {/* 성별 선택 */}
-            <GenderField
-              ref={register('gender').ref}
-              value={watch('gender') as GenderType | null}
-              onChange={(value: string) => {
-                setValue('gender', value as GenderType);
-                clearErrors('gender');
-              }}
-              error={errors.gender?.message}
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field, fieldState }) => (
+                <GenderField
+                  ref={field.ref}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
+
             {/* 직군 선택 */}
-            <RoleField
-              ref={register('role').ref}
-              value={watch('role') as RoleType | null}
-              onChange={(value: string) => {
-                setValue('role', value as RoleType);
-                clearErrors('role');
-              }}
-              error={errors.role?.message}
+            <Controller
+              name="role"
+              control={control}
+              render={({ field, fieldState }) => (
+                <RoleField
+                  ref={field.ref}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
+
             {/* 경력 선택 */}
-            <ExperienceField
-              ref={register('experience').ref}
-              value={watch('experience') as ExperienceType | null}
-              onChange={(value: string) => {
-                setValue('experience', value as ExperienceType);
-                clearErrors('experience');
-              }}
-              error={errors.experience?.message}
+            <Controller
+              name="experience"
+              control={control}
+              render={({ field, fieldState }) => (
+                <ExperienceField
+                  ref={field.ref}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
+
             {/* 선호 방식 선택 */}
-            <ActivityModeField
-              ref={register('activityMode').ref}
-              value={watch('activityMode') as ActivityModeType | null}
-              onChange={(value: string) => {
-                setValue('activityMode', value as ActivityModeType);
-                clearErrors('activityMode');
-              }}
-              error={errors.activityMode?.message}
+            <Controller
+              name="activityMode"
+              control={control}
+              render={({ field, fieldState }) => (
+                <ActivityModeField
+                  ref={field.ref}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
+
             {/* 기술 스택 선택 */}
             <TechStacksField
               stacks={watch('techStacks')}
               onChange={(stacks) => setValue('techStacks', stacks)}
             />
+
             {/* 관심 분야 선택 */}
-            <InterestsField
-              interests={watch('interests')}
-              onChange={(interests) => setValue('interests', interests)}
-              error={errors.interests?.message}
+            <Controller
+              name="interests"
+              control={control}
+              render={({ field, fieldState }) => (
+                <InterestsField
+                  interests={field.value}
+                  onChange={field.onChange}
+                  error={fieldState.error?.message}
+                />
+              )}
             />
             {/* 링크 선택 */}
             <LinkField

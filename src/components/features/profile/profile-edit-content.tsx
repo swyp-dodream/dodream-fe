@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import { ulid } from 'ulid';
 import CreateIntroButton from '@/app/(header-only)/create-profile/_components/intro/create-intro-button';
 import ActivityModeField from '@/app/(header-only)/create-profile/_components/profile-fields/activity-mode-field';
@@ -45,6 +45,7 @@ export default function ProfileEditContent() {
   // React Hook Form 설정
   const {
     register,
+    control,
     handleSubmit,
     watch,
     formState: { errors },
@@ -55,7 +56,6 @@ export default function ProfileEditContent() {
   } = useForm<ProfileEditFormInput, unknown, ProfileEditFormData>({
     resolver: zodResolver(profileEditFormSchema),
     mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
     // 디폴트 값
     defaultValues: {
       nickname: '',
@@ -110,11 +110,6 @@ export default function ProfileEditContent() {
       }
     }
   }, [profile, setValue]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 관심분야 변경시에 에러 제거
-  useEffect(() => {
-    clearErrors('interests');
-  }, [watch('interests'), clearErrors]);
 
   if (!profile) return null;
 
@@ -176,36 +171,45 @@ export default function ProfileEditContent() {
 
         <div className="flex flex-col gap-8">
           {/* 직군 선택 */}
-          <RoleField
-            ref={register('role').ref}
-            value={watch('role') as RoleType | null}
-            onChange={(value: string) => {
-              setValue('role', value as RoleType);
-              clearErrors('role');
-            }}
-            error={errors.role?.message}
+          <Controller
+            name="role"
+            control={control}
+            render={({ field, fieldState }) => (
+              <RoleField
+                ref={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
 
           {/* 경력 선택 */}
-          <ExperienceField
-            ref={register('experience').ref}
-            value={watch('experience') as ExperienceType | null}
-            onChange={(value: string) => {
-              setValue('experience', value as ExperienceType);
-              clearErrors('experience');
-            }}
-            error={errors.experience?.message}
+          <Controller
+            name="experience"
+            control={control}
+            render={({ field, fieldState }) => (
+              <ExperienceField
+                ref={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
 
           {/* 선호 방식 선택 */}
-          <ActivityModeField
-            ref={register('activityMode').ref}
-            value={watch('activityMode') as ActivityModeType | null}
-            onChange={(value: string) => {
-              setValue('activityMode', value as ActivityModeType);
-              clearErrors('activityMode');
-            }}
-            error={errors.activityMode?.message}
+          <Controller
+            name="activityMode"
+            control={control}
+            render={({ field, fieldState }) => (
+              <ActivityModeField
+                ref={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
 
           {/* 기술 스택 선택 */}
@@ -215,10 +219,16 @@ export default function ProfileEditContent() {
           />
 
           {/* 관심 분야 선택 */}
-          <InterestsField
-            interests={watch('interests')}
-            onChange={(interests) => setValue('interests', interests)}
-            error={errors.interests?.message}
+          <Controller
+            name="interests"
+            control={control}
+            render={({ field, fieldState }) => (
+              <InterestsField
+                interests={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
 
           {/* 링크 선택 */}
