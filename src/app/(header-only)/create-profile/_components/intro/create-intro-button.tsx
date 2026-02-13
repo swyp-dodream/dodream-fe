@@ -21,7 +21,7 @@ import CreateIntroModal from './create-intro-modal';
 
 interface CreateIntroButtonProps {
   nickname: string;
-  age: AgeRangeType | null;
+  age: AgeRangeType | undefined;
   experience: ExperienceType;
   activityMode: ActivityModeType;
   links: LinkItemType[];

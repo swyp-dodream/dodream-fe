@@ -85,7 +85,7 @@ export default function SettingsPage() {
                 control={control}
                 render={({ field }) => (
                   <AgeField
-                    value={parseAgeValue(field.value)}
+                    value={parseAgeValue(field.value) ?? undefined}
                     onChange={(next) => field.onChange(convertAgeValue(next))}
                   />
                 )}
@@ -96,7 +96,7 @@ export default function SettingsPage() {
                 control={control}
                 render={({ field }) => (
                   <GenderField
-                    value={parseGenderValue(field.value)}
+                    value={parseGenderValue(field.value) ?? undefined}
                     onChange={(next) =>
                       field.onChange(convertGenderValue(next))
                     }

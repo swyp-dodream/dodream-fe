@@ -51,7 +51,7 @@ export default function InterestTabs({
               {INTERESTS_BY_CATEGORY[category].map((interest) => {
                 const interestId = convertInterestToId(interest);
 
-                if (interestId === null) {
+                if (interestId === undefined) {
                   return null;
                 }
 

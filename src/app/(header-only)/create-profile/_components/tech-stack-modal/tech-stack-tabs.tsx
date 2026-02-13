@@ -76,7 +76,7 @@ export default function TechStackTabs({
               <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
                 {filteredStacks.map((stack) => {
                   const stackId = convertTechStackToId(stack);
-                  if (stackId === null) return null; // 변환 실패시 스킵
+                  if (stackId === undefined) return null; // 변환 실패시 스킵
 
                   return (
                     <TechStackSelect

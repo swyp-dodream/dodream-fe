@@ -255,7 +255,7 @@ export default function ProfileEditContent() {
             {/* AI 초안 생성 버튼 */}
             <CreateIntroButton
               nickname={watch('nickname')}
-              age={null}
+              age={undefined}
               experience={watch('experience') as ExperienceType}
               activityMode={watch('activityMode') as ActivityModeType}
               links={watch('links')}
