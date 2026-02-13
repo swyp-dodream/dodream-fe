@@ -1,10 +1,9 @@
 import { Tabs } from 'radix-ui';
 import {
-  INTERESTS,
   INTERESTS_BY_CATEGORY,
   INTERESTS_BY_CATEGORY_KEYS,
 } from '@/constants/profile.constant';
-import type { InterestsType } from '@/types/profile.type';
+import { convertInterestToId } from '@/utils/profile.util';
 import InterestSelect from './interest-select';
 
 interface InterestTabsProps {
@@ -21,13 +20,6 @@ export default function InterestTabs({
   draftInterests,
   toggleInterests,
 }: InterestTabsProps) {
-  // InterestsType을 ID로 변환
-  const getInterestId = (interestType: InterestsType): number => {
-    return (
-      Object.entries(INTERESTS).findIndex(([key]) => key === interestType) + 1
-    );
-  };
-
   return (
     <Tabs.Root
       defaultValue={INTERESTS_BY_CATEGORY_KEYS[0]}
@@ -57,7 +49,12 @@ export default function InterestTabs({
           >
             <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
               {INTERESTS_BY_CATEGORY[category].map((interest) => {
-                const interestId = getInterestId(interest);
+                const interestId = convertInterestToId(interest);
+
+                if (interestId === null) {
+                  return null;
+                }
+
                 return (
                   <InterestSelect
                     key={interest}
