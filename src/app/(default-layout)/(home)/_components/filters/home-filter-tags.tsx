@@ -24,14 +24,14 @@ export default function HomeFilterTags() {
       if (key === 'techs') {
         const techIds = newValues
           .map((techName) => convertTechStackToId(techName as TechStackType))
-          .filter((id): id is number => id !== null);
+          .filter((id): id is number => id !== undefined);
         setParams({ [key]: techIds });
       } else if (key === 'interests') {
         const interestIds = newValues
           .map((interestName) =>
             convertInterestToId(interestName as InterestsType),
           )
-          .filter((id): id is number => id !== null);
+          .filter((id): id is number => id !== undefined);
         setParams({ [key]: interestIds });
       } else {
         setParams({ [key]: newValues });

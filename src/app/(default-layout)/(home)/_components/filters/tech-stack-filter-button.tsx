@@ -13,7 +13,7 @@ export default function TechStackFilterButton() {
 
     const techIds = currentTechs
       .map(convertTechStackToId)
-      .filter((id): id is number => id !== null);
+      .filter((id): id is number => id !== undefined);
 
     overlay.open(({ isOpen, close }) => (
       <TechStackSelectModal

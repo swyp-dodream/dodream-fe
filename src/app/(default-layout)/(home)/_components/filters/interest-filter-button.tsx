@@ -13,7 +13,7 @@ export default function InterestFilterButton() {
 
     const interestIds = currentInterests
       .map(convertInterestToId)
-      .filter((id): id is number => id !== null);
+      .filter((id): id is number => id !== undefined);
 
     overlay.open(({ isOpen, close }) => (
       <InterestSelectModal
