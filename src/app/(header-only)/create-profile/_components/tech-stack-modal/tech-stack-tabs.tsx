@@ -5,17 +5,17 @@ import {
   TECH_STACKS_BY_ROLE,
   TECH_STACKS_BY_ROLE_KEYS,
 } from '@/constants/profile.constant';
-import type { TechStackType } from '@/types/profile.type';
+import { convertTechStackToId } from '@/utils/profile.util';
 import TechStackSelect from './tech-stack-select';
 
 interface TechStackTabsProps {
-  draftStacks: TechStackType[];
-  toggleStacks: (stack: TechStackType) => void;
+  draftStacks: number[];
+  toggleStacks: (stackId: number) => void;
 }
 
 /**
  * 기술 스택 탭 컴포넌트 (프론트엔드/백엔드/모바일/디자인)
- * @param draftStacks - 모달에서 선택된 스택
+ * @param draftStacks - 모달에서 선택된 스택 (ID 배열)
  * @param toggleStacks - 기술 스택 토글 함수
  */
 export default function TechStackTabs({
@@ -29,7 +29,10 @@ export default function TechStackTabs({
       defaultValue={TECH_STACKS_BY_ROLE_KEYS[0]}
       className="w-full h-full flex flex-col"
     >
-      <Tabs.List className="flex gap-4" aria-label="역할별 기술 스택 탭">
+      <Tabs.List
+        className="flex gap-4 shrink-0"
+        aria-label="역할별 기술 스택 탭"
+      >
         {TECH_STACKS_BY_ROLE_KEYS.map((role) => (
           <Tabs.Trigger
             key={role}
@@ -40,7 +43,7 @@ export default function TechStackTabs({
           </Tabs.Trigger>
         ))}
       </Tabs.List>
-      <div className="pt-4 pb-3">
+      <div className="pt-4 pb-3 shrink-0">
         <SearchInput
           placeholder="찾고 싶은 기술 스택을 검색하세요"
           variant="dark"
@@ -60,7 +63,7 @@ export default function TechStackTabs({
           <Tabs.Content
             value={role}
             key={role}
-            className="flex-1 overflow-y-auto max-h-[206px]"
+            className="flex-1 overflow-y-auto max-h-43.75"
           >
             {filteredStacks.length === 0 ? (
               <output className="flex flex-col gap-2 items-center my-6">
@@ -71,14 +74,19 @@ export default function TechStackTabs({
               </output>
             ) : (
               <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
-                {filteredStacks.map((stack) => (
-                  <TechStackSelect
-                    key={stack}
-                    stack={stack}
-                    toggleStacks={() => toggleStacks(stack)}
-                    checked={draftStacks.includes(stack)}
-                  />
-                ))}
+                {filteredStacks.map((stack) => {
+                  const stackId = convertTechStackToId(stack);
+                  if (stackId === undefined) return null; // 변환 실패시 스킵
+
+                  return (
+                    <TechStackSelect
+                      key={stack}
+                      stack={stack}
+                      toggleStacks={() => toggleStacks(stackId)}
+                      checked={draftStacks.includes(stackId)}
+                    />
+                  );
+                })}
               </ul>
             )}
           </Tabs.Content>

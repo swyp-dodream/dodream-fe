@@ -3,17 +3,17 @@ import {
   INTERESTS_BY_CATEGORY,
   INTERESTS_BY_CATEGORY_KEYS,
 } from '@/constants/profile.constant';
-import type { InterestsType } from '@/types/profile.type';
+import { convertInterestToId } from '@/utils/profile.util';
 import InterestSelect from './interest-select';
 
 interface InterestTabsProps {
-  draftInterests: InterestsType[];
-  toggleInterests: (interest: InterestsType) => void;
+  draftInterests: number[];
+  toggleInterests: (interestId: number) => void;
 }
 
 /**
  * 관심 분야 탭 컴포넌트 (기술/비즈니스/사회/라이프/문화)
- * @param draftInterests - 임시 관심 분야 리스트
+ * @param draftInterests - 임시 관심 분야 ID 리스트
  * @param toggleInterests - 관심 분야 선택 토글 함수
  */
 export default function InterestTabs({
@@ -45,17 +45,26 @@ export default function InterestTabs({
           <Tabs.Content
             value={category}
             key={category}
-            className="flex-1 overflow-y-auto max-h-[206px]"
+            className="flex-1 overflow-y-auto max-h-51.5"
           >
             <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
-              {INTERESTS_BY_CATEGORY[category].map((interest) => (
-                <InterestSelect
-                  key={interest}
-                  interest={interest}
-                  checked={draftInterests.includes(interest)}
-                  toggleInterests={() => toggleInterests(interest)}
-                />
-              ))}
+              {INTERESTS_BY_CATEGORY[category].map((interest) => {
+                const interestId = convertInterestToId(interest);
+
+                if (interestId === undefined) {
+                  return null;
+                }
+
+                return (
+                  <InterestSelect
+                    key={interest}
+                    interestId={interestId}
+                    interestType={interest}
+                    checked={draftInterests.includes(interestId)}
+                    toggleInterests={() => toggleInterests(interestId)}
+                  />
+                );
+              })}
             </ul>
           </Tabs.Content>
         );

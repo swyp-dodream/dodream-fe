@@ -1,34 +1,41 @@
 import clsx from 'clsx';
 import XIcon from '@/assets/icons/x/12.svg';
-import { INDEX_LABEL, INTERESTS } from '@/constants/profile.constant';
-import type { InterestsType } from '@/types/profile.type';
+import {
+  INDEX_LABEL,
+  INTERESTS,
+  INTERESTS_ID_MAP,
+} from '@/constants/profile.constant';
 
 interface InterestTagsProps {
-  interests: InterestsType[];
-  removeInterest: (interest: InterestsType) => void;
-  variant?: 'light' | 'dark' | 'filter';
+  interests: number[];
+  removeInterest: (interest: number) => void;
+  variant?: 'light' | 'dark' | 'sm';
+  showIndex?: boolean;
 }
 
 /**
  * 선택된 관심분야 리스트 컴포넌트
- * @param draftInterests - 관심분야 리스트
- * @param removeInterest- 관심분야 삭제 함수
+ * @param interests - 관심분야 ID 리스트
+ * @param removeInterest - 관심분야 삭제 함수
  * @param variant - 스타일
+ * @param showIndex - 번호 표시 여부 (기본값: true)
  */
 export default function InterestTags({
   interests,
   removeInterest,
   variant,
+  showIndex = true,
 }: InterestTagsProps) {
   return (
     <ul className="flex gap-x-4 gap-y-3 flex-wrap">
-      {interests.map((interest, index) => (
+      {interests.map((interestId, index) => (
         <InterestTag
-          key={interest}
+          key={interestId}
           index={index + 1}
           variant={variant}
-          interest={interest}
-          onRemove={() => removeInterest(interest)}
+          showIndex={showIndex}
+          interestId={interestId}
+          onRemove={() => removeInterest(interestId)}
         />
       ))}
     </ul>
@@ -36,25 +43,31 @@ export default function InterestTags({
 }
 
 interface InterestTagProps {
-  interest: InterestsType;
+  interestId: number;
   index: number;
-  variant?: 'light' | 'dark' | 'filter';
+  variant?: 'light' | 'dark' | 'sm';
+  showIndex?: boolean;
   onRemove: () => void;
 }
 
 /**
  * 선택된 개별 관심분야 컴포넌트
- * @param interest - 관심 분야
+ * @param interestId - 관심 분야 ID
  * @param index - 순서
  * @param variant - 스타일
+ * @param showIndex - 번호 표시 여부
  * @param onRemove - 선택 삭제 함수
  */
 function InterestTag({
-  interest,
+  interestId,
   index,
   variant = 'dark',
+  showIndex = true,
   onRemove,
 }: InterestTagProps) {
+  const interestType = INTERESTS_ID_MAP[interestId];
+  const interestLabel = INTERESTS[interestType];
+
   return (
     <li
       className={clsx('flex gap-2 items-center  rounded-full body-lg-medium', {
@@ -62,10 +75,11 @@ function InterestTag({
         'bg-surface text-primary border border-border-primary px-4 py-3':
           variant === 'light',
         'bg-container-primary px-2 rounded-sm body-md-regular':
-          variant === 'filter',
+          variant === 'sm',
       })}
     >
-      {`${`${variant === 'filter' ? '' : INDEX_LABEL[index]} `}${INTERESTS[interest]}`}
+      {showIndex && variant !== 'sm' && `${INDEX_LABEL[index]} `}
+      {interestLabel}
       <button type="button" onClick={onRemove}>
         <XIcon className="text-icon-light" />
       </button>

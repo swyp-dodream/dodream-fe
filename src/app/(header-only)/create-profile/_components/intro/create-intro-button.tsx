@@ -1,14 +1,16 @@
 import { overlay } from 'overlay-kit';
-import { INTERESTS } from '@/constants/profile.constant';
+import {
+  INTERESTS,
+  INTERESTS_ID_MAP,
+  TECH_STACK_ID_MAP,
+} from '@/constants/profile.constant';
 import type {
   ActivityModeType,
   AgeRangeType,
   AiRequestType,
   ExperienceType,
-  InterestsType,
   LinkItemType,
   RoleType,
-  TechStackType,
 } from '@/types/profile.type';
 import {
   convertActivityModeValue,
@@ -19,13 +21,13 @@ import CreateIntroModal from './create-intro-modal';
 
 interface CreateIntroButtonProps {
   nickname: string;
-  age: AgeRangeType | null;
+  age: AgeRangeType | undefined;
   experience: ExperienceType;
   activityMode: ActivityModeType;
   links: LinkItemType[];
   role: RoleType;
-  interests: InterestsType[];
-  techStacks: TechStackType[];
+  interests: number[];
+  techStacks: number[];
   intro: string;
   setIntro: (text: string) => void;
 }
@@ -66,8 +68,8 @@ export default function CreateIntroButton({
       .filter((url) => url.value !== '')
       .map((url) => url.value),
     roles: [role],
-    interestKeywords: interests.map((interest) => INTERESTS[interest]),
-    techSkills: techStacks,
+    interestKeywords: interests.map((id) => INTERESTS[INTERESTS_ID_MAP[id]]),
+    techSkills: techStacks.map((id) => TECH_STACK_ID_MAP[id]),
   };
 
   return (
@@ -82,7 +84,7 @@ export default function CreateIntroButton({
           />
         ));
       }}
-      className="border border-border-brand text-brand body-lg-medium h-[34px] w-[140px] rounded-md bg-surface py-2 ml-3 hover:bg-button-ai"
+      className="border border-border-brand text-brand body-lg-medium h-8.5 w-35 rounded-md bg-surface py-2 ml-3 hover:bg-button-ai"
       type="button"
     >
       AI로 초안 작성

@@ -1,8 +1,5 @@
 import clsx from 'clsx';
-import { overlay } from 'overlay-kit';
 import { useState } from 'react';
-import InterestSelectModal from '@/app/(header-only)/create-profile/_components/interests-modal/interest-select-modal';
-import TechStackSelectModal from '@/app/(header-only)/create-profile/_components/tech-stack-modal/tech-stack-select-modal';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import RotateIcon from '@/assets/icons/rotate/14.svg';
 import Dropdown from '@/components/commons/dropdown';
@@ -12,6 +9,8 @@ import useQueryParams from '@/hooks/filter/use-query-params';
 import type { SortType } from '@/types/filter.type';
 import HomeFilterButton from './home-filter-button';
 import HomeFilterTags from './home-filter-tags';
+import InterestFilterButton from './interest-filter-button';
+import TechStackFilterButton from './tech-stack-filter-button';
 
 /**
  * 홈 게시글의 필터링
@@ -20,13 +19,18 @@ export default function HomeFilters() {
   const [isFilterOpen, setFilterOpen] = useState(true);
   // const [keyword, setKeyword] = useState('');
   const {
-    params,
-    filterParams,
+    getParam,
+    getArrayParam,
     setParams,
     clearParams,
+    filterParams,
     getBoolParam,
     setBoolParam,
   } = useQueryParams();
+
+  const currentRoles = getArrayParam('roles');
+  const currentSort = getParam('sort');
+  const currentMode = getParam('activityMode');
 
   return (
     <div>
@@ -36,43 +40,23 @@ export default function HomeFilters() {
           label="직군"
           items={ROLE_LIST.map((role) => ({
             label: role.label,
-            onSelect: () => setParams({ roles: role.value }),
+            onSelect: () => {
+              const newRoles = currentRoles.includes(role.value)
+                ? currentRoles.filter((r) => r !== role.value)
+                : [...currentRoles, role.value];
+              setParams({ roles: newRoles.length > 0 ? newRoles : null });
+            },
+            isSelected: currentRoles.includes(role.value),
           }))}
         >
           <HomeFilterButton>직군</HomeFilterButton>
         </Dropdown>
 
         {/* 기술 스택 필터링 */}
-        <HomeFilterButton
-          onClick={() => {
-            overlay.open(({ isOpen, close }) => (
-              <TechStackSelectModal
-                isOpen={isOpen}
-                onClose={close}
-                isFilter={true}
-              />
-            ));
-          }}
-          className="hover:bg-primary"
-        >
-          기술 스택
-        </HomeFilterButton>
+        <TechStackFilterButton />
 
         {/* 관심 분야 필터링 */}
-        <HomeFilterButton
-          onClick={() => {
-            overlay.open(({ isOpen, close }) => (
-              <InterestSelectModal
-                isOpen={isOpen}
-                onClose={close}
-                isFilter={true}
-              />
-            ));
-          }}
-          className="hover:bg-primary"
-        >
-          관심 분야
-        </HomeFilterButton>
+        <InterestFilterButton />
 
         {/* 활동 방식 필터링 */}
         <Dropdown
@@ -80,6 +64,7 @@ export default function HomeFilters() {
           items={ACTIVITY_MODE_LIST.map((mode) => ({
             label: mode.label,
             onSelect: () => setParams({ activityMode: mode.value }),
+            isSelected: mode.value === currentMode,
           }))}
         >
           <HomeFilterButton>활동 방식</HomeFilterButton>
@@ -87,14 +72,15 @@ export default function HomeFilters() {
 
         {/* 정렬 기준 필터링 */}
         <Dropdown
-          label={params.sort}
+          label={currentSort as SortType}
           items={SORT_LABEL_LIST.map((sortType) => ({
             label: sortType.label,
             onSelect: () => setParams({ sort: sortType.value }),
+            isSelected: sortType.value === currentSort,
           }))}
         >
           <HomeFilterButton>
-            {SORT_LABELS[(params.sort ?? 'LATEST') as SortType]}
+            {SORT_LABELS[(currentSort ?? 'LATEST') as SortType]}
           </HomeFilterButton>
         </Dropdown>
 

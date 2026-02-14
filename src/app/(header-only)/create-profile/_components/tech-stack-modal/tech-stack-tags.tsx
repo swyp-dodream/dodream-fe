@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import XIcon from '@/assets/icons/x/12.svg';
-import type { TechStackType } from '@/types/profile.type';
+import { TECH_STACK_ID_MAP } from '@/constants/profile.constant';
 
 interface TechStackTagsProps {
-  stacks: TechStackType[];
-  removeStacks: (stacks: TechStackType) => void;
+  stacks: number[];
+  removeStacks: (stack: number) => void;
   variant?: 'sm' | 'md';
 }
 
@@ -24,7 +24,7 @@ export default function TechStackTags({
       {stacks.map((stack) => (
         <TechStackTag
           key={stack}
-          stack={stack}
+          stackId={stack}
           variant={variant}
           onRemove={() => removeStacks(stack)}
         />
@@ -34,18 +34,24 @@ export default function TechStackTags({
 }
 
 interface TechStackTagProps {
-  stack: TechStackType;
+  stackId: number;
   onRemove: () => void;
   variant?: 'sm' | 'md';
 }
 
 /**
  * 선택된 개별 기술 스택 컴포넌트
- * @param stack - 기술 스택
+ * @param stackId - 기술 스택 ID
  * @param onRemove - 기술 스택 삭제 함수
  * @param variant - 스타일
  */
-function TechStackTag({ stack, onRemove, variant = 'sm' }: TechStackTagProps) {
+function TechStackTag({
+  stackId,
+  onRemove,
+  variant = 'sm',
+}: TechStackTagProps) {
+  const stackName = TECH_STACK_ID_MAP[stackId];
+
   return (
     <li
       className={clsx('flex gap-2 items-center ', {
@@ -55,7 +61,7 @@ function TechStackTag({ stack, onRemove, variant = 'sm' }: TechStackTagProps) {
           variant === 'md',
       })}
     >
-      {stack}
+      {stackName}
       <button type="button" onClick={onRemove}>
         <XIcon className="text-icon-light" />
       </button>

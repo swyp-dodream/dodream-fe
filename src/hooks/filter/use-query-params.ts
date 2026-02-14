@@ -2,7 +2,12 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PRESERVE_PARAMS } from '@/constants/filter.constant';
-import { INTERESTS, ROLE } from '@/constants/profile.constant';
+import {
+  INTERESTS,
+  INTERESTS_ID_MAP,
+  ROLE,
+  TECH_STACK_ID_MAP,
+} from '@/constants/profile.constant';
 import { getValidPage } from '@/utils/filter.util';
 
 /** 파라미터 관리 훅 */
@@ -11,18 +16,16 @@ export default function useQueryParams() {
   const router = useRouter();
   const pathname = usePathname();
 
-  /** 현재 파라미터 (객체) */
-  const getParams = () => {
-    const params: Record<string, string> = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
-    return params;
-  };
-
   /** 개별 파라미터 (단일값) */
-  const getParam = (key: string) => {
-    return searchParams.get(key);
+  const getParam = (key: string, defaultValue?: string) => {
+    const value = searchParams.get(key);
+
+    // sort의 기본값
+    if (key === 'sort' && !value) {
+      return defaultValue ?? 'LATEST';
+    }
+
+    return value ?? defaultValue ?? null;
   };
 
   /** 개별 파라미터 (배열) */
@@ -51,6 +54,29 @@ export default function useQueryParams() {
       params.delete(key);
 
       if (value === null || value === undefined || value === '') {
+        return;
+      }
+
+      // techs의 경우 number[] -> TechStackType[] 변환
+      if (key === 'techs' && Array.isArray(value)) {
+        const techNames = (value as number[])
+          .map((id) => TECH_STACK_ID_MAP[id])
+          .filter(Boolean);
+
+        techNames.forEach((tech) => {
+          params.append(key, tech);
+        });
+        return;
+      }
+
+      if (key === 'interests' && Array.isArray(value)) {
+        const interestTypes = (value as number[])
+          .map((id) => INTERESTS_ID_MAP[id])
+          .filter(Boolean);
+
+        interestTypes.forEach((interest) => {
+          params.append(key, interest);
+        });
         return;
       }
 
@@ -85,24 +111,26 @@ export default function useQueryParams() {
 
   /** 모든 파라미터 삭제 */
   const clearParams = () => {
-    const currentParams = getParams();
+    const params = new URLSearchParams();
 
-    const preservedParams = Object.fromEntries(
-      Object.entries(currentParams).filter(([key]) =>
-        (PRESERVE_PARAMS as readonly string[]).includes(key),
-      ),
-    );
+    PRESERVE_PARAMS.forEach((key) => {
+      const values = searchParams.getAll(key);
+      values.forEach((value) => {
+        if (value) params.append(key, value);
+      });
+    });
 
-    const queryString = new URLSearchParams(preservedParams).toString();
+    const queryString = params.toString();
     router.push(queryString ? `${pathname}?${queryString}` : pathname, {
       scroll: false,
     });
   };
 
   /** 필터링 탭에 나타나는 파라미터 (정렬, 모집글만 보기, 프로젝트 타입, 페이지 제외) */
-  const filterParams = Object.entries(getParams()).filter(
+  const filterParams = Array.from(searchParams.entries()).filter(
     ([key]) => !(PRESERVE_PARAMS as readonly string[]).includes(key),
   );
+
   /** 쿼리 스트링 생성 */
   const getApiQueryString = () => {
     const params = new URLSearchParams();
@@ -125,7 +153,6 @@ export default function useQueryParams() {
   };
 
   return {
-    params: getParams(),
     getParam,
     getArrayParam,
     filterParams,

@@ -4,12 +4,9 @@ import {
   AGE_RANGES,
   EXPERIENCE,
   GENDER,
-  INTERESTS,
   NICKNAME_REGEX,
   ROLE,
-  TECH_STACK_MAP,
 } from '@/constants/profile.constant';
-import type { InterestsType, TechStackType } from '@/types/profile.type';
 
 /** URL 정규식 */
 const URL_PATTERN =
@@ -62,13 +59,11 @@ export const activityModeSchema = z.enum(
 );
 
 /** 기술 스택 스키마 */
-export const techStacksSchema = z.array(
-  z.enum(Object.keys(TECH_STACK_MAP) as [TechStackType, ...TechStackType[]]),
-);
+export const techStacksSchema = z.array(z.number());
 
 /** 관심 분야 스키마 */
 export const interestsSchema = z
-  .array(z.enum(Object.keys(INTERESTS) as [InterestsType, ...InterestsType[]]))
+  .array(z.number())
   .min(1, '필수 선택 항목입니다');
 
 /** 링크 스키마 */
@@ -98,27 +93,27 @@ export const introSchema = z.string().min(1, '필수 입력 항목입니다');
 /** 전체 프로필 스키마 */
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
-  age: ageSchema.nullable().refine((val) => val !== null, {
+  age: ageSchema.optional().refine((val) => val !== undefined, {
     message: '필수 선택 항목입니다',
   }),
-  gender: genderSchema.nullable().refine((val) => val !== null, {
+  gender: genderSchema.optional().refine((val) => val !== undefined, {
     message: '필수 선택 항목입니다',
   }),
   role: roleSchema
-    .nullable()
-    .refine((val) => val !== null, {
+    .optional()
+    .refine((val) => val !== undefined, {
       message: '필수 선택 항목입니다',
     })
     .transform((val) => val!),
   experience: experienceSchema
-    .nullable()
-    .refine((val) => val !== null, {
+    .optional()
+    .refine((val) => val !== undefined, {
       message: '필수 선택 항목입니다',
     })
     .transform((val) => val!),
   activityMode: activityModeSchema
-    .nullable()
-    .refine((val) => val !== null, {
+    .optional()
+    .refine((val) => val !== undefined, {
       message: '필수 선택 항목입니다',
     })
     .transform((val) => val!),
