@@ -4,7 +4,7 @@ import { GENDER, GENDER_LIST } from '@/constants/profile.constant';
 import type { GenderType } from '@/types/profile.type';
 
 interface GenderFieldProps {
-  value: GenderType | null;
+  value: GenderType | undefined;
   onChange: (value: GenderType) => void;
   error?: string;
   ref?: Ref<HTMLButtonElement>;

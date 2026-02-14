@@ -2,8 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import { ulid } from 'ulid';
 import CreateIntroButton from '@/app/(header-only)/create-profile/_components/intro/create-intro-button';
 import ActivityModeField from '@/app/(header-only)/create-profile/_components/profile-fields/activity-mode-field';
 import ExperienceField from '@/app/(header-only)/create-profile/_components/profile-fields/experience-field';
@@ -24,38 +25,27 @@ import {
   profileEditFormSchema,
 } from '@/schemas/user.schema';
 import { clientApis } from '@/services/client.api';
-import useProfileStore from '@/store/profile-store';
 import type {
   ActivityModeType,
   ExperienceType,
-  InterestsType,
-  LinkItemType,
   RoleType,
-  TechStackType,
 } from '@/types/profile.type';
 import {
   parseActivityModeValue,
   parseExperienceValue,
-  parseInterestsValue,
   parseRoleValue,
 } from '@/utils/profile.util';
 
 export default function ProfileEditContent() {
-  const { data: profile } = useGetProfile(); // 프로필
-  const { mutate: updateProfile } = useUpdateProfile();
-
-  const techStacks = useProfileStore((state) => state.techStacks); // 기술 스택
-  const setStacks = useProfileStore((state) => state.setStacks);
-  const interests = useProfileStore((state) => state.interests); // 관심 분야
-  const setInterests = useProfileStore((state) => state.setInterests);
-  const [links, setLinks] = useState<LinkItemType[]>([{ id: '', value: '' }]); // 링크
-
   const router = useRouter();
   const toast = useToast();
+  const { data: profile } = useGetProfile();
+  const { mutate: updateProfile } = useUpdateProfile();
 
   // React Hook Form 설정
   const {
     register,
+    control,
     handleSubmit,
     watch,
     formState: { errors },
@@ -63,16 +53,18 @@ export default function ProfileEditContent() {
     setFocus,
     clearErrors, // 에러 후 재입력하면 에러 제거
     setValue, // 드롭다운 값 설정용
-  } = useForm<ProfileEditFormInput, any, ProfileEditFormData>({
+  } = useForm<ProfileEditFormInput, unknown, ProfileEditFormData>({
     resolver: zodResolver(profileEditFormSchema),
     mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
     // 디폴트 값
     defaultValues: {
       nickname: '',
       role: undefined,
       experience: undefined,
       activityMode: undefined,
+      techStacks: [],
+      interests: [],
+      links: [{ id: ulid(), value: '' }],
       intro: '',
     },
   });
@@ -80,7 +72,6 @@ export default function ProfileEditContent() {
   // profile 데이터 로드 시 폼 값 설정
   useEffect(() => {
     if (profile) {
-      // 폼 값 설정
       setValue('nickname', profile.nickname);
       setValue('role', parseRoleValue(profile.roles[0].name) as RoleType);
       setValue(
@@ -99,42 +90,26 @@ export default function ProfileEditContent() {
           id: url.id.toString(),
           value: url.url,
         }));
-        setLinks(convertedLinks);
+        setValue('links', convertedLinks);
       }
 
       // 기술 스택 설정
       if (profile.techSkills && profile.techSkills.length > 0) {
-        setStacks(
-          profile.techSkills.map((skill) => skill.name as TechStackType),
+        setValue(
+          'techStacks',
+          profile.techSkills.map((skill) => skill.id),
         );
       }
 
       // 관심 분야 설정
       if (profile.interestKeywords && profile.interestKeywords.length > 0) {
-        setInterests(
-          profile.interestKeywords
-            .map((interest) => parseInterestsValue(interest.name))
-            .filter((interest): interest is InterestsType => interest !== null),
+        setValue(
+          'interests',
+          profile.interestKeywords.map((interest) => interest.id),
         );
       }
     }
-  }, [profile, setValue, setStacks, setInterests]);
-
-  // interests 변경 시 폼에 자동 동기화
-  useEffect(() => {
-    setValue('interests', interests);
-    clearErrors('interests');
-  }, [interests, setValue, clearErrors]);
-
-  // techStacks 변경 시 폼에 자동 동기화
-  useEffect(() => {
-    setValue('techStacks', techStacks);
-  }, [techStacks, setValue]);
-
-  // links 변경 시 폼에 자동 동기화
-  useEffect(() => {
-    setValue('links', links);
-  }, [links, setValue]);
+  }, [profile, setValue]);
 
   if (!profile) return null;
 
@@ -196,46 +171,71 @@ export default function ProfileEditContent() {
 
         <div className="flex flex-col gap-8">
           {/* 직군 선택 */}
-          <RoleField
-            ref={register('role').ref}
-            value={watch('role') as RoleType | null}
-            onChange={(value: string) => {
-              setValue('role', value as RoleType);
-              clearErrors('role');
-            }}
-            error={errors.role?.message}
+          <Controller
+            name="role"
+            control={control}
+            render={({ field, fieldState }) => (
+              <RoleField
+                ref={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
 
           {/* 경력 선택 */}
-          <ExperienceField
-            ref={register('experience').ref}
-            value={watch('experience') as ExperienceType | null}
-            onChange={(value: string) => {
-              setValue('experience', value as ExperienceType);
-              clearErrors('experience');
-            }}
-            error={errors.experience?.message}
+          <Controller
+            name="experience"
+            control={control}
+            render={({ field, fieldState }) => (
+              <ExperienceField
+                ref={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
 
           {/* 선호 방식 선택 */}
-          <ActivityModeField
-            ref={register('activityMode').ref}
-            value={watch('activityMode') as ActivityModeType | null}
-            onChange={(value: string) => {
-              setValue('activityMode', value as ActivityModeType);
-              clearErrors('activityMode');
-            }}
-            error={errors.activityMode?.message}
+          <Controller
+            name="activityMode"
+            control={control}
+            render={({ field, fieldState }) => (
+              <ActivityModeField
+                ref={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
 
           {/* 기술 스택 선택 */}
-          <TechStacksField />
+          <TechStacksField
+            stacks={watch('techStacks')}
+            onChange={(stacks) => setValue('techStacks', stacks)}
+          />
 
           {/* 관심 분야 선택 */}
-          <InterestsField error={errors.interests?.message} />
+          <Controller
+            name="interests"
+            control={control}
+            render={({ field, fieldState }) => (
+              <InterestsField
+                interests={field.value}
+                onChange={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
+          />
 
           {/* 링크 선택 */}
-          <LinkField links={links} onLinksChange={setLinks} />
+          <LinkField
+            links={watch('links')}
+            onLinksChange={(links) => setValue('links', links)}
+          />
         </div>
       </fieldset>
 
@@ -251,16 +251,17 @@ export default function ProfileEditContent() {
                 작성해 주는 서비스예요. 현재까지 입력해 주신 기본정보와 자기소개
                 내용이 반영되어 작성돼요."
             />
+
             {/* AI 초안 생성 버튼 */}
             <CreateIntroButton
               nickname={watch('nickname')}
-              age={null}
+              age={undefined}
               experience={watch('experience') as ExperienceType}
               activityMode={watch('activityMode') as ActivityModeType}
-              links={links}
+              links={watch('links')}
               role={watch('role') as RoleType}
-              interests={interests}
-              techStacks={techStacks}
+              interests={watch('interests')}
+              techStacks={watch('techStacks')}
               intro={watch('intro') || ''}
               setIntro={(text) => setValue('intro', text)}
             />

@@ -4,7 +4,7 @@ import { EXPERIENCE, EXPERIENCE_LIST } from '@/constants/profile.constant';
 import type { ExperienceType } from '@/types/profile.type';
 
 interface ExperienceFieldProps {
-  value: ExperienceType | null;
+  value: ExperienceType | undefined;
   onChange: (value: string) => void;
   error?: string;
   ref?: Ref<HTMLButtonElement>;

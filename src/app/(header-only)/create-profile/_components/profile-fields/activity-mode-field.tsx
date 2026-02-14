@@ -7,7 +7,7 @@ import {
 import type { ActivityModeType } from '@/types/profile.type';
 
 interface ActivityModeFieldProps {
-  value: ActivityModeType | null;
+  value: ActivityModeType | undefined;
   onChange: (value: string) => void;
   error?: string;
   ref?: ComponentPropsWithRef<'button'>['ref'];

@@ -81,7 +81,7 @@ export default function LinkField({ links, onLinksChange }: LinkFieldProps) {
             key={`${link.id}-${link.value}`}
             id={link.id}
             placeholder="URL 입력"
-            className="w-[282px]"
+            className="w-70.5"
             value={link.value}
             onChange={(e) => handleChange(link.id, e.target.value)}
             onClear={() => handleRemove(link.id)}

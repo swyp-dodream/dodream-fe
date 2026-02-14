@@ -4,7 +4,7 @@ import { ROLE, ROLE_LIST } from '@/constants/profile.constant';
 import type { RoleType } from '@/types/profile.type';
 
 interface RoleFieldProps {
-  value: RoleType | null;
+  value: RoleType | undefined;
   onChange: (value: string) => void;
   error?: string;
   ref?: Ref<HTMLButtonElement>;
