@@ -1,12 +1,13 @@
 import Link from 'next/link';
-import { serverApis } from '@/services/server.api';
 import BannerLoginButton from './banner-login-button';
 
-export default async function Banner() {
-  const profileExists = await serverApis.profile.getProfileExists();
-
+export default async function Banner({
+  profileExists,
+}: {
+  profileExists: boolean;
+}) {
   const bgImage =
-    profileExists?.exists === true
+    profileExists === true
       ? "bg-[url('/banner/authenticated.png')]"
       : "bg-[url('/banner/unauthenticated.png')]";
 
