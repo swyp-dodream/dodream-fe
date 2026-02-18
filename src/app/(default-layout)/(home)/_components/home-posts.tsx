@@ -22,7 +22,7 @@ import HomeFilters from './filters/home-filters';
 export default function HomePosts() {
   const { getParam, setParams, filterParams, getApiQueryString, clearParams } =
     useQueryParams();
-  const { data: posts, isLoading } = useGetPosts(getApiQueryString());
+  const { data: posts, isPending } = useGetPosts(getApiQueryString());
 
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
@@ -69,7 +69,7 @@ export default function HomePosts() {
       <HomeFilters />
 
       {/* 게시물 리스트 */}
-      {isLoading || !posts ? (
+      {isPending || !posts ? (
         <ul className="grid grid-cols-3 gap-7">
           {Array.from({ length: 9 }, (_, i) => `skeleton-${i}`).map((key) => (
             <li

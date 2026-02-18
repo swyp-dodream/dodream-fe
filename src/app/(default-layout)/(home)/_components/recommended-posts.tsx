@@ -17,7 +17,7 @@ export default function RecommendedPosts({
   profileExists: boolean;
 }) {
   const [activePostType, setActivePostType] = useState<ProjectType>('PROJECT');
-  const { data: posts } = useGetRecommendedPosts(activePostType);
+  const { data: posts, isPending } = useGetRecommendedPosts(activePostType);
 
   if (profileExists !== true) return null;
 
@@ -35,7 +35,16 @@ export default function RecommendedPosts({
       </div>
 
       {/* AI 추천 게시글 */}
-      {!posts || posts.posts.length === 0 ? (
+      {isPending ? (
+        <ul className="grid grid-cols-4 gap-x-7">
+          {Array.from({ length: 4 }, (_, i) => `skeleton-${i}`).map((key) => (
+            <li
+              key={key}
+              className="h-39.25 bg-gray-200 rounded-lg animate-pulse"
+            />
+          ))}
+        </ul>
+      ) : !posts || posts.posts.length === 0 ? (
         <p className="mt-9 mb-22.75 body-lg-medium text-center">
           AI 추천 내역이 없습니다
         </p>
