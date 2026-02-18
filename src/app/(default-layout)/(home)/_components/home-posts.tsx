@@ -22,9 +22,7 @@ import HomeFilters from './filters/home-filters';
 export default function HomePosts() {
   const { getParam, setParams, filterParams, getApiQueryString, clearParams } =
     useQueryParams();
-  const { data: posts } = useGetPosts(getApiQueryString());
-
-  if (!posts) return null;
+  const { data: posts, isLoading } = useGetPosts(getApiQueryString());
 
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
@@ -42,7 +40,6 @@ export default function HomePosts() {
     setParams({ page: page });
   };
 
-  // TODO: 탭 스타일 분리
   return (
     <section
       className="col-span-12 flex flex-col gap-8"
@@ -67,8 +64,21 @@ export default function HomePosts() {
           ))}
         </Tabs.List>
       </Tabs>
+
+      {/* 필터 */}
       <HomeFilters />
-      {posts.posts.content.length === 0 ? (
+
+      {/* 게시물 리스트 */}
+      {isLoading || !posts ? (
+        <ul className="grid grid-cols-3 gap-7">
+          {Array.from({ length: 9 }, (_, i) => `skeleton-${i}`).map((key) => (
+            <li
+              key={key}
+              className="h-[272.8px] bg-gray-200 rounded-lg animate-pulse"
+            />
+          ))}
+        </ul>
+      ) : posts.posts.content.length === 0 ? (
         Object.entries(filterParams).length === 0 ? (
           <section
             className="flex flex-col gap-2 items-center justify-center body-lg-medium pt-9 pb-44"
@@ -81,7 +91,7 @@ export default function HomePosts() {
           </section>
         ) : (
           <section
-            className="flex flex-col gap-2 items-center justify-center body-lg-medium pt-9 pb-[102px]"
+            className="flex flex-col gap-2 items-center justify-center body-lg-medium pt-9 pb-25.5"
             aria-label="필터링 결과 없음"
           >
             <p>필터링 결과가 없습니다</p>
