@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Tabs } from 'radix-ui';
 import { useState } from 'react';
+import Skeleton from '@/components/commons/skeleton';
 import useGetRecommendedPosts from '@/hooks/post/use-get-recommended-posts';
 import type {
   ProjectType,
@@ -36,14 +37,11 @@ export default function RecommendedPosts({
 
       {/* AI 추천 게시글 */}
       {isPending ? (
-        <ul className="grid grid-cols-4 gap-x-7">
-          {Array.from({ length: 4 }, (_, i) => `skeleton-${i}`).map((key) => (
-            <li
-              key={key}
-              className="h-39.25 bg-gray-200 rounded-lg animate-pulse"
-            />
-          ))}
-        </ul>
+        <Skeleton
+          count={4}
+          listClassName="grid grid-cols-4 gap-x-7"
+          itemClassName="h-39.25"
+        />
       ) : !posts || posts.posts.length === 0 ? (
         <p className="mt-9 mb-22.75 body-lg-medium text-center">
           AI 추천 내역이 없습니다

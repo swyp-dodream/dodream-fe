@@ -2,6 +2,7 @@
 
 import Button from '@/components/commons/buttons/button';
 import Pagination from '@/components/commons/pagination';
+import Skeleton from '@/components/commons/skeleton';
 import { Tabs } from '@/components/commons/tabs';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import {
@@ -70,14 +71,11 @@ export default function HomePosts() {
 
       {/* 게시물 리스트 */}
       {isPending || !posts ? (
-        <ul className="grid grid-cols-3 gap-7">
-          {Array.from({ length: 9 }, (_, i) => `skeleton-${i}`).map((key) => (
-            <li
-              key={key}
-              className="h-[272.8px] bg-gray-200 rounded-lg animate-pulse"
-            />
-          ))}
-        </ul>
+        <Skeleton
+          count={9}
+          listClassName="grid grid-cols-3 gap-7"
+          itemClassName="h-[272px]"
+        />
       ) : posts.posts.content.length === 0 ? (
         Object.entries(filterParams).length === 0 ? (
           <section
