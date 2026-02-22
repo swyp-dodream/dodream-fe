@@ -109,7 +109,7 @@ export type MyAppliedPostType = {
   activityMode: ActivityModeType;
   postStatus: PostStatusType;
   leaderName: string;
-  leaderProfileImageCode: number;
+  leaderProfileImage: number;
   myStatus: MyStatusType;
   appliedAt: Date;
   roles: RoleName[];
