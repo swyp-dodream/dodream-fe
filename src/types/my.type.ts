@@ -137,7 +137,7 @@ export type MyPostOfferUserType = {
   applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
+  profileImage: number;
   status: string;
   createdAt: string;
   experience: string;

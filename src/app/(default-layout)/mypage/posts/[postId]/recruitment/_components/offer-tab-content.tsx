@@ -42,8 +42,7 @@ export default function OfferTabContent({ postId }: OfferTabContentProps) {
               .map((user) => (
                 <RecruitmentUserRow
                   postId={BigInt(postId)}
-                  // TODO: 프로필 이미지 코드 수정
-                  profileImageCode={0}
+                  profileImageCode={user.profileImage}
                   key={user.userId}
                   {...user}
                   role={user.jobGroups[0]}
