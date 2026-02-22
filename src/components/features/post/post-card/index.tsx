@@ -98,7 +98,7 @@ function Main({ children }: { children: React.ReactNode }) {
  */
 function Title({ children }: { children: React.ReactNode }) {
   // TODO: 고정 높이로 되어있는 h-[50px] 바꾸기
-  return <h2 className="heading-sm line-clamp-2 h-[50px]">{children}</h2>;
+  return <h2 className="heading-sm line-clamp-2 h-12.5">{children}</h2>;
 }
 
 /**
