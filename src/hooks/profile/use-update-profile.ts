@@ -16,8 +16,7 @@ export default function useUpdateProfile() {
     mutationFn: (data: ProfileEditFormData) => {
       const requestData: UpdateProfileRequestType = {
         nickname: data.nickname,
-        // TODO: 프로필 이미지 값 수정
-        profileImageCode: Math.floor(Math.random() * 15) + 1,
+        profileImageCode: data.profileImageCode,
         roleNames: [ROLE[data.role as RoleType]],
         experience: convertExperienceValue(data.experience),
         activityMode: convertActivityModeValue(data.activityMode),
