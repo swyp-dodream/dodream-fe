@@ -49,7 +49,7 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
 
           return (
             <li key={roleInfo.role} className="flex items-center">
-              <span className="w-[82px] body-lg-medium @max-[50vw]/chatting:body-md-medium">
+              <span className="w-20.5 body-lg-medium @max-[50vw]/chatting:body-md-medium">
                 {roleInfo.role}
               </span>
               <ul className="flex flex-row-reverse flex-1 justify-end [&>li]:relative [&>li:not(:last-child)]:-ml-3">
@@ -97,7 +97,7 @@ interface MemberInfoProps {
   member: {
     id: bigint;
     nickname: string;
-    profileUrl: string;
+    profileUrl: number;
   };
 }
 
@@ -112,7 +112,7 @@ function MemberInfo({ member }: MemberInfoProps) {
     <li className="relative group">
       <Link href="#">
         <ProfileImage
-          src={null}
+          code={member.profileUrl}
           size={32}
           className="border border-white @max-[50vw]/chatting:border-3"
         />

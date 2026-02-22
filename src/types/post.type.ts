@@ -40,7 +40,7 @@ export type PostDetailType = {
   status: PostStatusType;
   createdAt: string;
   ownerNickname: string;
-  ownerProfileImageUrl: string;
+  ownerProfileImageUrl: number;
   projectType: ProjectType;
   activityMode: ActivityModeType;
   duration: DurationType;
@@ -69,7 +69,7 @@ export type PostMemberUserType = {
   applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
+  profileImage: number;
   status: string;
   createdAt: string;
   experience: string;
