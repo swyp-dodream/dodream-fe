@@ -21,7 +21,7 @@ export type PostContentType = {
   techs: string[];
   interests: string[];
   author: string;
-  authorProfileImageCode: string;
+  authorProfileImageCode: number;
   viewCount: number;
   deadline: string;
   status: string;
