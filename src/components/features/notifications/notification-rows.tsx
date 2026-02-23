@@ -15,8 +15,6 @@ import { getDateCategory, getRelativeTime } from '@/utils/date.util';
 export default function NotificationRows() {
   const { data: notifications = [] } = useGetMyNotifications();
 
-  console.log('notifications ➡️', notifications);
-
   if (notifications.length === 0) {
     return (
       <div className="flex flex-col items-center body-sm-medium text-subtle pt-3 pb-7">
