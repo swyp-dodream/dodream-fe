@@ -75,7 +75,7 @@ export type MyPostApplicantType = {
   applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
+  profileImage: number;
   status: string;
   createdAt: string;
   experience: string;
@@ -87,7 +87,7 @@ export type MyPostApplicantDetailType = {
   applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
+  profileImage: number;
   status: string;
   createdAt: string;
   experience: string;
@@ -154,7 +154,7 @@ export type MyPostRecommendedApplicant = {
   applicationId: bigint;
   profileId: bigint;
   nickname: string;
-  profileImageUrl: string;
+  profileImageUrl: number;
   role: string;
   career: string;
   applicationMessage: string;
@@ -168,7 +168,7 @@ export type ApplicantRowUserType = {
   applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
+  profileImage: number;
   experience: string;
   role: string;
   tags?: string[];

@@ -17,7 +17,6 @@ export default function OfferedApplicantsSection({
   if (!applications) return null;
 
   // 내가 제안한 지원자만 필터링
-  // TODO: 백엔드에 필터링 요청
   const offeredApplicants = applications.users.filter(
     (user) => user.suggestionId,
   );

@@ -19,7 +19,6 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
     return <RecruitmentEmptyState tab="members" />;
   }
 
-  // const roles = [...new Set(users.users.map((user) => user.jobGroups[0]))];
   const roles = [
     ...new Set(
       users.users
@@ -49,8 +48,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                   key={user.userId}
                   {...user}
                   role={user.jobGroups[0]}
-                  // TODO: 프로필 이미지 방식 통일
-                  profileImageCode={1}
+                  profileImageCode={user.profileImage}
                   actions={
                     <UserActions>
                       {user.applicationId && (
@@ -64,7 +62,6 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                           <MathcingCancelButton
                             ownerNickname={user.nickname}
                             postId={BigInt(postId)}
-                            // TODO: 아래 수정
                             matchingId={BigInt(user.matchedId)}
                             matchedAt={new Date(user.createdAt)}
                             variant="outline"
