@@ -29,7 +29,6 @@ export default function AppliedApplicantsSection({
   if (!applications) return null;
 
   // 내가 제안하지 않은 지원자만 필터링
-  // TODO: 백엔드에 필터링 요청
   const appliedApplicants = applications.users.filter(
     (user) => !user.suggestionId,
   );

@@ -12,6 +12,7 @@ interface RecruitmentUserRowProps {
   role: string;
   tags?: string[];
   actions?: React.ReactNode;
+  href?: string;
 }
 
 export default function RecruitmentUserRow({
@@ -21,37 +22,48 @@ export default function RecruitmentUserRow({
   role,
   tags,
   actions,
+  href,
 }: RecruitmentUserRowProps) {
-  return (
-    <div className="grid grid-cols-subgrid col-span-full pb-6">
-      <Link href="#" className="grid grid-cols-subgrid col-span-6">
-        <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">
-          <ProfileImage code={profileImageCode} size={40} userName={nickname} />
-          <div className="flex flex-col">
-            <span className="body-lg-medium truncate">{nickname}</span>
-            <div className="body-sm-regular text-secondary flex items-center gap-1">
-              <span>{role}</span>
-              <span>·</span>
-              <span>
-                경력 {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
-              </span>
-            </div>
+  const InnerContent = (
+    <>
+      <div className="col-span-2 flex items-center gap-3 overflow-x-hidden">
+        <ProfileImage code={profileImageCode} size={40} userName={nickname} />
+        <div className="flex flex-col">
+          <span className="body-lg-medium truncate">{nickname}</span>
+          <div className="body-sm-regular text-secondary flex items-center gap-1">
+            <span>{role}</span>
+            <span>·</span>
+            <span>
+              경력 {EXPERIENCE[parseExperienceValue(experience) ?? 'new']}
+            </span>
           </div>
         </div>
+      </div>
 
-        {tags && (
-          <div className="col-span-4 flex items-center gap-2">
-            {tags.map((tag) => (
-              <div
-                key={tag}
-                className="bg-button-ai py-1 px-3 rounded-md body-md-medium text-brand"
-              >
-                {tag}
-              </div>
-            ))}
-          </div>
-        )}
-      </Link>
+      {tags && (
+        <div className="col-span-4 flex items-center gap-2">
+          {tags.map((tag) => (
+            <div
+              key={tag}
+              className="bg-button-ai py-1 px-3 rounded-md body-md-medium text-brand"
+            >
+              {tag}
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
+  return (
+    <div className="grid grid-cols-subgrid col-span-full pb-6">
+      {href ? (
+        <Link href={href} className="grid grid-cols-subgrid col-span-6">
+          {InnerContent}
+        </Link>
+      ) : (
+        <div className="grid grid-cols-subgrid col-span-6">{InnerContent}</div>
+      )}
 
       <div className="col-span-2 flex gap-4 justify-end">{actions}</div>
     </div>

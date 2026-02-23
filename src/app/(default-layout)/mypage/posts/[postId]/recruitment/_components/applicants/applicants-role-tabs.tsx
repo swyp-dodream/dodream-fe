@@ -95,6 +95,7 @@ export default function ApplicantsRoleTabs({
                         />
                       </UserActions>
                     }
+                    href={`/profile/${BigInt(postId)}/${BigInt(user.userId)}`}
                   />
                 ))}
               </div>
