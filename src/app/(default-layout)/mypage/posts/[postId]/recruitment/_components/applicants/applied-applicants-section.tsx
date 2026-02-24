@@ -35,27 +35,29 @@ export default function AppliedApplicantsSection({
 
   // AI 추천 버튼 클릭 핸들러
   const handleAiRecommendClick = () => {
+    toast({ title: '준비중입니다.' }); // 로직 주석 처리
+
     // 이미 데이터가 있으면 토스트만 띄우기 (캐싱)
-    if (recommendedApplicants) {
-      if (recommendedApplicants.applicants.length === 0) {
-        toast({ title: '추천하는 지원자가 없습니다' });
-      }
-      return;
-    }
+    // if (recommendedApplicants) {
+    //   if (recommendedApplicants.applicants.length === 0) {
+    //     toast({ title: '추천하는 지원자가 없습니다' });
+    //   }
+    //   return;
+    // }
 
     // 없으면 새로 생성
-    generateRecommendations(undefined, {
-      onSuccess: (data) => {
-        if (data.applicants.length === 0) {
-          toast({ title: '추천하는 지원자가 없습니다' });
-        }
-      },
-      onError: () => {
-        toast({
-          title: 'AI 추천 선별에 실패했습니다. 잠시 후 다시 시도해 주세요.',
-        });
-      },
-    });
+    // generateRecommendations(undefined, {
+    //   onSuccess: (data) => {
+    //     if (data.applicants.length === 0) {
+    //       toast({ title: '추천하는 지원자가 없습니다' });
+    //     }
+    //   },
+    //   onError: () => {
+    //     toast({
+    //       title: 'AI 추천 선별에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+    //     });
+    //   },
+    // });
   };
 
   // 일반 지원자 리스트 구성
