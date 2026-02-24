@@ -12,7 +12,7 @@ import ProfileLinks from './profile-link';
 interface ProfileContentProps {
   nickname: string;
   profileImage: number;
-  controller: React.ReactNode;
+  controller?: React.ReactNode;
   role: string;
   experience: string;
   introText: string;
