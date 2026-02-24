@@ -12,7 +12,10 @@ export default function MyMatchedPostCard({
   myMatchedPost,
 }: MatchedPostCardProps) {
   return (
-    <PostCard href={`/post/${BigInt(myMatchedPost.postId)}`}>
+    <PostCard
+      href={`/post/${BigInt(myMatchedPost.postId)}`}
+      imageCode={myMatchedPost.leaderProfileImage}
+    >
       <PostCard.Header
         postId={myMatchedPost.postId}
         nickname={myMatchedPost.leaderName}

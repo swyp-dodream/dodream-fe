@@ -33,7 +33,7 @@ export default function BookmarkedPageTabContent({
           title={bookmarkedPost.postTitle}
           status={bookmarkedPost.postStatus}
           ownerNickname={bookmarkedPost.leaderName}
-          ownerProfileImageCode={bookmarkedPost.leaderProfileImageCode}
+          ownerProfileImageCode={bookmarkedPost.leaderProfileImage}
           projectType={bookmarkedPost.projectType}
           createDate={bookmarkedPost.postCreatedAt.toString()}
           viewCount={bookmarkedPost.viewCount}

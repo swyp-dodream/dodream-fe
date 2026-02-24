@@ -21,6 +21,8 @@ export type CreateChatRoomResponseType = {
   memberId: string;
   myRole: string;
   history: ChatHistoryType[];
+  leaderProfileImageCode: number;
+  memberProfileImageCode: number;
 };
 
 /** 채팅 목록 아이템 타입 */
@@ -35,6 +37,8 @@ export type ChatListItemType = {
   lastMessage: string;
   lastMessageAt: Date;
   postId: bigint;
+  leaderProfileImageCode: number;
+  memberProfileImageCode: number;
 };
 
 /** 내 채팅방 목록 조회 응답 타입 */

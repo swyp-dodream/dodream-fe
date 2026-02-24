@@ -15,7 +15,10 @@ export default function MyPostCard({ post }: MyPostCardProps) {
   if (!profile) return null;
 
   return (
-    <PostCard href={`/post/${BigInt(post.postId)}`}>
+    <PostCard
+      href={`/post/${BigInt(post.postId)}`}
+      imageCode={profile.profileImageCode}
+    >
       <PostCard.Header
         postId={post.postId}
         nickname={profile?.nickname}

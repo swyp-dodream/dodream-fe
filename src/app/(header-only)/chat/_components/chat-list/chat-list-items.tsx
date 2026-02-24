@@ -52,6 +52,11 @@ function ChatListItem({
   onSelectChat,
   isSelected,
 }: ChatListItemProps) {
+  const { myRole, leaderProfileImageCode, memberProfileImageCode } =
+    chatListItem;
+  const oppositeProfileImageCode =
+    myRole === 'LEADER' ? memberProfileImageCode : leaderProfileImageCode;
+
   return (
     <li>
       <button
@@ -63,7 +68,11 @@ function ChatListItem({
         onClick={() => onSelectChat(chatListItem)}
       >
         {/* 프로필 이미지 */}
-        <ProfileImage src={null} size={40} userName={chatListItem.roomName} />
+        <ProfileImage
+          code={oppositeProfileImageCode}
+          size={40}
+          userName={chatListItem.roomName}
+        />
 
         {/* 채팅 정보 */}
         <div className="w-full min-w-0">

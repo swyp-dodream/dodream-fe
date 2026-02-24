@@ -93,6 +93,7 @@ export const introSchema = z.string().min(1, '필수 입력 항목입니다');
 /** 전체 프로필 스키마 */
 export const profileFormSchema = z.object({
   nickname: nicknameSchema,
+  profileImageCode: z.number(),
   age: ageSchema.optional().refine((val) => val !== undefined, {
     message: '필수 선택 항목입니다',
   }),

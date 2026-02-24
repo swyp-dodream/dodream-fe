@@ -48,9 +48,8 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
       <section className="col-span-8 flex flex-col">
         <div className="flex items-center body-lg-medium">
           {/* 프로필, 작성 시간 영역 */}
-          {/* TODO: 프로필 이미지로 수정 */}
           <ProfileImage
-            src={null}
+            code={postData.ownerProfileImageUrl}
             size={40}
             userName={postData.ownerNickname}
           />
@@ -69,7 +68,6 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
             ) : (
               <>
                 {/* 북마크 버튼 */}
-                {/* TODO: 북마크 버튼 수정 */}
                 <PostBookmarkButton
                   isBookmarked={postData.isBookmarked}
                   postId={BigInt(postData.id)}
@@ -111,7 +109,7 @@ export default function PostPageClient({ postId }: PostPageClientProps) {
         {!isClosed ? (
           <PostDetailButtons postId={postData.id} />
         ) : (
-          <div className="flex items-center justify-center h-[50px] body-lg-medium bg-disabled text-text-on-brand p-3 w-full rounded-md">
+          <div className="flex items-center justify-center h-12.5 body-lg-medium bg-disabled text-text-on-brand p-3 w-full rounded-md">
             모집 마감
           </div>
         )}
