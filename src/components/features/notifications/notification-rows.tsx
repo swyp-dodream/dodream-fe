@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { overlay } from 'overlay-kit';
 import { DropdownMenu } from 'radix-ui';
 import ProfileImage from '@/components/commons/profile-image';
 import { NOTIFICATION_ICON } from '@/constants/notification.constant';
@@ -8,6 +9,7 @@ import useGetMyNotifications from '@/hooks/notification/use-get-my-notifications
 import useReadNotifications from '@/hooks/notification/use-read-notification';
 import type { NotificationResponseType } from '@/types/notification.type';
 import { getDateCategory, getRelativeTime } from '@/utils/date.util';
+import CreateReviewModal from '../reviews/create-review-modal';
 
 /**
  * 알림 행 전체 컴포넌트
@@ -88,7 +90,10 @@ function NotificationRow({ notification }: NotificationRowProps) {
     } else if (notification.type === 'APPLICATION_ACCEPTED') {
       router.push('/mypage/participations?tab=matched');
     } else if (notification.type === 'REVIEW_ACTIVATED') {
-      // TODO - 후기 작성 활성화 -> 매칭 내역 후기 남기기 모달 띄우기
+      // TODO - 이미 후기 작성한 상태면 모달 대신 토스트 띄우기
+      overlay.open(({ isOpen, close }) => (
+        <CreateReviewModal isOpen={isOpen} onClose={close} />
+      ));
     } else if (notification.type === 'FEEDBACK_WRITTEN') {
       // TODO - 후기 등록 -> 매칭 내역 후기 확인 모달 띄우기
     }
