@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useReducer } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import { members } from '@/mocks/review';
+import { members } from '@/mocks/review.mock';
 import type { Reaction, ReviewState, ReviewTag } from '@/types/review.type';
 import { reviewReducer } from '@/utils/review.util';
 import ReviewDetailSelect from './review-detail-select';

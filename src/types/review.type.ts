@@ -1,3 +1,13 @@
+/** 리뷰 응답 타입 */
+export type ReviewResponseType = {
+  feedbackId: bigint;
+  postId: bigint;
+  postTitle: string;
+  feedbackType: Reaction;
+  options: ReviewTag[];
+  receivedAt: string;
+};
+
 export type ReviewTag =
   | 'GOOD_COMMUNICATION'
   | 'KEEPS_PROMISES'
