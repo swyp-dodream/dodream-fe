@@ -65,14 +65,14 @@ export default function ViewReviewModal({
           <p className="body-md-medium">
             {profile?.nickname}님이 받은 상세 후기예요
           </p>
-          <ul className="grid grid-cols-2 gap-y-3">
+          <ul className="grid grid-cols-2 gap-y-3 gap-x-5">
             {result.map((tag) => {
               const Icon = REVIEW_ICONS[tag.tag];
 
               return (
                 <li
                   key={tag.tag}
-                  className="flex items-center mx-3 bg-primary py-4 px-5 rounded-md justify-between"
+                  className="flex items-center bg-primary py-4 px-5 rounded-md justify-between"
                 >
                   <div className="flex items-center gap-2">
                     <Icon aria-hidden="true" className="text-primary" />
