@@ -14,7 +14,10 @@ export default function SuggestedPostCard({
   mySuggestedPost,
 }: SuggestedPostCardProps) {
   return (
-    <PostCard href={`/post/${BigInt(mySuggestedPost.postId)}`}>
+    <PostCard
+      href={`/post/${BigInt(mySuggestedPost.postId)}`}
+      imageCode={mySuggestedPost.leaderProfileImage}
+    >
       <PostCard.Header
         postId={mySuggestedPost.postId}
         nickname={mySuggestedPost.leaderName}

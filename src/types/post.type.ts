@@ -21,7 +21,7 @@ export type PostContentType = {
   techs: string[];
   interests: string[];
   author: string;
-  authorProfileImageCode: string;
+  authorProfileImageCode: number;
   viewCount: number;
   deadline: string;
   status: string;
@@ -40,7 +40,7 @@ export type PostDetailType = {
   status: PostStatusType;
   createdAt: string;
   ownerNickname: string;
-  ownerProfileImageUrl: string;
+  ownerProfileImageUrl: number;
   projectType: ProjectType;
   activityMode: ActivityModeType;
   duration: DurationType;
@@ -69,7 +69,7 @@ export type PostMemberUserType = {
   applicationId: bigint;
   userId: bigint;
   nickname: string;
-  profileImage: string;
+  profileImage: number;
   status: string;
   createdAt: string;
   experience: string;
@@ -109,7 +109,7 @@ export type MyAppliedPostType = {
   activityMode: ActivityModeType;
   postStatus: PostStatusType;
   leaderName: string;
-  leaderProfileImageCode: number;
+  leaderProfileImage: number;
   myStatus: MyStatusType;
   appliedAt: Date;
   roles: RoleName[];

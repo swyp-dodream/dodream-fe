@@ -1,14 +1,16 @@
 /** 알림 타입 */
 export type NotificationResponseType = {
+  id: bigint;
   createdAt: string;
   updatedAt: string;
-  id: bigint;
+  senderId: bigint;
   receiverId: bigint;
   type: NotificationType;
   message: string;
   targetPostId: bigint;
   targetPostTitle: string;
   read: boolean;
+  profileImageCode: number;
 };
 
 /** 알림 종류 */

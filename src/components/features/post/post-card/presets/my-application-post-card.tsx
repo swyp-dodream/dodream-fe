@@ -12,7 +12,10 @@ export default function MyApplicationPostCard({
   myAppliedPost,
 }: MyApplicationPostCardProps) {
   return (
-    <PostCard href={`/post/${BigInt(myAppliedPost.postId)}`}>
+    <PostCard
+      href={`/post/${BigInt(myAppliedPost.postId)}`}
+      imageCode={myAppliedPost.leaderProfileImage}
+    >
       <PostCard.Header
         postId={BigInt(myAppliedPost.postId)}
         nickname={myAppliedPost.leaderName}

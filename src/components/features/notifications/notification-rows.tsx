@@ -99,12 +99,12 @@ function NotificationRow({ notification }: NotificationRowProps) {
       <button
         type="button"
         className="flex w-full gap-4 py-4 hover:bg-container-secondary-hover rounded-md px-4 focus:outline-none"
-        aria-label={`${notification.read ? '' : '읽지 않음 - '}${notification.message} - ${getRelativeTime(notification.updatedAt)}`}
+        aria-label={`${notification.read ? '' : '읽지 않음 - '}${notification.message} - ${getRelativeTime(notification.createdAt)}`}
         aria-describedby={`notification-time-${notification.id}`}
         onClick={handleClickNotification}
       >
         <div className="relative shrink-0">
-          <ProfileImage src={null} size={44} />
+          <ProfileImage code={notification.profileImageCode} size={44} />
           <div className="absolute bg-surface w-7 h-7 rounded-full top-6 left-6 flex items-center justify-center">
             <NotificationIcon className="text-icon-dark" aria-hidden="true" />
           </div>
@@ -126,9 +126,9 @@ function NotificationRow({ notification }: NotificationRowProps) {
           <time
             id={`notification-time-${notification.id}`}
             className="flex body-sm-regular text-subtle"
-            dateTime={notification.updatedAt}
+            dateTime={notification.createdAt}
           >
-            {getRelativeTime(notification.updatedAt)}
+            {getRelativeTime(notification.createdAt)}
           </time>
         </div>
       </button>

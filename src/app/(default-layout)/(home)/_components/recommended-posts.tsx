@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { Tabs } from 'radix-ui';
 import { useState } from 'react';
+import Skeleton from '@/components/commons/skeleton';
 import useGetRecommendedPosts from '@/hooks/post/use-get-recommended-posts';
-import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import type {
   ProjectType,
   RecommendedPostContentType,
@@ -12,14 +12,15 @@ import type {
 import { formatDate } from '@/utils/date.util';
 import RecommendTypes from './recommend-types';
 
-export default function RecommendedPosts() {
+export default function RecommendedPosts({
+  profileExists,
+}: {
+  profileExists: boolean;
+}) {
   const [activePostType, setActivePostType] = useState<ProjectType>('PROJECT');
+  const { data: posts, isPending } = useGetRecommendedPosts(activePostType);
 
-  const { data: profileExists } = useGetProfileExists();
-  const { data: posts } = useGetRecommendedPosts(activePostType);
-
-  // TODO: 스켈레톤 추가
-  if (!profileExists || profileExists?.exists === false || !posts) return null;
+  if (profileExists !== true) return null;
 
   return (
     <section className="col-span-12 flex flex-col gap-8">
@@ -35,8 +36,14 @@ export default function RecommendedPosts() {
       </div>
 
       {/* AI 추천 게시글 */}
-      {!posts || posts.posts.length === 0 ? (
-        <p className="mt-9 mb-[91px] body-lg-medium text-center">
+      {isPending ? (
+        <Skeleton
+          count={4}
+          listClassName="grid grid-cols-4 gap-x-7"
+          itemClassName="h-39.25"
+        />
+      ) : !posts || posts.posts.length === 0 ? (
+        <p className="mt-9 mb-22.75 body-lg-medium text-center">
           AI 추천 내역이 없습니다
         </p>
       ) : (

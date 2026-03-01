@@ -14,6 +14,7 @@ import RoleField from '@/app/(header-only)/create-profile/_components/profile-fi
 import TechStacksField from '@/app/(header-only)/create-profile/_components/profile-fields/tech-stack-field';
 import NicknameField from '@/app/(header-only)/create-profile/_components/profile-fields/user-info/nickname-field';
 import Button from '@/components/commons/buttons/button';
+import ProfileImage from '@/components/commons/profile-image';
 import TextField from '@/components/commons/text-fields/text-field';
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
@@ -71,43 +72,43 @@ export default function ProfileEditContent() {
 
   // profile 데이터 로드 시 폼 값 설정
   useEffect(() => {
-    if (profile) {
-      setValue('nickname', profile.nickname);
-      setValue('role', parseRoleValue(profile.roles[0].name) as RoleType);
+    if (!profile) return;
+    setValue('nickname', profile.nickname);
+    setValue('profileImageCode', profile.profileImageCode);
+    setValue('role', parseRoleValue(profile.roles[0].name) as RoleType);
+    setValue(
+      'experience',
+      parseExperienceValue(profile.experience) as ExperienceType,
+    );
+    setValue(
+      'activityMode',
+      parseActivityModeValue(profile.activityMode) as ActivityModeType,
+    );
+    setValue('intro', profile.introText || '');
+
+    // 링크 설정
+    if (profile.profileUrls && profile.profileUrls.length > 0) {
+      const convertedLinks = profile.profileUrls.map((url) => ({
+        id: url.id.toString(),
+        value: url.url,
+      }));
+      setValue('links', convertedLinks);
+    }
+
+    // 기술 스택 설정
+    if (profile.techSkills && profile.techSkills.length > 0) {
       setValue(
-        'experience',
-        parseExperienceValue(profile.experience) as ExperienceType,
+        'techStacks',
+        profile.techSkills.map((skill) => skill.id),
       );
+    }
+
+    // 관심 분야 설정
+    if (profile.interestKeywords && profile.interestKeywords.length > 0) {
       setValue(
-        'activityMode',
-        parseActivityModeValue(profile.activityMode) as ActivityModeType,
+        'interests',
+        profile.interestKeywords.map((interest) => interest.id),
       );
-      setValue('intro', profile.introText || '');
-
-      // 링크 설정
-      if (profile.profileUrls && profile.profileUrls.length > 0) {
-        const convertedLinks = profile.profileUrls.map((url) => ({
-          id: url.id.toString(),
-          value: url.url,
-        }));
-        setValue('links', convertedLinks);
-      }
-
-      // 기술 스택 설정
-      if (profile.techSkills && profile.techSkills.length > 0) {
-        setValue(
-          'techStacks',
-          profile.techSkills.map((skill) => skill.id),
-        );
-      }
-
-      // 관심 분야 설정
-      if (profile.interestKeywords && profile.interestKeywords.length > 0) {
-        setValue(
-          'interests',
-          profile.interestKeywords.map((interest) => interest.id),
-        );
-      }
     }
   }, [profile, setValue]);
 
@@ -134,8 +135,13 @@ export default function ProfileEditContent() {
       return;
     }
 
+    const payload = {
+      ...data,
+      profileImageCode: data.profileImageCode ?? profile.profileImageCode,
+    };
+
     // 제출 처리
-    updateProfile(data, {
+    updateProfile(payload, {
       onSuccess: () => {
         router.push('/profile/me');
       },
@@ -158,8 +164,11 @@ export default function ProfileEditContent() {
 
         {/* 유저 정보 - 프로필 이미지 및 닉네임 */}
         <section className="flex gap-8 py-8">
-          {/* TODO: 이미지 컴포넌트 분리 및 수정 */}
-          <div className="size-30 bg-primary rounded-full" />
+          <ProfileImage
+            code={profile.profileImageCode}
+            size={120}
+            userName={profile.nickname}
+          />
           <NicknameField
             value={watch('nickname')}
             {...register('nickname', {

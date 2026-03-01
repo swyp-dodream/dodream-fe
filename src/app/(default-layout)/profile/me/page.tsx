@@ -12,6 +12,7 @@ export default function ProfilePage() {
   return (
     <ProfileContent
       nickname={profile.nickname}
+      profileImage={profile.profileImageCode}
       controller={
         <Link
           href="/profile/edit"

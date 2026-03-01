@@ -14,11 +14,11 @@ import type { PostStatusType, ProjectType } from '@/types/post.type';
  */
 function Root({
   children,
-  avatarUrl,
+  imageCode,
   href = '#',
 }: {
   children: React.ReactNode;
-  avatarUrl?: string;
+  imageCode?: number;
   href?: string;
 }) {
   const childArray = React.Children.toArray(children);
@@ -33,7 +33,7 @@ function Root({
     <article className="rounded-lg border-1 border-border-primary p-7 bg-surface">
       <Link href={href} className="flex gap-4">
         {/* 왼쪽 아바타 영역 */}
-        <ProfileImage src={null} size={36} />
+        <ProfileImage code={imageCode} size={36} />
 
         {/* 오른쪽 영역 */}
         <div className="flex flex-col w-full gap-4">{contents}</div>
@@ -98,7 +98,7 @@ function Main({ children }: { children: React.ReactNode }) {
  */
 function Title({ children }: { children: React.ReactNode }) {
   // TODO: 고정 높이로 되어있는 h-[50px] 바꾸기
-  return <h2 className="heading-sm line-clamp-2 h-[50px]">{children}</h2>;
+  return <h2 className="heading-sm line-clamp-2 h-12.5">{children}</h2>;
 }
 
 /**
