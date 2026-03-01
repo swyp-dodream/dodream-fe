@@ -10,6 +10,7 @@ import useReadNotifications from '@/hooks/notification/use-read-notification';
 import type { NotificationResponseType } from '@/types/notification.type';
 import { getDateCategory, getRelativeTime } from '@/utils/date.util';
 import CreateReviewModal from '../reviews/create-review-modal';
+import ViewReviewModal from '../reviews/view-review-modal';
 
 /**
  * 알림 행 전체 컴포넌트
@@ -95,7 +96,10 @@ function NotificationRow({ notification }: NotificationRowProps) {
         <CreateReviewModal isOpen={isOpen} onClose={close} />
       ));
     } else if (notification.type === 'FEEDBACK_WRITTEN') {
-      // TODO - 후기 등록 -> 매칭 내역 후기 확인 모달 띄우기
+      // TODO - 후기 없을 때 고려
+      overlay.open(({ isOpen, close }) => (
+        <ViewReviewModal isOpen={isOpen} onClose={close} />
+      ));
     }
   };
 
