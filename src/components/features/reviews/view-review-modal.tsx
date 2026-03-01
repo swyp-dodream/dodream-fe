@@ -67,7 +67,7 @@ export default function ViewReviewModal({
           </p>
           <ul className="grid grid-cols-2 gap-y-3 gap-x-5">
             {result.map((tag) => {
-              const Icon = REVIEW_ICONS[tag.tag];
+              const Icon = REVIEW_ICONS[tag.tag][14];
 
               return (
                 <li

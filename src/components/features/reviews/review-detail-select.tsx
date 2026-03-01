@@ -24,7 +24,7 @@ export default function ReviewDetailSelect({
   return (
     <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">
       {tags.map((tag) => {
-        const Icon = REVIEW_ICONS[tag];
+        const Icon = REVIEW_ICONS[tag][14];
 
         return (
           <li key={tag} className="flex items-center mx-3">

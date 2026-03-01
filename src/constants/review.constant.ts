@@ -1,10 +1,16 @@
 import type { FC, SVGProps } from 'react';
-import CalendarCheckIcon from '@/assets/icons/calendar-check/14.svg';
-import EarIcon from '@/assets/icons/ear/14.svg';
-import HandFirstIcon from '@/assets/icons/hand-fist/14.svg';
-import KeyIcon from '@/assets/icons/key/14.svg';
-import SpeechIcon from '@/assets/icons/speech/14.svg';
-import UserRoundIcon from '@/assets/icons/users-round/14.svg';
+import CalendarCheckIcon14 from '@/assets/icons/calendar-check/14.svg';
+import CalendarCheckIcon16 from '@/assets/icons/calendar-check/16.svg';
+import EarIcon14 from '@/assets/icons/ear/14.svg';
+import EarIcon16 from '@/assets/icons/ear/16.svg';
+import HandFirstIcon14 from '@/assets/icons/hand-fist/14.svg';
+import HandFirstIcon16 from '@/assets/icons/hand-fist/16.svg';
+import KeyIcon14 from '@/assets/icons/key/14.svg';
+import KeyIcon16 from '@/assets/icons/key/16.svg';
+import SpeechIcon14 from '@/assets/icons/speech/14.svg';
+import SpeechIcon16 from '@/assets/icons/speech/16.svg';
+import UserRoundIcon14 from '@/assets/icons/users-round/14.svg';
+import UserRoundIcon16 from '@/assets/icons/users-round/16.svg';
 import type { ReviewTag } from '@/types/review.type';
 
 export const REVIEW_TAG_LABEL: Record<ReviewTag, string> = {
@@ -41,18 +47,22 @@ export const NEGATIVE_TAGS: ReviewTag[] = [
 ];
 
 /** 리뷰 태그 아이콘 */
-export const REVIEW_ICONS: Record<ReviewTag, FC<SVGProps<SVGElement>>> = {
-  GOOD_COMMUNICATION: SpeechIcon,
-  KEEPS_PROMISES: CalendarCheckIcon,
-  RESPONSIBLE: HandFirstIcon,
-  POSITIVE_ENERGY: UserRoundIcon,
-  PROBLEM_SOLVER: KeyIcon,
-  RESPECTS_OPINIONS: EarIcon,
+type ReviewIconMap = Record<
+  ReviewTag,
+  Record<14 | 16, FC<SVGProps<SVGElement>>>
+>;
 
-  POOR_COMMUNICATION: SpeechIcon,
-  BREAKS_PROMISES: CalendarCheckIcon,
-  LACKS_RESPONSIBILITY: HandFirstIcon,
-  NEGATIVE_INFLUENCE: UserRoundIcon,
-  POOR_PROBLEM_SOLVING: KeyIcon,
-  IGNORES_OPINIONS: EarIcon,
+export const REVIEW_ICONS: ReviewIconMap = {
+  GOOD_COMMUNICATION: { 14: SpeechIcon14, 16: SpeechIcon16 },
+  KEEPS_PROMISES: { 14: CalendarCheckIcon14, 16: CalendarCheckIcon16 },
+  RESPONSIBLE: { 14: HandFirstIcon14, 16: HandFirstIcon16 },
+  POSITIVE_ENERGY: { 14: UserRoundIcon14, 16: UserRoundIcon16 },
+  PROBLEM_SOLVER: { 14: KeyIcon14, 16: KeyIcon16 },
+  RESPECTS_OPINIONS: { 14: EarIcon14, 16: EarIcon16 },
+  POOR_COMMUNICATION: { 14: SpeechIcon14, 16: SpeechIcon16 },
+  BREAKS_PROMISES: { 14: CalendarCheckIcon14, 16: CalendarCheckIcon16 },
+  LACKS_RESPONSIBILITY: { 14: HandFirstIcon14, 16: HandFirstIcon16 },
+  NEGATIVE_INFLUENCE: { 14: UserRoundIcon14, 16: UserRoundIcon16 },
+  POOR_PROBLEM_SOLVING: { 14: KeyIcon14, 16: KeyIcon16 },
+  IGNORES_OPINIONS: { 14: EarIcon14, 16: EarIcon16 },
 };
