@@ -5,8 +5,8 @@ import Modal from '@/components/commons/modal';
 import { members } from '@/mocks/review';
 import type { Reaction, ReviewState, ReviewTag } from '@/types/review.type';
 import { reviewReducer } from '@/utils/review.util';
-import ReviewReactionButton from './buttons/review-reaction-button';
 import ReviewDetailSelect from './review-detail-select';
+import ReviewReactionButton from './review-reaction-button';
 
 interface CreateReviewModalProps {
   isOpen: boolean;
