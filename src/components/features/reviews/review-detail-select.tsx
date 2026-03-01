@@ -5,10 +5,10 @@ import {
   REVIEW_ICONS,
   REVIEW_TAG_LABEL,
 } from '@/constants/review.constant';
-import type { ReviewTag } from '@/types/review.type';
+import type { Reaction, ReviewTag } from '@/types/review.type';
 
 interface ReviewDetailSelectProps {
-  type?: 'positive' | 'negative';
+  type?: Reaction;
   selectedTags: ReviewTag[];
   onChange: (tags: ReviewTag[]) => void;
 }

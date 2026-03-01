@@ -1,8 +1,10 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useReducer } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import { members } from '@/mocks/review';
+import type { Reaction, ReviewState, ReviewTag } from '@/types/review.type';
+import { reviewReducer } from '@/utils/review.util';
 import ReviewReactionButton from './buttons/review-reaction-button';
 import ReviewDetailSelect from './review-detail-select';
 
@@ -11,6 +13,17 @@ interface CreateReviewModalProps {
   onClose: () => void;
 }
 
+const initialState: ReviewState = {
+  showIntro: true,
+  userIndex: 0,
+  step: 1,
+  reviews: members.map((m) => ({
+    userId: m.id,
+    reaction: null,
+    tags: [],
+  })),
+};
+
 /**
  * 리뷰 작성 모달
  */
@@ -18,32 +31,34 @@ export default function CreateReviewModal({
   isOpen,
   onClose,
 }: CreateReviewModalProps) {
-  const [showIntro, setShowIntro] = useState(true);
-  const [userIndex, setUserIndex] = useState<number>(0); // 현재 리뷰중인 유저 인덱스
-  const [step, setStep] = useState<1 | 2>(1); // 1페이지: 긍정/부정, 2페이지: 리뷰 상세
+  const [state, dispatch] = useReducer(reviewReducer, initialState);
+  const { showIntro, userIndex, step, reviews } = state;
 
   const currentUser = members[userIndex];
+  const currentReview =
+    reviews.find((r) => r.userId === currentUser.id) ?? reviews[userIndex];
+
+  // 첫 번째, 마지막 페이지인지 여부
   const isFirst = userIndex === 0 && step === 1;
   const isLast = userIndex === members.length - 1 && step === 2;
 
-  // 다음 버튼 클릭
-  const handleNextButtonClick = () => {
-    if (step === 1) {
-      setStep(2);
-    } else {
-      setUserIndex((prev) => prev + 1);
-      setStep(1);
-    }
-  };
+  // 긍정/부정 리뷰 선택
+  const handleSetReaction = (reaction: Reaction) =>
+    dispatch({
+      type: 'SET_REACTION',
+      payload: { userId: currentUser.id, reaction },
+    });
 
-  // 이전 버튼 클릭
-  const handlePrevButtonClick = () => {
-    if (step === 2) {
-      setStep(1);
-    } else {
-      setUserIndex((prev) => prev - 1);
-      setStep(2);
-    }
+  // 태그 설정
+  const handleSetTags = (tags: ReviewTag[]) =>
+    dispatch({
+      type: 'SET_TAGS',
+      payload: { userId: currentUser.id, tags },
+    });
+
+  // 리뷰 제출
+  const submitReview = () => {
+    console.log(reviews);
   };
 
   return (
@@ -80,7 +95,10 @@ export default function CreateReviewModal({
               </p>
             </section>
             <footer className="flex justify-end">
-              <Button variant="solid" onClick={() => setShowIntro(false)}>
+              <Button
+                variant="solid"
+                onClick={() => dispatch({ type: 'START_REVIEW' })}
+              >
                 다음
               </Button>
             </footer>
@@ -116,8 +134,16 @@ export default function CreateReviewModal({
                   <span className="text-error">*</span>
                 </p>
                 <div className="flex justify-between gap-5">
-                  <ReviewReactionButton variant="positive" />
-                  <ReviewReactionButton variant="negative" />
+                  <ReviewReactionButton
+                    variant="positive"
+                    selected={currentReview?.reaction === 'positive'}
+                    onClick={() => handleSetReaction('positive')}
+                  />
+                  <ReviewReactionButton
+                    variant="negative"
+                    selected={currentReview?.reaction === 'negative'}
+                    onClick={() => handleSetReaction('negative')}
+                  />
                 </div>
               </section>
             ) : (
@@ -126,7 +152,11 @@ export default function CreateReviewModal({
                 <p className="body-md-medium mt-2 mb-4">
                   {currentUser.nickname}님의 상세 후기를 선택해 주세요
                 </p>
-                <ReviewDetailSelect selectedTags={[]} onChange={() => {}} />
+                <ReviewDetailSelect
+                  type={currentReview.reaction ?? 'positive'}
+                  selectedTags={currentReview.tags}
+                  onChange={handleSetTags}
+                />
               </section>
             )}
 
@@ -135,21 +165,26 @@ export default function CreateReviewModal({
               {!isFirst && (
                 <Button
                   variant="outline"
+                  onClick={() => dispatch({ type: 'PREV' })}
                   className="h-10.5"
-                  onClick={handlePrevButtonClick}
                 >
                   이전
                 </Button>
               )}
               {isLast ? (
-                <Button variant="solid" className="h-10.5">
+                <Button
+                  variant="solid"
+                  onClick={submitReview}
+                  className="h-10.5"
+                >
                   완료
                 </Button>
               ) : (
                 <Button
                   variant="solid"
+                  disabled={!currentReview?.reaction}
+                  onClick={() => dispatch({ type: 'NEXT' })}
                   className="h-10.5"
-                  onClick={handleNextButtonClick}
                 >
                   다음
                 </Button>
