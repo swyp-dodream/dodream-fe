@@ -5,7 +5,7 @@ import Modal from '@/components/commons/modal';
 import { REVIEW_ICONS, REVIEW_TAG_LABEL } from '@/constants/review.constant';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import { reviews } from '@/mocks/review.mock';
-import type { Reaction, ReviewTag } from '@/types/review.type';
+import { getReviewSummary } from '@/utils/review.util';
 
 interface ViewReviewModalProps {
   isOpen: boolean;
@@ -18,37 +18,8 @@ export default function ViewReviewModal({
   onClose,
 }: ViewReviewModalProps) {
   const { data: profile } = useGetProfile();
-
-  // 긍정 후기 수
-  const positiveCount = reviews.filter(
-    (review) => review.feedbackType === 'positive',
-  ).length;
-
-  // 부정 후기 수
-  const negativeCount = reviews.filter(
-    (review) => review.feedbackType === 'negative',
-  ).length;
-
-  // 어떤 타입 보여줘야 하는지 확인
-  const dominantType: Reaction =
-    positiveCount >= negativeCount ? 'positive' : 'negative';
-
-  // 각 태그 개수 카운팅
-  const sortedTagCounts = reviews
-    .filter((review) => review.feedbackType === dominantType)
-    .flatMap((review) => review.options)
-    .reduce(
-      (acc, tag) => {
-        acc[tag] = (acc[tag] ?? 0) + 1;
-        return acc;
-      },
-      {} as Record<ReviewTag, number>,
-    );
-
-  // 태그 많은 순으로 정렬
-  const result = Object.entries(sortedTagCounts)
-    .sort(([, a], [, b]) => b - a)
-    .map(([tag, count]) => ({ tag: tag as ReviewTag, count }));
+  const { positiveCount, negativeCount, dominantType, result } =
+    getReviewSummary(reviews);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
