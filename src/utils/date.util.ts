@@ -1,10 +1,12 @@
 import {
   addDays,
+  addMonths,
   differenceInCalendarDays,
   differenceInDays,
   differenceInHours,
   differenceInMinutes,
   format,
+  isAfter,
   isToday,
   isYesterday,
   startOfDay,
@@ -88,4 +90,12 @@ export function getNoPaneltyDate(matchedAt: Date): string {
   const noPaneltyDate = addDays(matchedAt, 1);
 
   return format(noPaneltyDate, 'yyyy년 MM월 d일 HH:mm');
+}
+
+/**
+ * 리뷰 작성 가능한 시간인지 여부를 구하는 함수
+ * @param deadlineAt - 데드라인 날짜
+ */
+export function isReviewAvailable(deadlineAt: Date | string) {
+  return isAfter(new Date(), addMonths(new Date(deadlineAt), 1));
 }
