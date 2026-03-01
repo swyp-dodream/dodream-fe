@@ -131,12 +131,26 @@ export default function CreateReviewModal({
             {/* 이전/다음 버튼 */}
             <footer className="flex justify-end gap-5 border-t-1 border-border-primary pt-4">
               {!isFirst && (
-                <Button onClick={handlePrevButtonClick}>이전</Button>
+                <Button
+                  variant="outline"
+                  className="h-10.5"
+                  onClick={handlePrevButtonClick}
+                >
+                  이전
+                </Button>
               )}
               {isLast ? (
-                <Button>완료</Button>
+                <Button variant="solid" className="h-10.5">
+                  완료
+                </Button>
               ) : (
-                <Button onClick={handleNextButtonClick}>다음</Button>
+                <Button
+                  variant="solid"
+                  className="h-10.5"
+                  onClick={handleNextButtonClick}
+                >
+                  다음
+                </Button>
               )}
             </footer>
           </div>
