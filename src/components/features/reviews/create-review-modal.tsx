@@ -4,6 +4,7 @@ import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import { members } from '@/mocks/review';
 import ReviewReactionButton from './buttons/review-reaction-button';
+import ReviewDetailSelect from './review-detail-select';
 
 interface CreateReviewModalProps {
   isOpen: boolean;
@@ -50,7 +51,7 @@ export default function CreateReviewModal({
       <Modal.Overlay />
       <Modal.Content
         className={clsx('flex flex-col py-5 px-7', {
-          'h-88.5': !showIntro,
+          'h-90': !showIntro,
         })}
         size="lg"
       >
@@ -108,6 +109,7 @@ export default function CreateReviewModal({
 
             {/* 리뷰 선택 섹션 */}
             {step === 1 ? (
+              // 긍정/부정 평가
               <section className="flex-1">
                 <p className="body-md-medium mt-2 mb-4 flex gap-1">
                   {currentUser.nickname}님과의 협업 경험은 어떠셨나요?
@@ -119,12 +121,12 @@ export default function CreateReviewModal({
                 </div>
               </section>
             ) : (
+              // 상세 후기 체크
               <section className="flex-1">
                 <p className="body-md-medium mt-2 mb-4">
                   {currentUser.nickname}님의 상세 후기를 선택해 주세요
                 </p>
-                {/* TODO: 상세 후기 체크박스 리스트 추가 */}
-                <div>상세 후기 체크박스 리스트</div>
+                <ReviewDetailSelect selectedTags={[]} onChange={() => {}} />
               </section>
             )}
 
