@@ -2,10 +2,10 @@ import ThumbsDownIcon from '@/assets/icons/thumbs-down/14.svg';
 import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import { REVIEW_ICONS, REVIEW_TAG_LABEL } from '@/constants/review.constant';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import { reviews } from '@/mocks/review.mock';
 import { getReviewSummary } from '@/utils/review.util';
+import { ReviewTagList } from './review-tag-list';
 
 interface ViewReviewModalProps {
   isOpen: boolean;
@@ -65,26 +65,7 @@ export default function ViewReviewModal({
           <p className="body-md-medium">
             {profile?.nickname}님이 받은 상세 후기예요
           </p>
-          <ul className="grid grid-cols-2 gap-y-3 gap-x-5">
-            {result.map((tag) => {
-              const Icon = REVIEW_ICONS[tag.tag][14];
-
-              return (
-                <li
-                  key={tag.tag}
-                  className="flex items-center bg-primary py-4 px-5 rounded-md justify-between"
-                >
-                  <div className="flex items-center gap-2">
-                    <Icon aria-hidden="true" className="text-primary" />
-                    <span className="body-md-regular">
-                      {REVIEW_TAG_LABEL[tag.tag]}
-                    </span>
-                  </div>
-                  {tag.count}
-                </li>
-              );
-            })}
-          </ul>
+          <ReviewTagList reviews={result} variant="grid" />
         </section>
 
         <footer className="flex justify-end gap-5 border-t-1 border-border-primary pt-4">

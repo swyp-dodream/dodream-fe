@@ -6,10 +6,10 @@ import UsersIcon from '@/assets/icons/users/14.svg';
 import ProfileImage from '@/components/commons/profile-image';
 import TechCategories from '@/components/commons/tech-categories';
 import { EXPERIENCE } from '@/constants/profile.constant';
-import { REVIEW_ICONS, REVIEW_TAG_LABEL } from '@/constants/review.constant';
 import { reviews } from '@/mocks/review.mock';
 import { parseExperienceValue } from '@/utils/profile.util';
 import { getReviewSummary } from '@/utils/review.util';
+import { ReviewTagList } from '../reviews/review-tag-list';
 import InterestTags from './interest-tags';
 import ProfileLinks from './profile-link';
 
@@ -114,7 +114,6 @@ export default function ProfileContent({
         {/* 받은 후기 */}
         <section className="flex flex-col pb-13">
           <h3 className="heading-md mb-3">{nickname}님이 받은 후기</h3>
-
           <div className="flex items-center gap-2 text-secondary mb-7">
             <ThumbsUpIcon />
             <p className="body-md-medium">
@@ -122,24 +121,7 @@ export default function ProfileContent({
               말했어요
             </p>
           </div>
-          <ul className="flex flex-col gap-3">
-            {result.map((tag) => {
-              const Icon = REVIEW_ICONS[tag.tag][16];
-
-              return (
-                <li
-                  key={tag.tag}
-                  className="flex items-center bg-primary py-4 px-5 rounded-md justify-between body-lg-medium"
-                >
-                  <div className="flex items-center gap-3">
-                    <Icon aria-hidden="true" className="text-primary" />
-                    <span>{REVIEW_TAG_LABEL[tag.tag]}</span>
-                  </div>
-                  {tag.count}
-                </li>
-              );
-            })}
-          </ul>
+          <ReviewTagList reviews={result} />
         </section>
       </div>
     </div>
