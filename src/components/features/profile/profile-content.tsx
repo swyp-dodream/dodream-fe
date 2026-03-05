@@ -1,20 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import ArrowDownIcon from '@/assets/icons/chevron-down/14.svg';
-import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
-import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
 import ProfileImage from '@/components/commons/profile-image';
 import TechCategories from '@/components/commons/tech-categories';
 import { EXPERIENCE } from '@/constants/profile.constant';
-import { reviews } from '@/mocks/review.mock';
 import { parseExperienceValue } from '@/utils/profile.util';
-import { getReviewSummary } from '@/utils/review.util';
-import { ReviewTagList } from '../reviews/review-tag-list';
 import InterestTags from './interest-tags';
 import ProfileLinks from './profile-link';
+import ProfileReviews from './profile-reviews';
 
 interface ProfileContentProps {
   nickname: string;
@@ -49,12 +43,6 @@ export default function ProfileContent({
   profileUrls,
   techSkills,
 }: ProfileContentProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const handleToggle = () => setIsExpanded((prev) => !prev);
-
-  const { positiveCount, result } = getReviewSummary(reviews, true);
-  const visibleResult = isExpanded ? result : result.slice(0, 3);
-
   return (
     <div className="h-full grid grid-cols-12 gap-x-7 gap-y-5">
       {/* 프로필 이미지/수정 버튼 */}
@@ -119,35 +107,7 @@ export default function ProfileContent({
         </section>
 
         {/* 받은 후기 */}
-        <section className="flex flex-col pb-13">
-          <h3 className="heading-md mb-3">{nickname}님이 받은 후기</h3>
-          <div className="flex items-center gap-2 text-secondary mb-7">
-            <ThumbsUpIcon />
-            <p className="body-md-medium">
-              {reviews.length}명 중 {positiveCount}명이 함께한 경험이 좋았다고
-              말했어요
-            </p>
-          </div>
-          <ReviewTagList reviews={visibleResult} />
-
-          {result.length > 3 && (
-            <button
-              type="button"
-              onClick={handleToggle}
-              className="w-full flex justify-center items-center mt-5 text-secondary body-md-medium"
-            >
-              {isExpanded ? (
-                <div className="flex gap-2 items-center">
-                  접기 <ArrowUpIcon />
-                </div>
-              ) : (
-                <div className="flex gap-2 items-center">
-                  더보기 <ArrowDownIcon />
-                </div>
-              )}
-            </button>
-          )}
-        </section>
+        <ProfileReviews nickname={nickname} />
       </div>
     </div>
   );
