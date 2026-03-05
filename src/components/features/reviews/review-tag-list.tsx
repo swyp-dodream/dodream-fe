@@ -32,7 +32,7 @@ export function ReviewTagList({
         return (
           <li
             key={tag.tag}
-            className={`flex items-center bg-primary py-4 px-5 rounded-md justify-between ${
+            className={`flex items-center bg-primary py-4 px-5 rounded-tr-md rounded-br-md rounded-bl-md justify-between ${
               !isGrid ? 'body-lg-medium' : ''
             }`}
           >
