@@ -1,5 +1,8 @@
 'use client';
 
+import { useState } from 'react';
+import ArrowDownIcon from '@/assets/icons/chevron-down/14.svg';
+import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
 import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
@@ -46,7 +49,11 @@ export default function ProfileContent({
   profileUrls,
   techSkills,
 }: ProfileContentProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const handleToggle = () => setIsExpanded((prev) => !prev);
+
   const { positiveCount, result } = getReviewSummary(reviews, true);
+  const visibleResult = isExpanded ? result : result.slice(0, 3);
 
   return (
     <div className="h-full grid grid-cols-12 gap-x-7 gap-y-5">
@@ -121,7 +128,25 @@ export default function ProfileContent({
               말했어요
             </p>
           </div>
-          <ReviewTagList reviews={result} />
+          <ReviewTagList reviews={visibleResult} />
+
+          {result.length > 3 && (
+            <button
+              type="button"
+              onClick={handleToggle}
+              className="w-full flex justify-center items-center mt-5 text-secondary body-md-medium"
+            >
+              {isExpanded ? (
+                <div className="flex gap-2 items-center">
+                  접기 <ArrowUpIcon />
+                </div>
+              ) : (
+                <div className="flex gap-2 items-center">
+                  더보기 <ArrowDownIcon />
+                </div>
+              )}
+            </button>
+          )}
         </section>
       </div>
     </div>
