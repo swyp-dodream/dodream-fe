@@ -54,7 +54,10 @@ export function reviewReducer(
 }
 
 /** 전체 리뷰 목록 중 필요한 값만 계산 */
-export function getReviewSummary(reviews: ReviewResponseType[]) {
+export function getReviewSummary(
+  reviews: ReviewResponseType[],
+  isPositive?: boolean,
+) {
   // 긍정 리뷰 개수
   const positiveCount = reviews.filter(
     (r) => r.feedbackType === 'positive',
@@ -67,7 +70,13 @@ export function getReviewSummary(reviews: ReviewResponseType[]) {
 
   // 긍정/부정 중 더 많은 타입
   const dominantType: Reaction =
-    positiveCount >= negativeCount ? 'positive' : 'negative';
+    isPositive !== undefined
+      ? isPositive
+        ? 'positive'
+        : 'negative'
+      : positiveCount >= negativeCount
+        ? 'positive'
+        : 'negative';
 
   // 각 태그 개수 카운팅
   const sortedTagCounts = reviews

@@ -1,11 +1,15 @@
 'use client';
 
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
+import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
 import ProfileImage from '@/components/commons/profile-image';
 import TechCategories from '@/components/commons/tech-categories';
 import { EXPERIENCE } from '@/constants/profile.constant';
+import { REVIEW_ICONS, REVIEW_TAG_LABEL } from '@/constants/review.constant';
+import { reviews } from '@/mocks/review.mock';
 import { parseExperienceValue } from '@/utils/profile.util';
+import { getReviewSummary } from '@/utils/review.util';
 import InterestTags from './interest-tags';
 import ProfileLinks from './profile-link';
 
@@ -42,6 +46,8 @@ export default function ProfileContent({
   profileUrls,
   techSkills,
 }: ProfileContentProps) {
+  const { positiveCount, result } = getReviewSummary(reviews, true);
+
   return (
     <div className="h-full grid grid-cols-12 gap-x-7 gap-y-5">
       {/* 프로필 이미지/수정 버튼 */}
@@ -96,7 +102,6 @@ export default function ProfileContent({
         {/* 기술 스택 */}
         <section className="flex flex-col gap-4">
           <h3 className="heading-sm">기술 스택</h3>
-          {/* TODO: techCategories 수정 시 map 제거 */}
           <TechCategories techCategories={techSkills} />
         </section>
 
@@ -104,6 +109,37 @@ export default function ProfileContent({
         <section className="flex flex-col pt-8 pb-13 gap-4">
           <h3 className="heading-sm">관심 분야</h3>
           <InterestTags interests={interests} />
+        </section>
+
+        {/* 받은 후기 */}
+        <section className="flex flex-col pb-13">
+          <h3 className="heading-md mb-3">{nickname}님이 받은 후기</h3>
+
+          <div className="flex items-center gap-2 text-secondary mb-7">
+            <ThumbsUpIcon />
+            <p className="body-md-medium">
+              {reviews.length}명 중 {positiveCount}명이 함께한 경험이 좋았다고
+              말했어요
+            </p>
+          </div>
+          <ul className="flex flex-col gap-3">
+            {result.map((tag) => {
+              const Icon = REVIEW_ICONS[tag.tag][16];
+
+              return (
+                <li
+                  key={tag.tag}
+                  className="flex items-center bg-primary py-4 px-5 rounded-md justify-between body-lg-medium"
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon aria-hidden="true" className="text-primary" />
+                    <span>{REVIEW_TAG_LABEL[tag.tag]}</span>
+                  </div>
+                  {tag.count}
+                </li>
+              );
+            })}
+          </ul>
         </section>
       </div>
     </div>
