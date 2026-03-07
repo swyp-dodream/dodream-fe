@@ -32,7 +32,11 @@ export function reviewReducer(
     case 'SET_REACTION': {
       const reviews = state.reviews.map((r) =>
         r.userId === action.payload.userId
-          ? { ...r, reaction: action.payload.reaction }
+          ? {
+              ...r,
+              reaction: action.payload.reaction,
+              tags: [],
+            }
           : r,
       );
       return { ...state, reviews };
