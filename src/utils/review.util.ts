@@ -30,15 +30,16 @@ export function reviewReducer(
 
     // 긍정/부정 후기 선택
     case 'SET_REACTION': {
-      const reviews = state.reviews.map((r) =>
-        r.userId === action.payload.userId
-          ? {
-              ...r,
-              reaction: action.payload.reaction,
-              tags: [],
-            }
-          : r,
-      );
+      const reviews = state.reviews.map((r) => {
+        if (r.userId !== action.payload.userId) return r;
+
+        const reactionChanged = r.reaction !== action.payload.reaction;
+        return {
+          ...r,
+          reaction: action.payload.reaction,
+          tags: reactionChanged ? [] : r.tags,
+        };
+      });
       return { ...state, reviews };
     }
 
