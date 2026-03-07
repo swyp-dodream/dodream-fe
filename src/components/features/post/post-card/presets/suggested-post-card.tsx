@@ -41,7 +41,7 @@ export default function SuggestedPostCard({
       />
 
       <PostCard.Actions>
-        <ChatButton postId={mySuggestedPost.postId} />
+        <ChatButton postId={mySuggestedPost.postId} className="py-3" />
         <ApplyButton
           postId={mySuggestedPost.postId}
           variant="solid"

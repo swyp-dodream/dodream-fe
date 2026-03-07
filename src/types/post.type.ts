@@ -108,6 +108,7 @@ export type MyAppliedPostType = {
   projectType: ProjectType;
   activityMode: ActivityModeType;
   postStatus: PostStatusType;
+  deadlineAt: string;
   leaderName: string;
   leaderProfileImage: number;
   myStatus: MyStatusType;

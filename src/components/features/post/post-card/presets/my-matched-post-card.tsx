@@ -2,7 +2,9 @@ import { PostCard } from '@/components/features/post/post-card';
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import MathcingCancelButton from '@/components/features/post/post-card/buttons/matching-cancel-button';
 import type { MyMatchedPostType } from '@/types/post.type';
-import { getRelativeTime } from '@/utils/date.util';
+import { getRelativeTime, isReviewAvailable } from '@/utils/date.util';
+import CreateReviewButton from '../buttons/create-review-button';
+import ViewReviewButton from '../buttons/view-review-button';
 
 interface MatchedPostCardProps {
   myMatchedPost: MyMatchedPostType;
@@ -11,6 +13,8 @@ interface MatchedPostCardProps {
 export default function MyMatchedPostCard({
   myMatchedPost,
 }: MatchedPostCardProps) {
+  const reviewAvailable = isReviewAvailable(myMatchedPost.deadlineAt);
+
   return (
     <PostCard
       href={`/post/${BigInt(myMatchedPost.postId)}`}
@@ -39,20 +43,29 @@ export default function MyMatchedPostCard({
       />
 
       <PostCard.Actions>
-        <MathcingCancelButton
-          ownerNickname={myMatchedPost.leaderName}
-          postId={myMatchedPost.postId}
-          matchingId={myMatchedPost.id}
-          matchedAt={myMatchedPost.matchedAt}
-          variant="outline"
-          size="md"
-        />
-        <ApplyDetailButton
-          postId={BigInt(myMatchedPost.postId)}
-          applicationId={myMatchedPost.applicationId}
-          variant="solid"
-          size="md"
-        />
+        {reviewAvailable ? (
+          <>
+            <ViewReviewButton />
+            <CreateReviewButton />
+          </>
+        ) : (
+          <>
+            <MathcingCancelButton
+              ownerNickname={myMatchedPost.leaderName}
+              postId={myMatchedPost.postId}
+              matchingId={myMatchedPost.id}
+              matchedAt={myMatchedPost.matchedAt}
+              variant="outline"
+              size="md"
+            />
+            <ApplyDetailButton
+              postId={BigInt(myMatchedPost.postId)}
+              applicationId={myMatchedPost.applicationId}
+              variant="solid"
+              size="md"
+            />
+          </>
+        )}
       </PostCard.Actions>
     </PostCard>
   );
