@@ -53,7 +53,7 @@ export default function ViewReviewModal({
                 <ThumbsDownIcon />
                 <p className="body-lg-medium">
                   {reviews.length}명 중 {negativeCount}명이 {profile?.nickname}
-                  님과의 함께한 경험이 좋았다고 말했어요
+                  님과의 함께한 경험이 아쉬웠다고 말했어요
                 </p>
               </>
             )}
