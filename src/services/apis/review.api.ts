@@ -27,7 +27,7 @@ export function createReviewsApi(
       apiClient.get<ReviewResponseType[]>(`/api/feedbacks/my/${postId}`),
 
     /** 특정 게시글에서 내가 받은 리뷰 조회 */
-    getPostReviews: (postId: bigint) =>
+    getReceivedReviews: (postId: bigint) =>
       apiClient.get<ReviewResponseType[]>(`/api/feedbacks/my/post/${postId}`),
   };
 }

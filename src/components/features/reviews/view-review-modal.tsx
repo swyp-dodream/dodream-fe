@@ -3,7 +3,7 @@ import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
-import useGetMyReviews from '@/hooks/review/use-get-my-reviews';
+import useGetReceivedPostReviews from '@/hooks/review/use-get-received-post-reviews';
 import { getReviewSummary } from '@/utils/review.util';
 import { ReviewTagList } from './review-tag-list';
 
@@ -20,7 +20,7 @@ export default function ViewReviewModal({
   postId,
 }: ViewReviewModalProps) {
   const { data: profile } = useGetProfile();
-  const { data: reviews = [] } = useGetMyReviews(BigInt(postId));
+  const { data: reviews = [] } = useGetReceivedPostReviews(BigInt(postId));
   const { positiveCount, negativeCount, dominantType, result } =
     getReviewSummary(reviews);
 
