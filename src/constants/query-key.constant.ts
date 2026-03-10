@@ -41,4 +41,5 @@ export const QUERY_KEY = {
   /** 리뷰 관련 */
   reviews: 'reviews',
   userReviews: 'userReviews',
+  reviewMembers: 'reviewMembers',
 };
