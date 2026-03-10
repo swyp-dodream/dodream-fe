@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import { useEffect, useReducer } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import useGetPostMembers from '@/hooks/post/use-get-post-members';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import useCreateReview from '@/hooks/review/use-create-review';
+import useGetReviewMembers from '@/hooks/review/use-get-review-members';
 import useToast from '@/hooks/use-toast';
 import type { Reaction, ReviewState, ReviewTag } from '@/types/review.type';
 import { reviewReducer } from '@/utils/review.util';
@@ -33,7 +33,7 @@ export default function CreateReviewModal({
   postId,
 }: CreateReviewModalProps) {
   const [state, dispatch] = useReducer(reviewReducer, initialState);
-  const { data, isLoading } = useGetPostMembers(BigInt(postId));
+  const { data, isLoading } = useGetReviewMembers(BigInt(postId));
   const { data: profile } = useGetProfile();
   const { mutate: createReviews } = useCreateReview();
   const toast = useToast();
@@ -43,11 +43,11 @@ export default function CreateReviewModal({
   // 멤버 내역 로딩 완료되면 세팅
   useEffect(() => {
     if (data) {
-      dispatch({ type: 'SET_MEMBERS', payload: data.users });
+      dispatch({ type: 'SET_MEMBERS', payload: data });
     }
   }, [data]);
 
-  const members = data?.users ?? [];
+  const members = data ?? [];
   const currentUser = members[userIndex];
   const currentReview =
     reviews.find((r) => r.userId === currentUser.userId) ?? reviews[userIndex];
@@ -79,6 +79,7 @@ export default function CreateReviewModal({
           toast({
             title: '후기 작성이 완료되었습니다.',
           });
+          onClose();
         },
         onError: () => {
           toast({

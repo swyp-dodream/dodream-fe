@@ -1,11 +1,16 @@
-import type { PostMemberUserType } from './post.type';
-
 /** 리뷰 요청 타입 */
 export type ReviewRequestType = {
-  postId: bigint;
-  toUserId: bigint;
+  postId: string;
+  toUserId: string;
   feedbackType: Reaction;
   options: ReviewTag[];
+};
+
+/** 리뷰 작성할 수 있는 멤버 내역 */
+export type ReviewMemberResponseType = {
+  userId: bigint;
+  nickname: string;
+  alreadyWritten: false;
 };
 
 /** 리뷰 응답 타입 */
@@ -53,7 +58,7 @@ export type ReviewState = {
 export type ReviewAction =
   | {
       type: 'SET_MEMBERS';
-      payload: PostMemberUserType[];
+      payload: ReviewMemberResponseType[];
     }
   | { type: 'START_REVIEW' }
   | { type: 'NEXT' }

@@ -1,4 +1,5 @@
 import type {
+  ReviewMemberResponseType,
   ReviewRequestType,
   ReviewResponseType,
 } from '@/types/review.type';
@@ -11,6 +12,11 @@ export function createReviewsApi(
     /** 리뷰 작성 */
     createReviews: (payload: ReviewRequestType) =>
       apiClient.post<ReviewRequestType>(`/api/feedbacks`, payload),
+
+    getReviewMemberList: (postId: bigint) =>
+      apiClient.get<ReviewMemberResponseType[]>(
+        `/api/feedbacks/${postId}/members`,
+      ),
 
     /** 내가 받은 리뷰 조회 */
     getMyReviews: () =>
