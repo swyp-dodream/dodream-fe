@@ -7,7 +7,5 @@ export default function useGetReviewMembers(postId: bigint) {
   return useQuery<ReviewMemberResponseType[]>({
     queryKey: [],
     queryFn: () => clientApis.review.getReviewMemberList(BigInt(postId)),
-    staleTime: 10 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
   });
 }

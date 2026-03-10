@@ -102,7 +102,11 @@ function NotificationRow({ notification }: NotificationRowProps) {
     } else if (notification.type === 'FEEDBACK_WRITTEN') {
       // TODO - 후기 없을 때 고려
       overlay.open(({ isOpen, close }) => (
-        <ViewReviewModal isOpen={isOpen} onClose={close} />
+        <ViewReviewModal
+          isOpen={isOpen}
+          onClose={close}
+          postId={BigInt(notification.targetPostId)}
+        />
       ));
     }
   };

@@ -3,21 +3,24 @@ import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
-import { reviews } from '@/mocks/review.mock';
+import useGetMyReviews from '@/hooks/review/use-get-my-reviews';
 import { getReviewSummary } from '@/utils/review.util';
 import { ReviewTagList } from './review-tag-list';
 
 interface ViewReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
+  postId: bigint;
 }
 
 /** 리뷰 확인 모달 */
 export default function ViewReviewModal({
   isOpen,
   onClose,
+  postId,
 }: ViewReviewModalProps) {
   const { data: profile } = useGetProfile();
+  const { data: reviews = [] } = useGetMyReviews(BigInt(postId));
   const { positiveCount, negativeCount, dominantType, result } =
     getReviewSummary(reviews);
 

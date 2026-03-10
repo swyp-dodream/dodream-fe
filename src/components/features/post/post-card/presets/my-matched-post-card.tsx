@@ -45,7 +45,10 @@ export default function MyMatchedPostCard({
       <PostCard.Actions>
         {reviewAvailable ? (
           <>
-            <ViewReviewButton disabled={myMatchedPost.reviewCount === 0} />
+            <ViewReviewButton
+              disabled={myMatchedPost.reviewCount === 0}
+              postId={BigInt(myMatchedPost.postId)}
+            />
             <CreateReviewButton postId={BigInt(myMatchedPost.postId)} />
           </>
         ) : (
