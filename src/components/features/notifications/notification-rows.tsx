@@ -93,7 +93,11 @@ function NotificationRow({ notification }: NotificationRowProps) {
     } else if (notification.type === 'REVIEW_ACTIVATED') {
       // TODO - 이미 후기 작성한 상태면 모달 대신 토스트 띄우기
       overlay.open(({ isOpen, close }) => (
-        <CreateReviewModal isOpen={isOpen} onClose={close} />
+        <CreateReviewModal
+          isOpen={isOpen}
+          onClose={close}
+          postId={BigInt(notification.targetPostId)}
+        />
       ));
     } else if (notification.type === 'FEEDBACK_WRITTEN') {
       // TODO - 후기 없을 때 고려

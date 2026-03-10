@@ -76,23 +76,23 @@ export function getReviewSummary(
 ) {
   // 긍정 리뷰 개수
   const positiveCount = reviews.filter(
-    (r) => r.feedbackType === 'positive',
+    (r) => r.feedbackType === 'POSITIVE',
   ).length;
 
   // 부정 리뷰 개수
   const negativeCount = reviews.filter(
-    (r) => r.feedbackType === 'negative',
+    (r) => r.feedbackType === 'NEGATIVE',
   ).length;
 
   // 긍정/부정 중 더 많은 타입
   const dominantType: Reaction =
     isPositive !== undefined
       ? isPositive
-        ? 'positive'
-        : 'negative'
+        ? 'POSITIVE'
+        : 'NEGATIVE'
       : positiveCount >= negativeCount
-        ? 'positive'
-        : 'negative';
+        ? 'POSITIVE'
+        : 'NEGATIVE';
 
   // 각 태그 개수 카운팅
   const sortedTagCounts = reviews

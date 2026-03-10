@@ -40,7 +40,7 @@ export default function ViewReviewModal({
         <section className="flex flex-col gap-2 mb-9">
           <p>{profile?.nickname}님의 협업 점수는?</p>
           <div className="flex items-center gap-2">
-            {dominantType === 'positive' ? (
+            {dominantType === 'POSITIVE' ? (
               <>
                 <ThumbsUpIcon />
                 <p className="body-lg-medium">

@@ -165,14 +165,14 @@ export default function CreateReviewModal({
                 </p>
                 <div className="flex justify-between gap-5">
                   <ReviewReactionButton
-                    variant="positive"
-                    selected={currentReview?.reaction === 'positive'}
-                    onClick={() => handleSetReaction('positive')}
+                    variant="POSITIVE"
+                    selected={currentReview?.reaction === 'POSITIVE'}
+                    onClick={() => handleSetReaction('POSITIVE')}
                   />
                   <ReviewReactionButton
-                    variant="negative"
-                    selected={currentReview?.reaction === 'negative'}
-                    onClick={() => handleSetReaction('negative')}
+                    variant="NEGATIVE"
+                    selected={currentReview?.reaction === 'NEGATIVE'}
+                    onClick={() => handleSetReaction('NEGATIVE')}
                   />
                 </div>
               </section>
@@ -183,7 +183,7 @@ export default function CreateReviewModal({
                   {currentUser.nickname}님의 상세 후기를 선택해 주세요
                 </p>
                 <ReviewDetailSelect
-                  type={currentReview.reaction ?? 'positive'}
+                  type={currentReview.reaction ?? 'POSITIVE'}
                   selectedTags={currentReview.tags}
                   onChange={handleSetTags}
                 />

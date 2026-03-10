@@ -37,7 +37,7 @@ export type ReviewTag =
   | 'POOR_PROBLEM_SOLVING'
   | 'BREAKS_PROMISES';
 
-export type Reaction = 'positive' | 'negative';
+export type Reaction = 'POSITIVE' | 'NEGATIVE';
 
 export type UserReview = {
   userId: bigint;

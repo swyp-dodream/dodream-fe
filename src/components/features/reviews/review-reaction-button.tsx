@@ -26,7 +26,7 @@ export default function ReviewReactionButton({
           : 'bg-container-primary',
       )}
     >
-      {variant === 'positive' ? (
+      {variant === 'POSITIVE' ? (
         <>
           <ThumbsUpIcon />
           좋았어요
