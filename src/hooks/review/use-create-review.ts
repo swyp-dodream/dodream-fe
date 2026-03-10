@@ -18,8 +18,8 @@ export default function useCreateReview() {
           .filter((r) => r.reaction !== null)
           .map((review) =>
             clientApis.review.createReviews({
-              postId: postId.toString(),
-              toUserId: review.userId.toString(),
+              postId: BigInt(postId).toString(),
+              toUserId: BigInt(review.userId).toString(),
               feedbackType: review.reaction!,
               options: review.tags,
             }),
