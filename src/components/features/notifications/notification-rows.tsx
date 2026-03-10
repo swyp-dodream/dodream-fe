@@ -81,7 +81,7 @@ function NotificationRow({ notification }: NotificationRowProps) {
 
   const handleClickNotification = async () => {
     // 알림 읽음 처리
-    readNotification(BigInt(notification.id));
+    readNotification(notification.id);
 
     if (
       notification.type === 'PROPOSAL_SENT' ||

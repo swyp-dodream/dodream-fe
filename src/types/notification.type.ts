@@ -1,6 +1,6 @@
 /** 알림 타입 */
 export type NotificationResponseType = {
-  id: bigint;
+  id: string;
   createdAt: string;
   updatedAt: string;
   senderId: bigint;
