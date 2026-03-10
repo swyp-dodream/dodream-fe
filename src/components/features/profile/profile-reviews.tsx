@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ArrowDownIcon from '@/assets/icons/chevron-down/14.svg';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
-import { reviews } from '@/mocks/review.mock';
+import useGetReceivedReviews from '@/hooks/review/use-get-received-reviews';
 import { getReviewSummary } from '@/utils/review.util';
 import { ReviewTagList } from '../reviews/review-tag-list';
 
@@ -15,6 +15,7 @@ interface ProfileReviewsProps {
 /** 프로필의 리뷰 섹션 */
 export default function ProfileReviews({ nickname }: ProfileReviewsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { data: reviews = [] } = useGetReceivedReviews();
   const { positiveCount, result } = getReviewSummary(reviews, true);
   const visibleResult = isExpanded ? result : result.slice(0, 3);
 
