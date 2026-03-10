@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { useEffect, useReducer } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
+import { TAG_LIMIT } from '@/constants/review.constant';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import useCreateReview from '@/hooks/review/use-create-review';
 import useGetReviewMembers from '@/hooks/review/use-get-review-members';
@@ -191,34 +192,46 @@ export default function CreateReviewModal({
             )}
 
             {/* 이전/다음 버튼 */}
-            <footer className="flex justify-end gap-5 border-t-1 border-border-primary pt-4">
-              {!isFirst && (
-                <Button
-                  variant="outline"
-                  onClick={() => dispatch({ type: 'PREV' })}
-                  className="h-10.5"
-                >
-                  이전
-                </Button>
+            <footer
+              className={clsx(
+                'flex items-center border-t-1 border-border-primary pt-4',
+                step === 2 ? 'justify-between' : 'justify-end',
               )}
-              {isLast ? (
-                <Button
-                  variant="solid"
-                  onClick={submitReview}
-                  className="h-10.5"
-                >
-                  완료
-                </Button>
-              ) : (
-                <Button
-                  variant="solid"
-                  disabled={!currentReview?.reaction}
-                  onClick={() => dispatch({ type: 'NEXT' })}
-                  className="h-10.5"
-                >
-                  다음
-                </Button>
+            >
+              {step === 2 && (
+                <span className="body-md-medium">
+                  {currentReview?.tags?.length ?? 0}/{TAG_LIMIT} 선택됨
+                </span>
               )}
+              <div className="flex gap-5">
+                {!isFirst && (
+                  <Button
+                    variant="outline"
+                    onClick={() => dispatch({ type: 'PREV' })}
+                    className="h-10.5"
+                  >
+                    이전
+                  </Button>
+                )}
+                {isLast ? (
+                  <Button
+                    variant="solid"
+                    onClick={submitReview}
+                    className="h-10.5"
+                  >
+                    완료
+                  </Button>
+                ) : (
+                  <Button
+                    variant="solid"
+                    disabled={!currentReview?.reaction}
+                    onClick={() => dispatch({ type: 'NEXT' })}
+                    className="h-10.5"
+                  >
+                    다음
+                  </Button>
+                )}
+              </div>
             </footer>
           </div>
         )}

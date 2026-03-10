@@ -1,3 +1,4 @@
+import { TAG_LIMIT } from '@/constants/review.constant';
 import type {
   Reaction,
   ReviewAction,
@@ -56,11 +57,14 @@ export function reviewReducer(
 
     // 리뷰 상세 태그 선택
     case 'SET_TAGS': {
-      const reviews = state.reviews.map((r) =>
-        r.userId === action.payload.userId
-          ? { ...r, tags: action.payload.tags }
-          : r,
-      );
+      const reviews = state.reviews.map((r) => {
+        if (r.userId !== action.payload.userId) return r;
+
+        const newTags = action.payload.tags;
+        if (newTags.length > TAG_LIMIT) return r; // 3개 초과 시 무시
+
+        return { ...r, tags: newTags };
+      });
       return { ...state, reviews };
     }
 
