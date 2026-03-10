@@ -9,7 +9,8 @@ export function createReviewsApi(
 ) {
   return {
     /** 리뷰 작성 */
-    createReviews: () => apiClient.post<ReviewRequestType>(`/api/feedbacks`),
+    createReviews: (payload: ReviewRequestType) =>
+      apiClient.post<ReviewRequestType>(`/api/feedbacks`, payload),
 
     /** 내가 받은 리뷰 조회 */
     getMyReviews: () =>

@@ -3,6 +3,9 @@ import { useEffect, useReducer } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
+import { useGetProfile } from '@/hooks/profile/use-get-profile';
+import useCreateReview from '@/hooks/review/use-create-review';
+import useToast from '@/hooks/use-toast';
 import type { Reaction, ReviewState, ReviewTag } from '@/types/review.type';
 import { reviewReducer } from '@/utils/review.util';
 import ReviewDetailSelect from './review-detail-select';
@@ -31,6 +34,10 @@ export default function CreateReviewModal({
 }: CreateReviewModalProps) {
   const [state, dispatch] = useReducer(reviewReducer, initialState);
   const { data, isLoading } = useGetPostMembers(BigInt(postId));
+  const { data: profile } = useGetProfile();
+  const { mutate: createReviews } = useCreateReview();
+  const toast = useToast();
+
   const { showIntro, userIndex, step, reviews } = state;
 
   // 멤버 내역 로딩 완료되면 세팅
@@ -64,8 +71,22 @@ export default function CreateReviewModal({
     });
 
   // 리뷰 제출
-  const submitReview = () => {
-    console.log(reviews);
+  const submitReview = async () => {
+    createReviews(
+      { reviews, postId },
+      {
+        onSuccess: () => {
+          toast({
+            title: '후기 작성이 완료되었습니다.',
+          });
+        },
+        onError: () => {
+          toast({
+            title: '후기 작성에 실패했습니다. 잠시 후 다시 시도해주세요.',
+          });
+        },
+      },
+    );
   };
 
   return (
@@ -93,7 +114,7 @@ export default function CreateReviewModal({
           <>
             <section className="flex flex-col gap-3 pt-6 pb-9">
               <p className="heading-md text-primary">
-                닉네임님이 참여한 프로젝트가 종료되었습니다
+                {profile?.nickname}님이 참여한 프로젝트가 종료되었습니다
               </p>
               <p className="body-lg-regular text-primary">
                 팀원들에 대한 후기를 남겨주세요 모든 피드백은 익명으로 처리되며
