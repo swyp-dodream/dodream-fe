@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/lib/query-client';
 import { clientApis } from '@/services/client.api';
-import type { UserReview } from '@/types/review.type';
+import type { Reaction, UserReview } from '@/types/review.type';
 
 /** 후기 작성 */
 export default function useCreateReview() {
@@ -15,12 +15,15 @@ export default function useCreateReview() {
     }) =>
       Promise.all(
         reviews
-          .filter((r) => r.reaction !== null)
+          .filter(
+            (r): r is UserReview & { reaction: Reaction } =>
+              r.reaction !== null,
+          )
           .map((review) =>
             clientApis.review.createReviews({
-              postId: BigInt(postId).toString(),
-              toUserId: BigInt(review.userId).toString(),
-              feedbackType: review.reaction!,
+              postId: postId.toString(),
+              toUserId: review.userId.toString(),
+              feedbackType: review.reaction,
               options: review.tags,
             }),
           ),
