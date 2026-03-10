@@ -6,6 +6,7 @@ import { createMyApi } from './apis/my.api';
 import { createPostsApi } from './apis/posts.api';
 import { createProfileApi } from './apis/profile.api';
 import { createRecommendationsApi } from './apis/recommendations.api';
+import { createReviewsApi } from './apis/review.api';
 import { serverApi } from './fetcher/server-fetcher';
 
 /**
@@ -23,4 +24,5 @@ export const serverApis = {
   posts: createPostsApi(serverApi),
   profile: createProfileApi(serverApi),
   recommendations: createRecommendationsApi(serverApi),
+  review: createReviewsApi(serverApi),
 };
