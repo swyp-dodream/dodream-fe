@@ -37,4 +37,8 @@ export const QUERY_KEY = {
 
   /** 알림 관련 */
   notifications: 'notifications',
+
+  /** 리뷰 관련 */
+  reviews: 'reviews',
+  userReviews: 'userReviews',
 };

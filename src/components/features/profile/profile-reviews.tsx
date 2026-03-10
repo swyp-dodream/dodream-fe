@@ -9,13 +9,17 @@ import { getReviewSummary } from '@/utils/review.util';
 import { ReviewTagList } from '../reviews/review-tag-list';
 
 interface ProfileReviewsProps {
+  userId: bigint;
   nickname: string;
 }
 
 /** 프로필의 리뷰 섹션 */
-export default function ProfileReviews({ nickname }: ProfileReviewsProps) {
+export default function ProfileReviews({
+  nickname,
+  userId,
+}: ProfileReviewsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { data: reviews = [] } = useGetReceivedReviews();
+  const { data: reviews = [] } = useGetReceivedReviews(BigInt(userId));
   const { positiveCount, result } = getReviewSummary(reviews, true);
   const visibleResult = isExpanded ? result : result.slice(0, 3);
 

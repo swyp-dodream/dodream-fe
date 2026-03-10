@@ -18,9 +18,9 @@ export function createReviewsApi(
         `/api/feedbacks/${postId}/members`,
       ),
 
-    /** 내가 받은 전체 리뷰 조회 */
-    getMyReviews: () =>
-      apiClient.get<ReviewResponseType[]>(`/api/feedbacks/my`),
+    /** 유저가 받은 전체 리뷰 조회 */
+    getUserReviews: (userId: bigint) =>
+      apiClient.get<ReviewResponseType[]>(`/api/feedbacks/users/${userId}`),
 
     /** 특정 게시글에서 내가 작성한 리뷰 조회 */
     getMyReviewsByPost: (postId: bigint) =>
