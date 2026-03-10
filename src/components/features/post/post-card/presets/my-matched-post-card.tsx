@@ -46,7 +46,7 @@ export default function MyMatchedPostCard({
         {reviewAvailable ? (
           <>
             <ViewReviewButton />
-            <CreateReviewButton />
+            <CreateReviewButton postId={BigInt(myMatchedPost.postId)} />
           </>
         ) : (
           <>

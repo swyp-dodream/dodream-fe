@@ -14,6 +14,17 @@ export function reviewReducer(
   action: ReviewAction,
 ): ReviewState {
   switch (action.type) {
+    // 멤버 세팅
+    case 'SET_MEMBERS':
+      return {
+        ...state,
+        reviews: action.payload.map((member) => ({
+          userId: member.userId,
+          reaction: null,
+          tags: [],
+        })),
+      };
+
     // 리뷰 시작 (인트로 제거)
     case 'START_REVIEW':
       return { ...state, showIntro: false };

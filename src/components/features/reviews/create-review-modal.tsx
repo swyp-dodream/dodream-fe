@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import { members } from '@/mocks/review.mock';
+import useGetPostMembers from '@/hooks/post/use-get-post-members';
 import type { Reaction, ReviewState, ReviewTag } from '@/types/review.type';
 import { reviewReducer } from '@/utils/review.util';
 import ReviewDetailSelect from './review-detail-select';
@@ -11,17 +11,14 @@ import ReviewReactionButton from './review-reaction-button';
 interface CreateReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
+  postId: bigint;
 }
 
 const initialState: ReviewState = {
   showIntro: true,
   userIndex: 0,
   step: 1,
-  reviews: members.map((m) => ({
-    userId: m.id,
-    reaction: null,
-    tags: [],
-  })),
+  reviews: [],
 };
 
 /**
@@ -30,13 +27,23 @@ const initialState: ReviewState = {
 export default function CreateReviewModal({
   isOpen,
   onClose,
+  postId,
 }: CreateReviewModalProps) {
   const [state, dispatch] = useReducer(reviewReducer, initialState);
+  const { data, isLoading } = useGetPostMembers(BigInt(postId));
   const { showIntro, userIndex, step, reviews } = state;
 
+  // 멤버 내역 로딩 완료되면 세팅
+  useEffect(() => {
+    if (data) {
+      dispatch({ type: 'SET_MEMBERS', payload: data.users });
+    }
+  }, [data]);
+
+  const members = data?.users ?? [];
   const currentUser = members[userIndex];
   const currentReview =
-    reviews.find((r) => r.userId === currentUser.id) ?? reviews[userIndex];
+    reviews.find((r) => r.userId === currentUser.userId) ?? reviews[userIndex];
 
   // 첫 번째, 마지막 페이지인지 여부
   const isFirst = userIndex === 0 && step === 1;
@@ -46,14 +53,14 @@ export default function CreateReviewModal({
   const handleSetReaction = (reaction: Reaction) =>
     dispatch({
       type: 'SET_REACTION',
-      payload: { userId: currentUser.id, reaction },
+      payload: { userId: currentUser.userId, reaction },
     });
 
   // 태그 설정
   const handleSetTags = (tags: ReviewTag[]) =>
     dispatch({
       type: 'SET_TAGS',
-      payload: { userId: currentUser.id, tags },
+      payload: { userId: currentUser.userId, tags },
     });
 
   // 리뷰 제출
@@ -97,6 +104,7 @@ export default function CreateReviewModal({
             <footer className="flex justify-end">
               <Button
                 variant="solid"
+                disabled={isLoading}
                 onClick={() => dispatch({ type: 'START_REVIEW' })}
               >
                 다음
@@ -117,7 +125,7 @@ export default function CreateReviewModal({
                         ? 'text-on-brand bg-chip-selected'
                         : 'text-primary bg-container-primary',
                     )}
-                    key={member.id}
+                    key={member.userId}
                   >
                     {member.nickname}
                   </li>
