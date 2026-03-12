@@ -4,21 +4,16 @@ import Button from '@/components/commons/buttons/button';
 import Pagination from '@/components/commons/pagination';
 import Skeleton from '@/components/commons/skeleton';
 import { Tabs } from '@/components/commons/tabs';
-import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import {
   HOME_PROJECT_MAP,
   HOME_PROJECT_TAB_VALUES,
 } from '@/constants/post.constant';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import { useGetPosts } from '@/hooks/post/use-get-posts';
-import type {
-  HomeProjectType,
-  PostContentType,
-  PostStatusType,
-  ProjectType,
-} from '@/types/post.type';
+import type { HomeProjectType } from '@/types/post.type';
 import { getValidPage } from '@/utils/filter.util';
 import HomeFilters from './filters/home-filters';
+import HomePostCards from './home-post-cards';
 
 export default function HomePosts() {
   const { getParam, setParams, filterParams, getApiQueryString, clearParams } =
@@ -121,35 +116,5 @@ export default function HomePosts() {
         </>
       )}
     </section>
-  );
-}
-
-interface HomePostCardsProps {
-  posts: PostContentType[];
-}
-
-function HomePostCards({ posts }: HomePostCardsProps) {
-  return (
-    <ul className="grid grid-cols-3 gap-7">
-      {posts.map((post) => {
-        return (
-          <li key={post.id}>
-            <DefaultPostCard
-              id={BigInt(post.id)}
-              title={post.title}
-              status={post.status as PostStatusType}
-              ownerProfileImageCode={post.authorProfileImageCode}
-              ownerNickname={post.author}
-              projectType={post.projectType as ProjectType}
-              createDate={post.createdAt}
-              viewCount={post.viewCount}
-              stacks={post.techs}
-              roles={post.roles}
-              isBookmarked={post.isBookmarked}
-            />
-          </li>
-        );
-      })}
-    </ul>
   );
 }
