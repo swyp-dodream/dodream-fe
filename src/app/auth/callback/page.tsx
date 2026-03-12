@@ -24,7 +24,7 @@ export default async function AuthCallBackPage({
   const redirectPath = redirectCookie?.value || null;
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-screen">
       <AuthCallBackClient redirectPath={redirectPath} />
     </div>
   );
