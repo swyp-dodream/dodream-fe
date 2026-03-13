@@ -3,6 +3,7 @@ export const QUERY_KEY = {
   user: 'user',
   posts: 'posts',
   postMembers: 'postMembers',
+  userReviews: 'userReviews',
 
   /** 로그인 후 사용 - auth 붙이기 */
   auth: 'auth',
@@ -33,8 +34,12 @@ export const QUERY_KEY = {
 
   /** 채팅 관련 */
   chatList: 'chatList',
-  chatHistory: 'chatHisory',
+  chatHistory: 'chatHistory',
 
   /** 알림 관련 */
   notifications: 'notifications',
-};
+
+  /** 리뷰 관련 */
+  reviews: 'reviews',
+  reviewMembers: 'reviewMembers',
+} as const;

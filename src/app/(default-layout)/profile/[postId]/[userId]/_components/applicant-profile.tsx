@@ -23,6 +23,7 @@ export default function ApplicantProfile({
 
   return (
     <ProfileContent
+      userId={userId}
       nickname={profile.nickname}
       profileImage={profile.profileImageCode}
       role={profile.roles[0].name}

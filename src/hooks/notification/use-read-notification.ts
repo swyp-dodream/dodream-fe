@@ -5,7 +5,7 @@ import { clientApis } from '@/services/client.api';
 
 export default function useReadNotifications() {
   return useMutation({
-    mutationFn: (id: bigint) => clientApis.notification.readNotification(id),
+    mutationFn: (id: string) => clientApis.notification.readNotification(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.notifications],

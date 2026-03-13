@@ -3,21 +3,24 @@ import ThumbsUpIcon from '@/assets/icons/thumbs-up/14.svg';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
-import { reviews } from '@/mocks/review.mock';
+import useGetReceivedPostReviews from '@/hooks/review/use-get-received-post-reviews';
 import { getReviewSummary } from '@/utils/review.util';
 import { ReviewTagList } from './review-tag-list';
 
 interface ViewReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
+  postId: bigint;
 }
 
 /** 리뷰 확인 모달 */
 export default function ViewReviewModal({
   isOpen,
   onClose,
+  postId,
 }: ViewReviewModalProps) {
   const { data: profile } = useGetProfile();
+  const { data: reviews = [] } = useGetReceivedPostReviews(BigInt(postId));
   const { positiveCount, negativeCount, dominantType, result } =
     getReviewSummary(reviews);
 
@@ -40,7 +43,7 @@ export default function ViewReviewModal({
         <section className="flex flex-col gap-2 mb-9">
           <p>{profile?.nickname}님의 협업 점수는?</p>
           <div className="flex items-center gap-2">
-            {dominantType === 'positive' ? (
+            {dominantType === 'POSITIVE' ? (
               <>
                 <ThumbsUpIcon />
                 <p className="body-lg-medium">

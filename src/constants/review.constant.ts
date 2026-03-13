@@ -66,3 +66,5 @@ export const REVIEW_ICONS: ReviewIconMap = {
   POOR_PROBLEM_SOLVING: { 14: KeyIcon14, 16: KeyIcon16 },
   IGNORES_OPINIONS: { 14: EarIcon14, 16: EarIcon16 },
 };
+
+export const TAG_LIMIT = 3;

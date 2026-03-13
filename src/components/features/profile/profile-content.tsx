@@ -11,6 +11,7 @@ import ProfileLinks from './profile-link';
 import ProfileReviews from './profile-reviews';
 
 interface ProfileContentProps {
+  userId: bigint;
   nickname: string;
   profileImage: number;
   controller?: React.ReactNode;
@@ -32,6 +33,7 @@ interface ProfileContentProps {
 
 /** 프로필 내용 컴포넌트 */
 export default function ProfileContent({
+  userId,
   nickname,
   profileImage,
   controller,
@@ -107,7 +109,7 @@ export default function ProfileContent({
         </section>
 
         {/* 받은 후기 */}
-        <ProfileReviews nickname={nickname} />
+        <ProfileReviews nickname={nickname} userId={BigInt(userId)} />
       </div>
     </div>
   );

@@ -1,5 +1,9 @@
+'use client';
+
+import { use } from 'react';
+import { Tabs } from '@/components/commons/tabs';
 import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
-import { RecruitmentTabs } from '@/components/features/mypage/my-posts/recruitments/recruitment-tabs';
+import useQueryParams from '@/hooks/filter/use-query-params';
 import ApplicantsTabContent from './_components/applicants-tab-content';
 import MembersTabContent from './_components/members-tab-content';
 import OfferTabContent from './_components/offer-tab-content';
@@ -18,30 +22,37 @@ interface PostRecruitmentPageProps {
   params: Promise<{ postId: string }>;
 }
 
-export default async function PostRecruitmentPage({
+export default function PostRecruitmentPage({
   params,
 }: PostRecruitmentPageProps) {
-  const { postId } = await params;
+  const { postId } = use(params);
+  const { getParam, setParams } = useQueryParams();
+  const currentTab = getParam('tab') ?? RECRUITMENT_TABS[0].tabValue;
+
+  const currentTabConfig = RECRUITMENT_TABS.find(
+    (tab) => tab.tabValue === currentTab,
+  );
+  const CurrentContent = currentTabConfig?.Content;
+
+  const handleTabChange = (value: string) => {
+    setParams({ tab: value });
+  };
 
   return (
     <>
       <MyPageHeader title="모집 내역" isRecruitmentPage />
 
-      <RecruitmentTabs defaultValue={RECRUITMENT_TABS[0].tabValue}>
-        <RecruitmentTabs.List>
+      <Tabs value={currentTab} onValueChange={handleTabChange}>
+        <Tabs.List>
           {RECRUITMENT_TABS.map(({ tabValue, label }) => (
-            <RecruitmentTabs.Trigger key={tabValue} value={tabValue}>
+            <Tabs.Trigger key={tabValue} value={tabValue}>
               {label}
-            </RecruitmentTabs.Trigger>
+            </Tabs.Trigger>
           ))}
-        </RecruitmentTabs.List>
+        </Tabs.List>
 
-        {RECRUITMENT_TABS.map(({ tabValue, Content }) => (
-          <RecruitmentTabs.Content key={tabValue} value={tabValue} columns={8}>
-            <Content postId={BigInt(postId)} />
-          </RecruitmentTabs.Content>
-        ))}
-      </RecruitmentTabs>
+        {CurrentContent && <CurrentContent postId={BigInt(postId)} />}
+      </Tabs>
     </>
   );
 }

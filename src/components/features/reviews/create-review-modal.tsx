@@ -1,8 +1,12 @@
 import clsx from 'clsx';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import { members } from '@/mocks/review.mock';
+import { TAG_LIMIT } from '@/constants/review.constant';
+import { useGetProfile } from '@/hooks/profile/use-get-profile';
+import useCreateReview from '@/hooks/review/use-create-review';
+import useGetReviewMembers from '@/hooks/review/use-get-review-members';
+import useToast from '@/hooks/use-toast';
 import type { Reaction, ReviewState, ReviewTag } from '@/types/review.type';
 import { reviewReducer } from '@/utils/review.util';
 import ReviewDetailSelect from './review-detail-select';
@@ -11,17 +15,14 @@ import ReviewReactionButton from './review-reaction-button';
 interface CreateReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
+  postId: bigint;
 }
 
 const initialState: ReviewState = {
   showIntro: true,
   userIndex: 0,
   step: 1,
-  reviews: members.map((m) => ({
-    userId: m.id,
-    reaction: null,
-    tags: [],
-  })),
+  reviews: [],
 };
 
 /**
@@ -30,13 +31,27 @@ const initialState: ReviewState = {
 export default function CreateReviewModal({
   isOpen,
   onClose,
+  postId,
 }: CreateReviewModalProps) {
   const [state, dispatch] = useReducer(reviewReducer, initialState);
+  const { data, isLoading } = useGetReviewMembers(BigInt(postId));
+  const { data: profile } = useGetProfile();
+  const { mutate: createReviews } = useCreateReview();
+  const toast = useToast();
+
   const { showIntro, userIndex, step, reviews } = state;
 
+  // 멤버 내역 로딩 완료되면 세팅
+  useEffect(() => {
+    if (data) {
+      dispatch({ type: 'SET_MEMBERS', payload: data });
+    }
+  }, [data]);
+
+  const members = data ?? [];
   const currentUser = members[userIndex];
   const currentReview =
-    reviews.find((r) => r.userId === currentUser.id) ?? reviews[userIndex];
+    reviews.find((r) => r.userId === currentUser.userId) ?? reviews[userIndex];
 
   // 첫 번째, 마지막 페이지인지 여부
   const isFirst = userIndex === 0 && step === 1;
@@ -46,19 +61,34 @@ export default function CreateReviewModal({
   const handleSetReaction = (reaction: Reaction) =>
     dispatch({
       type: 'SET_REACTION',
-      payload: { userId: currentUser.id, reaction },
+      payload: { userId: currentUser.userId, reaction },
     });
 
   // 태그 설정
   const handleSetTags = (tags: ReviewTag[]) =>
     dispatch({
       type: 'SET_TAGS',
-      payload: { userId: currentUser.id, tags },
+      payload: { userId: currentUser.userId, tags },
     });
 
   // 리뷰 제출
-  const submitReview = () => {
-    console.log(reviews);
+  const submitReview = async () => {
+    createReviews(
+      { reviews, postId },
+      {
+        onSuccess: () => {
+          toast({
+            title: '후기 작성이 완료되었습니다.',
+          });
+          onClose();
+        },
+        onError: () => {
+          toast({
+            title: '후기 작성에 실패했습니다. 잠시 후 다시 시도해주세요.',
+          });
+        },
+      },
+    );
   };
 
   return (
@@ -86,7 +116,7 @@ export default function CreateReviewModal({
           <>
             <section className="flex flex-col gap-3 pt-6 pb-9">
               <p className="heading-md text-primary">
-                닉네임님이 참여한 프로젝트가 종료되었습니다
+                {profile?.nickname}님이 참여한 프로젝트가 종료되었습니다
               </p>
               <p className="body-lg-regular text-primary">
                 팀원들에 대한 후기를 남겨주세요 모든 피드백은 익명으로 처리되며
@@ -97,6 +127,7 @@ export default function CreateReviewModal({
             <footer className="flex justify-end">
               <Button
                 variant="solid"
+                disabled={isLoading}
                 onClick={() => dispatch({ type: 'START_REVIEW' })}
               >
                 다음
@@ -117,7 +148,7 @@ export default function CreateReviewModal({
                         ? 'text-on-brand bg-chip-selected'
                         : 'text-primary bg-container-primary',
                     )}
-                    key={member.id}
+                    key={member.userId}
                   >
                     {member.nickname}
                   </li>
@@ -135,14 +166,14 @@ export default function CreateReviewModal({
                 </p>
                 <div className="flex justify-between gap-5">
                   <ReviewReactionButton
-                    variant="positive"
-                    selected={currentReview?.reaction === 'positive'}
-                    onClick={() => handleSetReaction('positive')}
+                    variant="POSITIVE"
+                    selected={currentReview?.reaction === 'POSITIVE'}
+                    onClick={() => handleSetReaction('POSITIVE')}
                   />
                   <ReviewReactionButton
-                    variant="negative"
-                    selected={currentReview?.reaction === 'negative'}
-                    onClick={() => handleSetReaction('negative')}
+                    variant="NEGATIVE"
+                    selected={currentReview?.reaction === 'NEGATIVE'}
+                    onClick={() => handleSetReaction('NEGATIVE')}
                   />
                 </div>
               </section>
@@ -153,7 +184,7 @@ export default function CreateReviewModal({
                   {currentUser.nickname}님의 상세 후기를 선택해 주세요
                 </p>
                 <ReviewDetailSelect
-                  type={currentReview.reaction ?? 'positive'}
+                  type={currentReview.reaction ?? 'POSITIVE'}
                   selectedTags={currentReview.tags}
                   onChange={handleSetTags}
                 />
@@ -161,34 +192,46 @@ export default function CreateReviewModal({
             )}
 
             {/* 이전/다음 버튼 */}
-            <footer className="flex justify-end gap-5 border-t-1 border-border-primary pt-4">
-              {!isFirst && (
-                <Button
-                  variant="outline"
-                  onClick={() => dispatch({ type: 'PREV' })}
-                  className="h-10.5"
-                >
-                  이전
-                </Button>
+            <footer
+              className={clsx(
+                'flex items-center border-t-1 border-border-primary pt-4',
+                step === 2 ? 'justify-between' : 'justify-end',
               )}
-              {isLast ? (
-                <Button
-                  variant="solid"
-                  onClick={submitReview}
-                  className="h-10.5"
-                >
-                  완료
-                </Button>
-              ) : (
-                <Button
-                  variant="solid"
-                  disabled={!currentReview?.reaction}
-                  onClick={() => dispatch({ type: 'NEXT' })}
-                  className="h-10.5"
-                >
-                  다음
-                </Button>
+            >
+              {step === 2 && (
+                <span className="body-md-medium">
+                  {currentReview?.tags?.length ?? 0}/{TAG_LIMIT} 선택됨
+                </span>
               )}
+              <div className="flex gap-5">
+                {!isFirst && (
+                  <Button
+                    variant="outline"
+                    onClick={() => dispatch({ type: 'PREV' })}
+                    className="h-10.5"
+                  >
+                    이전
+                  </Button>
+                )}
+                {isLast ? (
+                  <Button
+                    variant="solid"
+                    onClick={submitReview}
+                    className="h-10.5"
+                  >
+                    완료
+                  </Button>
+                ) : (
+                  <Button
+                    variant="solid"
+                    disabled={!currentReview?.reaction}
+                    onClick={() => dispatch({ type: 'NEXT' })}
+                    className="h-10.5"
+                  >
+                    다음
+                  </Button>
+                )}
+              </div>
             </footer>
           </div>
         )}

@@ -2,15 +2,18 @@
 
 import Link from 'next/link';
 import ProfileContent from '@/components/features/profile/profile-content';
+import useGetUser from '@/hooks/auth/use-get-user';
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 
 export default function ProfilePage() {
+  const { data: user } = useGetUser();
   const { data: profile } = useGetProfile();
 
-  if (!profile) return null;
+  if (!profile || !user) return null;
 
   return (
     <ProfileContent
+      userId={user.id}
       nickname={profile.nickname}
       profileImage={profile.profileImageCode}
       controller={
