@@ -10,7 +10,6 @@ export type ReviewRequestType = {
 export type ReviewMemberResponseType = {
   userId: bigint;
   nickname: string;
-  alreadyWritten: false;
 };
 
 /** 리뷰 응답 타입 */
