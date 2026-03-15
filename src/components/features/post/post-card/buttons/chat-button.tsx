@@ -7,9 +7,13 @@ import useToast from '@/hooks/use-toast';
 
 interface ChatButtonProps {
   postId: bigint;
+  className?: string;
 }
 
-export default function ChatButton({ postId }: ChatButtonProps) {
+export default function ChatButton({
+  postId,
+  className = '',
+}: ChatButtonProps) {
   const router = useRouter();
   const toast = useToast();
   const { data: profileExists } = useGetProfileExists();
@@ -23,7 +27,12 @@ export default function ChatButton({ postId }: ChatButtonProps) {
   };
 
   return (
-    <Button variant="outline" size="md" className="py-4" onClick={handleClick}>
+    <Button
+      variant="outline"
+      size="md"
+      className={`py-4 ${className}`}
+      onClick={handleClick}
+    >
       채팅하기
     </Button>
   );

@@ -78,7 +78,7 @@ export default function LinkField({ links, onLinksChange }: LinkFieldProps) {
       <div className="flex flex-col gap-4 items-end">
         {links.map((link) => (
           <ClearableInput
-            key={`${link.id}-${link.value}`}
+            key={link.id}
             id={link.id}
             placeholder="URL 입력"
             className="w-70.5"

@@ -1,0 +1,39 @@
+import { memo } from 'react';
+import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
+import type {
+  PostContentType,
+  PostStatusType,
+  ProjectType,
+} from '@/types/post.type';
+
+interface HomePostCardsProps {
+  posts: PostContentType[];
+}
+
+function HomePostCards({ posts }: HomePostCardsProps) {
+  return (
+    <ul className="grid grid-cols-3 gap-7">
+      {posts.map((post) => {
+        return (
+          <li key={post.id}>
+            <DefaultPostCard
+              id={BigInt(post.id)}
+              title={post.title}
+              status={post.status as PostStatusType}
+              ownerProfileImageCode={post.authorProfileImageCode}
+              ownerNickname={post.author}
+              projectType={post.projectType as ProjectType}
+              createDate={post.createdAt}
+              viewCount={post.viewCount}
+              stacks={post.techs}
+              roles={post.roles}
+              isBookmarked={post.isBookmarked}
+            />
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+export default memo(HomePostCards);

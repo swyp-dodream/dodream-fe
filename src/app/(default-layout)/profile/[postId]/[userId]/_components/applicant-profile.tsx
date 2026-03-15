@@ -1,9 +1,7 @@
 'use client';
 
-import Button from '@/components/commons/buttons/button';
 import ProfileContent from '@/components/features/profile/profile-content';
 import useGetMyPostApplicantProfile from '@/hooks/my/use-get-my-post-applicant-profile';
-import useToast from '@/hooks/use-toast';
 
 interface ApplicantProfileProps {
   postId: bigint;
@@ -20,23 +18,13 @@ export default function ApplicantProfile({
   userId,
 }: ApplicantProfileProps) {
   const { data: profile } = useGetMyPostApplicantProfile(postId, userId);
-  const toast = useToast();
 
   if (!profile) return null;
 
   return (
     <ProfileContent
+      userId={userId}
       nickname={profile.nickname}
-      // TODO: 제안 상황에 따라 버튼 변경
-      controller={
-        <Button
-          variant="solid"
-          className="w-fit h-fit py-3 px-5 rounded-full body-md-medium"
-          onClick={() => toast({ title: '준비중입니다.' })}
-        >
-          제안하기
-        </Button>
-      }
       profileImage={profile.profileImageCode}
       role={profile.roles[0].name}
       experience={profile.experience}

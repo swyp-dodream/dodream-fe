@@ -108,6 +108,7 @@ export type MyAppliedPostType = {
   projectType: ProjectType;
   activityMode: ActivityModeType;
   postStatus: PostStatusType;
+  deadlineAt: string;
   leaderName: string;
   leaderProfileImage: number;
   myStatus: MyStatusType;
@@ -117,6 +118,7 @@ export type MyAppliedPostType = {
   viewCount: number;
   bookmarked: boolean;
   postCreatedAt: Date;
+  reviewCount: number;
 };
 export type GetMyAppliedPostsResponseType = PaginationInfo & {
   content: MyAppliedPostType[];

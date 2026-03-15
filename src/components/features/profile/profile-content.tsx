@@ -8,11 +8,13 @@ import { EXPERIENCE } from '@/constants/profile.constant';
 import { parseExperienceValue } from '@/utils/profile.util';
 import InterestTags from './interest-tags';
 import ProfileLinks from './profile-link';
+import ProfileReviews from './profile-reviews';
 
 interface ProfileContentProps {
+  userId: bigint;
   nickname: string;
   profileImage: number;
-  controller: React.ReactNode;
+  controller?: React.ReactNode;
   role: string;
   experience: string;
   introText: string;
@@ -31,6 +33,7 @@ interface ProfileContentProps {
 
 /** 프로필 내용 컴포넌트 */
 export default function ProfileContent({
+  userId,
   nickname,
   profileImage,
   controller,
@@ -96,7 +99,6 @@ export default function ProfileContent({
         {/* 기술 스택 */}
         <section className="flex flex-col gap-4">
           <h3 className="heading-sm">기술 스택</h3>
-          {/* TODO: techCategories 수정 시 map 제거 */}
           <TechCategories techCategories={techSkills} />
         </section>
 
@@ -105,6 +107,9 @@ export default function ProfileContent({
           <h3 className="heading-sm">관심 분야</h3>
           <InterestTags interests={interests} />
         </section>
+
+        {/* 받은 후기 */}
+        <ProfileReviews nickname={nickname} userId={BigInt(userId)} />
       </div>
     </div>
   );
