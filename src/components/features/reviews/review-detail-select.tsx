@@ -15,11 +15,11 @@ interface ReviewDetailSelectProps {
 
 /** 리뷰 선택 창 */
 export default function ReviewDetailSelect({
-  type = 'positive',
+  type = 'POSITIVE',
   selectedTags,
   onChange,
 }: ReviewDetailSelectProps) {
-  const tags = type === 'positive' ? POSITIVE_TAGS : NEGATIVE_TAGS;
+  const tags = type === 'POSITIVE' ? POSITIVE_TAGS : NEGATIVE_TAGS;
 
   return (
     <ul className="grid grid-cols-2 [&>li]:py-4 [&>li]:border-b [&>li]:border-border-primary [&>li:nth-last-child(-n+2)]:border-b-0">

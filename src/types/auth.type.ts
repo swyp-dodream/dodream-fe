@@ -1,6 +1,6 @@
 /** 유저 데이터 타입 */
 export type UserType = {
-  id: number;
+  id: bigint;
   email: string;
   name: string;
   profileImageUrl: string;

@@ -3,7 +3,9 @@ import RecruitmentButton from '@/components/features/post/post-card/buttons/recr
 import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import type { MyPostsContentType } from '@/types/my.type';
 import type { PostStatusType, ProjectType } from '@/types/post.type';
-import { getRelativeTime } from '@/utils/date.util';
+import { getRelativeTime, isReviewAvailable } from '@/utils/date.util';
+import CreateReviewButton from '../buttons/create-review-button';
+import ViewReviewButton from '../buttons/view-review-button';
 
 interface MyPostCardProps {
   post: MyPostsContentType;
@@ -11,6 +13,7 @@ interface MyPostCardProps {
 
 export default function MyPostCard({ post }: MyPostCardProps) {
   const { data: profile } = useGetProfile();
+  const reviewAvailable = isReviewAvailable(post.deadlineAt);
 
   if (!profile) return null;
 
@@ -45,7 +48,17 @@ export default function MyPostCard({ post }: MyPostCardProps) {
       />
 
       <PostCard.Actions>
-        <RecruitmentButton postId={post.postId} />
+        {reviewAvailable ? (
+          <>
+            <ViewReviewButton
+              disabled={post.reviewCount === 0}
+              postId={BigInt(post.postId)}
+            />
+            <CreateReviewButton postId={BigInt(post.postId)} />
+          </>
+        ) : (
+          <RecruitmentButton postId={post.postId} />
+        )}
       </PostCard.Actions>
     </PostCard>
   );

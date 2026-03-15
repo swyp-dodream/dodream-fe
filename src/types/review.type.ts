@@ -1,3 +1,17 @@
+/** 리뷰 요청 타입 */
+export type ReviewRequestType = {
+  postId: string;
+  toUserId: string;
+  feedbackType: Reaction;
+  options: ReviewTag[];
+};
+
+/** 리뷰 작성할 수 있는 멤버 내역 */
+export type ReviewMemberResponseType = {
+  userId: bigint;
+  nickname: string;
+};
+
 /** 리뷰 응답 타입 */
 export type ReviewResponseType = {
   feedbackId: bigint;
@@ -22,7 +36,7 @@ export type ReviewTag =
   | 'POOR_PROBLEM_SOLVING'
   | 'BREAKS_PROMISES';
 
-export type Reaction = 'positive' | 'negative';
+export type Reaction = 'POSITIVE' | 'NEGATIVE';
 
 export type UserReview = {
   userId: bigint;
@@ -41,6 +55,10 @@ export type ReviewState = {
 
 /** 리뷰 action */
 export type ReviewAction =
+  | {
+      type: 'SET_MEMBERS';
+      payload: ReviewMemberResponseType[];
+    }
   | { type: 'START_REVIEW' }
   | { type: 'NEXT' }
   | { type: 'PREV' }

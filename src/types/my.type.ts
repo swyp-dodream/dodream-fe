@@ -61,6 +61,7 @@ export type MyPostsContentType = {
   stacks: string[];
   createdAt: string;
   updatedAt: string;
+  reviewCount: number;
 };
 
 /** 내 모집글 지원자 목록 타입 */

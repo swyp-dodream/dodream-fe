@@ -118,6 +118,7 @@ export type MyAppliedPostType = {
   viewCount: number;
   bookmarked: boolean;
   postCreatedAt: Date;
+  reviewCount: number;
 };
 export type GetMyAppliedPostsResponseType = PaginationInfo & {
   content: MyAppliedPostType[];

@@ -7,6 +7,7 @@ import { createNotificationApi } from './apis/notification.api';
 import { createPostsApi } from './apis/posts.api';
 import { createProfileApi } from './apis/profile.api';
 import { createRecommendationsApi } from './apis/recommendations.api';
+import { createReviewsApi } from './apis/review.api';
 import { api } from './fetcher/fetcher';
 
 /**
@@ -25,4 +26,5 @@ export const clientApis = {
   profile: createProfileApi(api),
   recommendations: createRecommendationsApi(api),
   notification: createNotificationApi(api),
+  review: createReviewsApi(api),
 };
