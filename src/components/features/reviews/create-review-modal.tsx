@@ -36,7 +36,7 @@ export default function CreateReviewModal({
   const [state, dispatch] = useReducer(reviewReducer, initialState);
   const { data, isLoading } = useGetReviewMembers(BigInt(postId));
   const { data: profile } = useGetProfile();
-  const { mutate: createReviews } = useCreateReview();
+  const { mutate: createReviews, isPending } = useCreateReview();
   const toast = useToast();
 
   const { showIntro, userIndex, step, reviews } = state;
@@ -72,7 +72,7 @@ export default function CreateReviewModal({
     });
 
   // 리뷰 제출
-  const submitReview = async () => {
+  const submitReview = () => {
     createReviews(
       { reviews, postId },
       {
@@ -218,6 +218,7 @@ export default function CreateReviewModal({
                     variant="solid"
                     onClick={submitReview}
                     className="h-10.5"
+                    disabled={isPending}
                   >
                     완료
                   </Button>
