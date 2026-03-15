@@ -50,8 +50,10 @@ export default function CreateReviewModal({
 
   const members = data ?? [];
   const currentUser = members[userIndex];
-  const currentReview =
-    reviews.find((r) => r.userId === currentUser.userId) ?? reviews[userIndex];
+  const currentReview = currentUser
+    ? (reviews.find((r) => r.userId === currentUser.userId) ??
+      reviews[userIndex])
+    : undefined;
 
   // 첫 번째, 마지막 페이지인지 여부
   const isFirst = userIndex === 0 && step === 1;
@@ -183,11 +185,13 @@ export default function CreateReviewModal({
                 <p className="body-md-medium mt-2 mb-4">
                   {currentUser.nickname}님의 상세 후기를 선택해 주세요
                 </p>
-                <ReviewDetailSelect
-                  type={currentReview.reaction ?? 'POSITIVE'}
-                  selectedTags={currentReview.tags}
-                  onChange={handleSetTags}
-                />
+                {currentReview && (
+                  <ReviewDetailSelect
+                    type={currentReview.reaction ?? 'POSITIVE'}
+                    selectedTags={currentReview.tags}
+                    onChange={handleSetTags}
+                  />
+                )}
               </section>
             )}
 
