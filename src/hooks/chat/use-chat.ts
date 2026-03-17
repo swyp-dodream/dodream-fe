@@ -36,7 +36,7 @@ export default function useChat({ postId }: UseChatParams) {
   const chatListRef = useRef<ChatListItemType[] | undefined>(undefined);
 
   /** 연결하는 함수 */
-  const connectWebSoket = useCallback(() => {
+  const connectWebSocket = useCallback(() => {
     // 이미 연결되어있으면 연결하지 않는다.
     if (stompClientRef.current?.connected) {
       return;
@@ -170,8 +170,8 @@ export default function useChat({ postId }: UseChatParams) {
     }
 
     disconnect();
-    connectWebSoket();
-  }, [selectedChat, connectWebSoket, disconnect]);
+    connectWebSocket();
+  }, [selectedChat, connectWebSocket, disconnect]);
 
   // 채팅 히스토리가 있다면, 메시지 상태에 넣는다.
   useEffect(() => {
@@ -278,7 +278,7 @@ export default function useChat({ postId }: UseChatParams) {
   return {
     roomId,
     disconnect,
-    connectWebSoket,
+    connectWebSocket,
     sendMessage,
     messages,
     selectedChat,
