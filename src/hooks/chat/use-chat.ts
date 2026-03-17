@@ -36,6 +36,12 @@ export default function useChat({ postId }: UseChatParams) {
   const { mutateAsync: leaveChatRoom } = useLeaveChatRoom();
   const stompClientRef = useRef<Client | null>(null);
   const chatListRef = useRef<ChatListItemType[] | undefined>(undefined);
+  const selectedChatRef = useRef<ChatListItemType | null>(null);
+
+  // 선택된 채팅방 최신 상태를 ref로 동기화 (렌더마다 실행)
+  useEffect(() => {
+    selectedChatRef.current = selectedChat;
+  }, [selectedChat]);
 
   /** 연결하는 함수 */
   const connectWebSocket = useCallback(() => {
@@ -50,17 +56,19 @@ export default function useChat({ postId }: UseChatParams) {
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
       onConnect: () => {
+        const currentChat = selectedChatRef.current;
+
         // 만약 선택한 채팅방이 없으면 sub 하지 않는다.
-        if (!selectedChat?.topicId) {
+        if (!currentChat?.topicId) {
           return;
         }
 
         // 선택한 채팅방이 있다면, sub 한다.
-        client.subscribe(selectedChat?.topicId, (message) => {
+        client.subscribe(currentChat.topicId, (message) => {
           const res = JSON.parse(message.body);
           setSocketMessages((prev) => [...prev, res]);
 
-          if (!selectedChat.roomId) {
+          if (!currentChat.roomId) {
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEY.auth, QUERY_KEY.chatList, 'ALL'],
             });
@@ -91,7 +99,7 @@ export default function useChat({ postId }: UseChatParams) {
 
     client.activate();
     stompClientRef.current = client;
-  }, [selectedChat, markChatAsRead]);
+  }, [markChatAsRead]);
 
   /** 연결 끊는 함수 */
   const disconnect = useCallback(() => {
@@ -185,7 +193,7 @@ export default function useChat({ postId }: UseChatParams) {
     setSocketMessages([]);
     disconnect();
     connectWebSocket();
-  }, [selectedChat, connectWebSocket, disconnect]);
+  }, [selectedChat?.topicId, connectWebSocket, disconnect]);
 
   // 히스토리와 실시간 소켓 메시지를 합쳐서 messages로 파생
   const messages = useMemo(
@@ -199,10 +207,12 @@ export default function useChat({ postId }: UseChatParams) {
   }, [chatList]);
 
   // 모집글 상세에서 채팅하기 버튼을 눌러서 진입했을 경우 채팅방을 만든다.
+  const hasCreatedRoomRef = useRef(false);
   useEffect(() => {
-    if (!postId) {
+    if (!postId || hasCreatedRoomRef.current) {
       return;
     }
+    hasCreatedRoomRef.current = true;
 
     const createRoom = async () => {
       try {
@@ -234,6 +244,7 @@ export default function useChat({ postId }: UseChatParams) {
 
         setSelectedChat(baseChat);
       } catch (error) {
+        hasCreatedRoomRef.current = false;
         const err = error as Error;
         if (
           err.message ===
