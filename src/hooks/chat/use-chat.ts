@@ -1,7 +1,7 @@
 'use client';
 
 import { Client } from '@stomp/stompjs';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import useCreateChatRoom from '@/hooks/chat/use-create-chat-room';
@@ -21,9 +21,6 @@ interface UseChatParams {
 }
 
 export default function useChat({ postId }: UseChatParams) {
-  const [socketMessages, setSocketMessages] = useState<
-    ChatSubscribeMessageType[]
-  >([]);
   const [roomId, setRoomId] = useState<string | null>(null);
   const [selectedChat, setSelectedChat] = useState<ChatListItemType | null>(
     null,
@@ -66,7 +63,15 @@ export default function useChat({ postId }: UseChatParams) {
         // 선택한 채팅방이 있다면, sub 한다.
         client.subscribe(currentChat.topicId, (message) => {
           const res = JSON.parse(message.body);
-          setSocketMessages((prev) => [...prev, res]);
+          queryClient.setQueryData<ChatSubscribeMessageType[]>(
+            [QUERY_KEY.auth, QUERY_KEY.chatHistory, res.roomId],
+            (old) => {
+              if (!old) return [res];
+              // 중복 데이터면 추가하지 않는다.
+              if (old.some((msg) => msg.id === res.id)) return old;
+              return [...old, res];
+            },
+          );
 
           if (!currentChat.roomId) {
             queryClient.invalidateQueries({
@@ -145,7 +150,6 @@ export default function useChat({ postId }: UseChatParams) {
       await leaveChatRoom(selectedChat.roomId);
       toast({ title: '채팅방을 나왔습니다' });
       setSelectedChat(null);
-      setSocketMessages([]);
       setRoomId(null);
     } catch {
       toast({
@@ -190,16 +194,12 @@ export default function useChat({ postId }: UseChatParams) {
       return;
     }
 
-    setSocketMessages([]);
     disconnect();
     connectWebSocket();
   }, [selectedChat?.topicId, connectWebSocket, disconnect]);
 
-  // 히스토리와 실시간 소켓 메시지를 합쳐서 messages로 파생
-  const messages = useMemo(
-    () => [...(chatHistory ?? []), ...socketMessages],
-    [chatHistory, socketMessages],
-  );
+  // Tanstack Query가 관리하는 chatHistory 캐시가 전체 메시지가 된다.
+  const messages = chatHistory ?? [];
 
   // 최신 채팅방 목록 ref 저장하기.
   useEffect(() => {
