@@ -8,6 +8,8 @@ import type { ChatListItemType } from '@/types/chat.type';
 import { getRelativeTime } from '@/utils/date.util';
 import { cn } from '@/utils/style.util';
 
+const UNREAD_DOT = <div className="size-1.5 rounded-full bg-brand shrink-0" />;
+
 interface ChatListItemsProps {
   tabValue: 'ALL' | 'UNREAD';
   onSelectChat: (chat: ChatListItemType) => void;
@@ -88,14 +90,10 @@ function ChatListItem({
             {/* 마지막 메시지 미리보기 */}
             <p className="truncate">{chatListItem.lastMessage}</p>
             {/* 안읽음 표시 */}
-            {chatListItem.unReadCount > 0 && <UnreadState />}
+            {chatListItem.unReadCount > 0 ? UNREAD_DOT : null}
           </div>
         </div>
       </button>
     </li>
   );
-}
-
-function UnreadState() {
-  return <div className="size-1.5 rounded-full bg-brand shrink-0" />;
 }
