@@ -144,6 +144,17 @@ export default function useChat({ postId }: UseChatParams) {
     }
   }, [leaveChatRoom, selectedChat?.roomId, toast, disconnect]);
 
+  /** 채팅방을 선택하는 함수 — 선택과 동시에 읽음 처리 */
+  const handleSelectChat = useCallback(
+    (chat: ChatListItemType) => {
+      setSelectedChat(chat);
+      if (chat.roomId) {
+        markChatAsRead(chat.roomId);
+      }
+    },
+    [markChatAsRead],
+  );
+
   /** 내 ID를 얻는 함수 */
   const getMyId = () => {
     return selectedChat?.myRole === 'MEMBER'
@@ -181,15 +192,6 @@ export default function useChat({ postId }: UseChatParams) {
 
     setMessages([...chatHistory]);
   }, [chatHistory]);
-
-  // 채팅방을 선택하면, 읽음 상태로 처리한다.
-  useEffect(() => {
-    if (!selectedChat?.roomId) {
-      return;
-    }
-
-    markChatAsRead(selectedChat.roomId);
-  }, [markChatAsRead, selectedChat?.roomId]);
 
   // 최신 채팅방 목록 ref 저장하기.
   useEffect(() => {
@@ -283,6 +285,7 @@ export default function useChat({ postId }: UseChatParams) {
     messages,
     selectedChat,
     setSelectedChat,
+    handleSelectChat,
     getMyId,
     isMyMessage,
     setRoomId,
