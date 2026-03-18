@@ -48,16 +48,19 @@ export default function useChat({ postId }: UseChatParams) {
   );
 
   /** 내 ID를 얻는 함수 */
-  const getMyId = () => {
+  const getMyId = useCallback(() => {
     return selectedChat?.myRole === 'MEMBER'
       ? selectedChat.memberId
       : selectedChat?.leaderId;
-  };
+  }, [selectedChat]);
 
   /** 메시지가 내가 작성한 메시지인지 판별하는 함수 */
-  const isMyMessage = (id: string) => {
-    return getMyId() === id;
-  };
+  const isMyMessage = useCallback(
+    (id: string) => {
+      return getMyId() === id;
+    },
+    [getMyId],
+  );
 
   /** 채팅방 나가는 함수 */
   const handleLeaveRoom = useCallback(async () => {
