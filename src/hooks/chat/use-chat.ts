@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback } from 'react';
+import useChatRoomManager from '@/hooks/chat/use-chat-room-manager';
 import useChatSocket from '@/hooks/chat/use-chat-socket';
-import useCreateChatRoom from '@/hooks/chat/use-create-chat-room';
 import useGetChatHistory from '@/hooks/chat/use-get-chat-history';
 import useGetChatList from '@/hooks/chat/use-get-chat-list';
 import useLeaveChatRoom from '@/hooks/chat/use-leave-chat-room';
@@ -15,17 +15,18 @@ interface UseChatParams {
 }
 
 export default function useChat({ postId }: UseChatParams) {
-  const [roomId, setRoomId] = useState<string | null>(null);
-  const [selectedChat, setSelectedChat] = useState<ChatListItemType | null>(
-    null,
-  );
   const toast = useToast();
   const { data: chatList } = useGetChatList('ALL');
+
+  const { roomId, setRoomId, selectedChat, setSelectedChat } =
+    useChatRoomManager({
+      postId,
+      chatList,
+    });
+
   const { data: chatHistory } = useGetChatHistory(selectedChat?.roomId);
   const { mutate: markChatAsRead } = useMarkAsRead();
-  const { mutateAsync: createChatRoom } = useCreateChatRoom();
   const { mutateAsync: leaveChatRoom } = useLeaveChatRoom();
-  const chatListRef = useRef<ChatListItemType[] | undefined>(undefined);
 
   const { connectWebSocket, disconnect, sendMessage } = useChatSocket({
     postId,
@@ -43,7 +44,7 @@ export default function useChat({ postId }: UseChatParams) {
         markChatAsRead(chat.roomId);
       }
     },
-    [markChatAsRead],
+    [markChatAsRead, setSelectedChat],
   );
 
   /** 내 ID를 얻는 함수 */
@@ -72,97 +73,17 @@ export default function useChat({ postId }: UseChatParams) {
         title: '채팅방에서 나오지 못했습니다. 잠시 후 다시 시도해 주세요.',
       });
     }
-  }, [leaveChatRoom, selectedChat?.roomId, toast, disconnect]);
+  }, [
+    leaveChatRoom,
+    selectedChat?.roomId,
+    toast,
+    disconnect,
+    setSelectedChat,
+    setRoomId,
+  ]);
 
   // Tanstack Query가 관리하는 chatHistory 캐시가 전체 메시지가 된다.
   const messages = chatHistory ?? [];
-
-  // 최신 채팅방 목록 ref 저장하기.
-  useEffect(() => {
-    chatListRef.current = chatList;
-  }, [chatList]);
-
-  // 모집글 상세에서 채팅하기 버튼을 눌러서 진입했을 경우 채팅방을 만든다.
-  const hasCreatedRoomRef = useRef(false);
-  useEffect(() => {
-    if (!postId || hasCreatedRoomRef.current) {
-      return;
-    }
-    hasCreatedRoomRef.current = true;
-
-    const createRoom = async () => {
-      try {
-        const created = await createChatRoom(BigInt(postId));
-        const lastHistory = created.history.at(-1);
-        const baseChat: ChatListItemType = {
-          roomId: created.roomId,
-          topicId: created.topicId,
-          leaderId: created.leaderId,
-          memberId: created.memberId,
-          myRole: created.myRole,
-          postId: BigInt(postId),
-          roomName: '메시지를 보내면 새로운 채팅이 시작됩니다.',
-          unReadCount: 0,
-          lastMessage: lastHistory?.body ?? '',
-          lastMessageAt: new Date(lastHistory?.createdAt ?? Date.now()),
-          leaderProfileImageCode: created.leaderProfileImageCode,
-          memberProfileImageCode: created.memberProfileImageCode,
-        };
-
-        if (created.roomId) {
-          const existingChat = chatListRef.current?.find(
-            (chat) => chat.roomId === created.roomId,
-          );
-          setSelectedChat(existingChat ?? baseChat);
-          setRoomId(created.roomId);
-          return;
-        }
-
-        setSelectedChat(baseChat);
-      } catch (error) {
-        hasCreatedRoomRef.current = false;
-        const err = error as Error;
-        if (
-          err.message ===
-          '서버 내부 오류가 발생했습니다: 이미 나간 채팅방입니다. 재입장할 수 없습니다.'
-        ) {
-          toast({ title: '이미 나간 채팅방입니다. 재입장할 수 없습니다.' });
-        } else {
-          toast({
-            title: '채팅방을 생성할 수 없습니다. 잠시 후 다시 이용해주세요.',
-          });
-        }
-      }
-    };
-
-    createRoom();
-  }, [postId, createChatRoom, toast]);
-
-  // 헤더의 채팅 아이콘을 통해 진입했고,
-  // 진행했던 채팅이 있을 경우, 가장 최신의 채팅을 선택한다.
-  useEffect(() => {
-    if (postId || selectedChat || !chatList?.length) {
-      return;
-    }
-
-    setSelectedChat(chatList[0]);
-  }, [postId, selectedChat, chatList]);
-
-  // 모집글 상세에서 채팅하기 버튼을 눌러서 진입했을 경우,
-  // 이미 진행했던 채팅이 있을경우, 해당 채팅을 선택한다.
-  useEffect(() => {
-    if (!selectedChat?.roomId || !chatList?.length) {
-      return;
-    }
-
-    const matched = chatList.find(
-      (chat) => chat.roomId === selectedChat.roomId,
-    );
-
-    if (matched && matched !== selectedChat) {
-      setSelectedChat(matched);
-    }
-  }, [chatList, selectedChat]);
 
   return {
     roomId,
