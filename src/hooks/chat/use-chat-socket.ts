@@ -50,8 +50,8 @@ export default function useChatSocket({
       return;
     }
 
-    const socketUrl = `${process.env.NEXT_PUBLIC_API_URL}/connect`;
-    const socket = new SockJS(socketUrl ?? '');
+    const socketUrl = `${process.env.NEXT_PUBLIC_API_URL ?? ''}/connect`;
+    const socket = new SockJS(socketUrl);
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
