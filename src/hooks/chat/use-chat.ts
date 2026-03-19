@@ -66,8 +66,8 @@ export default function useChat({ postId }: UseChatParams) {
   const handleLeaveRoom = useCallback(async () => {
     if (!selectedChat?.roomId) return;
     try {
-      disconnect();
       await leaveChatRoom(selectedChat.roomId);
+      disconnect();
       toast({ title: '채팅방을 나왔습니다' });
       setSelectedChat(null);
       setRoomId(null);
