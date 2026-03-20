@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import useCreateChatRoom from '@/hooks/chat/use-create-chat-room';
 import useToast from '@/hooks/use-toast';
 import type { ChatListItemType } from '@/types/chat.type';
+import type { ErrorType } from '@/types/error.type';
 
 interface UseChatRoomManagerParams {
   postId?: string;
@@ -66,11 +67,8 @@ export default function useChatRoomManager({
         setSelectedChat(baseChat);
       } catch (error) {
         hasCreatedRoomRef.current = false;
-        const err = error as Error;
-        if (
-          err.message ===
-          '서버 내부 오류가 발생했습니다: 이미 나간 채팅방입니다. 재입장할 수 없습니다.'
-        ) {
+        const err = error as ErrorType;
+        if (err.code === 403) {
           toast({ title: '이미 나간 채팅방입니다. 재입장할 수 없습니다.' });
         } else {
           toast({
