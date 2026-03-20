@@ -17,7 +17,7 @@ export default function ChatPage({
     sendMessage,
     messages,
     selectedChat,
-    setSelectedChat,
+    handleSelectChat,
     isMyMessage,
     handleLeaveRoom,
   } = useChat({
@@ -26,7 +26,7 @@ export default function ChatPage({
 
   return (
     <>
-      <ChatList onSelectChat={setSelectedChat} selectedChat={selectedChat} />
+      <ChatList onSelectChat={handleSelectChat} selectedChat={selectedChat} />
       {selectedChat && (
         <ChatRoom
           selectedChat={selectedChat}
