@@ -1,0 +1,64 @@
+'use client';
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
+import ChatList from '@/app/(header-only)/chat/_components/chat-list';
+import ChatRoom from '@/app/(header-only)/chat/_components/chat-room';
+import PostDetail from '@/app/(header-only)/chat/_components/post-detail';
+import useChat from '@/hooks/chat/use-chat';
+import type { ChatListItemType } from '@/types/chat.type';
+
+export default function ChatPage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('postId') ?? undefined;
+  const {
+    sendMessage,
+    messages,
+    selectedChat,
+    handleSelectChat,
+    isMyMessage,
+    handleLeaveRoom,
+  } = useChat({
+    postId,
+  });
+
+  const handleSelectChatFromList = useCallback(
+    (chat: ChatListItemType) => {
+      handleSelectChat(chat);
+
+      if (!searchParams.has('postId')) {
+        return;
+      }
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('postId');
+      const queryString = params.toString();
+
+      router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+        scroll: false,
+      });
+    },
+    [handleSelectChat, pathname, router, searchParams],
+  );
+
+  return (
+    <>
+      <ChatList
+        onSelectChat={handleSelectChatFromList}
+        selectedChat={selectedChat}
+      />
+      {selectedChat && (
+        <ChatRoom
+          selectedChat={selectedChat}
+          onSendMessage={sendMessage}
+          messages={messages}
+          isMyMessage={isMyMessage}
+          onLeave={handleLeaveRoom}
+        />
+      )}
+      {selectedChat && <PostDetail postId={selectedChat.postId} />}
+    </>
+  );
+}

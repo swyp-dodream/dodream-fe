@@ -22,7 +22,7 @@ export default function useChatRoomManager({
   const toast = useToast();
   const { mutateAsync: createChatRoom } = useCreateChatRoom();
   const chatListRef = useRef<ChatListItemType[] | undefined>(undefined);
-  const hasCreatedRoomRef = useRef(false);
+  const creatingPostIdRef = useRef<string | null>(null);
 
   // 최신 채팅방 목록 ref 저장하기.
   useEffect(() => {
@@ -31,10 +31,15 @@ export default function useChatRoomManager({
 
   // 모집글 상세에서 채팅하기 버튼을 눌러서 진입했을 경우 채팅방을 만든다.
   useEffect(() => {
-    if (!postId || hasCreatedRoomRef.current) {
+    if (!postId) {
+      creatingPostIdRef.current = null;
       return;
     }
-    hasCreatedRoomRef.current = true;
+
+    if (creatingPostIdRef.current === postId) {
+      return;
+    }
+    creatingPostIdRef.current = postId;
 
     const createRoom = async () => {
       try {
@@ -66,7 +71,7 @@ export default function useChatRoomManager({
 
         setSelectedChat(baseChat);
       } catch (error) {
-        hasCreatedRoomRef.current = false;
+        creatingPostIdRef.current = null;
         const err = error as ErrorType;
         if (err.code === 403) {
           toast({ title: '이미 나간 채팅방입니다. 재입장할 수 없습니다.' });
