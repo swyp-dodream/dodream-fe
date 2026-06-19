@@ -8,11 +8,13 @@ import type { ErrorType } from '@/types/error.type';
 
 interface UseChatRoomManagerParams {
   postId?: string;
+  selectedRoomId?: string;
   chatList?: ChatListItemType[];
 }
 
 export default function useChatRoomManager({
   postId,
+  selectedRoomId,
   chatList,
 }: UseChatRoomManagerParams) {
   const [roomId, setRoomId] = useState<string | null>(null);
@@ -86,15 +88,30 @@ export default function useChatRoomManager({
     createRoom();
   }, [postId, createChatRoom, toast]);
 
+  // URL의 roomId로 진입했을 경우, 해당 채팅방을 선택한다.
+  useEffect(() => {
+    if (!selectedRoomId || !chatList?.length) {
+      return;
+    }
+
+    const matched = chatList.find((chat) => chat.roomId === selectedRoomId);
+    if (!matched || selectedChat?.roomId === matched.roomId) {
+      return;
+    }
+
+    setSelectedChat(matched);
+    setRoomId(matched.roomId);
+  }, [selectedRoomId, selectedChat?.roomId, chatList]);
+
   // 헤더의 채팅 아이콘을 통해 진입했고,
   // 진행했던 채팅이 있을 경우, 가장 최신의 채팅을 선택한다.
   useEffect(() => {
-    if (postId || selectedChat || !chatList?.length) {
+    if (postId || selectedRoomId || selectedChat || !chatList?.length) {
       return;
     }
 
     setSelectedChat(chatList[0]);
-  }, [postId, selectedChat, chatList]);
+  }, [postId, selectedRoomId, selectedChat, chatList]);
 
   // 모집글 상세에서 채팅하기 버튼을 눌러서 진입했을 경우,
   // 이미 진행했던 채팅이 있을경우, 해당 채팅을 선택한다.

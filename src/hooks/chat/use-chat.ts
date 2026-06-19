@@ -12,15 +12,17 @@ import type { ChatListItemType } from '@/types/chat.type';
 
 interface UseChatParams {
   postId?: string;
+  selectedRoomId?: string;
 }
 
-export default function useChat({ postId }: UseChatParams) {
+export default function useChat({ postId, selectedRoomId }: UseChatParams) {
   const toast = useToast();
   const { data: chatList } = useGetChatList('ALL');
 
   const { roomId, setRoomId, selectedChat, setSelectedChat } =
     useChatRoomManager({
       postId,
+      selectedRoomId,
       chatList,
     });
 

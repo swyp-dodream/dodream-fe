@@ -13,6 +13,7 @@ export default function ChatPage() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId') ?? undefined;
+  const selectedRoomId = searchParams.get('roomId') ?? undefined;
   const {
     sendMessage,
     messages,
@@ -22,18 +23,16 @@ export default function ChatPage() {
     handleLeaveRoom,
   } = useChat({
     postId,
+    selectedRoomId,
   });
 
   const handleSelectChatFromList = useCallback(
     (chat: ChatListItemType) => {
       handleSelectChat(chat);
 
-      if (!searchParams.has('postId')) {
-        return;
-      }
-
       const params = new URLSearchParams(searchParams.toString());
       params.delete('postId');
+      params.set('roomId', chat.roomId);
       const queryString = params.toString();
 
       router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
