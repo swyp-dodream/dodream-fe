@@ -42,6 +42,24 @@ export default function ChatPage() {
     [handleSelectChat, pathname, router, searchParams],
   );
 
+  const handleLeave = useCallback(async () => {
+    const leaveSuccess = await handleLeaveRoom();
+
+    if (!leaveSuccess) {
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('roomId');
+    params.delete('postId');
+
+    const queryString = params.toString();
+
+    router.replace(queryString ? `${pathname}?${queryString}` : pathname, {
+      scroll: false,
+    });
+  }, [handleLeaveRoom, pathname, router, searchParams]);
+
   return (
     <>
       <ChatList
@@ -54,7 +72,7 @@ export default function ChatPage() {
           onSendMessage={sendMessage}
           messages={messages}
           isMyMessage={isMyMessage}
-          onLeave={handleLeaveRoom}
+          onLeave={handleLeave}
         />
       )}
       {selectedChat && <PostDetail postId={selectedChat.postId} />}
