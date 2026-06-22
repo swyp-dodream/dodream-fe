@@ -6,15 +6,11 @@ import { clientApis } from '@/services/client.api';
 export default function useMarkAsRead() {
   return useMutation({
     mutationFn: (roomId: string) => clientApis.chat.markChatAsRead(roomId),
-    onSuccess: (_, roomId) => {
+    onSuccess: () => {
       // 채팅방 리스트에서 해당 방의 unread count를 0으로 반영한다.
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.chatList],
         exact: false,
-      });
-      // 히스토리 캐시도 갱신한다.
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.auth, QUERY_KEY.chatHistory, roomId],
       });
     },
   });
