@@ -3,7 +3,7 @@
 import { format, isToday, isYesterday } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { overlay } from 'overlay-kit';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import ChatInput from '@/app/(header-only)/chat/_components/chat-room/chat-input';
 import LeaveChatRoomModal from '@/app/(header-only)/chat/_components/chat-room/leave-chat-room-modal';
 import MessageBubble from '@/app/(header-only)/chat/_components/chat-room/message-bubble';
@@ -82,7 +82,10 @@ export default function ChatRoom({
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const disabled = messages.at(-1)?.messageType === 'LEAVE';
-  const groupedMessages = groupByDateAndTime(messages, isMyMessage);
+  const groupedMessages = useMemo(
+    () => groupByDateAndTime(messages, isMyMessage),
+    [messages, isMyMessage],
+  );
 
   const myRole = selectedChat?.myRole;
   const leaderProfileImageCode = selectedChat?.leaderProfileImageCode;

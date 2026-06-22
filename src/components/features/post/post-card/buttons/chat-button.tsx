@@ -23,7 +23,8 @@ export default function ChatButton({
       toast({ title: '로그인이 필요합니다.' });
       return;
     }
-    router.push(`/chat/${BigInt(postId)}`);
+    const params = new URLSearchParams({ postId: BigInt(postId).toString() });
+    router.push(`/chat?${params.toString()}`);
   };
 
   return (
